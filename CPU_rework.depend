@@ -1,0 +1,5223 @@
+# depslib dependency file v1.0
+1448643041 source:/home/fuumarumota/Programming/CPU_rework/APU.cpp
+	"APU.h"
+
+1448576545 /home/fuumarumota/Programming/CPU_rework/APU.h
+
+1448941679 source:/home/fuumarumota/Programming/CPU_rework/Cartridge.cpp
+	"Cartridge.h"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1447196240 
+
+1448658924 /home/fuumarumota/Programming/CPU_rework/Cartridge.h
+	"CartData.h"
+	"Mappers/MapperFactory.h"
+	"Mappers/Mapper.h"
+	"Mappers/NROM.h"
+	"Mappers/UxROM.h"
+	"Mappers/CNROM.h"
+	"Mappers/MMC1.h"
+	"Mappers/MMC3.h"
+	"Mappers/AxROM.h"
+	"RAM.h"
+	"CPU.h"
+	"PPU.h"
+
+1448658924 xROM.h"
+
+1447723325 /home/fuumarumota/Programming/CPU_rework/CartData.h
+	<stdio.h>
+
+1444917298 /home/fuumarumota/Programming/CPU_rework/Mappers/MapperFactory.h
+	"Mapper.h"
+
+1449006020 /home/fuumarumota/Programming/CPU_rework/Mappers/Mapper.h
+	"Mapper.h"
+	"../CartData.h"
+
+1449517086 ta.h"
+
+1449006260 /home/fuumarumota/Programming/CPU_rework/Mappers/NROM.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006311 /home/fuumarumota/Programming/CPU_rework/Mappers/UxROM.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006280 /home/fuumarumota/Programming/CPU_rework/Mappers/CNROM.h
+	"../CartData.h"
+	"Mapper.h"
+	"../PPU.h"
+	<stdio.h>
+
+1449083786 /home/fuumarumota/Programming/CPU_rework/PPU.h
+	<unordered_map>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+
+1449083786 hix/Sprite.hpp"
+
+1447390558 /home/fuumarumota/Programming/CPU_rework/x6502Interrupts.h
+
+1448521052 /home/fuumarumota/Programming/CPU_rework/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446840316 "
+
+1446693224 /home/fuumarumota/Programming/CPU_rework/RetroGraphix/Drawable.hpp
+
+1446836694 /home/fuumarumota/Programming/CPU_rework/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447179192 /home/fuumarumota/Programming/CPU_rework/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1460598872 gine.hpp"
+
+1449026967 /home/fuumarumota/Programming/CPU_rework/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1449186010 hpp"
+
+1448923919 /home/fuumarumota/Programming/CPU_rework/Counter.h
+
+1449006287 /home/fuumarumota/Programming/CPU_rework/Mappers/MMC1.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1448577866 /home/fuumarumota/Programming/CPU_rework/CPU.h
+	"Mappers/Mapper.h"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447390730 /home/fuumarumota/Programming/CPU_rework/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447394330 nterrupts.h"
+
+1447364664 /home/fuumarumota/Programming/CPU_rework/Logging/Logger.h
+	<fstream>
+	<stdexcept>
+
+1447368264 >
+
+1447390544 /home/fuumarumota/Programming/CPU_rework/CPUSharedData.h
+
+1447389969 /home/fuumarumota/Programming/CPU_rework/Input.h
+	<SDL2/SDL.h>
+
+1450652686 h>
+
+1449083830 /home/fuumarumota/Programming/CPU_rework/Mappers/MMC3.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006272 /home/fuumarumota/Programming/CPU_rework/Mappers/AxROM.h
+	"../CartData.h"
+	"Mapper.h"
+
+1447192912 /home/fuumarumota/Programming/CPU_rework/RAM.h
+
+1449030746 source:/home/fuumarumota/Programming/CPU_rework/Counter.cpp
+	"Counter.h"
+	<stdio.h>
+
+1449079344 source:/home/fuumarumota/Programming/CPU_rework/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1465448426 nc"
+
+1448564775 /home/fuumarumota/Programming/CPU_rework/opcodes.inc
+
+1448936453 source:/home/fuumarumota/Programming/CPU_rework/Input.cpp
+	"Input.h"
+
+1447364649 source:/home/fuumarumota/Programming/CPU_rework/Logging/CPULogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:/home/fuumarumota/Programming/CPU_rework/Logging/Logger.cpp
+	"Logger.h"
+	<iostream>
+
+1449083678 source:/home/fuumarumota/Programming/CPU_rework/main.cpp
+	<stdio.h>
+	"Cartridge.h"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+
+1448553435 source:/home/fuumarumota/Programming/CPU_rework/Mappers/AxROM.cpp
+	"AxROM.h"
+	<stdio.h>
+
+1448552995 source:/home/fuumarumota/Programming/CPU_rework/Mappers/CNROM.cpp
+	"CNROM.h"
+
+1447383691 source:/home/fuumarumota/Programming/CPU_rework/Mappers/Mapper.cpp
+	"Mapper.h"
+	<stdio.h>
+
+1447428791 source:/home/fuumarumota/Programming/CPU_rework/Mappers/MapperFactory.cpp
+	"MapperFactory.h"
+	"NROM.h"
+	<stdio.h>
+
+1448675045 source:/home/fuumarumota/Programming/CPU_rework/Mappers/MMC1.cpp
+	"MMC1.h"
+	"../Logging/Logger.h"
+
+1448675045 g/Logger.h"
+
+1449083664 source:/home/fuumarumota/Programming/CPU_rework/Mappers/MMC3.cpp
+	"MMC3.h"
+	<iostream>
+
+1448924436 source:/home/fuumarumota/Programming/CPU_rework/Mappers/NROM.cpp
+	"NROM.h"
+
+1448553164 source:/home/fuumarumota/Programming/CPU_rework/Mappers/UxROM.cpp
+	"UxROM.h"
+
+1449083297 source:/home/fuumarumota/Programming/CPU_rework/PPU.cpp
+	"PPU.h"
+
+1446836716 source:/home/fuumarumota/Programming/CPU_rework/RetroGraphix/Color.cpp
+	"Color.hpp"
+
+1448521052 source:/home/fuumarumota/Programming/CPU_rework/RetroGraphix/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+
+1447470513 source:/home/fuumarumota/Programming/CPU_rework/RetroGraphix/Sprite.cpp
+	"Sprite.hpp"
+
+1447474112 p"
+
+1447268640 source:/home/fuumarumota/Programming/CPU_rework/RetroGraphix/Texture.cpp
+	"Texture.hpp"
+
+1447272240 pp"
+
+1448643041 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\apu.cpp
+	"APU.h"
+
+1448576545 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\apu.h
+
+1448941679 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\cartridge.cpp
+	"Cartridge.h"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1448658924 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\cartridge.h
+	"CartData.h"
+	"Mappers/MapperFactory.h"
+	"Mappers/Mapper.h"
+	"Mappers/NROM.h"
+	"Mappers/UxROM.h"
+	"Mappers/CNROM.h"
+	"Mappers/MMC1.h"
+	"Mappers/MMC3.h"
+	"Mappers/AxROM.h"
+	"RAM.h"
+	"CPU.h"
+	"PPU.h"
+
+1447723325 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\cartdata.h
+	<stdio.h>
+
+1444913698 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mapperfactory.h
+	"Mapper.h"
+
+1449006020 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mapper.h
+	"Mapper.h"
+	"../CartData.h"
+
+1449006260 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\nrom.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006311 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\uxrom.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006280 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\cnrom.h
+	"../CartData.h"
+	"Mapper.h"
+	"../PPU.h"
+	<stdio.h>
+
+1449083786 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\ppu.h
+	<unordered_map>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+
+1447390558 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\x6502interrupts.h
+
+1448521052 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\graphixengine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446693224 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\drawable.hpp
+
+1446836694 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447179192 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449026967 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1449006287 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mmc1.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1448577866 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\cpu.h
+	"Mappers/Mapper.h"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447390730 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\logging\cpulogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447364664 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\logging\logger.h
+	<fstream>
+	<stdexcept>
+
+1447390544 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\cpushareddata.h
+
+1447389969 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\input.h
+	<SDL2/SDL.h>
+
+1449083830 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mmc3.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006272 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\axrom.h
+	"../CartData.h"
+	"Mapper.h"
+
+1447192912 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\ram.h
+
+1449079344 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\cpu.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1448564775 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\opcodes.inc
+
+1448936453 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\input.cpp
+	"Input.h"
+
+1447364649 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\logging\cpulogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\logging\logger.cpp
+	"Logger.h"
+	<iostream>
+
+1449083678 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\main.cpp
+	<stdio.h>
+	"Cartridge.h"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+
+1448553435 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\axrom.cpp
+	"AxROM.h"
+	<stdio.h>
+
+1448552995 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\cnrom.cpp
+	"CNROM.h"
+
+1447383691 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mapper.cpp
+	"Mapper.h"
+	<stdio.h>
+
+1447428791 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mapperfactory.cpp
+	"MapperFactory.h"
+	"NROM.h"
+	<stdio.h>
+
+1448675045 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mmc1.cpp
+	"MMC1.h"
+	"../Logging/Logger.h"
+
+1449083664 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\mmc3.cpp
+	"MMC3.h"
+	<iostream>
+
+1448924436 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\nrom.cpp
+	"NROM.h"
+
+1448553164 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\mappers\uxrom.cpp
+	"UxROM.h"
+
+1449083297 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\ppu.cpp
+	"PPU.h"
+
+1446836716 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\color.cpp
+	"Color.hpp"
+
+1448521052 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1447470513 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1447268640 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\cpu_rework_02\retrographix\texture.cpp
+	"Texture.hpp"
+
+1448643041 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\apu.cpp
+	"APU.h"
+
+1448576545 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\apu.h
+
+1448941679 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\cartridge.cpp
+	"Cartridge.h"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1448658924 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\cartridge.h
+	"CartData.h"
+	"Mappers/MapperFactory.h"
+	"Mappers/Mapper.h"
+	"Mappers/NROM.h"
+	"Mappers/UxROM.h"
+	"Mappers/CNROM.h"
+	"Mappers/MMC1.h"
+	"Mappers/MMC3.h"
+	"Mappers/AxROM.h"
+	"RAM.h"
+	"CPU.h"
+	"PPU.h"
+
+1447723325 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\cartdata.h
+	<stdio.h>
+
+1444913698 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mapperfactory.h
+	"Mapper.h"
+
+1449006020 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mapper.h
+	"Mapper.h"
+	"../CartData.h"
+
+1449006260 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\nrom.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006311 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\uxrom.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006280 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\cnrom.h
+	"../CartData.h"
+	"Mapper.h"
+	"../PPU.h"
+	<stdio.h>
+
+1449087599 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\ppu.h
+	<unordered_map>
+	<functional>
+	<vector>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+
+1450296556 Breakpoint.h"
+
+1447390558 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\x6502interrupts.h
+
+1448521052 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\graphixengine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446693224 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\drawable.hpp
+
+1446836694 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447179192 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449026967 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1449006287 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mmc1.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1448577866 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\cpu.h
+	"Mappers/Mapper.h"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447390730 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\logging\cpulogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447364664 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\logging\logger.h
+	<fstream>
+	<stdexcept>
+
+1447390544 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\cpushareddata.h
+
+1447389969 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\input.h
+	<SDL2/SDL.h>
+
+1449083830 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mmc3.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449006272 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\axrom.h
+	"../CartData.h"
+	"Mapper.h"
+
+1447192912 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\ram.h
+
+1449086364 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\cpu.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1448564775 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\opcodes.inc
+
+1448936453 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\input.cpp
+	"Input.h"
+
+1447364649 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\logging\cpulogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\logging\logger.cpp
+	"Logger.h"
+	<iostream>
+
+1449088423 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\main.cpp
+	<stdio.h>
+	"Cartridge.h"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1466102551 Debugger.h"
+
+1448553435 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\axrom.cpp
+	"AxROM.h"
+	<stdio.h>
+
+1448552995 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\cnrom.cpp
+	"CNROM.h"
+
+1447383691 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mapper.cpp
+	"Mapper.h"
+	<stdio.h>
+
+1447428791 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mapperfactory.cpp
+	"MapperFactory.h"
+	"NROM.h"
+	<stdio.h>
+
+1448675045 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mmc1.cpp
+	"MMC1.h"
+	"../Logging/Logger.h"
+
+1449083664 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\mmc3.cpp
+	"MMC3.h"
+	<iostream>
+
+1448924436 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\nrom.cpp
+	"NROM.h"
+
+1448553164 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\mappers\uxrom.cpp
+	"UxROM.h"
+
+1446836716 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\color.cpp
+	"Color.hpp"
+
+1448521052 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1447470513 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1447268640 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\retrographix\texture.cpp
+	"Texture.hpp"
+
+1448576581 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\debugger\breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1448578448 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\debugger\breakpoint.cpp
+	"Breakpoint.h"
+
+1448582048 t.h"
+
+1449010984 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\debugger\debugger.cpp
+	"Debugger.h"
+
+1450317770 h"
+
+1448991970 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\debugger\debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1466038006 ver.h"
+
+1448338038 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\debugger\socketserver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1466038030 net.h>
+
+1448666164 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\debugger\socketserver.cpp
+	"SocketServer.h"
+
+1449087905 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama\ppu.cpp
+	"PPU.h"
+
+1451272059 source:/home/fuumarumota/Programming/O_Nes_Sama/APU.cpp
+	"APU.h"
+
+1450909807 /home/fuumarumota/Programming/O_Nes_Sama/APU.h
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+
+1450909807 rrupts.h"
+
+1450736260 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge.cpp
+	"Cartridge.h"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1450291243 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge.h
+	"Mappers/NROM.h"
+	"Mappers/CNROM.h"
+	"Mappers/Mapper000.h"
+	"Mappers/Mapper001.h"
+	"Mappers/Mapper002.h"
+	"Mappers/Mapper003.h"
+	"Mappers/Mapper004.h"
+	"Mappers/Mapper007.h"
+	"Mappers/Mapper009.h"
+	"Mappers/Mapper066.h"
+	"RAM.h"
+	"CPU.h"
+	"PPU.h"
+
+1450291243 apper066.h"
+
+1449169938 /home/fuumarumota/Programming/O_Nes_Sama/CartData.h
+	<stdio.h>
+	<iostream>
+
+1444917298 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/MapperFactory.h
+	"Mapper.h"
+
+1449517086 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper.h
+	"Mapper.h"
+	"../CartData.h"
+
+1449517213 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/NROM.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449517213 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/UxROM.h
+	"../CartData.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449517111 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/CNROM.h
+	"../CartData.h"
+	"Mapper.h"
+	"../PPU.h"
+	<stdio.h>
+
+1450296556 /home/fuumarumota/Programming/O_Nes_Sama/PPU.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"Mappers/Boards/Board.h"
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+
+1447390558 /home/fuumarumota/Programming/O_Nes_Sama/x6502Interrupts.h
+
+1448521052 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446693224 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Drawable.hpp
+
+1446836694 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447179192 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449182411 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1448576581 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/Breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1449517123 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/MMC1.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1450911060 /home/fuumarumota/Programming/O_Nes_Sama/CPU.h
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"Mappers/Boards/Board.h"
+
+1450911060 oards/Board.h"
+
+1447390730 /home/fuumarumota/Programming/O_Nes_Sama/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447364664 /home/fuumarumota/Programming/O_Nes_Sama/Logging/Logger.h
+	<fstream>
+	<stdexcept>
+
+1450151518 /home/fuumarumota/Programming/O_Nes_Sama/CPUSharedData.h
+
+1450649086 /home/fuumarumota/Programming/O_Nes_Sama/Input.h
+	<SDL2/SDL.h>
+
+1449517180 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/MMC3.h
+	"../CartData.h"
+	"../PPU.h"
+	"../CPU.h"
+	"Mapper.h"
+	<stdio.h>
+
+1449517100 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/AxROM.h
+	"../CartData.h"
+	"Mapper.h"
+
+1447192912 /home/fuumarumota/Programming/O_Nes_Sama/RAM.h
+
+1453306668 source:/home/fuumarumota/Programming/O_Nes_Sama/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1450908582 /home/fuumarumota/Programming/O_Nes_Sama/opcodes.inc
+
+1448578448 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/Breakpoint.cpp
+	"Breakpoint.h"
+
+1449010984 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/Debugger.cpp
+	"Debugger.h"
+
+1448991970 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/Debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1448338038 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/SocketServer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1448666164 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/SocketServer.cpp
+	"SocketServer.h"
+
+1450727032 source:/home/fuumarumota/Programming/O_Nes_Sama/Input.cpp
+	"Input.h"
+
+1447364649 source:/home/fuumarumota/Programming/O_Nes_Sama/Logging/CPULogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:/home/fuumarumota/Programming/O_Nes_Sama/Logging/Logger.cpp
+	"Logger.h"
+	<iostream>
+
+1453784006 source:/home/fuumarumota/Programming/O_Nes_Sama/main.cpp
+	<stdio.h>
+	"Cartridge.h"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1449262511 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/AxROM.cpp
+	"AxROM.h"
+
+1448552995 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/CNROM.cpp
+	"CNROM.h"
+
+1449171621 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper.cpp
+	"Mapper.h"
+	<stdio.h>
+
+1447428791 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/MapperFactory.cpp
+	"MapperFactory.h"
+	"NROM.h"
+	<stdio.h>
+
+1449611438 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/MMC1.cpp
+	"MMC1.h"
+	"../Logging/Logger.h"
+	<fstream>
+
+1449625090 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/MMC3.cpp
+	"MMC3.h"
+	<iostream>
+
+1448924436 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/NROM.cpp
+	"NROM.h"
+
+1449470403 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/UxROM.cpp
+	"UxROM.h"
+
+1453263446 source:/home/fuumarumota/Programming/O_Nes_Sama/PPU.cpp
+	"PPU.h"
+
+1446836716 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Color.cpp
+	"Color.hpp"
+
+1448521052 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+
+1447470513 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Sprite.cpp
+	"Sprite.hpp"
+
+1447268640 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Texture.cpp
+	"Texture.hpp"
+
+1449539402 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/MMC2.cpp
+	"MMC2.h"
+
+1449539402 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/MMC2.h
+	"Mapper.h"
+	"../CartData.h"
+	"../PPU.h"
+
+1450391112 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper066.cpp
+	"Mapper066.h"
+
+1451768293 .h"
+
+1450302527 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper066.h
+	"Boards/GxROM.h"
+
+1450734902 ROM.h"
+
+1450833804 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/GxROM.h
+	"Board.h"
+	"../../PPU.h"
+
+1450833667 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/Board.h
+	<stdio.h>
+	<fstream>
+
+1450745250 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper000.h
+	"Boards/GxROM.h"
+
+1450746015 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/GxROM.cpp
+	"GxROM.h"
+
+1450392412 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper003.cpp
+	"Mapper003.h"
+
+1450733819 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper003.h
+	"Boards/GxROM.h"
+
+1450738092 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/AxROM.cpp
+	"AxROM.h"
+
+1450833804 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/AxROM.h
+	"Board.h"
+
+1450734929 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper007.h
+	"Boards/AxROM.h"
+
+1450744097 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper007.cpp
+	"Mapper007.h"
+	<stdio.h>
+
+1450738092 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/UxROM.cpp
+	"UxROM.h"
+
+1450833804 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/UxROM.h
+	"Board.h"
+
+1450746185 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper002.cpp
+	"Mapper002.h"
+
+1450734902 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper002.h
+	"Boards/UxROM.h"
+
+1450471327 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/MMC3.cpp
+	"MMC3.h"
+
+1450833842 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/MMC3.h
+	"Board.h"
+	"../../PPU.h"
+
+1453306816 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper004.cpp
+	"Mapper004.h"
+
+1450833822 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper004.h
+	"Boards/MMC3.h"
+
+1450833822 C3.h"
+
+1450734889 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper001.h
+	"Boards/MMC1.h"
+
+1450734889 C1.h"
+
+1450833804 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/MMC1.h
+	"Board.h"
+	"../../PPU.h"
+
+1450296508 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/MMC1.cpp
+	"MMC1.h"
+
+1453784214 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper001.cpp
+	"Mapper001.h"
+
+1450833858 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper009.h
+	"Boards/MMC2.h"
+
+1450833858 C2.h"
+
+1450833866 /home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/MMC2.h
+	"Board.h"
+	"../../PPU.h"
+
+1450738092 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Boards/MMC2.cpp
+	"MMC2.h"
+
+1450833804 source:/home/fuumarumota/Programming/O_Nes_Sama/Mappers/Mapper009.cpp
+	"Mapper009.h"
+
+1450207733 /home/fuumarumota/Programming/O_Nes_Sama/SaveState/CpuStateData.h
+
+1450159359 source:/home/fuumarumota/Programming/O_Nes_Sama/SaveState/SaveStateManager.cpp
+	"SaveStateManager.h"
+
+1450159359 Manager.h"
+
+1450215585 /home/fuumarumota/Programming/O_Nes_Sama/SaveState/SaveStateManager.h
+	<fstream>
+	<stdexcept>
+	<iostream>
+	<string>
+
+1450160689 /home/fuumarumota/Programming/O_Nes_Sama/SaveState/SerializableClass.h
+	<fstream>
+
+1450162159 /home/fuumarumota/Programming/O_Nes_Sama/SaveState/CpuStateSerializer.h
+	"SerializableClass.h"
+
+1450162159 bleClass.h"
+
+1450247307 /home/fuumarumota/Programming/O_Nes_Sama/SaveState/MapperData.h
+	<stdio.h>
+	<cstring>
+
+1460598872 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/APU.cpp
+	"APU.h"
+	"APU.h"
+	"APU.h"
+	"APU.h"
+	"APU.h"
+
+1459212858 /home/fuumarumota/Programming/O_Nes_Sama_Olde/APU.h
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1459212858 /Boards/Board.hpp"
+
+1447390558 /home/fuumarumota/Programming/O_Nes_Sama_Olde/x6502Interrupts.h
+
+1465448426 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1461818852 /home/fuumarumota/Programming/O_Nes_Sama_Olde/CPU.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447390730 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447364664 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/Logger.h
+	<fstream>
+	<stdexcept>
+	<fstream>
+	<stdexcept>
+	<fstream>
+	<stdexcept>
+	<fstream>
+	<stdexcept>
+	<fstream>
+	<stdexcept>
+
+1450151518 /home/fuumarumota/Programming/O_Nes_Sama_Olde/CPUSharedData.h
+
+1450649086 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Input.h
+	<SDL2/SDL.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL.h>
+
+1464827912 /home/fuumarumota/Programming/O_Nes_Sama_Olde/PPU.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1464827912 /Cartridge.hpp"
+
+1461023210 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446693224 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Drawable.hpp
+
+1446836694 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447179192 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449182410 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1448576580 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+	<stdio.h>
+	<string>
+	<vector>
+	<stdio.h>
+	<string>
+	<vector>
+	<stdio.h>
+	<string>
+	<vector>
+	<stdio.h>
+	<string>
+	<vector>
+
+1460603550 /home/fuumarumota/Programming/O_Nes_Sama_Olde/opcodes.inc
+
+1448578448 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Breakpoint.cpp
+	"Breakpoint.h"
+	"Breakpoint.h"
+	"Breakpoint.h"
+	"Breakpoint.h"
+	"Breakpoint.h"
+
+1464967108 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Debugger.cpp
+	"Debugger.h"
+	"Debugger.h"
+	"Debugger.h"
+	"Debugger.h"
+	"Debugger.h"
+
+1448991970 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1461024366 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/SocketServer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1461025972 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/SocketServer.cpp
+	"SocketServer.h"
+	"SocketServer.h"
+	"SocketServer.h"
+	"SocketServer.h"
+	"SocketServer.h"
+
+1459405082 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Input.cpp
+	"Input.h"
+	"Input.h"
+	"Input.h"
+	"Input.h"
+	"Input.h"
+
+1447364648 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/CPULogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/Logger.cpp
+	"Logger.h"
+	<iostream>
+	"Logger.h"
+	<iostream>
+	"Logger.h"
+	<iostream>
+	"Logger.h"
+	<iostream>
+	"Logger.h"
+	<iostream>
+
+1466044592 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1466042556 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/PPU.cpp
+	"PPU.h"
+	"PPU.h"
+	"PPU.h"
+	"PPU.h"
+	"PPU.h"
+
+1446836716 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Color.cpp
+	"Color.hpp"
+	"Color.hpp"
+	"Color.hpp"
+	"Color.hpp"
+	"Color.hpp"
+
+1460598872 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+	"GraphixEngine.hpp"
+	"GraphixEngine.hpp"
+	"GraphixEngine.hpp"
+	"GraphixEngine.hpp"
+
+1447470512 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Sprite.cpp
+	"Sprite.hpp"
+	"Sprite.hpp"
+	"Sprite.hpp"
+	"Sprite.hpp"
+	"Sprite.hpp"
+
+1447268640 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Texture.cpp
+	"Texture.hpp"
+	"Texture.hpp"
+	"Texture.hpp"
+	"Texture.hpp"
+	"Texture.hpp"
+
+1460435000 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/Board.cpp
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+
+1461560994 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/Board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+
+1457408053 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/BoardData.hpp
+
+1457413326 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper.hpp
+	"../Boards/BoardData.hpp"
+
+1457413326 /BoardData.hpp"
+
+1459458035 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/UxROM.cpp
+	"UxROM.hpp"
+	<stdio.h>
+	"UxROM.hpp"
+	<stdio.h>
+
+1459289355 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/UxROM.hpp
+	"Board.hpp"
+	"Board.hpp"
+
+1462235236 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1462235208 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/AxROM.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper066.hpp"
+	<string>
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper087.hpp"
+	<string>
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper087.hpp"
+	<string>
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper011.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper087.hpp"
+	<string>
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper011.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper087.hpp"
+	<string>
+
+1459828066 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper002.hpp
+	"../Boards/UxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+
+1466106838 /GxROM.hpp"
+
+1459190803 /UxROM.hpp"
+
+1459828060 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+	"Mapper002.hpp"
+	<stdio.h>
+	"Mapper002.hpp"
+	<stdio.h>
+	"Mapper002.hpp"
+	<stdio.h>
+	"Mapper002.hpp"
+	<stdio.h>
+
+1447192640 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RAM.cpp
+	"RAM.h"
+	<stdio.h>
+	"RAM.h"
+	<stdio.h>
+	"RAM.h"
+	<stdio.h>
+	"RAM.h"
+	<stdio.h>
+	"RAM.h"
+	<stdio.h>
+
+1447192912 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RAM.h
+
+1462237336 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/GxROM.cpp
+	"GxROM.hpp"
+	"GxROM.hpp"
+	"GxROM.hpp"
+	"GxROM.hpp"
+	"GxROM.hpp"
+
+1460431984 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/GxROM.hpp
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+
+1459825494 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper000.hpp
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+
+1459288698 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/MapperUtils.hpp
+	<stdio.h>
+	<stdio.h>
+	<stdio.h>
+	<stdio.h>
+	<stdio.h>
+
+1457554200 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/MapperUtils.c
+
+1459879286 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/MapperUtils.cpp
+	"MapperUtils.hpp"
+	"MapperUtils.hpp"
+	"MapperUtils.hpp"
+	"MapperUtils.hpp"
+	"MapperUtils.hpp"
+
+1459879286 ls.hpp"
+
+1459827838 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper003.cpp
+	"Mapper003.hpp"
+	"Mapper003.hpp"
+	"Mapper003.hpp"
+	"Mapper003.hpp"
+	"Mapper003.hpp"
+
+1466143266 .hpp"
+
+1459827802 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper003.hpp
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+
+1459808180 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper000.cpp
+	"Mapper000.hpp"
+	"Mapper000.hpp"
+	"Mapper000.hpp"
+	"Mapper000.hpp"
+	"Mapper000.hpp"
+
+1459826464 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper066.cpp
+	"Mapper066.hpp"
+	"Mapper066.hpp"
+	"Mapper066.hpp"
+	"Mapper066.hpp"
+	"Mapper066.hpp"
+
+1459826484 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper066.hpp
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+
+1459824619 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/AxROM.cpp
+	"AxROM.hpp"
+	"AxROM.hpp"
+
+1459803516 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/AxROM.hpp
+	"Board.hpp"
+	"Board.hpp"
+
+1459828664 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper007.cpp
+	"Mapper007.hpp"
+	"Mapper007.hpp"
+	"Mapper007.hpp"
+	"Mapper007.hpp"
+	"Mapper007.hpp"
+
+1459828706 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper007.hpp
+	"../Boards/AxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+
+1459190216 /AxROM.hpp"
+
+1459886306 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC1.cpp
+	"MMC1.hpp"
+	"MMC1.hpp"
+	"MMC1.hpp"
+	"MMC1.hpp"
+	"MMC1.hpp"
+
+1460432250 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC1.hpp
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+
+1459869408 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper001.cpp
+	"Mapper001.hpp"
+	"Mapper001.hpp"
+	"Mapper001.hpp"
+	"Mapper001.hpp"
+	"Mapper001.hpp"
+
+1459869094 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper001.hpp
+	"../Boards/MMC1.hpp"
+	"../Boards/MMC1.hpp"
+	"../Boards/MMC1.hpp"
+	"../Boards/MMC1.hpp"
+	"../Boards/MMC1.hpp"
+
+1459869094 /MMC1.hpp"
+
+1459213259 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\apu.cpp
+	"APU.h"
+
+1459212858 c:\users\foomarmota\programming\c++\o_nes_sama_olde\apu.h
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1447390558 c:\users\foomarmota\programming\c++\o_nes_sama_olde\x6502interrupts.h
+
+1459289387 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+
+1459288699 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapperutils.hpp
+	<stdio.h>
+
+1459196198 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\axrom.cpp
+	"AxROM.hpp"
+
+1459289343 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\axrom.hpp
+	"Board.hpp"
+
+1459195676 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\board.cpp
+	"Board.hpp"
+
+1459291433 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\gxrom.cpp
+	"GxROM.hpp"
+
+1459289355 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\gxrom.hpp
+	"Board.hpp"
+
+1459375600 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\mmc1.cpp
+	"MMC1.hpp"
+
+1459364131 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\mmc1.hpp
+	"Board.hpp"
+
+1459193445 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\uxrom.cpp
+	"UxROM.hpp"
+	<stdio.h>
+
+1459289355 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\boards\uxrom.hpp
+	"Board.hpp"
+
+1459401755 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1459287372 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/AxROM.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper066.hpp"
+	<string>
+
+1458326379 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper000.hpp
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+
+1459364131 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper001.hpp
+	"../Boards/MMC1.hpp"
+
+1459190803 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper002.hpp
+	"../Boards/UxROM.hpp"
+
+1458327744 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper003.hpp
+	"../Boards/GxROM.hpp"
+
+1459190216 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper007.hpp
+	"../Boards/AxROM.hpp"
+
+1458329635 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper066.hpp
+	"../Boards/GxROM.hpp"
+
+1458328339 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper000.cpp
+	"Mapper000.hpp"
+
+1459375534 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper001.cpp
+	"Mapper001.hpp"
+
+1459193456 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+
+1459193460 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper003.cpp
+	"Mapper003.hpp"
+
+1459196238 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper007.cpp
+	"Mapper007.hpp"
+
+1459193494 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapper066.cpp
+	"Mapper066.hpp"
+
+1459375976 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cartridge\mappers\mapperutils.cpp
+	"MapperUtils.hpp"
+
+1459404286 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\cpu.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1457452948 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cpu.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447390730 c:\users\foomarmota\programming\c++\o_nes_sama_olde\logging\cpulogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447364664 c:\users\foomarmota\programming\c++\o_nes_sama_olde\logging\logger.h
+	<fstream>
+	<stdexcept>
+
+1450151518 c:\users\foomarmota\programming\c++\o_nes_sama_olde\cpushareddata.h
+
+1450649086 c:\users\foomarmota\programming\c++\o_nes_sama_olde\input.h
+	<SDL2/SDL.h>
+
+1457455088 c:\users\foomarmota\programming\c++\o_nes_sama_olde\ppu.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1458318622 c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\graphixengine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446693224 c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\drawable.hpp
+
+1446836694 c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447179192 c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449182411 c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1448576581 c:\users\foomarmota\programming\c++\o_nes_sama_olde\debugger\breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1450908582 c:\users\foomarmota\programming\c++\o_nes_sama_olde\opcodes.inc
+
+1448578448 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\debugger\breakpoint.cpp
+	"Breakpoint.h"
+
+1449010984 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\debugger\debugger.cpp
+	"Debugger.h"
+
+1448991970 c:\users\foomarmota\programming\c++\o_nes_sama_olde\debugger\debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1448338038 c:\users\foomarmota\programming\c++\o_nes_sama_olde\debugger\socketserver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1448666164 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\debugger\socketserver.cpp
+	"SocketServer.h"
+
+1459405083 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\input.cpp
+	"Input.h"
+
+1447364649 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\logging\cpulogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\logging\logger.cpp
+	"Logger.h"
+	<iostream>
+
+1459405408 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1459404286 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\ppu.cpp
+	"PPU.h"
+
+1447192640 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\ram.cpp
+	"RAM.h"
+	<stdio.h>
+
+1447192912 c:\users\foomarmota\programming\c++\o_nes_sama_olde\ram.h
+
+1446836716 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\color.cpp
+	"Color.hpp"
+
+1448521052 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1447470513 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1447268640 source:c:\users\foomarmota\programming\c++\o_nes_sama_olde\retrographix\texture.cpp
+	"Texture.hpp"
+
+1459827802 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper087.hpp
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+
+1459827050 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper087.cpp
+	"Mapper087.hpp"
+	"Mapper087.hpp"
+	"Mapper087.hpp"
+	"Mapper087.hpp"
+
+1459826746 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/CNROM.cpp
+	"CNROM.hpp"
+
+1459536141 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/CNROM.hpp
+	"GxROM.hpp"
+
+1460432236 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC2.cpp
+	"MMC2.hpp"
+	"MMC2.hpp"
+	"MMC2.hpp"
+	"MMC2.hpp"
+
+1460432374 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC2.hpp
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+
+1460432562 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper009.cpp
+	"Mapper009.hpp"
+	"Mapper009.hpp"
+	"Mapper009.hpp"
+	"Mapper009.hpp"
+
+1460432418 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper009.hpp
+	"../Boards/MMC2.hpp"
+	"../Boards/MMC2.hpp"
+	"../Boards/MMC2.hpp"
+	"../Boards/MMC2.hpp"
+
+1460432412 /MMC2.hpp"
+
+1460432412 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper010.hpp
+	"../Boards/MMC2.hpp"
+	"../Boards/MMC2.hpp"
+	"../Boards/MMC2.hpp"
+	"../Boards/MMC2.hpp"
+
+1460432576 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper010.cpp
+	"Mapper010.hpp"
+	"Mapper010.hpp"
+	"Mapper010.hpp"
+	"Mapper010.hpp"
+
+1459216859 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\apu.cpp
+	"APU.h"
+
+1459216458 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\apu.h
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1447394158 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\x6502interrupts.h
+
+1460434969 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+
+1459292299 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapperutils.hpp
+	<stdio.h>
+
+1460435001 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\board.cpp
+	"Board.hpp"
+
+1459829283 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\gxrom.cpp
+	"GxROM.hpp"
+
+1460431985 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\gxrom.hpp
+	"Board.hpp"
+
+1459886306 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\mmc1.cpp
+	"MMC1.hpp"
+
+1460432250 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\mmc1.hpp
+	"Board.hpp"
+
+1460432237 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\mmc2.cpp
+	"MMC2.hpp"
+
+1460432374 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\mmc2.hpp
+	"Board.hpp"
+
+1459921199 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1459921110 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper087.hpp"
+	<string>
+
+1459825494 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper000.hpp
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+
+1459869095 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper001.hpp
+	"../Boards/MMC1.hpp"
+
+1459828067 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper002.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper003.hpp
+	"../Boards/GxROM.hpp"
+
+1459828707 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper007.hpp
+	"../Boards/GxROM.hpp"
+
+1460432419 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper009.hpp
+	"../Boards/MMC2.hpp"
+
+1460432413 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper010.hpp
+	"../Boards/MMC2.hpp"
+
+1459826485 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper066.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper087.hpp
+	"../Boards/GxROM.hpp"
+
+1459808180 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper000.cpp
+	"Mapper000.hpp"
+
+1459869409 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper001.cpp
+	"Mapper001.hpp"
+
+1459828061 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+
+1459827839 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper003.cpp
+	"Mapper003.hpp"
+
+1459828664 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper007.cpp
+	"Mapper007.hpp"
+
+1460432562 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper009.cpp
+	"Mapper009.hpp"
+
+1460432576 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper010.cpp
+	"Mapper010.hpp"
+
+1459826464 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper066.cpp
+	"Mapper066.hpp"
+
+1459827050 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapper087.cpp
+	"Mapper087.hpp"
+
+1459879287 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\mappers\mapperutils.cpp
+	"MapperUtils.hpp"
+
+1460437158 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cpu.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1459889892 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cpu.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447394330 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\logging\cpulogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447368264 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\logging\logger.h
+	<fstream>
+	<stdexcept>
+
+1450155118 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cpushareddata.h
+
+1450652686 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\input.h
+	<SDL2/SDL.h>
+
+1457458688 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\ppu.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1460438082 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\graphixengine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446696824 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\drawable.hpp
+
+1446840294 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447182792 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449186011 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1448580181 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\debugger\breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1450912182 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\opcodes.inc
+
+1448582048 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\debugger\breakpoint.cpp
+	"Breakpoint.h"
+
+1449014584 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\debugger\debugger.cpp
+	"Debugger.h"
+
+1448995570 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\debugger\debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1448341638 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\debugger\socketserver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1448669764 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\debugger\socketserver.cpp
+	"SocketServer.h"
+
+1459408683 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\input.cpp
+	"Input.h"
+
+1447368249 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\logging\cpulogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447790128 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\logging\logger.cpp
+	"Logger.h"
+	<iostream>
+
+1460437995 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1460433230 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\ppu.cpp
+	"PPU.h"
+
+1447196240 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\ram.cpp
+	"RAM.h"
+	<stdio.h>
+
+1447196512 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\ram.h
+
+1446840316 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\color.cpp
+	"Color.hpp"
+
+1448524652 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1447474113 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1447272240 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\retrographix\texture.cpp
+	"Texture.hpp"
+
+1460435108 source:c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\mmc3.cpp
+	"MMC3.hpp"
+
+1460434313 c:\users\foomarmota\desktop\o_nes_sama_6_apr_2016\o_nes_sama_olde\cartridge\boards\mmc3.hpp
+	"Board.hpp"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451811446 e.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1451768293 orm.h"
+
+1448341409 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\begin_code.h
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\close_code.h
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1451768293 ode.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1451768293 c.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940881 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451811457 c:\sdl2-2.0.3\x86_64-w64-mingw32\include\sdl2\sdl_net.h
+	<stdint.h>
+	"SDL.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1448341409 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\begin_code.h
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\close_code.h
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940796 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394940797 c:\sdl2-2.0.3\i686-w64-mingw32\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<iconv.h>
+	<sal.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\begin_code.h
+
+1451768293 c:\sdl\include\sdl2\close_code.h
+
+1451768293 c:\sdl\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<mbarrier.h>
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451811446 c:\sdl\include\sdl2\sdl_net.h
+	<stdint.h>
+	"SDL.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1466043334 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC3.cpp
+	"MMC3.hpp"
+	"MMC3.hpp"
+	<stdlib.h>
+	"MMC3.hpp"
+	<stdlib.h>
+
+1464932348 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC3.hpp
+	"Board.hpp"
+	"Board.hpp"
+	"Board.hpp"
+
+1468345075 source:c:\users\federico gimeno\programming\o_nes_sama_olde\apu.cpp
+	"APU.h"
+
+1459212858 c:\users\federico gimeno\programming\o_nes_sama_olde\apu.h
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1447394158 c:\users\federico gimeno\programming\o_nes_sama_olde\x6502interrupts.h
+
+1468551516 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+
+1459288698 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapperutils.hpp
+	<stdio.h>
+
+1460435000 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\board.cpp
+	"Board.hpp"
+
+1468346706 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\gxrom.cpp
+	"GxROM.hpp"
+
+1460431984 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\gxrom.hpp
+	"Board.hpp"
+
+1459886306 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\mmc1.cpp
+	"MMC1.hpp"
+
+1460432250 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\mmc1.hpp
+	"Board.hpp"
+
+1460432236 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\mmc2.cpp
+	"MMC2.hpp"
+
+1460432374 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\mmc2.hpp
+	"Board.hpp"
+
+1468176023 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\mmc3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+
+1464932348 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\boards\mmc3.hpp
+	"Board.hpp"
+
+1468551965 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1468337627 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper011.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper071.hpp"
+	"Mappers/Mapper087.hpp"
+	"Mappers/Mapper185.hpp"
+	"Mappers/Mapper225.hpp"
+	<string>
+
+1467991749 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper000.hpp
+	"../Boards/GxROM.hpp"
+
+1459869094 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper001.hpp
+	"../Boards/MMC1.hpp"
+
+1459828066 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper002.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper003.hpp
+	"../Boards/GxROM.hpp"
+
+1459828706 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper007.hpp
+	"../Boards/GxROM.hpp"
+
+1460432418 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper009.hpp
+	"../Boards/MMC2.hpp"
+
+1460432412 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper010.hpp
+	"../Boards/MMC2.hpp"
+
+1459826484 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper066.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper087.hpp
+	"../Boards/GxROM.hpp"
+
+1459808180 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper000.cpp
+	"Mapper000.hpp"
+
+1459869408 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper001.cpp
+	"Mapper001.hpp"
+
+1459828060 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+
+1468117424 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper003.cpp
+	"Mapper003.hpp"
+
+1459828664 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper007.cpp
+	"Mapper007.hpp"
+
+1460432562 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper009.cpp
+	"Mapper009.hpp"
+
+1460432576 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper010.cpp
+	"Mapper010.hpp"
+
+1459826464 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper066.cpp
+	"Mapper066.hpp"
+
+1459827050 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper087.cpp
+	"Mapper087.hpp"
+
+1459879286 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapperutils.cpp
+	"MapperUtils.hpp"
+
+1468337856 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cpu.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1461818852 c:\users\federico gimeno\programming\o_nes_sama_olde\cpu.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447394330 c:\users\federico gimeno\programming\o_nes_sama_olde\logging\cpulogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447368264 c:\users\federico gimeno\programming\o_nes_sama_olde\logging\logger.h
+	<fstream>
+	<stdexcept>
+
+1450155118 c:\users\federico gimeno\programming\o_nes_sama_olde\cpushareddata.h
+
+1450652686 c:\users\federico gimeno\programming\o_nes_sama_olde\input.h
+	<SDL2/SDL.h>
+
+1451768383 c:\sdl64\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<iconv.h>
+	<sal.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\begin_code.h
+
+1451768383 c:\sdl64\include\sdl2\close_code.h
+
+1451768383 c:\sdl64\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<mbarrier.h>
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768383 c:\sdl64\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1464827912 c:\users\federico gimeno\programming\o_nes_sama_olde\ppu.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1461023210 c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\graphixengine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446696824 c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\drawable.hpp
+
+1446840294 c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447182792 c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449186010 c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1450285750 c:\users\federico gimeno\programming\o_nes_sama_olde\debugger\breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1460603550 c:\users\federico gimeno\programming\o_nes_sama_olde\opcodes.inc
+
+1448582048 source:c:\users\federico gimeno\programming\o_nes_sama_olde\debugger\breakpoint.cpp
+	"Breakpoint.h"
+
+1450317770 source:c:\users\federico gimeno\programming\o_nes_sama_olde\debugger\debugger.cpp
+	"Debugger.h"
+
+1450306800 c:\users\federico gimeno\programming\o_nes_sama_olde\debugger\debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1466038030 c:\users\federico gimeno\programming\o_nes_sama_olde\debugger\socketserver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1451811457 c:\sdl64\include\sdl2\sdl_net.h
+	<stdint.h>
+	"SDL.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1466038006 source:c:\users\federico gimeno\programming\o_nes_sama_olde\debugger\socketserver.cpp
+	"SocketServer.h"
+
+1459405082 source:c:\users\federico gimeno\programming\o_nes_sama_olde\input.cpp
+	"Input.h"
+
+1447368248 source:c:\users\federico gimeno\programming\o_nes_sama_olde\logging\cpulogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447790128 source:c:\users\federico gimeno\programming\o_nes_sama_olde\logging\logger.cpp
+	"Logger.h"
+	<iostream>
+
+1468549467 source:c:\users\federico gimeno\programming\o_nes_sama_olde\main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1468550605 source:c:\users\federico gimeno\programming\o_nes_sama_olde\ppu.cpp
+	"PPU.h"
+
+1447196240 source:c:\users\federico gimeno\programming\o_nes_sama_olde\ram.cpp
+	"RAM.h"
+	<stdio.h>
+
+1447196512 c:\users\federico gimeno\programming\o_nes_sama_olde\ram.h
+
+1446840316 source:c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\color.cpp
+	"Color.hpp"
+
+1460598872 source:c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1447474112 source:c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1447272240 source:c:\users\federico gimeno\programming\o_nes_sama_olde\retrographix\texture.cpp
+	"Texture.hpp"
+
+1451768293 c:\sdl32\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<iconv.h>
+	<sal.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\begin_code.h
+
+1451768293 c:\sdl32\include\sdl2\close_code.h
+
+1451768293 c:\sdl32\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<mbarrier.h>
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451811446 c:\sdl32\include\sdl2\sdl_net.h
+	<stdint.h>
+	"SDL.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1462235040 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper011.hpp
+	"../Boards/GxROM.hpp"
+	"../Boards/GxROM.hpp"
+
+1462238214 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper011.cpp
+	"Mapper011.hpp"
+	"Mapper011.hpp"
+
+1462235040 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper011.hpp
+	"../Boards/GxROM.hpp"
+
+1462238214 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper011.cpp
+	"Mapper011.hpp"
+
+1460598872 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\apu.cpp
+	"APU.h"
+
+1459212858 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\apu.h
+	<functional>
+	<cstdio>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1447394158 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\x6502interrupts.h
+
+1461560994 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+
+1459288698 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapperutils.hpp
+	<stdio.h>
+
+1460435000 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\board.cpp
+	"Board.hpp"
+
+1462237336 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\gxrom.cpp
+	"GxROM.hpp"
+
+1460431984 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\gxrom.hpp
+	"Board.hpp"
+
+1459886306 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\mmc1.cpp
+	"MMC1.hpp"
+
+1460432250 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\mmc1.hpp
+	"Board.hpp"
+
+1460432236 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\mmc2.cpp
+	"MMC2.hpp"
+
+1460432374 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\mmc2.hpp
+	"Board.hpp"
+
+1466086704 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\mmc3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+
+1464932348 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\boards\mmc3.hpp
+	"Board.hpp"
+
+1462235236 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1462235208 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper011.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper087.hpp"
+	<string>
+
+1459825494 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper000.hpp
+	"../Boards/GxROM.hpp"
+	<stdio.h>
+
+1459869094 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper001.hpp
+	"../Boards/MMC1.hpp"
+
+1459828066 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper002.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper003.hpp
+	"../Boards/GxROM.hpp"
+
+1459828706 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper007.hpp
+	"../Boards/GxROM.hpp"
+
+1460432418 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper009.hpp
+	"../Boards/MMC2.hpp"
+
+1460432412 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper010.hpp
+	"../Boards/MMC2.hpp"
+
+1462235040 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper011.hpp
+	"../Boards/GxROM.hpp"
+
+1459826484 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper066.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper087.hpp
+	"../Boards/GxROM.hpp"
+
+1459808180 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper000.cpp
+	"Mapper000.hpp"
+
+1459869408 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper001.cpp
+	"Mapper001.hpp"
+
+1459828060 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+
+1459827838 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper003.cpp
+	"Mapper003.hpp"
+
+1459828664 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper007.cpp
+	"Mapper007.hpp"
+
+1460432562 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper009.cpp
+	"Mapper009.hpp"
+
+1460432576 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper010.cpp
+	"Mapper010.hpp"
+
+1462238214 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper011.cpp
+	"Mapper011.hpp"
+
+1459826464 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper066.cpp
+	"Mapper066.hpp"
+
+1459827050 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapper087.cpp
+	"Mapper087.hpp"
+
+1459879286 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cartridge\mappers\mapperutils.cpp
+	"MapperUtils.hpp"
+
+1465448426 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cpu.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1461818852 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cpu.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447394330 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\logging\cpulogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447368264 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\logging\logger.h
+	<fstream>
+	<stdexcept>
+
+1450155118 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\cpushareddata.h
+
+1450652686 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\input.h
+	<SDL2/SDL.h>
+
+1464827912 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\ppu.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1461023210 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\graphixengine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1446696824 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\drawable.hpp
+
+1446840294 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1447182792 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1449186010 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1450285750 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\debugger\breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1460603550 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\opcodes.inc
+
+1448582048 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\debugger\breakpoint.cpp
+	"Breakpoint.h"
+
+1450317770 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\debugger\debugger.cpp
+	"Debugger.h"
+
+1450306800 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\debugger\debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1466038030 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\debugger\socketserver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1466038006 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\debugger\socketserver.cpp
+	"SocketServer.h"
+
+1459405082 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\input.cpp
+	"Input.h"
+
+1447368248 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\logging\cpulogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447790128 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\logging\logger.cpp
+	"Logger.h"
+	<iostream>
+
+1466102551 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1466102055 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\ppu.cpp
+	"PPU.h"
+
+1447196240 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\ram.cpp
+	"RAM.h"
+	<stdio.h>
+
+1447196512 c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\ram.h
+
+1446840316 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\color.cpp
+	"Color.hpp"
+
+1460598872 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1447474112 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1447272240 source:c:\users\x0155383\documents\ascpp\o_nes_sama_sdl\o_nes_sama_olde\retrographix\texture.cpp
+	"Texture.hpp"
+
+1468550725 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper225.cpp
+	"Mapper225.hpp"
+
+1468550458 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper225.hpp
+	"../Boards/GxROM.hpp"
+
+1468335775 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper185.cpp
+	"Mapper185.hpp"
+
+1468335536 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper185.hpp
+	"../Boards/GxROM.hpp"
+
+1466106838 c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper071.hpp
+	"../Boards/GxROM.hpp"
+
+1466143266 source:c:\users\federico gimeno\programming\o_nes_sama_olde\cartridge\mappers\mapper071.cpp
+	"Mapper071.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/APU.cpp
+	"APU.h"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/APU.h
+	<functional>
+	<cstdio>
+	<queue>
+	<SDL2/SDL.h>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1447390558 /home/fuumarumota/Programming/O_Nes_Sama_Olde/x6502Interrupts.h
+
+1468551518 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/Board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+
+1459288698 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/MapperUtils.hpp
+	<stdio.h>
+
+1460435000 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/Board.cpp
+	"Board.hpp"
+
+1468346708 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/GxROM.cpp
+	"GxROM.hpp"
+
+1460431984 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/GxROM.hpp
+	"Board.hpp"
+
+1459886306 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC1.cpp
+	"MMC1.hpp"
+
+1460432250 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC1.hpp
+	"Board.hpp"
+
+1460432236 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC2.cpp
+	"MMC2.hpp"
+
+1460432374 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC2.hpp
+	"Board.hpp"
+
+1468176024 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+
+1464932348 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Boards/MMC3.hpp
+	"Board.hpp"
+
+1468551966 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1468337628 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper011.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper071.hpp"
+	"Mappers/Mapper087.hpp"
+	"Mappers/Mapper185.hpp"
+	"Mappers/Mapper225.hpp"
+	<string>
+
+1467991750 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper000.hpp
+	"../Boards/GxROM.hpp"
+
+1459869094 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper001.hpp
+	"../Boards/MMC1.hpp"
+
+1459828066 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper002.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper003.hpp
+	"../Boards/GxROM.hpp"
+
+1459828706 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper007.hpp
+	"../Boards/GxROM.hpp"
+
+1460432418 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper009.hpp
+	"../Boards/MMC2.hpp"
+
+1460432412 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper010.hpp
+	"../Boards/MMC2.hpp"
+
+1462235040 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper011.hpp
+	"../Boards/GxROM.hpp"
+
+1459826484 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper066.hpp
+	"../Boards/GxROM.hpp"
+
+1466106838 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper071.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper087.hpp
+	"../Boards/GxROM.hpp"
+
+1468335538 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper185.hpp
+	"../Boards/GxROM.hpp"
+
+1468550460 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper225.hpp
+	"../Boards/GxROM.hpp"
+
+1459808180 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper000.cpp
+	"Mapper000.hpp"
+
+1459869408 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper001.cpp
+	"Mapper001.hpp"
+
+1459828060 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+
+1468117426 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper003.cpp
+	"Mapper003.hpp"
+
+1459828664 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper007.cpp
+	"Mapper007.hpp"
+
+1460432562 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper009.cpp
+	"Mapper009.hpp"
+
+1460432576 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper010.cpp
+	"Mapper010.hpp"
+
+1462238214 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper011.cpp
+	"Mapper011.hpp"
+
+1459826464 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper066.cpp
+	"Mapper066.hpp"
+
+1466143266 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper071.cpp
+	"Mapper071.hpp"
+
+1459827050 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper087.cpp
+	"Mapper087.hpp"
+
+1468335776 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper185.cpp
+	"Mapper185.hpp"
+
+1468550726 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/Mapper225.cpp
+	"Mapper225.hpp"
+
+1459879286 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Cartridge/Mappers/MapperUtils.cpp
+	"MapperUtils.hpp"
+
+1468337858 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1461818852 /home/fuumarumota/Programming/O_Nes_Sama_Olde/CPU.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447390730 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447364664 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/Logger.h
+	<fstream>
+	<stdexcept>
+
+1450151518 /home/fuumarumota/Programming/O_Nes_Sama_Olde/CPUSharedData.h
+
+1450649086 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Input.h
+	<SDL2/SDL.h>
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/PPU.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Drawable.hpp
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1460603550 /home/fuumarumota/Programming/O_Nes_Sama_Olde/opcodes.inc
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Breakpoint.cpp
+	"Breakpoint.h"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Debugger.cpp
+	"Debugger.h"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/Debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/SocketServer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Debugger/SocketServer.cpp
+	"SocketServer.h"
+
+1459405082 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Input.cpp
+	"Input.h"
+
+1447364648 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/CPULogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/Logging/Logger.cpp
+	"Logger.h"
+	<iostream>
+
+1468549468 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/PPU.cpp
+	"PPU.h"
+
+1447192640 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RAM.cpp
+	"RAM.h"
+	<stdio.h>
+
+1447192912 /home/fuumarumota/Programming/O_Nes_Sama_Olde/RAM.h
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Color.cpp
+	"Color.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Sprite.cpp
+	"Sprite.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde/RetroGraphix/Texture.cpp
+	"Texture.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/APU.cpp
+	"APU.h"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/APU.h
+	<functional>
+	<cstdio>
+	<queue>
+	<SDL2/SDL.h>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1447390558 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/x6502Interrupts.h
+
+1468551518 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/Board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+
+1459288698 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/MapperUtils.hpp
+	<stdio.h>
+
+1460435000 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/Board.cpp
+	"Board.hpp"
+
+1468346708 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/GxROM.cpp
+	"GxROM.hpp"
+
+1460431984 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/GxROM.hpp
+	"Board.hpp"
+
+1459886306 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/MMC1.cpp
+	"MMC1.hpp"
+
+1460432250 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/MMC1.hpp
+	"Board.hpp"
+
+1460432236 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/MMC2.cpp
+	"MMC2.hpp"
+
+1460432374 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/MMC2.hpp
+	"Board.hpp"
+
+1468176024 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/MMC3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+
+1464932348 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Boards/MMC3.hpp
+	"Board.hpp"
+
+1468551966 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1468337628 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper011.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper071.hpp"
+	"Mappers/Mapper087.hpp"
+	"Mappers/Mapper185.hpp"
+	"Mappers/Mapper225.hpp"
+	<string>
+
+1467991750 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper000.hpp
+	"../Boards/GxROM.hpp"
+
+1459869094 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper001.hpp
+	"../Boards/MMC1.hpp"
+
+1459828066 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper002.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper003.hpp
+	"../Boards/GxROM.hpp"
+
+1459828706 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper007.hpp
+	"../Boards/GxROM.hpp"
+
+1460432418 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper009.hpp
+	"../Boards/MMC2.hpp"
+
+1460432412 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper010.hpp
+	"../Boards/MMC2.hpp"
+
+1462235040 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper011.hpp
+	"../Boards/GxROM.hpp"
+
+1459826484 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper066.hpp
+	"../Boards/GxROM.hpp"
+
+1466106838 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper071.hpp
+	"../Boards/GxROM.hpp"
+
+1459827802 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper087.hpp
+	"../Boards/GxROM.hpp"
+
+1468335538 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper185.hpp
+	"../Boards/GxROM.hpp"
+
+1468550460 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper225.hpp
+	"../Boards/GxROM.hpp"
+
+1459808180 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper000.cpp
+	"Mapper000.hpp"
+
+1459869408 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper001.cpp
+	"Mapper001.hpp"
+
+1459828060 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+
+1468117426 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper003.cpp
+	"Mapper003.hpp"
+
+1459828664 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper007.cpp
+	"Mapper007.hpp"
+
+1460432562 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper009.cpp
+	"Mapper009.hpp"
+
+1460432576 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper010.cpp
+	"Mapper010.hpp"
+
+1462238214 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper011.cpp
+	"Mapper011.hpp"
+
+1459826464 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper066.cpp
+	"Mapper066.hpp"
+
+1466143266 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper071.cpp
+	"Mapper071.hpp"
+
+1459827050 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper087.cpp
+	"Mapper087.hpp"
+
+1468335776 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper185.cpp
+	"Mapper185.hpp"
+
+1468550726 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/Mapper225.cpp
+	"Mapper225.hpp"
+
+1459879286 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Cartridge/Mappers/MapperUtils.cpp
+	"MapperUtils.hpp"
+
+1468337858 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1461818852 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/CPU.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1447390730 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1447364664 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Logging/Logger.h
+	<fstream>
+	<stdexcept>
+
+1450151518 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/CPUSharedData.h
+
+1450649086 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Input.h
+	<SDL2/SDL.h>
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/PPU.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/Drawable.hpp
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Debugger/Breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1460603550 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/opcodes.inc
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Debugger/Breakpoint.cpp
+	"Breakpoint.h"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Debugger/Debugger.cpp
+	"Debugger.h"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Debugger/Debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1468559641 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Debugger/SocketServer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Debugger/SocketServer.cpp
+	"SocketServer.h"
+
+1459405082 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Input.cpp
+	"Input.h"
+
+1447364648 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Logging/CPULogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1447786528 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/Logging/Logger.cpp
+	"Logger.h"
+	<iostream>
+
+1468549468 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/PPU.cpp
+	"PPU.h"
+
+1447192640 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RAM.cpp
+	"RAM.h"
+	<stdio.h>
+
+1447192912 /home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RAM.h
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/Color.cpp
+	"Color.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/Sprite.cpp
+	"Sprite.hpp"
+
+1468559641 source:/home/fuumarumota/Programming/O_Nes_Sama_Olde (copy)/RetroGraphix/Texture.cpp
+	"Texture.hpp"
+
