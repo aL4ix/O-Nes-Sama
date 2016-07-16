@@ -1,6 +1,5 @@
 #include "APU.h"
 
-void pause();
 
 Beeper::Beeper()
 {
@@ -144,8 +143,6 @@ unsigned char APU::readMem(unsigned short Address)
     {
         auto Value = (this->*readFuncs[Address])();
         //printf("R%X: %X\n", 0x4000+Address, Value);
-        pause();
-
         return Value;
     }
     else
@@ -185,12 +182,16 @@ void APU::write4000(unsigned char Value)
     dutyPulse1 = (Value & 0xc0) >> 6;
     haltPulse1 = Value & 0x20;
     constantVolumeFlagPulse1 = Value & 0x10;
-    volumeEnvelopePulse1 = Value & 0xf;
+    constVolEnvDivPeriodPulse1 = Value & 0xf;
 }
 
 void APU::write4001(unsigned char Value)
 {
-
+    dividerSweepPulse1 = (Value & 0x70) >> 4;
+    shiftCountPulse1 = Value & 0x7;
+    enableSweepFlagPulse1 = (Value & 0x80) && shiftCountPulse1;
+    negateFlagPulse1 = Value & 0x8;
+    reloadSweepPulse1 = true;
 }
 
 void APU::write4002(unsigned char Value)
@@ -205,6 +206,7 @@ void APU::write4003(unsigned char Value)
         lengthCounterPulse1 = loadLengthCounter(Value);
     }
     timerPulse1 = ((Value & 0x7) << 8) | (timerPulse1 & 0xFF);
+    halfCyclesUntilPulse1 = timerPulse1 * 2;
     sequencerStepPulse1 = 0;
     startFlagPulse1 = true;
 }
@@ -214,12 +216,16 @@ void APU::write4004(unsigned char Value)
     dutyPulse2 = (Value & 0xc0) >> 6;
     haltPulse2 = Value & 0x20;
     constantVolumeFlagPulse2 = Value & 0x10;
-    volumeEnvelopePulse2 = Value & 0xF;
+    constVolEnvDivPeriodPulse2 = Value & 0xF;
 }
 
 void APU::write4005(unsigned char Value)
 {
-
+    dividerSweepPulse2 = (Value & 0x70) >> 4;
+    shiftCountPulse2 = Value & 0x7;
+    enableSweepFlagPulse2 = (Value & 0x80) && shiftCountPulse2;
+    negateFlagPulse2 = Value & 0x8;
+    reloadSweepPulse2 = true;
 }
 
 void APU::write4006(unsigned char Value)
@@ -234,6 +240,7 @@ void APU::write4007(unsigned char Value)
         lengthCounterPulse2 = loadLengthCounter(Value);
     }
     timerPulse2 = ((Value & 0x7) << 8) | (timerPulse2 & 0xFF);
+    halfCyclesUntilPulse2 = timerPulse2 * 2;
     sequencerStepPulse2 = 0;
     startFlagPulse2 = true;
 }
@@ -268,7 +275,7 @@ void APU::write400C(unsigned char Value)
 {
     haltNoise = Value & 0x20;
     constantVolumeFlagNoise = Value & 0x10;
-    volumeEnvelopeNoise = Value & 0xF;
+    constVolEnvDivPeriodNoise = Value & 0xF;
 }
 
 void APU::write400D(unsigned char Value)
@@ -317,7 +324,8 @@ void APU::write4011(unsigned char Value)
 
 void APU::write4012(unsigned char Value)
 {//                            Value * 64
-    sampleAddressDMC = 0x8000 + (Value << 6);
+    sampleAddressDMC = 0xC000 | (Value << 6);
+    //sampleAddressDMC = 0x8000 + (Value << 6);
 }
 
 void APU::write4013(unsigned char Value)
@@ -341,7 +349,6 @@ void APU::write4015(unsigned char Value)
         {
             //printf("NOT STARTED: %d\n", bytesRemainingCounter);
         }
-        pause();
     }
     else
     {
@@ -604,17 +611,69 @@ void APU::clockHalfFrame()
     else
         lengthCounterTriangle--;
 
-    if(haltPulse2 || lengthCounterPulse2 == 0)
-    {
+    //Sweep Pulse1
+    if(reloadSweepPulse1)
+    {/*
+        if(dividerSweepCounterPulse1 == 0 && enableSweepFlagPulse1)
+        {
+            //period is also adjusted??
+        }
+        else*/
+        dividerSweepCounterPulse1 = dividerSweepPulse1;
+        reloadSweepPulse1 = false;
     }
+    else if(dividerSweepCounterPulse1 > 0)
+        dividerSweepCounterPulse1--;
     else
-        lengthCounterPulse2--;
+    {
+        dividerSweepCounterPulse1 = dividerSweepPulse1;
+        if(enableSweepFlagPulse1 && !isSweepSilenced(timerPulse1, negateFlagPulse1, shiftCountPulse1))
+        {
+            if(negateFlagPulse1)
+                timerPulse1 -= (timerPulse1 >> shiftCountPulse1) + 1; // +1 only for Pulse 1
+            else
+                timerPulse1 += (timerPulse1 >> shiftCountPulse1);
+        }
+    }
 
+    //Length Pulse 1
     if(haltPulse1 || lengthCounterPulse1 == 0)
     {
     }
     else
         lengthCounterPulse1--;
+
+    //Sweep Pulse 2
+    if(reloadSweepPulse2)
+    {/*
+        if(dividerSweepCounterPulse2 == 0 && enableSweepFlagPulse2)
+        {
+            //period is also adjusted??
+        }
+        else*/
+        dividerSweepCounterPulse2 = dividerSweepPulse2;
+        reloadSweepPulse2 = false;
+    }
+    else if(dividerSweepCounterPulse2 > 0)
+        dividerSweepCounterPulse2--;
+    else
+    {
+        dividerSweepCounterPulse2 = dividerSweepPulse2;
+        if(enableSweepFlagPulse2 && !isSweepSilenced(timerPulse2, negateFlagPulse2, shiftCountPulse2))
+        {
+            if(negateFlagPulse2)
+                timerPulse2 -= (timerPulse2 >> shiftCountPulse2); // +1 only for Pulse 1
+            else
+                timerPulse2 += (timerPulse2 >> shiftCountPulse2);
+        }
+    }
+
+    //Length Pulse 2
+    if(haltPulse2 || lengthCounterPulse2 == 0)
+    {
+    }
+    else
+        lengthCounterPulse2--;
 }
 
 void APU::clockQuarterFrame()
@@ -638,20 +697,20 @@ void APU::clockQuarterFrame()
             decayDividerCounterPulse1--;
         else
         {
-            decayDividerCounterPulse1 = volumeEnvelopePulse1;
-            if(decayVolumePulse1 > 0)
-                decayVolumePulse1--;
+            decayDividerCounterPulse1 = constVolEnvDivPeriodPulse1;
+            if(envelopeVolumePulse1 > 0)
+                envelopeVolumePulse1--;
             else if(haltPulse1) //loop flag
             {
-                decayVolumePulse1 = 15;
+                envelopeVolumePulse1 = 15;
             }
         }
     }
     else
     {
         startFlagPulse1 = false;
-        decayVolumePulse1 = 15;
-        decayDividerCounterPulse1 = volumeEnvelopePulse1;
+        envelopeVolumePulse1 = 15;
+        decayDividerCounterPulse1 = constVolEnvDivPeriodPulse1;
     }
 
     //Pulse2
@@ -661,20 +720,20 @@ void APU::clockQuarterFrame()
             decayDividerCounterPulse2--;
         else
         {
-            decayDividerCounterPulse2 = volumeEnvelopePulse2;
-            if(decayVolumePulse2 > 0)
-                decayVolumePulse2--;
+            decayDividerCounterPulse2 = constVolEnvDivPeriodPulse2;
+            if(envelopeVolumePulse2 > 0)
+                envelopeVolumePulse2--;
             else if(haltPulse2) //loop flag
             {
-                decayVolumePulse2 = 15;
+                envelopeVolumePulse2 = 15;
             }
         }
     }
     else
     {
         startFlagPulse2 = false;
-        decayVolumePulse2 = 15;
-        decayDividerCounterPulse2 = volumeEnvelopePulse2;
+        envelopeVolumePulse2 = 15;
+        decayDividerCounterPulse2 = constVolEnvDivPeriodPulse2;
     }
 
     //Noise
@@ -684,20 +743,20 @@ void APU::clockQuarterFrame()
             decayDividerCounterNoise--;
         else
         {
-            decayDividerCounterNoise = volumeEnvelopeNoise;
-            if(decayVolumeNoise > 0)
-                decayVolumeNoise--;
+            decayDividerCounterNoise = constVolEnvDivPeriodNoise;
+            if(envelopeVolumeNoise > 0)
+                envelopeVolumeNoise--;
             else if(haltNoise) //loop flag
             {
-                decayVolumeNoise = 15;
+                envelopeVolumeNoise = 15;
             }
         }
     }
     else
     {
         startFlagNoise = false;
-        decayVolumeNoise = 15;
-        decayDividerCounterNoise = volumeEnvelopeNoise;
+        envelopeVolumeNoise = 15;
+        decayDividerCounterNoise = constVolEnvDivPeriodNoise;
     }
 
 }
@@ -721,34 +780,35 @@ void APU::clockTriangle()
 void APU::clockPulse1()
 {
     halfCyclesUntilPulse1 = timerPulse1 * 2;
-    if(lengthCounterPulse1 > 0 && timerPulse1 >= 8)
+    sequencerStepPulse1++;
+    sequencerStepPulse1 &= 7;
+    if(lengthCounterPulse1 > 0
+       && !isSweepSilenced(timerPulse1, negateFlagPulse1, shiftCountPulse1)
+       && sequencerPulse[dutyPulse1][sequencerStepPulse1])
     {
-        if(sequencerPulse[dutyPulse1][sequencerStepPulse1++])
-        {
-            outputPulse1 = (constantVolumeFlagPulse1) ? volumeEnvelopePulse1 : decayVolumePulse1;
-        }
-        else
-            outputPulse1 = 0;
-
-        sequencerStepPulse1 &= 7;
-        //printf("%d %d\n", halfCyclesUntilPulse1, sequencerStepPulse1);
+        outputPulse1 = (constantVolumeFlagPulse1) ? constVolEnvDivPeriodPulse1 : envelopeVolumePulse1;
     }
+    else
+        outputPulse1 = 0;
+
+    //printf("%d %d\n", halfCyclesUntilPulse1, sequencerStepPulse1);
 }
 
 void APU::clockPulse2()
 {
     halfCyclesUntilPulse2 = timerPulse2 * 2;
-    if(lengthCounterPulse2 > 0 && timerPulse2 >= 8)
+    sequencerStepPulse2++;
+    sequencerStepPulse2 &= 7;
+    if(lengthCounterPulse2 > 0
+       && !isSweepSilenced(timerPulse2, negateFlagPulse2, shiftCountPulse2)
+       && sequencerPulse[dutyPulse2][sequencerStepPulse2])
     {
-        if(sequencerPulse[dutyPulse2][sequencerStepPulse2++])
-        {
-            outputPulse2 = (constantVolumeFlagPulse2) ? volumeEnvelopePulse2 : decayVolumePulse2;
-        }
-        else
-            outputPulse2 = 0;
-        sequencerStepPulse2 &= 7;
-        //printf("%d %d\n", halfCyclesUntilPulse2, sequencerStepPulse2);
+        outputPulse2 = (constantVolumeFlagPulse2) ? constVolEnvDivPeriodPulse2 : envelopeVolumePulse2;
     }
+    else
+        outputPulse2 = 0;
+
+    //printf("%d %d\n", halfCyclesUntilPulse2, sequencerStepPulse2);
 }
 
 void APU::clockNoise()
@@ -762,22 +822,21 @@ void APU::clockNoise()
     shiftRegisterNoise >>= 1;
     shiftRegisterNoise |= feedback << 14;
     //printf("SH: %X ", shiftRegisterNoise);
-    //getchar();
     if((!(shiftRegisterNoise & 0x1)) && lengthCounterNoise)
     {
-        outputNoise = (constantVolumeFlagNoise) ? volumeEnvelopeNoise : decayVolumeNoise;
+        outputNoise = (constantVolumeFlagNoise) ? constVolEnvDivPeriodNoise : envelopeVolumeNoise;
     }
     else
         outputNoise = 0;
 
 }
 
+bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount)
+{
+    return (Timer < 8 || (!Negate && Timer + (Timer >> ShiftCount) > 0x7FF) );
+}
+
 void APU::setMemoryMapper(Board* Board)
 {
     board = Board;
-}
-
-void pause()
-{
-    //getchar();
 }

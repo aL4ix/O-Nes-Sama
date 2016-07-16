@@ -151,10 +151,16 @@ private:
     unsigned short halfCyclesUntilPulse1;
     unsigned char outputPulse1;
     bool constantVolumeFlagPulse1;
-    unsigned char volumeEnvelopePulse1;
+    unsigned char constVolEnvDivPeriodPulse1;
     bool startFlagPulse1;
-    unsigned char decayVolumePulse1;
+    unsigned char envelopeVolumePulse1;
     unsigned char decayDividerCounterPulse1;
+    bool enableSweepFlagPulse1;
+    unsigned char dividerSweepPulse1;
+    bool negateFlagPulse1;
+    unsigned char shiftCountPulse1;
+    bool reloadSweepPulse1;
+    unsigned char dividerSweepCounterPulse1;
 
     //Pulse2
     unsigned char dutyPulse2;
@@ -163,20 +169,26 @@ private:
     unsigned short halfCyclesUntilPulse2;
     unsigned char outputPulse2;
     bool constantVolumeFlagPulse2;
-    unsigned char volumeEnvelopePulse2;
+    unsigned char constVolEnvDivPeriodPulse2;
     bool startFlagPulse2;
-    unsigned char decayVolumePulse2;
+    unsigned char envelopeVolumePulse2;
     unsigned char decayDividerCounterPulse2;
+    bool enableSweepFlagPulse2;
+    unsigned char dividerSweepPulse2;
+    bool negateFlagPulse2;
+    unsigned char shiftCountPulse2;
+    bool reloadSweepPulse2;
+    unsigned char dividerSweepCounterPulse2;
 
     //Noise
     unsigned short periodTableNoise[16] = {4, 8, 16, 32, 64, 96, 128, 160, 202, 254, 380, 508, 762, 1016, 2034, 4068};
     bool constantVolumeFlagNoise;
-    unsigned char volumeEnvelopeNoise;
+    unsigned char constVolEnvDivPeriodNoise;
     bool modeFlagNoise;
     unsigned char timerNoise;
     bool startFlagNoise;
     unsigned char decayDividerCounterNoise;
-    unsigned char decayVolumeNoise;
+    unsigned char envelopeVolumeNoise;
     unsigned short halfCyclesUntilNoise;
     unsigned short shiftRegisterNoise;
     unsigned char outputNoise;
@@ -219,6 +231,8 @@ private:
     void clockPulse1();
     void clockPulse2();
     void clockNoise();
+
+    bool isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount);
 
     //OTHER
     InterruptLines &ints;
