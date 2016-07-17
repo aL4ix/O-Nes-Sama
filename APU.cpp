@@ -36,7 +36,7 @@ void Beeper::loadSamples(Uint16 *stream, int length)
     int i = 0;
     while (i < length) {
         if (beeps.empty()) {
-            printf("U ");
+            //printf("U ");
             while (i < length) {
                 stream[i] = 0;
                 i++;
