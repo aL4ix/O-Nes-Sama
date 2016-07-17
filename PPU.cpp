@@ -224,8 +224,6 @@ void PPU::renderTick()
     {
         if(0 <= scanlineNum && scanlineNum <= 239)
         {
-            const auto pos = (scanlineNum << 8) | ticks;
-
             //BG
             const bool chrLow = (shiftRegisterChrLow >> (15-loopy_x)) & 0x1;
             const bool chrHigh = (shiftRegisterChrHigh >> (15-loopy_x)) & 0x1;
@@ -242,15 +240,11 @@ void PPU::renderTick()
             unsigned char colorBG = (chrHigh << 1) | chrLow;
             if(!(reg2001 & 0x8) || ((reg2001 & 0x2) != 0x2 && ticks<8))
                 colorBG = 0;
-
-            const unsigned char pal = (palHigh << 1) | palLow;
-            loadSetOf4Colors(pal);
-            const Color32 bgPixel(setOf4ColorsPalette[colorBG].GetColor());
+            const unsigned char palBG = (palHigh << 1) | palLow;
 
             //SPRITES
-            Color32 spritePixel;
-            spritePixel.SetColor(0);
             unsigned char colorSprite = 0;
+            unsigned char palSprite;
             bool frontBack = true;
 
             for(int n=0; n<8; n++)
@@ -263,17 +257,22 @@ void PPU::renderTick()
                         counterSpriteX[n] = 255;
                         continue;
                     }
-                    const unsigned char pal = (latchSpriteAt[n] & 0x3) + 4;
                     colorSprite = ((shiftRegisterSpriteHigh[n] >> 7 & 0x1) << 1) | (shiftRegisterSpriteLow[n] >> 7 & 0x1);
-                    loadSetOf4Colors(pal);
-                    spritePixel.SetColor(setOf4ColorsPalette[colorSprite].GetColor());
-                    frontBack = (latchSpriteAt[n] >> 5) & 0x1;
                     if(!(reg2001 & 0x10) || ((reg2001 & 0x4) != 0x4 && ticks<8))
                         colorSprite = 0;
+                    if(colorSprite == 0)
+                        continue;
+
+                    palSprite = (latchSpriteAt[n] & 0x3) + 4;
+                    frontBack = (latchSpriteAt[n] >> 5) & 0x1;
+
                     if(latchSpriteAt[n] & 0x4) //Zero
                     {
                         if(ticks == 255)
+                        {
                             colorSprite = 0;
+                            continue;
+                        }
                         /*if(colorSprite)
                             printf("ZERO: %d.%d\n", scanlineNum, ticks);*/
                         if(zeroHit == 0 && !(reg2002 & 0x40))
@@ -283,8 +282,7 @@ void PPU::renderTick()
                                 //printf("AQUI: %d,%d,\n", scanlineNum, ticks);
                             }
                     }
-                    if(colorSprite != 0)
-                        break;
+                    break;
                 }
             }
             for(int n=0; n<8; n++)
@@ -298,19 +296,22 @@ void PPU::renderTick()
                     counterSpriteX[n]--;
             }
 
+            unsigned char colorToRender;
             if(colorBG == 0 && colorSprite == 0)
-                framebuffer[pos].SetColor(colorPalette[palette[0]].GetColor());
+                colorToRender = 0;
             else if(colorBG == 0 && colorSprite != 0)
-                framebuffer[pos].SetColor(spritePixel.GetColor());
+                colorToRender = (palSprite<<2) | colorSprite;
             else if(colorBG != 0 && colorSprite == 0)
-                framebuffer[pos].SetColor(bgPixel.GetColor());
+                colorToRender = (palBG<<2) | colorBG;
             else
             {
                 if(frontBack)
-                    framebuffer[pos].SetColor(bgPixel.GetColor());
+                    colorToRender = (palBG<<2) | colorBG;
                 else
-                    framebuffer[pos].SetColor(spritePixel.GetColor());
+                    colorToRender = (palSprite<<2) | colorSprite;
             }
+            const auto pos = (scanlineNum << 8) | ticks;
+            framebuffer[pos].SetColor(colorPalette[palette[colorToRender]].GetColor());
         }
     }
 }
