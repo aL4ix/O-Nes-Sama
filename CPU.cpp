@@ -347,6 +347,7 @@ void CPU::pollForInterrupts(){
 void CPU::reset(){
     ints.reset = 1;
     interruptSequence(1);
+    apu->reset();
     printf("\nReset: %X", regs.pc);
 }
 
