@@ -20,7 +20,7 @@ bool Texture::Create(const unsigned Width, const unsigned Height)
 {
     texture = SDL_CreateTexture(sdlRenderer, sdlPixelFormat->format,
         SDL_TEXTUREACCESS_STREAMING, Width, Height);
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+    //SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     w = Width;
     h = Height;
     if(texture == NULL)

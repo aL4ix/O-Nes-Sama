@@ -41,7 +41,7 @@ GraphixEngine::GraphixEngine(const unsigned ScreenWidth, const unsigned ScreenHe
             printf("YATTA");*/
 
     //unsigned format = SDL_GetWindowPixelFormat(window);
-    sdlPixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_ARGB8888);
+    sdlPixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGB888);
     Color32::Transparent.SetColor(0, 0, 0, 0);
 
 }
