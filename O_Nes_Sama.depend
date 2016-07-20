@@ -1,0 +1,291 @@
+# depslib dependency file v1.0
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/APU.cpp
+	"APU.h"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/APU.h
+	<functional>
+	<cstdio>
+	<queue>
+	<SDL2/SDL.h>
+	"x6502Interrupts.h"
+	"Cartridge/Boards/Board.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/x6502Interrupts.h
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/Board.hpp
+	"../Mappers/MapperUtils.hpp"
+	<stdio.h>
+	<string.h>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/MapperUtils.hpp
+	<stdio.h>
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/Board.cpp
+	"Board.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/GxROM.cpp
+	"GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/GxROM.hpp
+	"Board.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC1.cpp
+	"MMC1.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC1.hpp
+	"Board.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC2.cpp
+	"MMC2.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC2.hpp
+	"Board.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC3.hpp
+	"Board.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Cartridge.hpp
+	"Boards/Board.hpp"
+	"Boards/GxROM.hpp"
+	"Boards/MMC3.hpp"
+	"Mappers/Mapper000.hpp"
+	"Mappers/Mapper001.hpp"
+	"Mappers/Mapper002.hpp"
+	"Mappers/Mapper003.hpp"
+	"Mappers/Mapper007.hpp"
+	"Mappers/Mapper009.hpp"
+	"Mappers/Mapper010.hpp"
+	"Mappers/Mapper011.hpp"
+	"Mappers/Mapper066.hpp"
+	"Mappers/Mapper071.hpp"
+	"Mappers/Mapper087.hpp"
+	"Mappers/Mapper185.hpp"
+	"Mappers/Mapper225.hpp"
+	<string>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper000.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper001.hpp
+	"../Boards/MMC1.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper002.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper003.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper007.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper009.hpp
+	"../Boards/MMC2.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper010.hpp
+	"../Boards/MMC2.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper011.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper066.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper071.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper087.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper185.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper225.hpp
+	"../Boards/GxROM.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper000.cpp
+	"Mapper000.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper001.cpp
+	"Mapper001.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper002.cpp
+	"Mapper002.hpp"
+	<stdio.h>
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper003.cpp
+	"Mapper003.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper007.cpp
+	"Mapper007.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper009.cpp
+	"Mapper009.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper010.cpp
+	"Mapper010.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper011.cpp
+	"Mapper011.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper066.cpp
+	"Mapper066.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper071.cpp
+	"Mapper071.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper087.cpp
+	"Mapper087.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper185.cpp
+	"Mapper185.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper225.cpp
+	"Mapper225.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/MapperUtils.cpp
+	"MapperUtils.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/CPU.h
+	"Cartridge/Boards/Board.hpp"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../x6502Interrupts.h"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Logging/Logger.h
+	<fstream>
+	<stdexcept>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/CPUSharedData.h
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Input.h
+	<SDL2/SDL.h>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/PPU.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"x6502Interrupts.h"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Drawable.hpp
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/Breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/opcodes.inc
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/Breakpoint.cpp
+	"Breakpoint.h"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/Debugger.cpp
+	"Debugger.h"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/Debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/SocketServer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/SocketServer.cpp
+	"SocketServer.h"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Input.cpp
+	"Input.h"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/PPU.cpp
+	"PPU.h"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Color.cpp
+	"Color.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Sprite.cpp
+	"Sprite.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Texture.cpp
+	"Texture.hpp"
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Logging/CPULogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Logging/Logger.cpp
+	"Logger.h"
+	<iostream>
+

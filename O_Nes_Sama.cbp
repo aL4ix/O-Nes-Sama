@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="O_Nes_Sama" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/O_Nes_Sama" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/O_Nes_Sama" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O3" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="SDL2main" />
+					<Add library="SDL2_net" />
+					<Add library="SDL2" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="APU.cpp" />
+		<Unit filename="APU.h" />
+		<Unit filename="CPU.cpp" />
+		<Unit filename="CPU.h" />
+		<Unit filename="CPUSharedData.h" />
+		<Unit filename="Cartridge/Boards/Board.cpp" />
+		<Unit filename="Cartridge/Boards/Board.hpp" />
+		<Unit filename="Cartridge/Boards/BoardData.hpp" />
+		<Unit filename="Cartridge/Boards/GxROM.cpp" />
+		<Unit filename="Cartridge/Boards/GxROM.hpp" />
+		<Unit filename="Cartridge/Boards/MMC1.cpp" />
+		<Unit filename="Cartridge/Boards/MMC1.hpp" />
+		<Unit filename="Cartridge/Boards/MMC2.cpp" />
+		<Unit filename="Cartridge/Boards/MMC2.hpp" />
+		<Unit filename="Cartridge/Boards/MMC3.cpp" />
+		<Unit filename="Cartridge/Boards/MMC3.hpp" />
+		<Unit filename="Cartridge/Cartridge.cpp" />
+		<Unit filename="Cartridge/Cartridge.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper000.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper000.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper001.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper001.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper002.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper002.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper003.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper003.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper007.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper007.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper009.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper009.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper010.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper010.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper011.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper011.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper066.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper066.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper071.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper071.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper087.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper087.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper185.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper185.hpp" />
+		<Unit filename="Cartridge/Mappers/Mapper225.cpp" />
+		<Unit filename="Cartridge/Mappers/Mapper225.hpp" />
+		<Unit filename="Cartridge/Mappers/MapperUtils.cpp" />
+		<Unit filename="Cartridge/Mappers/MapperUtils.hpp" />
+		<Unit filename="Debugger/Breakpoint.cpp" />
+		<Unit filename="Debugger/Breakpoint.h" />
+		<Unit filename="Debugger/Debugger.cpp" />
+		<Unit filename="Debugger/Debugger.h" />
+		<Unit filename="Debugger/SocketServer.cpp" />
+		<Unit filename="Debugger/SocketServer.h" />
+		<Unit filename="Input.cpp" />
+		<Unit filename="Input.h" />
+		<Unit filename="Instructions.h" />
+		<Unit filename="Logging/CPULog.txt" />
+		<Unit filename="Logging/CPULogger.cpp" />
+		<Unit filename="Logging/CPULogger.h" />
+		<Unit filename="Logging/Logger.cpp" />
+		<Unit filename="Logging/Logger.h" />
+		<Unit filename="PPU.cpp" />
+		<Unit filename="PPU.h" />
+		<Unit filename="RetroGraphix/Color.cpp" />
+		<Unit filename="RetroGraphix/Color.hpp" />
+		<Unit filename="RetroGraphix/Drawable.hpp" />
+		<Unit filename="RetroGraphix/GraphixEngine.cpp" />
+		<Unit filename="RetroGraphix/GraphixEngine.hpp" />
+		<Unit filename="RetroGraphix/Sprite.cpp" />
+		<Unit filename="RetroGraphix/Sprite.hpp" />
+		<Unit filename="RetroGraphix/Texture.cpp" />
+		<Unit filename="RetroGraphix/Texture.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="opcodes.inc" />
+		<Unit filename="x6502Interrupts" />
+		<Unit filename="x6502Interrupts.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
