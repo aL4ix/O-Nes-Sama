@@ -244,7 +244,7 @@ void PPU::renderTick()
 
             //SPRITES
             unsigned char colorSprite = 0;
-            unsigned char palSprite;
+            unsigned char palSprite = 0;
             bool frontBack = true;
 
             for(int n=0; n<8; n++)
