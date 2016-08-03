@@ -24,11 +24,11 @@ int main(){
 	//Synchronization freq
 	int syncfreq = 60;
 	double invsyncfreq = 1.0 / syncfreq;
-    int invsyncfreqInMilis = invsyncfreq*1000.0;
+	double delayFloat = invsyncfreq*1000.0;
+	double countDelay = 0.;
     int underrun = 0;
     //Global cycle counter
     int cycles = invsyncfreq * cpufreq;
-    unsigned begintime = SDL_GetTicks();
     int timediff = 0;
     int sleeptime = 0;
     int frameCtr = 0;
@@ -123,6 +123,7 @@ int main(){
 
 
     int pendCycles = 0;
+    unsigned lastTimeTick = SDL_GetTicks();
 
     while (cpu.isRunning){
         #ifdef DEBUGGER
@@ -183,8 +184,11 @@ int main(){
         pendCycles = cpu.run(cycles + pendCycles);
         frameCtr ++;
         unsigned now = SDL_GetTicks();
-        timediff = now - begintime;
-        sleeptime = invsyncfreqInMilis - timediff;
+        timediff = now - lastTimeTick;
+        countDelay += delayFloat;
+        int thisFrameTimeInMilis = countDelay;
+        countDelay -= thisFrameTimeInMilis;
+        sleeptime = thisFrameTimeInMilis - timediff;
 
         if (sleeptime > 0)
         {
@@ -192,11 +196,11 @@ int main(){
         }
         else
             ++underrun;
-        begintime = SDL_GetTicks();
+        lastTimeTick = now;
 
         #if BENCH == 1
         //Benchmark to file
-        bench << underrun << ", " << timediff*100/invsyncfreqInMilis << "%, " << frameCtr << "\n";
+        bench << underrun << ", " << timediff*100/thisFrameTimeInMilis << "%, " << frameCtr << "\n";
         #endif
         if (windowClosed){
             cpu.isRunning = false;
