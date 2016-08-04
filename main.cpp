@@ -196,7 +196,7 @@ int main(){
         }
         else
             ++underrun;
-        lastTimeTick = now;
+        lastTimeTick = now + sleeptime;
 
         #if BENCH == 1
         //Benchmark to file
