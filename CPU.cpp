@@ -71,18 +71,21 @@ unsigned char CPU::read(int addr){
             switch (addr & 0x3F){
                 case 0x00: case 0x01: case 0x02: case 0x03: case 0x04: case 0x05: case 0x06: case 0x07:
                 case 0x08: case 0x09: case 0x0A: case 0x0B: case 0x0C: case 0x0D: case 0x0E: case 0x0F:
-                case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x18: case 0x19: case 0x1A:
+                case 0x10: case 0x11: case 0x12: case 0x13: case 0x18: case 0x19: case 0x1A:
                 case 0x1B: case 0x1C: case 0x1D: case 0x1E: case 0x1F:
                     /* ret = Open Bus, because there are not readable registers mapped here*/
                     ret = (addr & 0xFF00) >> 8;
                     break;
                 case 0x15:
-                    /* PUT APU Here */
                     ret = apu->readMem(addr);
                     break;
-                case 0x16: case 0x17:
+                case 0x16:
                     ret = controller->read(addr);
                     break;
+                case 0x17:
+                    ret = controller->read(addr);
+                    break;
+
             }
             break;
         case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:

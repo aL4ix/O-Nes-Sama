@@ -139,7 +139,7 @@ unsigned char APU::readMem(unsigned short Address)
 {
 
     Address = Address & 0b11111;
-    if(Address <= 0x17)
+    if(Address == 0x15)
     {
         auto Value = (this->*readFuncs[Address])();
         //printf("R%X: %X\n", 0x4000+Address, Value);
@@ -173,7 +173,6 @@ unsigned char APU::read4015()
     reg4015 |= (irqFrameCounter) << 6;
     reg4015 |= (irqDMC) << 7;
     irqFrameCounter = false;
-    ints.irq = irqFrameCounter | irqDMC;
     return reg4015;
 }
 
@@ -423,14 +422,15 @@ void APU::process(unsigned cpuCycles)
 {
     for(unsigned i=0; i<cpuCycles; i++)
     {
-        if(--halfCyclesUntilNextStep == 0)
+        if(halfCyclesUntilNextStep > 0)
+            halfCyclesUntilNextStep--;
+        if(halfCyclesUntilNextStep == 0)
         {
             if(modeFrameCounter)
                 processMode1();
             else
                 processMode0();
         }
-
         if(halfCyclesUntilNextDMC > 0)
         {
             halfCyclesUntilNextDMC--;
@@ -439,19 +439,27 @@ void APU::process(unsigned cpuCycles)
         {
             clockDMC();
         }
-        if(--halfCyclesUntilTriangle == 0)
+        if(halfCyclesUntilTriangle > 0)
+            halfCyclesUntilTriangle--;
+        if(halfCyclesUntilTriangle == 0)
         {
             clockTriangle();
         }
-        if(--halfCyclesUntilPulse1 == 0)
+        if(halfCyclesUntilPulse1 > 0)
+            halfCyclesUntilPulse1--;
+        if(halfCyclesUntilPulse1 == 0)
         {
             clockPulse1();
         }
-        if(--halfCyclesUntilPulse2 == 0)
+        if(halfCyclesUntilPulse2 > 0)
+            halfCyclesUntilPulse2--;
+        if(halfCyclesUntilPulse2 == 0)
         {
             clockPulse2();
         }
-        if(--halfCyclesUntilNoise == 0)
+        if(halfCyclesUntilNoise > 0)
+            halfCyclesUntilNoise--;
+        if(halfCyclesUntilNoise == 0)
         {
             clockNoise();
         }
