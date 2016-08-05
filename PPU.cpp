@@ -36,7 +36,9 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-PPU::PPU(InterruptLines &ints, Board &m) : gfx(256, 240), ints(ints), mapper(m)
+const double ZOOM = 2.5;
+
+PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), mapper(m)
 {
     mapper.ppuStatus.sline = &scanlineNum;
     mapper.ppuStatus.tick = &ticks;
@@ -52,6 +54,8 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256, 240), ints(ints), mapper(m)
     back.MoveTo(0, 0);
     tex.Create(256, 240);
     back.SetTexture(tex);
+    back.SetWidth(256*ZOOM);
+    back.SetHeight(240*ZOOM);
 
     //DEBUGGER
     debugProcess = nullptr;

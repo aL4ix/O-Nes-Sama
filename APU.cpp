@@ -118,6 +118,13 @@ APU::APU(InterruptLines &ints) :
     powerup();
     reset();
     file = fopen("hey.txt", "wb");
+
+    lookupTablePulse[0] = 0;
+    for(unsigned n=1; n<31; n++)
+        lookupTablePulse[n] = AMPLITUDE * 95.52 / (8128.0 / n + 100);
+    lookupTableTND[0] = 0;
+    for(unsigned n=1; n<203; n++)
+        lookupTableTND[n] = AMPLITUDE * 163.67 / (24329.0 / n + 100);
 }
 
 void APU::writeMem(unsigned short Address, unsigned char Value)
