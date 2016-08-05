@@ -10,7 +10,7 @@
 #include "Cartridge/Boards/Board.hpp"
 
 
-const unsigned short AMPLITUDE = 50000;
+const unsigned short AMPLITUDE = 35000;
 const unsigned SAMPLING = 48000;
 
 
