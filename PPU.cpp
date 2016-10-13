@@ -79,7 +79,7 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), 
         tickFuncs[i*8 + 327] = &PPU::coarseX;
     for(int i=0; i<32; i++)
         tickFuncs[i*8 + 1] = &PPU::tickFetchNT;
-    for(int i=0; i<2; i++)
+    for(int i=0; i<3; i++)
         tickFuncs[i*8 + 321] = &PPU::tickFetchNT;
     for(int i=0; i<32; i++)
         tickFuncs[i*8 + 2] = &PPU::tickFetchAT;
@@ -97,6 +97,7 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), 
         tickFuncs[i*8 + 8] = &PPU::tickShiftRegisters;
     tickFuncs[336] = &PPU::tickShiftRegisters;
     tickFuncs[328] = &PPU::tick328;
+    tickFuncs[339] = &PPU::tickFetchNT;
 }
 
 PPU::~PPU()
