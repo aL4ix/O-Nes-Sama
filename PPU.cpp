@@ -36,7 +36,7 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 2.5;
+const double ZOOM = 3.0;
 
 PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), mapper(m)
 {
@@ -186,7 +186,7 @@ void PPU::process(int cpuCycles)
         }
         else
         {
-            addressBus = loopy_v;
+            //addressBus = loopy_v;
         }
         mapper.setPPUAddress(addressBus);
         renderTick();
@@ -603,7 +603,7 @@ void PPU::intWriteMem(unsigned short Address, unsigned char Value)
 unsigned char PPU::intReadMemLean(unsigned short Address)
 {
     unsigned char ret = 0;
-    addressBus = Address;
+    //addressBus = Address;
     unsigned char DivisionOf400 = Address >> 10;
 
     switch(DivisionOf400)
@@ -630,7 +630,7 @@ unsigned char PPU::intReadMemLean(unsigned short Address)
 void PPU::intWriteMemLean(unsigned short Address, unsigned char Value)
 {
     Address &= 0x3FFF;
-    addressBus = Address;
+    //addressBus = Address;
     unsigned char DivisionOf400 = Address >> 10;
 
     if(mapper.ppuStatus.chrReadOnly && DivisionOf400 <= 7)
