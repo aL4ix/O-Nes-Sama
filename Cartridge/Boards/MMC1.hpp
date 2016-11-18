@@ -1,5 +1,5 @@
-#ifndef MMC1_HPP_INCLUDED
-#define MMC1_HPP_INCLUDED
+#ifndef MMC1_REV2_HPP_INCLUDED
+#define MMC1_REV2_HPP_INCLUDED
 
 #include "Board.hpp"
 
@@ -9,26 +9,25 @@ class MMC1 : public Board {
         void init();
         ~MMC1();
         unsigned char read(int addr);
+        void write(int addr, unsigned char val);
         void setPPUAddress(int addr){}
         void clockCPU();
-        void inline clockPPU() {}
+        void clockPPU(){}
         void saveSRAM(FILE * batteryFile);
         void loadSRAM(FILE * batteryFile);
+        bool loadState(FILE * file);
+        void saveState(FILE * file);
     protected:
         unsigned char ** prg;
-        int countM2;
-        int lastCountM2;
-        int addr;
-        int prgSizeMask;
-        int chrSizeMask;
-        unsigned char data;
-        void pushInShiftReg();
-        void loadRegWrite();
+        int prgSizeMask = 0;
+        int chrSizeMask = 0;
+        /* Registers */
+        unsigned char load;
+        unsigned char control;
+        unsigned char chrBanks[2];
+        unsigned char prgBank;
         void sync();
-        virtual void chrBank0Write() = 0;
-        virtual void chrBank1Write() = 0;
-        virtual void prgBankWrite() = 0;
         void setNTMirroring();
 };
 
-#endif // MMC1_HPP_INCLUDED
+#endif // MMC1_REV2_HPP_INCLUDED

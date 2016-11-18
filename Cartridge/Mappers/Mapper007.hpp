@@ -9,7 +9,10 @@ class Mapper007 : public GxROM{
         Mapper007(unsigned char * header);
         void write(int addr, unsigned char val);
     private:
+        unsigned char prgMirrBank;
         void sync();
+        bool loadState(FILE * file);
+        void saveState(FILE * file);
 
 };
 

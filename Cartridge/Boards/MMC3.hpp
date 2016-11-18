@@ -14,25 +14,27 @@ class MMC3 : public Board {
         void sync();
         void clockCPU();
         void clockPPU();
+        bool loadState(FILE * file);
+        void saveState(FILE * file);
         void saveSRAM(FILE * batteryFile);
         void loadSRAM(FILE * batteryFile);
     protected:
         unsigned char ** prg;
-        int * sl;
-        int * tick;
         int oldPPUA12;
-        int irqCounter;
-        int irqReload;
-        int irqEnable;
-        int irqLatch;
-        int irqFlag;
-        int A12EdgeTimer = 0;
+        //Registers
+        unsigned char commandRegs[8];
+        unsigned char bankSelect;
+        unsigned char mirroring;
+        unsigned char irqLatch;
+        unsigned char irqReload;
+        unsigned char irqCounter;
+        unsigned char irqEnable;
+
         int altBehavior = 0;
-        int lastEdge;
-        int addr;
+
         int prgSizeMask;
         int chrSizeMask;
-        int commandRegs[8];
+
         int edgeCount;
         void clockIRQCounter();
         void syncPRG();

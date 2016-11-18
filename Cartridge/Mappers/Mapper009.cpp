@@ -11,6 +11,7 @@ void Mapper009::init(){
     MapperUtils::switchPRG8K(prgBuffer, prg, 3, prgSizeMask);
 }
 
+
 void Mapper009::syncPRG(){
-    MapperUtils::switchPRG8K(prgBuffer, prg, 0, regs[0] & prgSizeMask);
+    MapperUtils::switchPRG8K(prgBuffer, prg, 0, prgBank & prgSizeMask);
 }

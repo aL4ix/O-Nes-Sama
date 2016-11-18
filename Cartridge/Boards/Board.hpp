@@ -12,7 +12,15 @@ struct PPUStatus{
     bool * isRendering;
 };
 
-class Board {
+struct BoardState{
+    unsigned char tempR[20];
+    unsigned char * prgBuffer;
+    unsigned char * chrBuffer;
+    unsigned char * wramBuffer;
+    unsigned char * ntBuffer;
+};
+
+class Board : public BoardState {
     public:
         Board(unsigned char * header);
         ~Board();
@@ -36,8 +44,8 @@ class Board {
         virtual void write(int addr, unsigned char val) = 0;
         virtual void saveSRAM(FILE *) = 0;
         virtual void loadSRAM(FILE *) = 0;
-        bool loadState(FILE * file);
-        void saveState(FILE * file);
+        virtual bool loadState(FILE * file);
+        virtual void saveState(FILE * file);
         virtual void clockCPU() = 0;
         virtual void clockPPU() = 0;
         PPUStatus ppuStatus;
@@ -51,11 +59,12 @@ class Board {
         int ppuAddress;
         int *cpuIRQLine;
         bool hasBattery;
+        //unsigned char * tempR[20];
         unsigned char regs[8];
-        unsigned char * prgBuffer;
-        unsigned char * chrBuffer;
-        unsigned char * wramBuffer;
-        unsigned char * ntBuffer;
+        //unsigned char * prgBuffer;
+        //unsigned char * chrBuffer;
+        //unsigned char * wramBuffer;
+        //unsigned char * ntBuffer;
         //Pointers to CPU & PPU memory spaces
         unsigned char ** cpuCartSpace;
         unsigned char ** ppuChrSpace;

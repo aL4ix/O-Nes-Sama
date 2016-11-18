@@ -11,7 +11,6 @@ class Mapper010 : public MMC2{
         void syncPRG();
         void saveSRAM(FILE * batteryFile);
         void loadSRAM(FILE * batteryFile);
-        //void write (int addr, unsigned char val);
 };
 
 #endif // MAPPER010_HPP_INCLUDED

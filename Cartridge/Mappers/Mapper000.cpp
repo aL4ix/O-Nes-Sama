@@ -11,12 +11,5 @@ void Mapper000::write(int addr, unsigned char val){
     }
 }
 
-/*bool Mapper000::loadState(FILE * file){
-    int size = fread(ntBuffer, MapperUtils::_2K, 1, file);
-    size += fread(wramBuffer, MapperUtils::_8K, 1, file);
-    return (size == MapperUtils::_2K);
-}
-void Mapper000::saveState(FILE * file){
-    fwrite(ntBuffer, MapperUtils::_2K, 1, file);
-    fwrite(ntBuffer, MapperUtils::_8K, 1, file);
-}*/
+bool Mapper000::loadState(FILE * file){ Board::loadState(file); }
+void Mapper000::saveState(FILE * file){ Board::saveState(file); }

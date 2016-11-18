@@ -38,14 +38,14 @@ void MMC3::write(int addr, unsigned char val){
             break;
         case 0x8: case 0x9:
             if (addr & 1)
-                commandRegs[bankSelect & 7] = val;
+                commandRegs[regs[0] & 7] = val;
             else
-                bankSelect = val;
+                regs[0] = val;
             break;
         case 0xA: case 0xB:
             if (addr & 1){/* put ram protect logic here*/}
             else
-                mirroring = val;
+                regs[2] = val;
             break;
         case 0xC: case 0xD:
             if (addr & 1){
@@ -65,7 +65,7 @@ void MMC3::write(int addr, unsigned char val){
     sync();
 }
 void MMC3::syncPRG(){
-    bool PRGMode = bankSelect & 0x40;
+    bool PRGMode = regs[0] & 0x40;
     MapperUtils::switchPRG8K(prgBuffer, prg, (!PRGMode) << 1, prgSizeMask - 1);
     MapperUtils::switchPRG8K(prgBuffer, prg, PRGMode << 1, commandRegs[6] & prgSizeMask);
     MapperUtils::switchPRG8K(prgBuffer, prg, 1, commandRegs[7] & prgSizeMask);
@@ -73,7 +73,7 @@ void MMC3::syncPRG(){
 }
 
 void MMC3::syncCHR(){
-    bool chrMode = (bankSelect & 0x80);
+    bool chrMode = (regs[0] & 0x80);
     MapperUtils::switchCHR1K(chrBuffer, ppuChrSpace, (chrMode  << 2) | 0, commandRegs[0] & 0xFE);
     MapperUtils::switchCHR1K(chrBuffer, ppuChrSpace, (chrMode  << 2) | 1, commandRegs[0] | 1);
     MapperUtils::switchCHR1K(chrBuffer, ppuChrSpace, (chrMode  << 2) | 2, commandRegs[1] & 0xFE);
@@ -107,21 +107,13 @@ void MMC3::clockIRQCounter(){
 }
 
 void MMC3::setNTMirroring(){
-    if(mirroring & 1)
+    if(regs[2] & 1)
         MapperUtils::switchToHorMirroring(ntBuffer, ppuNTSpace);
     else
         MapperUtils::switchToVertMirroring(ntBuffer, ppuNTSpace);
 }
 
-void inline MMC3::clockCPU(){
-    int ppuA12 = (ppuAddress & 0x1000) >> 12;
-    if (!ppuA12){
-        edgeCount++;
-    }
-    else{
-        edgeCount = 0;
-    }
-}
+void inline MMC3::clockCPU(){}
 
 void inline MMC3::clockPPU(){}
 
@@ -129,40 +121,19 @@ inline void MMC3::setPPUAddress(int addr){
     ppuAddress = addr;
     int ppuA12 = (addr & 0x1000) >> 12;
     if (!oldPPUA12 && ppuA12){
-        if (edgeCount > 2){
+        if (edgeCount > 13){
             clockIRQCounter();
         }
     }
     oldPPUA12 = ppuA12;
-}
 
-bool MMC3::loadState(FILE * file){
-    Board::loadState(file);
-    for (int i = 0; i < 8; i++){
-        commandRegs[i] = tempR[i];
+    if (!ppuA12){
+        edgeCount++;
     }
-    bankSelect = tempR[8];
-    mirroring  = tempR[9];
-    irqLatch   = tempR[10];
-    irqReload  = tempR[11];
-    irqCounter = tempR[12];
-    irqEnable  = tempR[13];
-    sync();
-}
-
-void MMC3::saveState(FILE * file){
-    for (int i = 0; i < 8; i++){
-        tempR[i] = commandRegs[i];
+    else{
+        edgeCount = 0;
     }
-    tempR[8]  = bankSelect;
-    tempR[9]  = mirroring;
-    tempR[10] = irqLatch;
-    tempR[11] = irqReload;
-    tempR[12] = irqCounter;
-    tempR[13] = irqEnable;
-    Board::saveState(file);
 }
-
 
 void MMC3::saveSRAM(FILE * batteryFile) {
     MapperUtils::saveSRAM(wramBuffer, batteryFile);

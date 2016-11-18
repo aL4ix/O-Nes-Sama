@@ -5,6 +5,7 @@
 class GxROM : public Board{
     protected:
         unsigned char ** prg;
+
     public:
         GxROM(unsigned char * header);
         virtual void sync() = 0;

@@ -1,22 +1,24 @@
 #include "MMC1.hpp"
 
-MMC1::MMC1(unsigned char * header) : Board(header){}
+unsigned char shiftReg = 0b10000;
+int countM2, lastCountM2 = 0;
+
+MMC1::MMC1(unsigned char * header) : Board(header){
+    //Assign a tempReg for each actual register for save states.
+
+}
 
 void MMC1::init(){
     Board::init();
     ntBuffer = new unsigned char [MapperUtils::_2K];
     wramBuffer = new unsigned char [MapperUtils::_32K];
-    regs[4] = 0b10000; //Shift register assigned to reg 4 for convenience
-    regs[0] = 0xC;
-    regs[1] = 0;
-    regs[2] = 0;
-    regs[3] = 0;
+    prg = &cpuCartSpace[4];
+    control = 0xC;
     prgSizeMask = prgSize16K - 1;
     if (chrSize8K > 0)
         chrSizeMask = (chrSize8K << 1) - 1;
     else
         chrSizeMask = 1;
-    prg = &cpuCartSpace[4];
     sync();
 }
 
@@ -30,50 +32,51 @@ unsigned char MMC1::read(int addr){
     return -1;
 }
 
-void MMC1::pushInShiftReg(){
-    int bit = data & 1;
-    regs[4] = ((regs[4] & 0x1F) >> 1);
-    regs[4] = regs[4] | (bit << 4);
-}
+void MMC1::write(int addr, unsigned char val){
 
-void MMC1::loadRegWrite(){
-    if (data & 0x80){ //Reset MMC1
-        regs[4] = 0x10;
-        regs[0] |= 0xC;
-        sync();
-    }
-    else{
-        if (regs[4] & 1){
-            int regNo = (addr & 0x6000) >> 13;
-            int regval = (regs[4] >> 1) | ((data & 1) << 4);
-            switch (regNo){
-                case 0:
-                    regs[0] = regval & 0x1F;
-                    sync();
-                    break;
-                case 1:
-                    regs[1] = regval & chrSizeMask;
-                    chrBank0Write();
-                    break;
-                case 2:
-                    regs[2] = regval & chrSizeMask;
-                    chrBank1Write();
-                    break;
-                case 3:
-                    regs[3] = regval & 0x1F;
-                    prgBankWrite();
-                    break;
+    switch (addr >> 12){
+        case 0x6: case 0x7: /* WRAM Space */
+            wramBuffer[addr & 0x1FFF] = val;
+            break;
+        case 0x8: case 0x9: case 0xA: case 0xB: case 0xC: case 0xD: case 0xE: case 0xF: /* Mapper space */
+            if ((countM2 - lastCountM2) > 1){ //If M2 count is less <= 1 ignore writes to mapper.
+                if (val & 0x80){ //Reset the MMC1 on bit 7 set.
+                    shiftReg = 0x10;
+                    control |= 0xC;
+                }
+                else {
+                    if (shiftReg & 1){ //If shift register is full
+                        int writeVal = (shiftReg >> 1) | ((val & 1) << 4); //Copy last bit and the SR contents to reg val
+                        int regsel = (addr >> 13) & 3; //Select register from bits 13 & 14 of the address
+                        switch (regsel){
+                            case 0:
+                                control = writeVal & 0x1F;
+                                break;
+                            case 1:
+                                chrBanks[0] = writeVal & 0x1F;
+                                break;
+                            case 2:
+                                chrBanks[1] = writeVal & 0x1F;
+                                break;
+                            case 3:
+                                prgBank = writeVal & 0x1F;
+                                break;
+                        }
+                        shiftReg = 0b10000; //Reset SR
+                    }
+                    else {
+                        shiftReg = (shiftReg >> 1) | ((val & 1) << 4); //Push bit 1 into shift register
+                    }
+                }
             }
-            regs[4] = 0x10; /*Reset the Shift Register*/
-        }
-        else{
-            pushInShiftReg();
-        }
+            lastCountM2 = countM2;
+            sync();
+            break;
     }
 }
 
 void MMC1::setNTMirroring(){
-    switch (regs[0] & 0x3){
+    switch (control & 0x3){
         case 0: //One Screen, lower bank
             MapperUtils::switchToSingleScrLow(ntBuffer, ppuNTSpace);
             return;
@@ -99,4 +102,23 @@ void MMC1::saveSRAM(FILE * batteryFile) {
 
 void MMC1::loadSRAM(FILE * batteryFile) {
     MapperUtils::loadSRAM(wramBuffer, batteryFile);
+}
+
+bool MMC1::loadState(FILE * file){
+    int ret = Board::loadState(file);
+    control     = tempR[0];
+    chrBanks[0] = tempR[1];
+    chrBanks[1] = tempR[2];
+    prgBank     = tempR[3];
+    shiftReg    = tempR[4];
+    return ret;
+}
+
+void MMC1::saveState(FILE * file){
+    tempR[0] = control;
+    tempR[1] = chrBanks[0];
+    tempR[2] = chrBanks[1];
+    tempR[3] = prgBank;
+    tempR[4] = shiftReg;
+    Board::saveState(file);
 }

@@ -60,19 +60,22 @@ void Board::setPPUNTMemPtr(unsigned char ** ppuNTPtr){
 }
 
 bool Board::loadState(FILE * file){
+
     auto size = 0;
-    size += fread(regs, sizeof(regs), 1, file);
-    if (chrSizeInBytes == 0)
+    size += fread(tempR, sizeof(tempR), 1, file);
+
+    if (chrSizeInBytes == 0){
         size += fread(chrBuffer, MapperUtils::_8K, 1, file);
+    }
     if (wramBuffer)
         size += fread(wramBuffer, MapperUtils::_32K, 1, file);
+
     size += fread(ntBuffer, MapperUtils::_2K, 1, file);
-    sync();
     return size;
 }
 
 void Board::saveState(FILE * file){
-    fwrite(regs, sizeof(regs), 1, file);
+    fwrite(tempR, sizeof(tempR), 1, file);
     if (chrSizeInBytes == 0)
         fwrite(chrBuffer, MapperUtils::_8K, 1, file);
     if (wramBuffer)

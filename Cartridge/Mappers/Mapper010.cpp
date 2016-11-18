@@ -11,7 +11,7 @@ void Mapper010::init(){
 }
 
 void Mapper010::syncPRG(){
-   MapperUtils::switchPRG16K(prgBuffer, prg, 0, regs[0] & prgSizeMask);
+   MapperUtils::switchPRG16K(prgBuffer, prg, 0, prgBank & prgSizeMask);
 }
 
 void Mapper010::saveSRAM(FILE * batteryFile) {

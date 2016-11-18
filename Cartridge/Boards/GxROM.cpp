@@ -17,6 +17,7 @@ void GxROM::init(){
     Board::init();
     /* Create NT & WRAM Memory */
     wramBuffer = new unsigned char [MapperUtils::_32K];
+    printf("\nSize of wRam: %d", sizeof(wramBuffer));
     ntBuffer = new unsigned char [MapperUtils::_2K];
     /*All derived mappers have fixed mirroring so...*/
     if (!ntMirroring)
