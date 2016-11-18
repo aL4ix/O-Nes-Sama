@@ -70,28 +70,28 @@ bool Mapper225::loadState(FILE * file){
     Board::loadState(file);
 
     for (int i=0; i < 4; i++){
-        ramReg[i]  = regs[i];
+        ramReg[i]  = tempR[i];
     }
 
-    mirr     = regs[4];
-    prgMode  = regs[5];
-    prgPos   = regs[6];
-    prgReg   = regs[7];
-    chrReg   = regs[8];
+    mirr     = tempR[4];
+    prgMode  = tempR[5];
+    prgPos   = tempR[6];
+    prgReg   = tempR[7];
+    chrReg   = tempR[8];
     sync();
 }
 
 void Mapper225::saveState(FILE * file){
 
     for (int i=0; i < 4; i++){
-        regs[i] = ramReg[i];
+        tempR[i] = ramReg[i];
     }
 
-    regs[4] = mirr;
-    regs[5] = prgMode;
-    regs[6] = prgPos;
-    regs[7] = prgReg;
-    regs[8] = chrReg;
+    tempR[4] = mirr;
+    tempR[5] = prgMode;
+    tempR[6] = prgPos;
+    tempR[7] = prgReg;
+    tempR[8] = chrReg;
 
     Board::saveState(file);
 }
