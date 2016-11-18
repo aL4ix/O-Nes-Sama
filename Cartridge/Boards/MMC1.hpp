@@ -1,5 +1,5 @@
-#ifndef MMC1_REV2_HPP_INCLUDED
-#define MMC1_REV2_HPP_INCLUDED
+#ifndef MMC1_HPP_INCLUDED
+#define MMC1_HPP_INCLUDED
 
 #include "Board.hpp"
 
