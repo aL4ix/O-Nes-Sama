@@ -1,6 +1,9 @@
 #include "Input.h"
 
-Input::Input(){}
+Input::Input(){
+    shftRegs[0] = 0;
+    shftRegs[1] = 0;
+}
 
 void Input::latchButtonStatus(){
     const uint8_t* state = SDL_GetKeyboardState(NULL);
