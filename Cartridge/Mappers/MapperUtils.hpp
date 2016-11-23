@@ -23,10 +23,12 @@ public:
     /**************************************************************************************************************/
     /* PRG Switching functions                                                                                    */
     /**************************************************************************************************************/
+    static unsigned char * prgBufferPtr;
     static void switchPRG4K (unsigned char * prgBuffer, unsigned char **& prgSpace, int cpuBank, int mapperBank);
     static void switchPRG8K (unsigned char * prgBuffer, unsigned char **& prgSpace, int cpuBank, int mapperBank);
     static void switchPRG16K (unsigned char * prgBuffer, unsigned char **& prgSpace, int cpuBank, int mapperBank);
     static void switchPRG32K (unsigned char * prgBuffer, unsigned char **& prgSpace, int mapperBank);
+    static void switch256KOuterBank (int bank);
 
     /**************************************************************************************************************/
     /* CHR Switching functions                                                                                    */
@@ -52,5 +54,6 @@ public:
 
     static void saveSRAM(unsigned char * wramBuffer, FILE * batteryFile);
     static void loadSRAM(unsigned char * wramBuffer, FILE * batteryFile);
+
 };
 #endif // MAPPERUTILS_HPP_INCLUDED

@@ -55,7 +55,7 @@ int main(){
     //std::string romFileName   = "games/MMC3/Tiny Toon Adventures (USA).nes";
     //std::string romFileName   = "games/MMC3/Super Mario Bros. 3 (USA).nes";
     //std::string romFileName   = "games/blargg_ppu_tests/sprite_ram.nes";
-    //std::string romFileName   = "games/MMC3/Mega Man 5 (USA).nes";
+    //std::string romFileName   = "games/MMC3/Mega Man 3 (USA).nes";
     //std::string romFileName   =  "games/nes-test-roms-master/branch_timing_tests/3.Forward_Branch.nes";
     //std::string romFileName   =  "games/nes-test-roms-master/cpu_dummy_reads/cpu_dummy_reads.nes";
     //std::string romFileName   =  "games/nes-test-roms-master/cpu_interrupts_v2/cpu_interrupts.nes";
@@ -69,22 +69,32 @@ int main(){
     //std::string romFileName   =  "games/MMC3/Super C (USA).nes";
     //std::string romFileName   =  "games/MMC3/Kick Master (USA).nes";
 
-    //std::string romFileName   =  "games/MMC3/Burai Fighter (USA).nes";
-    std::string romFileName   =  "games/Mapper225/64-in-1 (J).nes";
+
+    //std::string romFileName   =  "games/Mapper225/64-in-1 (J).nes";
     //std::string romFileName   =  "games/CNROM/B-Wings (J).nes";
     //std::string romFileName   =  "games/NROM/Nova.nes";
-
 
     //std::string romFileName   =  "games/NROM/Kung Fu.nes";
     //std::string romFileName   =  "games/dpcmletterbox.nes";
     //std::string romFileName   =  "games/MMC3/Rollerblade Racer (USA).nes";
     //std::string romFileName   =  "games/MMC3/Startropics (USA).nes";
-    //std::string romFileName   =  "games/MMC3/Mickey's Safari in Letterland (USA).nes";
+    std::string romFileName   =  "games/MMC3/Mickey's Safari in Letterland (USA).nes";
     //std::string romFileName   =  "games/MMC3/Mickey's Adventure in Numberland (USA).nes";
+    //std::string romFileName   =  "games/MMC3/Burai Fighter (USA).nes";
     //std::string romFileName   =  "games/MMC3/Incredible Crash Dummies, The (USA).nes";
+    //std::string romFileName   =  "games/MMC3/G.I. Joe - A Real American Hero (USA).nes";
     //std::string romFileName   =  "games/MMC3/Bart vs. the World (USA).nes";
 
+
     //std::string romFileName   =  "games/MMC1/Bart.nes";
+    //std::string romFileName   =  "games/MMC1/Metroid (USA).nes";
+    //std::string romFileName   =  "games/MMC1/Dragon Warrior III (USA).nes";
+    //std::string romFileName   =  "games/MMC1/Kid Icarus - Angel Land Story (USA, Europe).nes";
+    //std::string romFileName   =  "games/MMC1/Dragon Warrior IV (USA).nes";
+    //std::string romFileName   =  "games/MMC1/Genghis Khan (USA).nes";
+
+
+
     std::string saveStatePath = "SaveState";
     std::string batteryPath   = "Battery";
     Cartridge cart(romFileName);

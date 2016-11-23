@@ -23,7 +23,7 @@ class Input{
         const unsigned char _Up_Dn   = 0x30;
         const unsigned char _Lft_Rgt = 0xC0;
         //Initialize P1 & P2 Controllers, eventually this will be done from the GUI
-        unsigned char Buttons[2][8] = {
+        unsigned char buttons[2][8] = {
             {  //Player 1 Buttons
                 SDL_SCANCODE_S , SDL_SCANCODE_A   , SDL_SCANCODE_BACKSPACE, SDL_SCANCODE_RETURN,
                 SDL_SCANCODE_UP, SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT     , SDL_SCANCODE_RIGHT

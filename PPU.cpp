@@ -36,7 +36,7 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 2.0;
+const double ZOOM = 3.0;
 
 PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), mapper(m)
 {
@@ -153,6 +153,7 @@ void PPU::process(int cpuCycles)
             {
                 displayFrame();
                 isRendering = false;
+
             }
             else if(scanlineNum == 241)
             {
@@ -179,17 +180,22 @@ void PPU::process(int cpuCycles)
             reg2002 = 0;
             //printf("CZH: %x\n",reg2001);
         }
+
+
         if(isRendering)
         {
             if(tickFuncs[ticks])
                 (this->*tickFuncs[ticks])();
+
         }
         else
         {
-            //addressBus = loopy_v;
+            addressBus = loopy_v & 0x3FFF;
         }
+
         mapper.setPPUAddress(addressBus);
         renderTick();
+
         if(zeroHit>0)
         {
             zeroHit--;
@@ -199,6 +205,9 @@ void PPU::process(int cpuCycles)
                 //printf("HIT: %d,%d\n", scanlineNum, ticks);
             }
         }
+
+
+
 
         #ifdef DEBUGGER
             for(unsigned i=0; i<breakpointByTime.size(); i++)
@@ -397,16 +406,14 @@ unsigned char PPU::read2007()
         coarseFineY();
     }
 
-    //loopy_v &= 0x7FFF;
-
     if((postFetchAddr & 0x3F00) == 0x3F00){
         retval = palette[postFetchAddr & 0x1F];
     }
     else{
         retval = buf2007;
     }
-    buf2007 = intReadMemLean(postFetchAddr);
-    //addressBus = loopy_v & 0x3FFF;
+
+    buf2007 = intReadMemLean(postFetchAddr, !isRendering);
     return generalLatch = retval; //Falta grayscale
 }
 
@@ -498,10 +505,13 @@ void PPU::write2006(unsigned char Value)
         loopy_t &= 0x7F00;
 		loopy_t |= Value;
 		loopy_v = loopy_t;
+
 		if(isRendering)
 		{
             //printf("\nMFV: %X %d,%d\n", loopy_v, scanlineNum, ticks);
             //getchar();
+		} else {
+            addressBus = loopy_v;
 		}
     }
     else // first
@@ -522,6 +532,7 @@ void PPU::write2007(unsigned char Value)
         palette[addr] = Value;
         if (!(addr & 0x3))
 			palette[addr ^ 0x10] = Value; //Mirror palette
+
         //if(!isRendering)
             //printf("MFP: %d, %x %d,%d\n", Value, loopy_v & 0x3FFF, scanlineNum, ticks);
     }
@@ -601,11 +612,13 @@ void PPU::intWriteMem(unsigned short Address, unsigned char Value)
     return;
 }
 
-unsigned char PPU::intReadMemLean(unsigned short Address)
+unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
 {
     unsigned char ret = 0;
-    addressBus = Address;
     unsigned char DivisionOf400 = Address >> 10;
+
+    if (updateBus)
+        addressBus = Address;
 
     switch(DivisionOf400)
     {
@@ -625,13 +638,18 @@ unsigned char PPU::intReadMemLean(unsigned short Address)
         ret = nametable[3][Address & 0x3FF];
         break;
     }
+
+
     return ret;
 }
 
-void PPU::intWriteMemLean(unsigned short Address, unsigned char Value)
+void PPU::intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus)
 {
     Address &= 0x3FFF;
-    addressBus = Address;
+
+    if (updateBus)
+        addressBus = Address;
+
     unsigned char DivisionOf400 = Address >> 10;
 
     if(mapper.ppuStatus.chrReadOnly && DivisionOf400 <= 7)
@@ -655,6 +673,7 @@ void PPU::intWriteMemLean(unsigned short Address, unsigned char Value)
         nametable[3][Address & 0x3FF] = Value;
         break;
     }
+
     return;
 }
 

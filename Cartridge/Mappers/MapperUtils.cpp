@@ -1,10 +1,12 @@
 #include "MapperUtils.hpp"
 
+int prgOuter = 0;
+
 /**************************************************************************************************************/
 /* PRG Switching functions                                                                                    */
 /**************************************************************************************************************/
 void MapperUtils::switchPRG4K (unsigned char * prgBuffer, unsigned char **& prgSpace, int cpuBank, int mapperBank){
-    prgSpace[cpuBank] = &prgBuffer[mapperBank * _4K];
+    prgSpace[cpuBank] = &prgBuffer[prgOuter + (mapperBank * _4K)];
 }
 
 void MapperUtils::switchPRG8K (unsigned char * prgBuffer, unsigned char **& prgSpace, int cpuBank, int mapperBank){
@@ -20,6 +22,10 @@ void MapperUtils::switchPRG16K (unsigned char * prgBuffer, unsigned char **& prg
 void MapperUtils::switchPRG32K (unsigned char * prgBuffer, unsigned char **& prgSpace, int mapperBank){
     switchPRG16K(prgBuffer, prgSpace, 0, mapperBank << 1);
     switchPRG16K(prgBuffer, prgSpace, 1, (mapperBank << 1) | 1);
+}
+
+void MapperUtils::switch256KOuterBank (int bank){
+    prgOuter = bank * _256K;
 }
 
 /**************************************************************************************************************/

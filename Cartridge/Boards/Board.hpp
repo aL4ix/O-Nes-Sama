@@ -15,6 +15,7 @@ struct PPUStatus{
 struct BoardState{
     unsigned char tempR[20];
     unsigned char * prgBuffer;
+    unsigned char * outerPrgBanks;
     unsigned char * chrBuffer;
     unsigned char * wramBuffer;
     unsigned char * ntBuffer;
@@ -61,10 +62,6 @@ class Board : public BoardState {
         bool hasBattery;
         //unsigned char * tempR[20];
         unsigned char regs[8];
-        //unsigned char * prgBuffer;
-        //unsigned char * chrBuffer;
-        //unsigned char * wramBuffer;
-        //unsigned char * ntBuffer;
         //Pointers to CPU & PPU memory spaces
         unsigned char ** cpuCartSpace;
         unsigned char ** ppuChrSpace;

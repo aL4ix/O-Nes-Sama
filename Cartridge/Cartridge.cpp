@@ -78,7 +78,7 @@ Board * Cartridge::createMapper(int mapperNo, unsigned char * header){
             mpr = new Mapper000(header);
             break;
         case 1:
-            mpr = new Mapper001(header);
+            mpr = new MMC1(header);
             break;
         case 2:
             mpr = new Mapper002(header);
