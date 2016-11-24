@@ -36,7 +36,7 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 3.0;
+const double ZOOM = 2.0;
 
 PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), mapper(m)
 {
@@ -413,7 +413,11 @@ unsigned char PPU::read2007()
         retval = buf2007;
     }
 
+    if(postFetchAddr >= 0x3000)
+        postFetchAddr &= ~0x1000;
     buf2007 = intReadMemLean(postFetchAddr, !isRendering);
+    addressBus = postFetchAddr;
+
     return generalLatch = retval; //Falta grayscale
 }
 
@@ -511,7 +515,7 @@ void PPU::write2006(unsigned char Value)
             //printf("\nMFV: %X %d,%d\n", loopy_v, scanlineNum, ticks);
             //getchar();
 		} else {
-            addressBus = loopy_v;
+            //addressBus = loopy_v;
 		}
     }
     else // first
@@ -552,6 +556,9 @@ void PPU::write2007(unsigned char Value)
     {
         coarseX();
         coarseFineY();
+
+        if (loopy_v >= 0x3000)
+            addressBus = loopy_v & 0x2FFF;
     }
 }
 
@@ -616,9 +623,9 @@ unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
 {
     unsigned char ret = 0;
     unsigned char DivisionOf400 = Address >> 10;
-
-    if (updateBus)
-        addressBus = Address;
+    addressBus = Address;
+    /*if (updateBus)
+        addressBus = Address;*/
 
     switch(DivisionOf400)
     {
@@ -646,9 +653,9 @@ unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
 void PPU::intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus)
 {
     Address &= 0x3FFF;
-
-    if (updateBus)
-        addressBus = Address;
+    addressBus = Address;
+    /*if (updateBus)
+        addressBus = Address;*/
 
     unsigned char DivisionOf400 = Address >> 10;
 
