@@ -124,15 +124,13 @@ inline void MMC3::setPPUAddress(int addr){
     int ppuA12 = ((ppuAddress & 0x1000) >> 12);
 
     if (!oldPPUA12 && ppuA12){
-        if (edgeCount > 30){
+        if (edgeCount > 30)
             clockIRQCounter();
-        }
         edgeCount = 0;
     }
 
-    if (!ppuA12){
+    if (!ppuA12)
         edgeCount++;
-    }
 
     oldPPUA12 = ppuA12;
 }

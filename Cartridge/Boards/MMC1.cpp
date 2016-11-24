@@ -5,6 +5,8 @@ int countM2, lastCountM2 = 0;
 int isPRGLarge = 0;
 int isCHRLarge = 0;
 int superPRGBank = 0;
+int wRam8KBank = 0;
+int wRamMask = 0x1FFF;
 
 MMC1::MMC1(unsigned char * header) : Board(header){}
 
@@ -33,7 +35,11 @@ void MMC1::init(){
 unsigned char MMC1::read(int addr){
     switch (addr >> 12){
         case 0x6: case 0x7: /* WRAM Space */
-            return wramBuffer[addr & 0x1FFF];
+            {
+                int wRAMAddr = (addr - 0x6000 + (wRam8KBank * MapperUtils::_8K)) & wRamMask;
+                return wramBuffer[wRAMAddr];
+            }
+
         case 0x8: case 0x9: case 0xA: case 0xB: case 0xC: case 0xD: case 0xE: case 0xF:
             return prg[(addr & 0x7FFF) >> 12][addr & 0xFFF];
     }
@@ -44,7 +50,10 @@ void MMC1::write(int addr, unsigned char val){
 
     switch (addr >> 12){
         case 0x6: case 0x7: /* WRAM Space */
-            wramBuffer[addr & 0x1FFF] = val;
+            {
+                int wRAMAddr = (addr - 0x6000 + (wRam8KBank * MapperUtils::_8K)) & wRamMask;
+                wramBuffer[wRAMAddr] = val;
+            }
             break;
         case 0x8: case 0x9: case 0xA: case 0xB: case 0xC: case 0xD: case 0xE: case 0xF: /* Mapper space */
             if ((countM2 - lastCountM2) > 1){ //If M2 count is less <= 1 ignore writes to mapper.
@@ -108,10 +117,6 @@ void MMC1::sync(){
     /* Sync Mirroring */
     setNTMirroring();
 
-
-    /* Sync CHR state... */
-
-
     superPRGBank = (chrBanks[0] >> 4);
     if (isPRGLarge){ //Treat the HIGH CHR lines as SXROM behaviour.
 
@@ -124,12 +129,14 @@ void MMC1::sync(){
     }
 
     if (!isCHRLarge){
-      //Put "small CHR" behavior here
+        wRamMask = 0x7FFF;
+        wRam8KBank = (chrBanks[0] & 0xC) >> 2;
+        //printf("\nWram Bank: %d", wRam8KBank);
     }
 
-
-
+    /* Sync CHR state... */
     if(control & 0x10){
+
         /*Switch the 4K bank (val) into the $1000-$1FFF PPU space...*/
         MapperUtils::switchCHR4K(chrBuffer, ppuChrSpace, 0, chrBanks[0] & chrSizeMask);
         MapperUtils::switchCHR4K(chrBuffer, ppuChrSpace, 1, chrBanks[1] & chrSizeMask);
@@ -171,6 +178,9 @@ bool MMC1::loadState(FILE * file){
     chrBanks[1] = tempR[2];
     prgBank     = tempR[3];
     shiftReg    = tempR[4];
+    wRam8KBank  = tempR[5];
+    superPRGBank  = tempR[6];
+    sync();
     return ret;
 }
 
@@ -180,6 +190,8 @@ void MMC1::saveState(FILE * file){
     tempR[2] = chrBanks[1];
     tempR[3] = prgBank;
     tempR[4] = shiftReg;
+    tempR[5] = wRam8KBank;
+    tempR[6] = superPRGBank;
     Board::saveState(file);
 }
 
