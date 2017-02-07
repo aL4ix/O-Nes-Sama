@@ -40,6 +40,7 @@ const double ZOOM = 2.0;
 
 PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), mapper(m)
 {
+    logger = fopen("ppu_log.txt", "w");
     mapper.ppuStatus.sline = &scanlineNum;
     mapper.ppuStatus.tick = &ticks;
     mapper.ppuStatus.isRendering = &isRendering;
@@ -67,7 +68,7 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), 
     breakpointByValue.reserve(32);
     for(int i=0; i<342; i++)
         tickFuncs[i] = NULL;
-    tickFuncs[255] = &PPU::tick255;
+
     tickFuncs[257] = &PPU::tick257;
     for(int i=0; i<8; i++)
         tickFuncs[i*8 + 260] = &PPU::tickOamFetchesLow;
@@ -98,10 +99,26 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), 
     tickFuncs[336] = &PPU::tickShiftRegisters;
     tickFuncs[328] = &PPU::tick328;
     tickFuncs[339] = &PPU::tickFetchNT;
+
+    for(int i=0; i<342; i++)
+        spriteFuncs[i] = NULL;
+    for(int i=1; i<=63; i++)
+        spriteFuncs[i] = &PPU::spriteSecondaryClear;
+
+    spriteFuncs[64] = &PPU::spriteEvaluationStarts;
+    for(int i=65; i<=256; i++)
+    {
+        if(i & 0x1)
+            spriteFuncs[i] = &PPU::spriteEvaluationOdd;
+        else
+            spriteFuncs[i] = &PPU::spriteEvaluationEven;
+    }
+    //tickFuncs[255] = &PPU::tick255;
 }
 
 PPU::~PPU()
 {
+    fclose(logger);
 }
 
 void PPU::writeMem(unsigned short Address, unsigned char Value)
@@ -163,7 +180,7 @@ void PPU::process(int cpuCycles)
                     triggerNMI();
                     //printf ("\nTrigger: %d, %d", ticks, scanlineNum);
                 }
-                oamAddr = 0;
+                oamAddress = 0;
             }
             else if(scanlineNum == 261) //OJO cambiar para PAL
             {
@@ -181,12 +198,12 @@ void PPU::process(int cpuCycles)
             //printf("CZH: %x\n",reg2001);
         }
 
-
         if(isRendering)
         {
+            if(spriteFuncs[ticks])
+                (this->*spriteFuncs[ticks])();
             if(tickFuncs[ticks])
                 (this->*tickFuncs[ticks])();
-
         }
         else
         {
@@ -263,22 +280,37 @@ void PPU::renderTick()
 
             for(int n=0; n<8; n++)
             {
+                bool debugMe = false;
+                if(scanlineNum == 28 && n < 2)
+                    debugMe = true;
+
                 if(counterSpriteX[n] == 0)
                 {
-                    const auto spriteFineX = ticks - secondary[(n << 2) | 3];
+                    /*const auto spriteFineX = ticks - //secondary[(n << 2) | 3];
                     if(spriteFineX >= 8)
                     {
                         counterSpriteX[n] = 255;
+                        if(debugMe)
+                            fprintf(logger, "OutOfScope: %d:%d n=%d\n", scanlineNum, ticks, n);
                         continue;
-                    }
+                    }*/
                     colorSprite = ((shiftRegisterSpriteHigh[n] >> 7 & 0x1) << 1) | (shiftRegisterSpriteLow[n] >> 7 & 0x1);
+                    if(debugMe)
+                        fprintf(logger, "Color: %d:%d n=%d %X\n", scanlineNum, ticks, n, colorSprite);
                     if(!(reg2001 & 0x10) || ((reg2001 & 0x4) != 0x4 && ticks<8))
                         colorSprite = 0;
                     if(colorSprite == 0)
+                    {
+                        if(debugMe)
+                            fprintf(logger, "Transparent: %d:%d n=%d\n", scanlineNum, ticks, n);
                         continue;
+                    }
+
 
                     palSprite = (latchSpriteAt[n] & 0x3) + 4;
                     frontBack = (latchSpriteAt[n] >> 5) & 0x1;
+                    if(debugMe)
+                        fprintf(logger, "palFront: %d:%d n=%d %X %X\n", scanlineNum, ticks, n, palSprite, frontBack);
 
                     if(latchSpriteAt[n] & 0x4) //Zero
                     {
@@ -385,7 +417,11 @@ unsigned char PPU::read2002()
 
 unsigned char PPU::read2004()
 {
-    return generalLatch = oam[oamAddr];
+    if(isRendering)
+    {
+        return generalLatch = getOam(oamPointer);
+    }
+    return generalLatch = getOam(oamAddress);
 }
 
 unsigned char PPU::read2007()
@@ -467,7 +503,7 @@ void PPU::write2002(unsigned char Value)
 void PPU::write2003(unsigned char Value)
 {
     //printf("2003 %x\n", cpuState.pc);
-    generalLatch = oamAddr = Value;
+    generalLatch = oamAddress = Value;
 }
 
 void PPU::write2004(unsigned char Value)
@@ -475,7 +511,7 @@ void PPU::write2004(unsigned char Value)
     //printf("W2004: %X:%X\n", oamAddr, Value);
     if(isRendering)
         Value = 0xFF;
-    oam[oamAddr++] = Value;
+    setOam(oamAddress++, Value);
 }
 
 void PPU::write2005(unsigned char Value)
@@ -946,6 +982,149 @@ void PPU::generateOam(Color32 chrImage[64], unsigned char OamNum)
 
 
 
+void PPU::setOam(unsigned Address, unsigned char Value)
+{
+    if(0 <= Address && Address <= 64*4)
+    {
+        oam[Address] = Value;
+        if(scanlineNum == 27)
+            fprintf(logger, "%d:%d  setOAM  %d=%d\n", scanlineNum, ticks, Address, Value);
+    }
+    else
+        throw std::bad_function_call();
+}
+
+unsigned char PPU::getOam(unsigned Address)
+{
+    if(0 <= Address && Address <= 64*4)
+    {
+        const unsigned char Value = oam[Address];
+        if(scanlineNum == 27)
+            fprintf(logger, "%d:%d  getOAM  %d=%d\n", scanlineNum, ticks, Address, Value);
+        return Value;
+    }
+    else
+        throw std::bad_function_call();
+}
+
+void PPU::setSec(unsigned Address, unsigned char Value)
+{
+    if(0 <= Address && Address <= 8*4)
+    {
+        secondary[Address] = Value;
+        if(scanlineNum == 27)
+            fprintf(logger, "%d:%d  setSec  %d=%d\n", scanlineNum, ticks, Address, Value);
+    }
+
+    else
+        throw std::bad_function_call();
+}
+
+unsigned char PPU::getSec(unsigned Address)
+{
+    if(0 <= Address && Address <= 8*4)
+    {
+        const unsigned char Value = secondary[Address];
+        if(scanlineNum == 27)
+            fprintf(logger, "%d:%d  getSec  %d=%d\n", scanlineNum, ticks, Address, Value);
+        return Value;
+    }
+
+    else
+        throw std::bad_function_call();
+
+}
+
+void PPU::spriteSecondaryClear()
+{
+    if(scanlineNum == 27)
+        fprintf(logger, "Sprite Eval: Secondary Clear\n");
+    oamPointer = ticks >> 1;
+    setSec(oamPointer, 0xFF);
+}
+
+void PPU::spriteEvaluationStarts()
+{
+    if(scanlineNum == 27)
+        fprintf(logger, "Sprite Eval: Starts\n");
+    spriteEvalN = spriteEvalM = secNum = 0;
+    oamCompleted = oamSecondaryFull = false;
+    if(oamAddress >= 8)
+    {
+        for(int i=0; i<8; i++)
+        {
+            auto ret = getOam((oamAddress & 0xF8) + i);
+            setOam(i, ret);
+        }
+
+    }
+}
+
+void PPU::spriteEvaluationOdd()
+{
+    if(scanlineNum == 27)
+        fprintf(logger, "Sprite Eval: Odd %d:%d\n", scanlineNum, ticks);
+    oamPointer = (spriteEvalN << 2) + oamAddress;
+    spriteY = getOam(0xFF & (oamPointer + 0));
+    spriteT = getOam(0xFF & (oamPointer + 1));
+    spriteA = getOam(0xFF & (oamPointer + 2));
+    spriteX = getOam(0xFF & (oamPointer + 3));
+    if(scanlineNum == 27 && spriteT == 0xF5)
+        fprintf(logger, "OR: %X %X\n", spriteA, spriteX);
+}
+
+void PPU::spriteEvaluationEven()
+{
+    if(scanlineNum == 27)
+        fprintf(logger, "Sprite Eval: Even %d:%d\n", scanlineNum, ticks);
+    if(!oamCompleted)
+    {
+        const unsigned oamFineY = unsigned(scanlineNum)-spriteY;
+        unsigned char height = 8;
+        if(reg2000 & 0x20) // Double height
+            height = 16;
+        if(!oamSecondaryFull)
+        {
+            if(oamFineY < height) // In range
+            {
+                if(spriteT == 0xF5 && scanlineNum == 27)
+                {
+                    fprintf(logger, "0xF5: %d:%d\n", scanlineNum, ticks);
+                }
+
+                const unsigned char address = secNum << 2;
+                setSec(address | 0, spriteY);
+                setSec(address | 1, spriteT);
+                setSec(address | 2, spriteA);
+                setSec(address | 3, spriteX);
+                if(spriteEvalN == 0)
+                    setSec(address | 2, getSec(address | 2) | 0x4);
+                else
+                    setSec(address | 2, getSec(address | 2) & ~0x4);
+                if(++secNum == 8)
+                    oamSecondaryFull = true;
+            }
+            spriteEvalN = (spriteEvalN + 1) & 63;
+            if(spriteEvalN == 0)
+                oamCompleted = true;
+        }
+        else // Secondary is full !!
+        {
+            if(oamFineY < height) // In range
+            {
+                reg2002 |= 0x20; // Sprite overflow
+                oamCompleted = true; // Finish evaluation
+            }
+            else // Not in range
+            {
+                spriteEvalM = (spriteEvalM + 1) & 3;
+                spriteEvalN = (spriteEvalN + 1) & 63;
+                if(spriteEvalN == 0)
+                    oamCompleted = true;
+            }
+        }
+    }
+}
 
 void PPU::tick255()
 {
@@ -990,8 +1169,8 @@ void PPU::tick257()
 
     for(int n=0; n<8; n++)
     {
-        counterSpriteX[n] = secondary[(n << 2) | 3];
-        latchSpriteAt[n] = secondary[(n << 2) | 2];
+        counterSpriteX[n] = getSec((n << 2) | 3);
+        latchSpriteAt[n] = getSec((n << 2) | 2);
     }
 }
 
@@ -1007,31 +1186,35 @@ void PPU::tickOamFetchesLow()
     {
         curSubBank = reg2000 >> 3 & 0x1;
         totalHeight = 7;
-        oamTile = secondary[(n << 2) | 1];
+        oamTile = getSec((n << 2) | 1);
     }
     else //8x16
     {
-        curSubBank = secondary[n << 2 | 1] & 0x1;
+        curSubBank = getSec(n << 2 | 1) & 0x1;
         totalHeight = 15;
-        oamTile = secondary[(n << 2) | 1] & ~0x1;
+        oamTile = getSec((n << 2) | 1) & ~0x1;
     }
 
     if(secondary[n << 2] == 0xFF)
     {
         addressBus = (curSubBank << 12) | (0xFF << 4);
         intReadMem(addressBus);
-        return;
     }
-    auto fineY = scanlineNum - secondary[(n << 2)];
-    if(latchSpriteAt[n] & 0x80) //FlipY
-        fineY = totalHeight - fineY;
-    if(fineY >= 8)
+    else
     {
-        oamTile++;
-        fineY -= 8;
+        auto fineY = scanlineNum - getSec((n << 2));
+        if(latchSpriteAt[n] & 0x80) //FlipY
+            fineY = totalHeight - fineY;
+        if(fineY >= 8)
+        {
+            oamTile++;
+            fineY -= 8;
+        }
+        addressBus = (curSubBank << 12) | (oamTile << 4) | fineY;
+        shiftRegisterSpriteLow[n] = intReadMem(addressBus);
     }
-    addressBus = (curSubBank << 12) | (oamTile << 4) | fineY;
-    shiftRegisterSpriteLow[n] = intReadMem(addressBus);
+    if(scanlineNum == 27 && oamTile == 0xF5)
+        fprintf(logger, "Low: %d:%d n=%d ab=%X s=%X\n", scanlineNum, ticks, n, addressBus, shiftRegisterSpriteLow[n]);
 }
 
 void PPU::tickOamFetchesHigh()
@@ -1043,6 +1226,8 @@ void PPU::tickOamFetchesHigh()
         shiftRegisterSpriteLow[n] = reverse(shiftRegisterSpriteLow[n]);
         shiftRegisterSpriteHigh[n] = reverse(shiftRegisterSpriteHigh[n]);
     }
+    if(scanlineNum == 27)
+        fprintf(logger, "High: %d:%d n=%d ab=%X s=%X\n", scanlineNum, ticks, n, addressBus, shiftRegisterSpriteHigh[n]);
 }
 
 void PPU::tickFetchNT()

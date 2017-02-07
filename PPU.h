@@ -34,11 +34,11 @@ protected:
     bool writeToggle;
     unsigned char buf2007;
     unsigned short postFetchAddr;
-    unsigned char oamAddr;
+    unsigned char oamAddress;
+    unsigned char oamPointer;
     unsigned short loopy_t;
     unsigned char loopy_x;
     int zeroHit;
-    int secondary[8*4];
     unsigned char curTile;
     unsigned char curPalette;
     unsigned char curChrLow;
@@ -53,6 +53,16 @@ protected:
     unsigned char latchSpriteAt[8];
     unsigned char counterSpriteX[8];
     unsigned short addressBus;
+    unsigned char spriteY;
+    unsigned char spriteT;
+    unsigned char spriteA;
+    unsigned char spriteX;
+    unsigned char spriteEvalN;
+    unsigned char spriteEvalM;
+    unsigned char spriteEvalS;
+    bool oamCompleted;
+    bool oamSecondaryFull;
+    unsigned char secNum;
 };
 
 class PPU : public PPU_State
@@ -78,8 +88,9 @@ public:
 
 private:
     //INTERNALS
-    unsigned char * nametable[4];
-    unsigned char * chr[8];
+    unsigned char* nametable[4];
+    unsigned char* chr[8];
+    unsigned char secondary[8*4];
 
     void triggerNMI();
     void clearNMI();
@@ -127,6 +138,7 @@ private:
     //Other
     struct InterruptLines &ints;
     Board &mapper;
+    FILE* logger;
 
     //Debugger
     std::function<void(Breakpoint*)> debugProcess;
@@ -141,6 +153,15 @@ private:
     void generateNT(Color32 chrImage[64], unsigned short VAddress);
     void generateOam(Color32 chrImage[64], unsigned char OamNum);
 
+    void setOam(unsigned Address, unsigned char Value);
+    unsigned char getOam(unsigned Address);
+    void setSec(unsigned Address, unsigned char Value);
+    unsigned char getSec(unsigned Address);
+    void (PPU::*spriteFuncs[342])();
+    void spriteSecondaryClear();
+    void spriteEvaluationStarts();
+    void spriteEvaluationOdd();
+    void spriteEvaluationEven();
     void (PPU::*tickFuncs[342])();
     void tick255();
     void tick257();
