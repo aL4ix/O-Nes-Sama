@@ -36,7 +36,7 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 2.0;
+const double ZOOM = 3.0;
 
 PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), mapper(m)
 {
@@ -80,7 +80,7 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), 
         tickFuncs[i*8 + 327] = &PPU::coarseX;
     for(int i=0; i<32; i++)
         tickFuncs[i*8 + 1] = &PPU::tickFetchNT;
-    for(int i=0; i<3; i++)
+    for(int i=0; i<2; i++)
         tickFuncs[i*8 + 321] = &PPU::tickFetchNT;
     for(int i=0; i<32; i++)
         tickFuncs[i*8 + 2] = &PPU::tickFetchAT;
@@ -98,6 +98,7 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), 
         tickFuncs[i*8 + 8] = &PPU::tickShiftRegisters;
     tickFuncs[336] = &PPU::tickShiftRegisters;
     tickFuncs[328] = &PPU::tick328;
+    tickFuncs[337] = &PPU::tickFetchNT;
     tickFuncs[339] = &PPU::tickFetchNT;
 
     for(int i=0; i<342; i++)
@@ -113,6 +114,10 @@ PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), 
         else
             spriteFuncs[i] = &PPU::spriteEvaluationEven;
     }
+    for(int i=257; i<=320; i++)
+        spriteFuncs[i] = &PPU::spriteEvaluationTileLoading;
+    for(int i=321; i<=340; i++)
+        spriteFuncs[i] = &PPU::spriteEvaluationBackRend;
     //tickFuncs[255] = &PPU::tick255;
 }
 
@@ -986,9 +991,10 @@ void PPU::setOam(unsigned Address, unsigned char Value)
 {
     if(0 <= Address && Address <= 64*4)
     {
-        oam[Address] = Value;
+        oamPointer = Address;
+        oam[oamPointer] = Value;
         if(scanlineNum == 27)
-            fprintf(logger, "%d:%d  setOAM  %d=%d\n", scanlineNum, ticks, Address, Value);
+            fprintf(logger, "%d:%d  setOAM  %d=%d\n", scanlineNum, ticks, oamPointer, Value);
     }
     else
         throw std::bad_function_call();
@@ -996,11 +1002,12 @@ void PPU::setOam(unsigned Address, unsigned char Value)
 
 unsigned char PPU::getOam(unsigned Address)
 {
-    if(0 <= Address && Address <= 64*4)
+    if(0 <= Address && Address <= 64*4 + 8*4)
     {
-        const unsigned char Value = oam[Address];
+        oamPointer = Address;
+        const unsigned char Value = oam[oamPointer];
         if(scanlineNum == 27)
-            fprintf(logger, "%d:%d  getOAM  %d=%d\n", scanlineNum, ticks, Address, Value);
+            fprintf(logger, "%d:%d  getOAM  %d=%d\n", scanlineNum, ticks, oamPointer, Value);
         return Value;
     }
     else
@@ -1011,9 +1018,10 @@ void PPU::setSec(unsigned Address, unsigned char Value)
 {
     if(0 <= Address && Address <= 8*4)
     {
-        secondary[Address] = Value;
+        oamPointer = Address + 64*4;
+        oam[oamPointer] = Value;
         if(scanlineNum == 27)
-            fprintf(logger, "%d:%d  setSec  %d=%d\n", scanlineNum, ticks, Address, Value);
+            fprintf(logger, "%d:%d  setSec  %d=%d\n", scanlineNum, ticks, oamPointer, Value);
     }
 
     else
@@ -1024,9 +1032,10 @@ unsigned char PPU::getSec(unsigned Address)
 {
     if(0 <= Address && Address <= 8*4)
     {
-        const unsigned char Value = secondary[Address];
+        oamPointer = Address + 64*4;
+        const unsigned char Value = oam[oamPointer];
         if(scanlineNum == 27)
-            fprintf(logger, "%d:%d  getSec  %d=%d\n", scanlineNum, ticks, Address, Value);
+            fprintf(logger, "%d:%d  getSec  %d=%d\n", scanlineNum, ticks, oamPointer, Value);
         return Value;
     }
 
@@ -1039,8 +1048,7 @@ void PPU::spriteSecondaryClear()
 {
     if(scanlineNum == 27)
         fprintf(logger, "Sprite Eval: Secondary Clear\n");
-    oamPointer = ticks >> 1;
-    setSec(oamPointer, 0xFF);
+    setSec(ticks >> 1, 0xFF);
 }
 
 void PPU::spriteEvaluationStarts()
@@ -1060,15 +1068,25 @@ void PPU::spriteEvaluationStarts()
     }
 }
 
+void PPU::spriteEvaluationBackRend()
+{
+    getSec(0);
+}
+
+void PPU::spriteEvaluationTileLoading()
+{
+    oamAddress = 0;
+}
+
 void PPU::spriteEvaluationOdd()
 {
     if(scanlineNum == 27)
         fprintf(logger, "Sprite Eval: Odd %d:%d\n", scanlineNum, ticks);
-    oamPointer = (spriteEvalN << 2) + oamAddress;
-    spriteY = getOam(0xFF & (oamPointer + 0));
-    spriteT = getOam(0xFF & (oamPointer + 1));
-    spriteA = getOam(0xFF & (oamPointer + 2));
-    spriteX = getOam(0xFF & (oamPointer + 3));
+    unsigned pos = (spriteEvalN << 2) + oamAddress;
+    spriteY = getOam(0xFF & (pos + 0));
+    spriteT = getOam(0xFF & (pos + 1));
+    spriteA = getOam(0xFF & (pos + 2));
+    spriteX = getOam(0xFF & (pos + 3));
     if(scanlineNum == 27 && spriteT == 0xF5)
         fprintf(logger, "OR: %X %X\n", spriteA, spriteX);
 }
@@ -1125,7 +1143,7 @@ void PPU::spriteEvaluationEven()
         }
     }
 }
-
+/*
 void PPU::tick255()
 {
     //coarseFineY();
@@ -1160,7 +1178,7 @@ void PPU::tick255()
         //std::sort(std::begin(secondary), std::begin(secondary)+secNum);
     }
 }
-
+*/
 void PPU::tick257()
 {
     //Take one bit from NT and coarseX from loopy_t
@@ -1195,7 +1213,7 @@ void PPU::tickOamFetchesLow()
         oamTile = getSec((n << 2) | 1) & ~0x1;
     }
 
-    if(secondary[n << 2] == 0xFF)
+    if(getSec(n << 2) == 0xFF)
     {
         addressBus = (curSubBank << 12) | (0xFF << 4);
         intReadMem(addressBus);

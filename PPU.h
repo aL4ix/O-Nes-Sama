@@ -25,7 +25,7 @@ protected:
     int ticksInThisScanline;
     bool isOdd;
     unsigned char palette[0x20];
-    unsigned char oam[64*4];
+    unsigned char oam[64*4 + 8*4];
     unsigned char generalLatch;
     unsigned char reg2000;
     unsigned char reg2001;
@@ -35,7 +35,7 @@ protected:
     unsigned char buf2007;
     unsigned short postFetchAddr;
     unsigned char oamAddress;
-    unsigned char oamPointer;
+    unsigned oamPointer;
     unsigned short loopy_t;
     unsigned char loopy_x;
     int zeroHit;
@@ -90,7 +90,7 @@ private:
     //INTERNALS
     unsigned char* nametable[4];
     unsigned char* chr[8];
-    unsigned char secondary[8*4];
+    //unsigned char secondary[8*4];
 
     void triggerNMI();
     void clearNMI();
@@ -162,6 +162,8 @@ private:
     void spriteEvaluationStarts();
     void spriteEvaluationOdd();
     void spriteEvaluationEven();
+    void spriteEvaluationBackRend();
+    void spriteEvaluationTileLoading();
     void (PPU::*tickFuncs[342])();
     void tick255();
     void tick257();
