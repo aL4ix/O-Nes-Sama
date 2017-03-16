@@ -1,27 +1,26 @@
 #include "Input.h"
 
-Input::Input(){
-    shftRegs[0] = 0;
-    shftRegs[1] = 0;
-}
+Input::Input(){}
 
 void Input::latchButtonStatus(){
     const uint8_t* state = SDL_GetKeyboardState(NULL);
 
-    for (int j=0; j<2; j++){
-        for (int i=7; i>=0; i--){
-            shftRegs[j] <<= 1;
-            shftRegs[j] = shftRegs[j] &~ state[buttons[j][i]];
-            shftRegs[j] = shftRegs[j] | (state[buttons[j][i]]);
-            if ((shftRegs[j] & _Up_Dn) == _Up_Dn)     shftRegs[j] &= ~ _Up; //Don't allow Up + Down
-            if ((shftRegs[j] & _Lft_Rgt) == _Lft_Rgt) shftRegs[j] &= ~ _Lft; //Don't allow Left + Right;
-        }
+    for (int j = 0; j < 8; j++){
+        shftRegs[0] |= (state[buttons[0][j]] << j);
+        shftRegs[1] |= (state[buttons[1][j]] << j);
     }
 }
 
 unsigned char Input::read(int addr){
-    int shftRegBit =  shftRegs[addr & 1] & 0x1;
-    shftRegs[addr & 1] >>= 1;
+
+    unsigned char shftRegBit = shftRegs[addr & 1] & 1;
+
+    if (strobeHigh){
+        latchButtonStatus();
+    } else {
+        shftRegs[addr & 1] >>= 1;
+    }
+
     return (shftRegBit | ((addr & 0xE000) >> 8));
 }
 

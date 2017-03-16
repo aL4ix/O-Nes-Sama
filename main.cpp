@@ -40,9 +40,12 @@ int main(){
     /* ROM / Battery / Save State path names */
     //std::string romFileName   = "games/ppu_vbl_nmi/ppu_vbl_nmi.nes";
     //std::string romFileName   = "games/instr_test-v4/official_only.nes";
+
+
+    //std::string romFileName   = "games/NROM/Baseball (USA, Europe).nes";
     //std::string romFileName   = "games/NROM/Balloon Fight.nes";
     //std::string romFileName   = "games/GxROM/Super Mario Bros. + Duck Hunt (USA).nes";
-    //std::string romFileName   = "games/MMC1/Double Dragon (USA).nes";
+
     //std::string romFileName   = "games/nes-test-roms-master/mmc3_test_2/rom_singles/4-scanline_timing.nes";
     //std::string romFileName   = "games/NROM/smb.nes";
     //std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
@@ -72,26 +75,47 @@ int main(){
 
     //std::string romFileName   =  "games/Mapper225/64-in-1 (J).nes";
     //std::string romFileName   =  "games/CNROM/B-Wings (J).nes";
-    //std::string romFileName   =  "games/NROM/Nova.nes";
+    //std::string romFileName   =  "games/NROM/Nim & Nom 24-11-16.nes";
 
     //std::string romFileName   =  "games/NROM/Kung Fu.nes";
     //std::string romFileName   =  "games/dpcmletterbox.nes";
     //std::string romFileName   =  "games/MMC3/Rollerblade Racer (USA).nes";
     //std::string romFileName   =  "games/MMC3/Startropics (USA).nes";
-    std::string romFileName   =  "games/MMC3/Mickey's Safari in Letterland (USA).nes";
+    //std::string romFileName   =  "games/MMC3/Mickey's Safari in Letterland (USA).nes";
     //std::string romFileName   =  "games/MMC3/Mickey's Adventure in Numberland (USA).nes";
     //std::string romFileName   =  "games/MMC3/Burai Fighter (USA).nes";
     //std::string romFileName   =  "games/MMC3/Incredible Crash Dummies, The (USA).nes";
     //std::string romFileName   =  "games/MMC3/G.I. Joe - A Real American Hero (USA).nes";
-    //std::string romFileName   =  "games/MMC3/Bart vs. the World (USA).nes";
+    std::string romFileName   =  "games/MMC3/chuchu.nes";
 
+    //std::string romFileName   = "games/MMC1/Mega Man 2 (U).nes";
 
     //std::string romFileName   =  "games/MMC1/Bart.nes";
     //std::string romFileName   =  "games/MMC1/Metroid (USA).nes";
     //std::string romFileName   =  "games/MMC1/Dragon Warrior III (USA).nes";
+    //std::string romFileName   =  "games/MMC1/Double Dragon (USA).nes";
     //std::string romFileName   =  "games/MMC1/Kid Icarus - Angel Land Story (USA, Europe).nes";
     //std::string romFileName   =  "games/MMC1/Dragon Warrior IV (USA).nes";
     //std::string romFileName   =  "games/MMC1/Genghis Khan (USA).nes";
+    //std::string romFileName   =  "games/MMC1/Romance of the Three Kingdoms (USA).nes";
+    //std::string romFileName   =  "games/MMC1/Final Fantasy I & II (Japan).nes";
+    //std::string romFileName   =  "C:/Users/Federico Gimeno/Desktop/6502_1.2.11/Nes_Practice/nes_basics.nes";
+    //std::string romFileName   =  "games/MMC5/Castlevania III - Dracula's Curse (USA).nes";
+    //std::string romFileName   =  "games/Camerica/Micro Machines (USA) (Unl).nes";
+    //std::string romFileName   =  "games/MMC5/Laser Invasion (U) [!].nes";
+    //std::string romFileName   =  "games/MMC5/Uncharted Waters (U) [!].nes";
+    //std::string romFileName   =  "games/MMC5/Bandit Kings of Ancient China (U) [!].nes";
+    //std::string romFileName   =  "games/MMC5/L'Empereur (J).nes";
+    //std::string romFileName   =  "games/MMC5/Just Breed (J) [!].nes";
+
+
+    //std::string romFileName   =  "games/MMC5/Shin 4 Nin Uchi Mahjong - Yakuman Tengoku (J) [!].nes";
+
+
+    //std::string romFileName   =  "games/allpads/allpads.nes";
+    //std::string romFileName   =  "games/MMC5/Metal Slader Glory (Japan).nes";
+    //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
+
 
 
 
