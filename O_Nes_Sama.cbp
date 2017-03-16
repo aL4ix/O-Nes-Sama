@@ -36,6 +36,11 @@
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Linker>
+			<Add library="SDL2" />
+			<Add library="SDL2main" />
+			<Add library="SDL2_net" />
+		</Linker>
 		<Unit filename="APU.cpp" />
 		<Unit filename="APU.h" />
 		<Unit filename="CPU.cpp" />
@@ -115,6 +120,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

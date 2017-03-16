@@ -153,7 +153,7 @@ string CPULogger::composeInstruction(){
 }
 
 void CPULogger::logInstruction(){
-    *this->out << composeInstruction() << "\n";
+    LogWithFormat("%s\n", composeInstruction().c_str());
 }
 
 CPULogger::~CPULogger(){}
