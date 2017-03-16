@@ -234,7 +234,7 @@ int main(){
 
         #if BENCH == 1
         //Benchmark to file
-        bench << underrun << ", " << timediff*100/thisFrameTimeInMilis << "%, " << frameCtr << "\n";
+        bench.LogWithPrefix("Benchmark", "%d, %6lf, %d\n", underrun, timediff*100/thisFrameTimeInMilis, frameCtr);
         #endif
         if (windowClosed){
             cpu.isRunning = false;
