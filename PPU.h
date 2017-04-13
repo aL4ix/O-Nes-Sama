@@ -12,7 +12,7 @@
 #include "RetroGraphix/Sprite.hpp"
 #include "Debugger/Breakpoint.h"
 #include "Cartridge/Cartridge.hpp"
-
+#include "Logging/Logger.h"
 
 class PPU_State
 {
@@ -86,11 +86,12 @@ public:
     unsigned char ** getChr();
     unsigned char ** getNametables();
 
+    Logger logger;
+
 private:
     //INTERNALS
     unsigned char* nametable[4];
     unsigned char* chr[8];
-    //unsigned char secondary[8*4];
 
     void triggerNMI();
     void clearNMI();
@@ -138,7 +139,6 @@ private:
     //Other
     struct InterruptLines &ints;
     Board &mapper;
-    FILE* logger;
 
     //Debugger
     std::function<void(Breakpoint*)> debugProcess;
@@ -153,10 +153,10 @@ private:
     void generateNT(Color32 chrImage[64], unsigned short VAddress);
     void generateOam(Color32 chrImage[64], unsigned char OamNum);
 
-    void setOam(unsigned Address, unsigned char Value);
-    unsigned char getOam(unsigned Address);
-    void setSec(unsigned Address, unsigned char Value);
-    unsigned char getSec(unsigned Address);
+    void setOam(const unsigned Address, const unsigned char Value);
+    unsigned char getOam(const unsigned Address);
+    inline void setSecondary(const unsigned Address, const unsigned char Value);
+    inline unsigned char getSecondary(const unsigned Address);
     void (PPU::*spriteFuncs[342])();
     void spriteSecondaryClear();
     void spriteEvaluationStarts();
