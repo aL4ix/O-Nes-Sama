@@ -338,7 +338,12 @@ void PPU::renderTick()
 
             unsigned char colorToRender;
             if(colorBG == 0 && colorSprite == 0)
-                colorToRender = 0;
+            {
+                if(!(reg2001 & 0x18) && 0x3F00 <= loopy_v && loopy_v <= 0x3FFF) // Palette hack
+                    colorToRender = loopy_v & 0x1F;
+                else
+                    colorToRender = 0;
+            }
             else if(colorBG == 0 && colorSprite != 0)
                 colorToRender = (palSprite<<2) | colorSprite;
             else if(colorBG != 0 && colorSprite == 0)
