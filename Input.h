@@ -34,7 +34,7 @@ class Input{
             }
         };
 
-        unsigned char shftRegs[2];
+        int shftRegs[2];
 };
 
 #endif // INPUT_H_INCLUDED
