@@ -11,7 +11,8 @@ Logger::Logger(const char * fileName)
 }
 
 Logger::~Logger(){
-    out->flush();
+    if(out)
+        out->flush();
 }
 
 void Logger::Init(const char * fileName)
