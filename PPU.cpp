@@ -36,15 +36,16 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 3.0;
+const double ZOOM = 2.0;
 
-PPU::PPU(InterruptLines &ints, Board &m) : gfx(256*ZOOM, 240*ZOOM), ints(ints), mapper(m)
+PPU::PPU(CPUIO &cio, MemoryMapper &m) : gfx(256*ZOOM, 240*ZOOM), cpuIO(cio), mapper(m)
 {
-    mapper.ppuStatus.sline = &scanlineNum;
-    mapper.ppuStatus.tick = &ticks;
-    mapper.ppuStatus.isRendering = &isRendering;
-    mapper.setPPUChrMemPtr(chr);
-    mapper.setPPUNTMemPtr(nametable);
+    mapper.io.dbg.sl = &scanlineNum;
+    mapper.io.dbg.tick = &ticks;
+    //mapper.ppuStatus.tick = &ticks;
+    //mapper.ppuStatus.isRendering = &isRendering;
+    //mapper.setPPUChrMemPtr(chr);
+    //mapper.setPPUNTMemPtr(nametable);
     const unsigned char defaultPalette[] = {70, 70, 70, 0, 6, 90, 0, 6, 120, 2, 6, 115, 53, 3, 76, 87, 0, 14, 90, 0, 0, 65, 0, 0, 18, 2, 0, 0, 20, 0, 0, 30, 0, 0, 30, 0, 0, 21, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 157, 157, 0, 74, 185, 5, 48, 225, 87, 24, 218, 159, 7, 167, 204, 2, 85, 207, 11, 0, 164, 35, 0, 92, 63, 0, 11, 88, 0, 0, 102, 0, 0, 103, 19, 0, 94, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 31, 158, 255, 83, 118, 255, 152, 101, 255, 252, 103, 255, 255, 108, 179, 255, 116, 102, 255, 128, 20, 196, 154, 0, 113, 179, 0, 40, 196, 33, 0, 200, 116, 0, 191, 208, 43, 43, 43, 0, 0, 0, 0, 0, 0, 254, 255, 255, 158, 213, 255, 175, 192, 255, 208, 184, 255, 254, 191, 255, 255, 192, 224, 255, 195, 189, 255, 202, 156, 231, 213, 139, 197, 223, 142, 166, 230, 163, 148, 232, 197, 146, 228, 235, 167, 167, 167, 0, 0, 0, 0, 0, 0};
     loadColorPaletteFromArray(defaultPalette);
     powerOn();
@@ -207,13 +208,10 @@ void PPU::process(int cpuCycles)
                 (this->*spriteFuncs[ticks])();
             if(tickFuncs[ticks])
                 (this->*tickFuncs[ticks])();
-        }
-        else
-        {
-            addressBus = loopy_v & 0x3FFF;
+        } else {
+
         }
 
-        mapper.setPPUAddress(addressBus);
         renderTick();
 
         if(zeroHit>0)
@@ -274,6 +272,7 @@ void PPU::renderTick()
             unsigned char colorBG = (chrHigh << 1) | chrLow;
             if(!(reg2001 & 0x8) || ((reg2001 & 0x2) != 0x2 && ticks<8))
                 colorBG = 0;
+
             const unsigned char palBG = (palHigh << 1) | palLow;
 
             //SPRITES
@@ -382,13 +381,13 @@ void PPU::powerOn()
 
 void PPU::triggerNMI()
 {
-    ints.nmi = 1;
+    cpuIO.nmi = 1;
     //printf("NMI: %d,%d\n", scanlineNum, ticks);
 }
 
 void PPU::clearNMI()
 {
-    ints.nmi = 0;
+    cpuIO.nmi = 0;
 }
 
 unsigned char PPU::readLatch()
@@ -434,6 +433,7 @@ unsigned char PPU::read2007()
             loopy_v += 32;
         else
             loopy_v++;
+        mapper.readPPU(loopy_v);
     }
     else
     {
@@ -448,17 +448,17 @@ unsigned char PPU::read2007()
         retval = buf2007;
     }
 
-    if(postFetchAddr >= 0x3000)
-        postFetchAddr &= ~0x1000;
+    //if(postFetchAddr >= 0x3000)
+        //postFetchAddr &= ~0x1000;
     buf2007 = intReadMemLean(postFetchAddr, !isRendering);
     addressBus = postFetchAddr;
-
+    mapper.readPPU(postFetchAddr);
     return generalLatch = retval; //Falta grayscale
 }
 
 void PPU::write2000(unsigned char Value)
 {
-    //if(isRendering)
+    if(isRendering)
         //printf("2002: %x\n", Value);
     if((Value & 0x80) && (reg2002 & 0x80) && !(reg2000 & 0x80)){
         triggerNMI();
@@ -551,7 +551,10 @@ void PPU::write2006(unsigned char Value)
             //getchar();
 		} else {
             //addressBus = loopy_v;
+            mapper.readPPU(loopy_v);
 		}
+
+
     }
     else // first
     {
@@ -585,15 +588,15 @@ void PPU::write2007(unsigned char Value)
             loopy_v += 32;
         else
             loopy_v++;
+
         loopy_v &= 0x7FFF;
+        //addressBus = loopy_v;
+        mapper.readPPU(loopy_v);
     }
     else
     {
         coarseX();
         coarseFineY();
-
-        if (loopy_v >= 0x3000)
-            addressBus = loopy_v & 0x2FFF;
     }
 }
 
@@ -656,67 +659,15 @@ void PPU::intWriteMem(unsigned short Address, unsigned char Value)
 
 unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
 {
-    unsigned char ret = 0;
-    unsigned char DivisionOf400 = Address >> 10;
     addressBus = Address;
-    /*if (updateBus)
-        addressBus = Address;*/
-
-    switch(DivisionOf400)
-    {
-    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        ret = chr[DivisionOf400][Address & 0x3FF];
-        break;
-    case 8: case 12:
-        ret = nametable[0][Address & 0x3FF];
-        break;
-    case 9: case 13:
-        ret = nametable[1][Address & 0x3FF];
-        break;
-    case 10: case 14:
-        ret = nametable[2][Address & 0x3FF];
-        break;
-    case 11: case 15:
-        ret = nametable[3][Address & 0x3FF];
-        break;
-    }
-
-
-    return ret;
+    return mapper.readPPU(Address);
 }
 
 void PPU::intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus)
 {
     Address &= 0x3FFF;
     addressBus = Address;
-    /*if (updateBus)
-        addressBus = Address;*/
-
-    unsigned char DivisionOf400 = Address >> 10;
-
-    if(mapper.ppuStatus.chrReadOnly && DivisionOf400 <= 7)
-        return;
-
-    switch(DivisionOf400)
-    {
-    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-        chr[DivisionOf400][Address & 0x3FF] = Value;
-        break;
-    case 8: case 12:
-        nametable[0][Address & 0x3FF] = Value;
-        break;
-    case 9: case 13:
-        nametable[1][Address & 0x3FF] = Value;
-        break;
-    case 10: case 14:
-        nametable[2][Address & 0x3FF] = Value;
-        break;
-    case 11: case 15:
-        nametable[3][Address & 0x3FF] = Value;
-        break;
-    }
-
-    return;
+    mapper.writePPU(Address, Value);
 }
 
 void PPU::coarseX()
@@ -882,15 +833,7 @@ bool PPU::loadState(FILE* File)
     return (size == sizeof(PPU_State));
 }
 
-unsigned char** PPU::getChr()
-{
-    return chr;
-}
 
-unsigned char** PPU::getNametables()
-{
-    return nametable;
-}
 /*
 void PPU::generateTileWithoutCache(int VAddress, Color32 chrImage[64])
 {
@@ -1044,6 +987,16 @@ void PPU::spriteEvaluationBackRend()
 void PPU::spriteEvaluationTileLoading()
 {
     oamAddress = 0;
+
+    //Garbage fetches
+    switch (ticks){
+        case 257: case 265: case 273: case 281: case 289: case 297: case 305:
+            tickFetchNT();
+            break;
+        case 259: case 267: case 275: case 283: case 291: case 299: case 307:
+            tickFetchAT();
+            break;
+    }
 }
 
 void PPU::spriteEvaluationOdd()

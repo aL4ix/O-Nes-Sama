@@ -18,10 +18,16 @@ bool needsDummy = false; /*Used to determine if a dummy read is needed in W / RM
 int generalCycleCount = 0;
 bool isDMAPending = false;
 
-CPU::CPU(Board &m) : mapper(m){
+CPU::CPU(MemoryMapper &m) : mapper(m){
 
-    mapper.setCPUCartSpaceMemPtr(cpuCartSpace);
-    mapper.setCPUIRQLine(&ints.irq);
+    //mapper.setCPUCartSpaceMemPtr(cpuCartSpace);
+    /*mapper.io.cpuIRQLine = &ints.irq;
+    mapper.io.cpuAddrBus = &addressBus;
+    mapper.io.cpu = &dataBus;*/
+
+    mapper.io.cpuIO = &io;
+
+    //mapper.io.cpuM2 = &generalCycleCount;
     isRunning = true;
     isPaused = false;
     /*Initialize CPU registers*/
@@ -33,13 +39,15 @@ CPU::CPU(Board &m) : mapper(m){
     regs.pc = 0x0000;
     instData.opcode = 0;
     instData.generalCycleCount = 0;
-    ints.nmi = 0;
-    ints.irq = 0;
-    ints.reset = 0;
+    io.nmi = 0;
+    io.irq = 0;
+    io.reset = 0;
     isNMIPending = false;
     controller = new Input;
-    apu = new APU(ints);
+    controller->cpuIO = &io;
+    apu = new APU(io);
     apu->setMemoryMapper(&mapper);
+
     /*Initialize Logger*/
     #if LOG_LEVEL == 1
     logger = new CPULogger (regs, flags, ints, instData, "Logging/CPULog.txt");
@@ -53,6 +61,7 @@ CPU::CPU(Board &m) : mapper(m){
 unsigned char CPU::read(int addr){
     unsigned char ret = -1;
 
+
     mapper.clockCPU();
     ppu->process(1);
     apu->process(1);
@@ -60,41 +69,36 @@ unsigned char CPU::read(int addr){
     cycleCount ++;
     generalCycleCount++;
 
-    switch(addr >> 12){
-        case 0: case 1:
-            ret = ram[addr & 0x7FF]; //Masked with 0x7FF to handle ram mirrors
-            break;
-        case 2: case 3:
-            ret = ppu->readMem(addr);
-            break;
-        case 4: /* APU & General I/O */
-            switch (addr & 0x3F){
-                case 0x00: case 0x01: case 0x02: case 0x03: case 0x04: case 0x05: case 0x06: case 0x07:
-                case 0x08: case 0x09: case 0x0A: case 0x0B: case 0x0C: case 0x0D: case 0x0E: case 0x0F:
-                case 0x10: case 0x11: case 0x12: case 0x13: case 0x18: case 0x19: case 0x1A:
-                case 0x1B: case 0x1C: case 0x1D: case 0x1E: case 0x1F:
-                    /* ret = Open Bus, because there are not readable registers mapped here*/
-                    ret = (addr & 0xFF00) >> 8;
-                    break;
-                case 0x15:
-                    ret = apu->readMem(addr);
-                    break;
-                case 0x16:
-                    ret = controller->read(addr);
-                    break;
-                case 0x17:
-                    ret = controller->read(addr);
-                    break;
+    if ((addr >= 0x4000) && (addr <= 0x401F)) //APU's only read register
+    {
+        if ((addr == 0x4016) || (addr == 0x4017))
+        {
+            ret = controller->read(addr); //Controller input regs.
+        }
+        else {
+            ret = apu->readMem(addr);
+        }
 
-            }
-            break;
-        case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:
-        case 12: case 13: case 14: case 15:
-            ret = mapper.read(addr);
-            break;
     }
 
 
+    else
+    {
+        switch(addr >> 12){
+            case 0: case 1:
+                ret = ram[addr & 0x7FF]; //Masked with 0x7FF to handle ram mirrors
+                break;
+            case 2: case 3: //PPU regs
+                ret = ppu->readMem(addr);
+                break;
+            case 4: case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:
+            case 12: case 13: case 14: case 15:
+                ret = mapper.readCPU(addr);
+                break;
+        }
+    }
+    io.addressBus = addr;
+    io.dataBus = ret;
     return ret;
 }
 
@@ -118,7 +122,7 @@ unsigned char CPU::readCode(int addr){
             }
         case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:
         case 12: case 13: case 14: case 15:
-            return mapper.read(addr);
+            return mapper.readCPU(addr);
         case 2: case 3:
             return ppu->readMem(addr);
     }
@@ -132,41 +136,47 @@ void CPU::write(int addr, unsigned char val){
     mapper.clockCPU();
     ppu->process(1);
     apu->process(1);
+    io.addressBus = addr;
+    io.dataBus = val;
 
-    switch(addr >> 12){
-        case 0: case 1:
-            ram[addr & 0x7FF] = val; //Masked with 0x7FF to handle ram mirrors
-            break;
-        case 2: case 3:
-            ppu->writeMem(addr, val);
-            break;
-        case 4: /* APU & General I/O */
-            switch (addr & 0x3F){
-                case 0x00: case 0x01: case 0x02: case 0x03: case 0x04: case 0x05: case 0x06: case 0x07:
-                case 0x08: case 0x09: case 0x0A: case 0x0B: case 0x0C: case 0x0D: case 0x0E: case 0x0F:
-                case 0x10: case 0x11: case 0x12: case 0x13: case 0x15: case 0x17:
-                    /*PUT APU write HERE*/
-                    apu->writeMem(addr, val);
-                    break;
-                case 0x14: /* Sprite DMA */
-                    if (generalCycleCount & 1)
-                        read(addr);
-                    read(addr);
-                    for (int i = 0; i < 256; i++){
-                        write(0x2004, read((val << 8) + i));
-                    }
-                    break;
-                case 0x16: /* Controller */
-                    controller->write(addr, val);
-                    break;
-                case 0x18: case 0x19: case 0x1A: case 0x1B: case 0x1C: case 0x1D: case 0x1E: case 0x1F:
-                    break; /* Ignore writes here, and don't let them pass to the cart space*/
-            } /* No break; If execution reaches this point it's a cart write.*/
-            break;
-        case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:
-        case 12: case 13: case 14: case 15:
-            mapper.write(addr, val);
-            break;
+    if ((addr >= 0x4000) && (addr <= 0x401F)) //APU's only read register
+    {
+        if (addr == 0x4016) //Controller write
+        {
+            controller->write(addr, val);
+        }
+
+        else if (addr == 0x4014) //Sprite DMA
+        {
+            if (generalCycleCount & 1)
+                read(addr);
+            read(addr);
+            for (int i = 0; i < 256; i++){
+                write(0x2004, read((val << 8) + i));
+            }
+        }
+
+        else //APU Write
+        {
+            apu->writeMem(addr, val);
+        }
+    }
+
+    else
+    {
+        switch(addr >> 12){
+            case 0: case 1:
+                ram[addr & 0x7FF] = val; //Masked with 0x7FF to handle ram mirrors
+                break;
+            case 2: case 3:
+                ppu->writeMem(addr, val);
+                break;
+
+            case 4:  case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:
+            case 12: case 13: case 14: case 15:
+                mapper.writeCPU(addr, val);
+                break;
+        }
     }
 }
 
@@ -286,8 +296,6 @@ int CPU::run(int cycles){
 
         #include "opcodes.inc"
 
-
-
         cyclesRemain -= cycleCount;
         instData.generalCycleCount = generalCycleCount;
     }
@@ -298,7 +306,7 @@ int CPU::run(int cycles){
 /*Interrupts implementation                                            */
 /***********************************************************************/
 
-void CPU::interruptSequence(int brk){
+inline void CPU::interruptSequence(int brk){
 
     int vec = 0;
     unsigned char pVal = regs.p;
@@ -311,7 +319,7 @@ void CPU::interruptSequence(int brk){
         read(regs.pc);
     }
 
-    if (!ints.reset){
+    if (!io.reset){
         write(0x100 + (regs.sp--), regs.pc >> 8); //Store PC HI
         write(0x100 + (regs.sp--), regs.pc & 0xFF); //Store PC LO
     } else {
@@ -320,17 +328,18 @@ void CPU::interruptSequence(int brk){
     }
 
     //Select Interrupt Vector
-    if (ints.irq || brk){
+    if (io.irq || brk){
         vec = 0xFFFE;
         brk = 0;
     }
-    if (ints.nmi)
+    if (io.nmi){
         vec = 0xFFFA;
+    }
 
-    if (ints.reset)
+    if (io.reset)
         vec = 0xFFFC;
 
-    if (!ints.reset)
+    if (!io.reset)
         write(0x100 + (regs.sp--), pVal); //Store P
     else
         read(0x100 + (regs.sp--));
@@ -338,17 +347,24 @@ void CPU::interruptSequence(int brk){
     regs.p |= flags.I_FLAG;
     regs.pc = read(vec);
     regs.pc |= ((read(vec + 1)) << 8);
-    ints.reset = 0;
-    ints.nmi = 0;
+    io.reset = 0;
+    io.nmi = 0;
+    io.irq = 0;
 }
 
 void CPU::pollForInterrupts(){
-    isIntPendng =  ints.reset || ints.nmi || (!(regs.p & flags.I_FLAG) && ints.irq);
-    isIRQPending = (!(regs.p & flags.I_FLAG) && ints.irq);
+    isIRQPending = (!(regs.p & flags.I_FLAG) && io.irq);
+    if (isIRQPending && io.nmi)
+    {
+        printf ("\nIRQ Forgotten...");
+        io.irq=0;
+    }
+    isIntPendng =  io.reset || io.nmi || isIRQPending;
+
 }
 
 void CPU::reset(){
-    ints.reset = 1;
+    io.reset = 1;
     interruptSequence(1);
     apu->reset();
     printf("\nReset: %X", regs.pc);
