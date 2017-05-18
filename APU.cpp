@@ -96,7 +96,7 @@ void audio_callback(void *_beeper, Uint8 *_streamInBytes, int _lengthInBytes)
 }
 
 
-APU::APU(InterruptLines &ints) :
+APU::APU(CPUIO &cpuIO) :
     halfCycles(0), modeFrameCounter(false), inhibitFrameCounter(false), irqFrameCounter(false),
     lengthCounterPulse1(0), lengthCounterPulse2(0), lengthCounterTriangle(0), lengthCounterNoise(0),
     haltPulse1(false), haltPulse2(false), haltTriangle(false), haltNoise(false),
@@ -113,7 +113,7 @@ APU::APU(InterruptLines &ints) :
     sampleBufferDMC(BUFFER_EMPTY), silenceFlagDMC(false), bitsRemainingCounterDMC(0),
     shiftRegisterDMC(0), outputLevelDMC(0), irqDMC(false), rateInHalfCyclesDMC(0),
     halfCyclesUntilNextDMC(0), step(0), halfCyclesUntilNextStep(0)
-    ,ints(ints), board(NULL)
+    ,cpuIO(cpuIO), board(NULL)
 {
     powerup();
     reset();
@@ -138,30 +138,33 @@ void APU::writeMem(unsigned short Address, unsigned char Value)
     Address = Address & 0b11111;
     if(Address <= 0x17)
         return (this->*writeFuncs[Address])(Value);
-    else
-        return unimpleme(0);
+    /*else
+        return unimpleme(0);*/
 }
 
 unsigned char APU::readMem(unsigned short Address)
 {
 
     Address = Address & 0b11111;
-    if(Address == 0x15)
+    /*if(Address == 0x15)
     {
         auto Value = (this->*readFuncs[Address])();
-        //printf("R%X: %X\n", 0x4000+Address, Value);
+        printf("\nR%X: %X\n", 0x4000+Address, Value);
         return Value;
     }
     else
     {
-        unimpleme(0);
-        return 0;
-    }
+        //unimpleme(0);
+        return cpuIO.dataBus;
+    }*/
+
+    return (this->*readFuncs[Address])();
 }
 
 unsigned char APU::readLatch()
 {
-    return 0;
+    //return 0;
+    return cpuIO.dataBus;
 }
 
 void APU::unimpleme(unsigned char)
@@ -314,7 +317,7 @@ void APU::write4010(unsigned char Value)
     else
     {
         irqEnableDMC = false;
-        ints.irq = 0;
+        cpuIO.irq = 0;
         irqDMC = false;
     }
 
@@ -421,7 +424,7 @@ void APU::write4017(unsigned char Value)
     if(inhibitFrameCounter)
     {
         irqFrameCounter = false;
-        ints.irq = 0;
+        cpuIO.irq = 0;
     }
 }
 
@@ -497,7 +500,7 @@ void APU::processMode0()
     {
         if(!inhibitFrameCounter)
         {
-            ints.irq = 1;
+            cpuIO.irq = 1;
             irqFrameCounter = true;
         }
     }
@@ -557,7 +560,7 @@ void APU::clockDMC()
 void APU::memoryReader()
 {
     //TODO: Stall CPU!!!
-    sampleBufferDMC = board->read(addressCounterDMC++); // board->cpuRead(addressCounter++);
+    sampleBufferDMC = board->readCPU(addressCounterDMC++); // board->cpuRead(addressCounter++);
     if(addressCounterDMC == 0)
         addressCounterDMC = 0x8000;
     --bytesRemainingCounterDMC;
@@ -574,7 +577,7 @@ void APU::memoryReader()
             //printf("FINISHED\n");
             if(irqEnableDMC)
             {
-                ints.irq = 1;
+                cpuIO.irq = 1;
                 irqDMC = true;
             }
         }
@@ -851,7 +854,7 @@ bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char Shift
     return (Timer < 8 || (!Negate && Timer + (Timer >> ShiftCount) > 0x7FF) );
 }
 
-void APU::setMemoryMapper(Board* Board)
+void APU::setMemoryMapper(MemoryMapper* Board)
 {
     board = Board;
 }

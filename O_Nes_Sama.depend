@@ -1,161 +1,406 @@
 # depslib dependency file v1.0
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/APU.cpp
+1493806800 source:c:\users\federico gimeno\desktop\new_o_nes_sama\apu.cpp
 	"APU.h"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/APU.h
+1493805748 c:\users\federico gimeno\desktop\new_o_nes_sama\apu.h
 	<functional>
 	<cstdio>
 	<queue>
 	<SDL2/SDL.h>
 	"x6502Interrupts.h"
-	"Cartridge/Boards/Board.hpp"
+	"Cartridge/Mappers/MemoryMapper.h"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/x6502Interrupts.h
+1451768293 c:\sdl32\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/Board.hpp
-	"../Mappers/MapperUtils.hpp"
+1451768293 c:\sdl32\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
 	<stdio.h>
-	<string.h>
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/MapperUtils.hpp
-	<stdio.h>
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/Board.cpp
-	"Board.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/GxROM.cpp
-	"GxROM.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/GxROM.hpp
-	"Board.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC1.cpp
-	"MMC1.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC1.hpp
-	"Board.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC2.cpp
-	"MMC2.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC2.hpp
-	"Board.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC3.cpp
-	"MMC3.hpp"
 	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<iconv.h>
+	<sal.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Boards/MMC3.hpp
-	"Board.hpp"
+1451768293 c:\sdl32\include\sdl2\sdl_config.h
+	"SDL_platform.h"
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Cartridge.cpp
+1451768293 c:\sdl32\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\begin_code.h
+
+1451768293 c:\sdl32\include\sdl2\close_code.h
+
+1451768293 c:\sdl32\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<mbarrier.h>
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1451768293 c:\sdl32\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1479906398 c:\users\federico gimeno\desktop\new_o_nes_sama\x6502interrupts.h
+
+1494817528 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\memorymapper.h
+	"../CartIO.hpp"
+
+1494821392 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\cartio.hpp
+	<stdio.h>
+
+1494821976 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\cartridge.cpp
 	"Cartridge.hpp"
 	<fstream>
 	<iostream>
 	<stdlib.h>
+	"Mappers/BasicMapper.hpp"
+	"Mappers/UxROM.hpp"
+	"Mappers/CNROM.hpp"
+	"Mappers/AxROM.hpp"
+	"Mappers/MMC1.hpp"
+	"Mappers/MMC3.hpp"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Cartridge.hpp
-	"Boards/Board.hpp"
-	"Boards/GxROM.hpp"
-	"Boards/MMC3.hpp"
-	"Mappers/Mapper000.hpp"
-	"Mappers/Mapper001.hpp"
-	"Mappers/Mapper002.hpp"
-	"Mappers/Mapper003.hpp"
-	"Mappers/Mapper007.hpp"
-	"Mappers/Mapper009.hpp"
-	"Mappers/Mapper010.hpp"
-	"Mappers/Mapper011.hpp"
-	"Mappers/Mapper066.hpp"
-	"Mappers/Mapper071.hpp"
-	"Mappers/Mapper087.hpp"
-	"Mappers/Mapper185.hpp"
-	"Mappers/Mapper225.hpp"
+1494821961 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\cartridge.hpp
+	"CartIO.hpp"
+	"Mappers/MemoryMapper.h"
 	<string>
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper000.hpp
-	"../Boards/GxROM.hpp"
+1494658038 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\basicmapper.hpp
+	"MemoryMapper.h"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper001.hpp
-	"../Boards/MMC1.hpp"
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\uxrom.hpp
+	"BasicMapper.hpp"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper002.hpp
-	"../Boards/GxROM.hpp"
+1494566393 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\cnrom.hpp
+	"BasicMapper.hpp"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper003.hpp
-	"../Boards/GxROM.hpp"
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\axrom.hpp
+	"BasicMapper.hpp"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper007.hpp
-	"../Boards/GxROM.hpp"
+1494657999 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\mmc1.hpp
+	"BasicMapper.hpp"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper009.hpp
-	"../Boards/MMC2.hpp"
+1494567711 c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\mmc3.hpp
+	"BasicMapper.hpp"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper010.hpp
-	"../Boards/MMC2.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper011.hpp
-	"../Boards/GxROM.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper066.hpp
-	"../Boards/GxROM.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper071.hpp
-	"../Boards/GxROM.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper087.hpp
-	"../Boards/GxROM.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper185.hpp
-	"../Boards/GxROM.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper225.hpp
-	"../Boards/GxROM.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper000.cpp
-	"Mapper000.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper001.cpp
-	"Mapper001.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper002.cpp
-	"Mapper002.hpp"
+1494481710 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\axrom.cpp
+	"AxROM.hpp"
 	<stdio.h>
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper003.cpp
-	"Mapper003.hpp"
+1494821934 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\basicmapper.cpp
+	"BasicMapper.hpp"
+	<stdio.h>
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper007.cpp
-	"Mapper007.hpp"
+1494567197 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\cnrom.cpp
+	"CNROM.hpp"
+	<stdio.h>
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper009.cpp
-	"Mapper009.hpp"
+1494218514 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\memorymapper.cpp
+	"MemoryMapper.h"
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper010.cpp
-	"Mapper010.hpp"
+1494657940 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\mmc1.cpp
+	"MMC1.hpp"
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper011.cpp
-	"Mapper011.hpp"
+1494821268 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\mmc3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+	<unordered_map>
+	<string>
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper066.cpp
-	"Mapper066.hpp"
+1494481727 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cartridge\mappers\uxrom.cpp
+	"UxROM.hpp"
+	<stdio.h>
 
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper071.cpp
-	"Mapper071.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper087.cpp
-	"Mapper087.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper185.cpp
-	"Mapper185.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/Mapper225.cpp
-	"Mapper225.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Cartridge/Mappers/MapperUtils.cpp
-	"MapperUtils.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/CPU.cpp
+1494821398 source:c:\users\federico gimeno\desktop\new_o_nes_sama\cpu.cpp
 	"CPU.h"
 	<stdio.h>
 	<fstream>
@@ -163,900 +408,30 @@
 	<iostream>
 	"opcodes.inc"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/CPU.h
-	"Cartridge/Boards/Board.hpp"
+1494300732 c:\users\federico gimeno\desktop\new_o_nes_sama\cpu.h
+	"Cartridge/Mappers/MemoryMapper.h"
 	"Logging/CPULogger.h"
 	"Input.h"
 	"PPU.h"
 	"APU.h"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Logging/CPULogger.h
+1494230938 c:\users\federico gimeno\desktop\new_o_nes_sama\logging\cpulogger.h
 	"Logger.h"
 	"../CPUSharedData.h"
 	"../x6502Interrupts.h"
 
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Logging/Logger.h
-	<fstream>
-	<stdexcept>
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/CPUSharedData.h
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Input.h
-	<SDL2/SDL.h>
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/PPU.h
-	<unordered_map>
-	<functional>
-	<vector>
-	<cstring>
-	"x6502Interrupts.h"
-	"RetroGraphix/GraphixEngine.hpp"
-	"RetroGraphix/Texture.hpp"
-	"RetroGraphix/Color.hpp"
-	"RetroGraphix/Sprite.hpp"
-	"Debugger/Breakpoint.h"
-	"Cartridge/Cartridge.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/GraphixEngine.hpp
-	<stdio.h>
-	<SDL2/SDL.h>
-	"Drawable.hpp"
-	"Color.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Drawable.hpp
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Color.hpp
-	<cinttypes>
-	<SDL2/SDL.h>
-	<stdio.h>
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Texture.hpp
-	<cstddef>
-	<SDL2/SDL.h>
-	"GraphixEngine.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Sprite.hpp
-	<SDL2/SDL.h>
-	"Texture.hpp"
-	"GraphixEngine.hpp"
-	"Drawable.hpp"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/Breakpoint.h
-	<stdio.h>
-	<string>
-	<vector>
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/opcodes.inc
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/Breakpoint.cpp
-	"Breakpoint.h"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/Debugger.cpp
-	"Debugger.h"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/Debugger.h
-	<iomanip>
-	<sstream>
-	"../PPU.h"
-	"../CPU.h"
-	"Breakpoint.h"
-	"SocketServer.h"
-
-1468987049 /home/fuumarumota/Programming/O_Nes_Sama/Debugger/SocketServer.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<unordered_map>
-	<SDL2/SDL_net.h>
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Debugger/SocketServer.cpp
-	"SocketServer.h"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Input.cpp
-	"Input.h"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/main.cpp
-	<stdio.h>
-	"Cartridge/Cartridge.hpp"
-	"CPU.h"
-	"PPU.h"
-	<SDL2/SDL.h>
-	"Debugger/Debugger.h"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/PPU.cpp
-	"PPU.h"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Color.cpp
-	"Color.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/GraphixEngine.cpp
-	"GraphixEngine.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Sprite.cpp
-	"Sprite.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/RetroGraphix/Texture.cpp
-	"Texture.hpp"
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Logging/CPULogger.cpp
-	"CPULogger.h"
-	<sstream>
-	<string>
-	<iomanip>
-	<iostream>
-
-1468987049 source:/home/fuumarumota/Programming/O_Nes_Sama/Logging/Logger.cpp
-	"Logger.h"
-	<iostream>
-
-1448578448 source:/home/alaix/git/O-Nes-Sama/Debugger/Breakpoint.cpp
-	"Breakpoint.h"
-
-1468184413 /home/alaix/git/O-Nes-Sama/Debugger/Breakpoint.h
-	<stdio.h>
-	<string>
-	<vector>
-
-1450314170 source:/home/alaix/git/O-Nes-Sama/Debugger/Debugger.cpp
-	"Debugger.h"
-
-1450303200 /home/alaix/git/O-Nes-Sama/Debugger/Debugger.h
-	<iomanip>
-	<sstream>
-	"../PPU.h"
-	"../CPU.h"
-	"Breakpoint.h"
-	"SocketServer.h"
-
-1481164284 /home/alaix/git/O-Nes-Sama/PPU.h
-	<unordered_map>
-	<functional>
-	<vector>
-	<cstring>
-	"x6502Interrupts.h"
-	"RetroGraphix/GraphixEngine.hpp"
-	"RetroGraphix/Texture.hpp"
-	"RetroGraphix/Color.hpp"
-	"RetroGraphix/Sprite.hpp"
-	"Debugger/Breakpoint.h"
-	"Cartridge/Cartridge.hpp"
-
-1468560735 /home/alaix/git/O-Nes-Sama/x6502Interrupts.h
-
-1461023210 /home/alaix/git/O-Nes-Sama/RetroGraphix/GraphixEngine.hpp
-	<stdio.h>
-	<SDL2/SDL.h>
-	"Drawable.hpp"
-	"Color.hpp"
-
-1446693224 /home/alaix/git/O-Nes-Sama/RetroGraphix/Drawable.hpp
-
-1468184512 /home/alaix/git/O-Nes-Sama/RetroGraphix/Color.hpp
-	<cinttypes>
-	<SDL2/SDL.h>
-	<stdio.h>
-
-1447179192 /home/alaix/git/O-Nes-Sama/RetroGraphix/Texture.hpp
-	<cstddef>
-	<SDL2/SDL.h>
-	"GraphixEngine.hpp"
-
-1449182411 /home/alaix/git/O-Nes-Sama/RetroGraphix/Sprite.hpp
-	<SDL2/SDL.h>
-	"Texture.hpp"
-	"GraphixEngine.hpp"
-	"Drawable.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Cartridge.hpp
-	"Boards/Board.hpp"
-	"Boards/GxROM.hpp"
-	"Boards/MMC3.hpp"
-	"Mappers/Mapper000.hpp"
-	"Mappers/Mapper001.hpp"
-	"Mappers/Mapper002.hpp"
-	"Mappers/Mapper003.hpp"
-	"Mappers/Mapper007.hpp"
-	"Mappers/Mapper009.hpp"
-	"Mappers/Mapper010.hpp"
-	"Mappers/Mapper011.hpp"
-	"Mappers/Mapper066.hpp"
-	"Mappers/Mapper071.hpp"
-	"Mappers/Mapper087.hpp"
-	"Mappers/Mapper185.hpp"
-	"Mappers/Mapper225.hpp"
-	<string>
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Boards/Board.hpp
-	"../Mappers/MapperUtils.hpp"
-	<stdio.h>
-	<string.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/MapperUtils.hpp
-	<stdio.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Boards/GxROM.hpp
-	"Board.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Boards/MMC3.hpp
-	"Board.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper000.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper001.hpp
-	"../Boards/MMC1.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Boards/MMC1.hpp
-	"Board.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper002.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper003.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper007.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper009.hpp
-	"../Boards/MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Boards/MMC2.hpp
-	"Board.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper010.hpp
-	"../Boards/MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper011.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper066.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper071.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper087.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper185.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper225.hpp
-	"../Boards/GxROM.hpp"
-
-1468560735 /home/alaix/git/O-Nes-Sama/CPU.h
-	"Cartridge/Boards/Board.hpp"
-	"Logging/CPULogger.h"
-	"Input.h"
-	"PPU.h"
-	"APU.h"
-
-1468560735 /home/alaix/git/O-Nes-Sama/Logging/CPULogger.h
-	"Logger.h"
-	"../CPUSharedData.h"
-	"../x6502Interrupts.h"
-
-1468560735 /home/alaix/git/O-Nes-Sama/Logging/Logger.h
-	<fstream>
-	<stdexcept>
-
-1468560735 /home/alaix/git/O-Nes-Sama/CPUSharedData.h
-
-1481164284 /home/alaix/git/O-Nes-Sama/Input.h
-	<SDL2/SDL.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama/APU.h
-	<functional>
-	<cstdio>
-	<queue>
-	<SDL2/SDL.h>
-	"x6502Interrupts.h"
-	"Cartridge/Boards/Board.hpp"
-
-1466038030 /home/alaix/git/O-Nes-Sama/Debugger/SocketServer.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<unordered_map>
-	<SDL2/SDL_net.h>
-
-1468184631 source:/home/alaix/git/O-Nes-Sama/Debugger/SocketServer.cpp
-	"SocketServer.h"
-
-1468560735 source:/home/alaix/git/O-Nes-Sama/Logging/CPULogger.cpp
-	"CPULogger.h"
-	<sstream>
-	<string>
-	<iomanip>
-	<iostream>
-
-1468560735 source:/home/alaix/git/O-Nes-Sama/Logging/Logger.cpp
-	"Logger.h"
-	<iostream>
-
-1446836716 source:/home/alaix/git/O-Nes-Sama/RetroGraphix/Color.cpp
-	"Color.hpp"
-
-1447470513 source:/home/alaix/git/O-Nes-Sama/RetroGraphix/Sprite.cpp
-	"Sprite.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/APU.cpp
-	"APU.h"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Boards/Board.cpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Boards/GxROM.cpp
-	"GxROM.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Boards/MMC1.cpp
-	"MMC1.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Boards/MMC2.cpp
-	"MMC2.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Boards/MMC3.cpp
-	"MMC3.hpp"
-	<stdlib.h>
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Cartridge.cpp
-	"Cartridge.hpp"
-	<fstream>
-	<iostream>
-	<stdlib.h>
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper000.cpp
-	"Mapper000.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper001.cpp
-	"Mapper001.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper002.cpp
-	"Mapper002.hpp"
-	<stdio.h>
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper003.cpp
-	"Mapper003.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper007.cpp
-	"Mapper007.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper009.cpp
-	"Mapper009.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper010.cpp
-	"Mapper010.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper011.cpp
-	"Mapper011.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper066.cpp
-	"Mapper066.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper071.cpp
-	"Mapper071.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper087.cpp
-	"Mapper087.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper185.cpp
-	"Mapper185.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/Mapper225.cpp
-	"Mapper225.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Cartridge/Mappers/MapperUtils.cpp
-	"MapperUtils.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/CPU.cpp
-	"CPU.h"
-	<stdio.h>
-	<fstream>
-	<stdlib.h>
-	<iostream>
-	"opcodes.inc"
-
-1468560735 /home/alaix/git/O-Nes-Sama/opcodes.inc
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/Input.cpp
-	"Input.h"
-
-1481164369 source:/home/alaix/git/O-Nes-Sama/main.cpp
-	<stdio.h>
-	"Cartridge/Cartridge.hpp"
-	"CPU.h"
-	"PPU.h"
-	<SDL2/SDL.h>
-	"Debugger/Debugger.h"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama/PPU.cpp
-	"PPU.h"
-
-1468797391 source:/home/alaix/git/O-Nes-Sama/RetroGraphix/GraphixEngine.cpp
-	"GraphixEngine.hpp"
-
-1468797120 source:/home/alaix/git/O-Nes-Sama/RetroGraphix/Texture.cpp
-	"Texture.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/APU.cpp
-	"APU.h"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/APU.h
-	<functional>
-	<cstdio>
-	<queue>
-	<SDL2/SDL.h>
-	"x6502Interrupts.h"
-	"Cartridge/Boards/Board.hpp"
-
-1468560735 /home/alaix/git/O-Nes-Sama-beta/x6502Interrupts.h
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/Board.hpp
-	"../Mappers/MapperUtils.hpp"
-	<stdio.h>
-	<string.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/MapperUtils.hpp
-	<stdio.h>
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/Board.cpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/GxROM.cpp
-	"GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/GxROM.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/MMC1.cpp
-	"MMC1.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/MMC1.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/MMC2.cpp
-	"MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/MMC2.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/MMC3.cpp
-	"MMC3.hpp"
-	<stdlib.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Boards/MMC3.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Cartridge.cpp
-	"Cartridge.hpp"
-	<fstream>
-	<iostream>
-	<stdlib.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Cartridge.hpp
-	"Boards/Board.hpp"
-	"Boards/GxROM.hpp"
-	"Boards/MMC3.hpp"
-	"Mappers/Mapper000.hpp"
-	"Mappers/Mapper001.hpp"
-	"Mappers/Mapper002.hpp"
-	"Mappers/Mapper003.hpp"
-	"Mappers/Mapper007.hpp"
-	"Mappers/Mapper009.hpp"
-	"Mappers/Mapper010.hpp"
-	"Mappers/Mapper011.hpp"
-	"Mappers/Mapper066.hpp"
-	"Mappers/Mapper071.hpp"
-	"Mappers/Mapper087.hpp"
-	"Mappers/Mapper185.hpp"
-	"Mappers/Mapper225.hpp"
-	<string>
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper000.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper001.hpp
-	"../Boards/MMC1.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper002.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper003.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper007.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper009.hpp
-	"../Boards/MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper010.hpp
-	"../Boards/MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper011.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper066.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper071.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper087.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper185.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper225.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper000.cpp
-	"Mapper000.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper001.cpp
-	"Mapper001.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper002.cpp
-	"Mapper002.hpp"
-	<stdio.h>
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper003.cpp
-	"Mapper003.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper007.cpp
-	"Mapper007.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper009.cpp
-	"Mapper009.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper010.cpp
-	"Mapper010.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper011.cpp
-	"Mapper011.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper066.cpp
-	"Mapper066.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper071.cpp
-	"Mapper071.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper087.cpp
-	"Mapper087.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper185.cpp
-	"Mapper185.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/Mapper225.cpp
-	"Mapper225.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Cartridge/Mappers/MapperUtils.cpp
-	"MapperUtils.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/CPU.cpp
-	"CPU.h"
-	<stdio.h>
-	<fstream>
-	<stdlib.h>
-	<iostream>
-	"opcodes.inc"
-
-1468560735 /home/alaix/git/O-Nes-Sama-beta/CPU.h
-	"Cartridge/Boards/Board.hpp"
-	"Logging/CPULogger.h"
-	"Input.h"
-	"PPU.h"
-	"APU.h"
-
-1468560735 /home/alaix/git/O-Nes-Sama-beta/Logging/CPULogger.h
-	"Logger.h"
-	"../CPUSharedData.h"
-	"../x6502Interrupts.h"
-
-1468560735 /home/alaix/git/O-Nes-Sama-beta/Logging/Logger.h
-	<fstream>
-	<stdexcept>
-
-1468560735 /home/alaix/git/O-Nes-Sama-beta/CPUSharedData.h
-
-1481164284 /home/alaix/git/O-Nes-Sama-beta/Input.h
-	<SDL2/SDL.h>
-
-1484787730 /home/alaix/git/O-Nes-Sama-beta/PPU.h
-	<unordered_map>
-	<functional>
-	<vector>
-	<cstring>
-	"x6502Interrupts.h"
-	"RetroGraphix/GraphixEngine.hpp"
-	"RetroGraphix/Texture.hpp"
-	"RetroGraphix/Color.hpp"
-	"RetroGraphix/Sprite.hpp"
-	"Debugger/Breakpoint.h"
-	"Cartridge/Cartridge.hpp"
-
-1461023210 /home/alaix/git/O-Nes-Sama-beta/RetroGraphix/GraphixEngine.hpp
-	<stdio.h>
-	<SDL2/SDL.h>
-	"Drawable.hpp"
-	"Color.hpp"
-
-1446693224 /home/alaix/git/O-Nes-Sama-beta/RetroGraphix/Drawable.hpp
-
-1468184512 /home/alaix/git/O-Nes-Sama-beta/RetroGraphix/Color.hpp
-	<cinttypes>
-	<SDL2/SDL.h>
-	<stdio.h>
-
-1447179192 /home/alaix/git/O-Nes-Sama-beta/RetroGraphix/Texture.hpp
-	<cstddef>
-	<SDL2/SDL.h>
-	"GraphixEngine.hpp"
-
-1449182411 /home/alaix/git/O-Nes-Sama-beta/RetroGraphix/Sprite.hpp
-	<SDL2/SDL.h>
-	"Texture.hpp"
-	"GraphixEngine.hpp"
-	"Drawable.hpp"
-
-1468184413 /home/alaix/git/O-Nes-Sama-beta/Debugger/Breakpoint.h
-	<stdio.h>
-	<string>
-	<vector>
-
-1468560735 /home/alaix/git/O-Nes-Sama-beta/opcodes.inc
-
-1448578448 source:/home/alaix/git/O-Nes-Sama-beta/Debugger/Breakpoint.cpp
-	"Breakpoint.h"
-
-1450314170 source:/home/alaix/git/O-Nes-Sama-beta/Debugger/Debugger.cpp
-	"Debugger.h"
-
-1450303200 /home/alaix/git/O-Nes-Sama-beta/Debugger/Debugger.h
-	<iomanip>
-	<sstream>
-	"../PPU.h"
-	"../CPU.h"
-	"Breakpoint.h"
-	"SocketServer.h"
-
-1466038030 /home/alaix/git/O-Nes-Sama-beta/Debugger/SocketServer.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<unordered_map>
-	<SDL2/SDL_net.h>
-
-1468184631 source:/home/alaix/git/O-Nes-Sama-beta/Debugger/SocketServer.cpp
-	"SocketServer.h"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-beta/Input.cpp
-	"Input.h"
-
-1468560735 source:/home/alaix/git/O-Nes-Sama-beta/Logging/CPULogger.cpp
-	"CPULogger.h"
-	<sstream>
-	<string>
-	<iomanip>
-	<iostream>
-
-1468560735 source:/home/alaix/git/O-Nes-Sama-beta/Logging/Logger.cpp
-	"Logger.h"
-	<iostream>
-
-1486007660 source:/home/alaix/git/O-Nes-Sama-beta/main.cpp
-	<stdio.h>
-	"Cartridge/Cartridge.hpp"
-	"CPU.h"
-	"PPU.h"
-	<SDL2/SDL.h>
-	"Debugger/Debugger.h"
-
-1486007985 source:/home/alaix/git/O-Nes-Sama-beta/PPU.cpp
-	"PPU.h"
-
-1446836716 source:/home/alaix/git/O-Nes-Sama-beta/RetroGraphix/Color.cpp
-	"Color.hpp"
-
-1468797391 source:/home/alaix/git/O-Nes-Sama-beta/RetroGraphix/GraphixEngine.cpp
-	"GraphixEngine.hpp"
-
-1447470513 source:/home/alaix/git/O-Nes-Sama-beta/RetroGraphix/Sprite.cpp
-	"Sprite.hpp"
-
-1468797120 source:/home/alaix/git/O-Nes-Sama-beta/RetroGraphix/Texture.cpp
-	"Texture.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/APU.cpp
-	"APU.h"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/APU.h
-	<functional>
-	<cstdio>
-	<queue>
-	<SDL2/SDL.h>
-	"x6502Interrupts.h"
-	"Cartridge/Boards/Board.hpp"
-
-1468560735 /home/alaix/git/O-Nes-Sama-ppu/x6502Interrupts.h
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/Board.hpp
-	"../Mappers/MapperUtils.hpp"
-	<stdio.h>
-	<string.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/MapperUtils.hpp
-	<stdio.h>
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/Board.cpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/GxROM.cpp
-	"GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/GxROM.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/MMC1.cpp
-	"MMC1.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/MMC1.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/MMC2.cpp
-	"MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/MMC2.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/MMC3.cpp
-	"MMC3.hpp"
-	<stdlib.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Boards/MMC3.hpp
-	"Board.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Cartridge.cpp
-	"Cartridge.hpp"
-	<fstream>
-	<iostream>
-	<stdlib.h>
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Cartridge.hpp
-	"Boards/Board.hpp"
-	"Boards/GxROM.hpp"
-	"Boards/MMC3.hpp"
-	"Mappers/Mapper000.hpp"
-	"Mappers/Mapper001.hpp"
-	"Mappers/Mapper002.hpp"
-	"Mappers/Mapper003.hpp"
-	"Mappers/Mapper007.hpp"
-	"Mappers/Mapper009.hpp"
-	"Mappers/Mapper010.hpp"
-	"Mappers/Mapper011.hpp"
-	"Mappers/Mapper066.hpp"
-	"Mappers/Mapper071.hpp"
-	"Mappers/Mapper087.hpp"
-	"Mappers/Mapper185.hpp"
-	"Mappers/Mapper225.hpp"
-	<string>
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper000.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper001.hpp
-	"../Boards/MMC1.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper002.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper003.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper007.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper009.hpp
-	"../Boards/MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper010.hpp
-	"../Boards/MMC2.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper011.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper066.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper071.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper087.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper185.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper225.hpp
-	"../Boards/GxROM.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper000.cpp
-	"Mapper000.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper001.cpp
-	"Mapper001.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper002.cpp
-	"Mapper002.hpp"
-	<stdio.h>
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper003.cpp
-	"Mapper003.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper007.cpp
-	"Mapper007.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper009.cpp
-	"Mapper009.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper010.cpp
-	"Mapper010.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper011.cpp
-	"Mapper011.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper066.cpp
-	"Mapper066.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper071.cpp
-	"Mapper071.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper087.cpp
-	"Mapper087.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper185.cpp
-	"Mapper185.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/Mapper225.cpp
-	"Mapper225.hpp"
-
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Cartridge/Mappers/MapperUtils.cpp
-	"MapperUtils.hpp"
-
-1489636442 source:/home/alaix/git/O-Nes-Sama-ppu/CPU.cpp
-	"CPU.h"
-	<stdio.h>
-	<fstream>
-	<stdlib.h>
-	<iostream>
-	"opcodes.inc"
-
-1468560735 /home/alaix/git/O-Nes-Sama-ppu/CPU.h
-	"Cartridge/Boards/Board.hpp"
-	"Logging/CPULogger.h"
-	"Input.h"
-	"PPU.h"
-	"APU.h"
-
-1468560735 /home/alaix/git/O-Nes-Sama-ppu/Logging/CPULogger.h
-	"Logger.h"
-	"../CPUSharedData.h"
-	"../x6502Interrupts.h"
-
-1489636607 /home/alaix/git/O-Nes-Sama-ppu/Logging/Logger.h
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\logging\logger.h
 	<iostream>
 	<fstream>
 	<cstdarg>
 	<stdexcept>
 
-1468560735 /home/alaix/git/O-Nes-Sama-ppu/CPUSharedData.h
+1479906398 c:\users\federico gimeno\desktop\new_o_nes_sama\cpushareddata.h
 
-1481164284 /home/alaix/git/O-Nes-Sama-ppu/Input.h
+1494063094 c:\users\federico gimeno\desktop\new_o_nes_sama\input.h
 	<SDL2/SDL.h>
 
-1486611707 /home/alaix/git/O-Nes-Sama-ppu/PPU.h
+1494387202 c:\users\federico gimeno\desktop\new_o_nes_sama\ppu.h
 	<unordered_map>
 	<functional>
 	<vector>
@@ -1068,45 +443,46 @@
 	"RetroGraphix/Sprite.hpp"
 	"Debugger/Breakpoint.h"
 	"Cartridge/Cartridge.hpp"
+	"Logging/Logger.h"
 
-1461023210 /home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/GraphixEngine.hpp
+1494215387 c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\graphixengine.hpp
 	<stdio.h>
 	<SDL2/SDL.h>
 	"Drawable.hpp"
 	"Color.hpp"
 
-1446693224 /home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/Drawable.hpp
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\drawable.hpp
 
-1468184512 /home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/Color.hpp
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\color.hpp
 	<cinttypes>
 	<SDL2/SDL.h>
 	<stdio.h>
 
-1447179192 /home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/Texture.hpp
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\texture.hpp
 	<cstddef>
 	<SDL2/SDL.h>
 	"GraphixEngine.hpp"
 
-1449182411 /home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/Sprite.hpp
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\sprite.hpp
 	<SDL2/SDL.h>
 	"Texture.hpp"
 	"GraphixEngine.hpp"
 	"Drawable.hpp"
 
-1468184413 /home/alaix/git/O-Nes-Sama-ppu/Debugger/Breakpoint.h
+1494230938 c:\users\federico gimeno\desktop\new_o_nes_sama\debugger\breakpoint.h
 	<stdio.h>
 	<string>
 	<vector>
 
-1468560735 /home/alaix/git/O-Nes-Sama-ppu/opcodes.inc
+1479906398 c:\users\federico gimeno\desktop\new_o_nes_sama\opcodes.inc
 
-1448578448 source:/home/alaix/git/O-Nes-Sama-ppu/Debugger/Breakpoint.cpp
+1494230938 source:c:\users\federico gimeno\desktop\new_o_nes_sama\debugger\breakpoint.cpp
 	"Breakpoint.h"
 
-1450314170 source:/home/alaix/git/O-Nes-Sama-ppu/Debugger/Debugger.cpp
+1494230938 source:c:\users\federico gimeno\desktop\new_o_nes_sama\debugger\debugger.cpp
 	"Debugger.h"
 
-1450303200 /home/alaix/git/O-Nes-Sama-ppu/Debugger/Debugger.h
+1494230938 c:\users\federico gimeno\desktop\new_o_nes_sama\debugger\debugger.h
 	<iomanip>
 	<sstream>
 	"../PPU.h"
@@ -1114,42 +490,38 @@
 	"Breakpoint.h"
 	"SocketServer.h"
 
-1466038030 /home/alaix/git/O-Nes-Sama-ppu/Debugger/SocketServer.h
+1494230938 c:\users\federico gimeno\desktop\new_o_nes_sama\debugger\socketserver.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<unordered_map>
 	<SDL2/SDL_net.h>
 
-1468184631 source:/home/alaix/git/O-Nes-Sama-ppu/Debugger/SocketServer.cpp
+1451811446 c:\sdl32\include\sdl2\sdl_net.h
+	<stdint.h>
+	"SDL.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1494230938 source:c:\users\federico gimeno\desktop\new_o_nes_sama\debugger\socketserver.cpp
 	"SocketServer.h"
 
-1481164284 source:/home/alaix/git/O-Nes-Sama-ppu/Input.cpp
+1494821939 source:c:\users\federico gimeno\desktop\new_o_nes_sama\input.cpp
 	"Input.h"
 
-1489636630 source:/home/alaix/git/O-Nes-Sama-ppu/Logging/CPULogger.cpp
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\logging\cpulogger.cpp
 	"CPULogger.h"
 	<sstream>
 	<string>
 	<iomanip>
 	<iostream>
 
-1489636349 source:/home/alaix/git/O-Nes-Sama-ppu/Logging/Logger.cpp
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\logging\logger.cpp
 	"Logger.h"
 
-1446836716 source:/home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/Color.cpp
-	"Color.hpp"
-
-1468797391 source:/home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/GraphixEngine.cpp
-	"GraphixEngine.hpp"
-
-1447470513 source:/home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/Sprite.cpp
-	"Sprite.hpp"
-
-1468797120 source:/home/alaix/git/O-Nes-Sama-ppu/RetroGraphix/Texture.cpp
-	"Texture.hpp"
-
-1489636413 source:/home/alaix/git/O-Nes-Sama-ppu/main.cpp
+1494821857 source:c:\users\federico gimeno\desktop\new_o_nes_sama\main.cpp
 	<stdio.h>
 	"Cartridge/Cartridge.hpp"
 	"CPU.h"
@@ -1157,6 +529,277 @@
 	<SDL2/SDL.h>
 	"Debugger/Debugger.h"
 
-1487818304 source:/home/alaix/git/O-Nes-Sama-ppu/PPU.cpp
+1494821029 source:c:\users\federico gimeno\desktop\new_o_nes_sama\ppu.cpp
 	"PPU.h"
+
+1494386897 source:c:\users\federico gimeno\desktop\new_o_nes_sama\ppu_.cpp
+	"PPU.h"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\color.cpp
+	"Color.hpp"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\retrographix\texture.cpp
+	"Texture.hpp"
+
+1495000264 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\main.cpp
+	<stdio.h>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1494997555 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\apu.cpp
+	"APU.h"
+
+1494997595 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\apu.h
+	<functional>
+	<cstdio>
+	<queue>
+	<SDL2/SDL.h>
+	"CPUIO.hpp"
+	"Cartridge/Mappers/MemoryMapper.h"
+
+1494993561 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\x6502interrupts.h
+
+1494994271 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\memorymapper.h
+	"../CartIO.hpp"
+	"../../CPUIO.hpp"
+	"../CartDB.hpp"
+
+1494994893 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\cartio.hpp
+	<stdio.h>
+	"../CPUIO.hpp"
+
+1495002053 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+	"Mappers/BasicMapper.hpp"
+	"Mappers/UxROM.hpp"
+	"Mappers/CNROM.hpp"
+	"Mappers/AxROM.hpp"
+	"Mappers/GxROM.hpp"
+	"Mappers/MMC1.hpp"
+	"Mappers/MMC2_4.hpp"
+	"Mappers/MMC3.hpp"
+
+1494824610 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\cartridge.hpp
+	"CartIO.hpp"
+	"Mappers/MemoryMapper.h"
+	<string>
+	"zlib.h"
+
+1494658038 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\basicmapper.hpp
+	"MemoryMapper.h"
+
+1494999959 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\uxrom.hpp
+	"BasicMapper.hpp"
+
+1494566393 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\cnrom.hpp
+	"BasicMapper.hpp"
+
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\axrom.hpp
+	"BasicMapper.hpp"
+
+1494657999 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc1.hpp
+	"BasicMapper.hpp"
+
+1494871016 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc3.hpp
+	"BasicMapper.hpp"
+
+1494481710 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\axrom.cpp
+	"AxROM.hpp"
+	<stdio.h>
+
+1495000966 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\basicmapper.cpp
+	"BasicMapper.hpp"
+	<stdio.h>
+
+1494567197 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\cnrom.cpp
+	"CNROM.hpp"
+	<stdio.h>
+
+1494218514 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\memorymapper.cpp
+	"MemoryMapper.h"
+
+1494657940 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc1.cpp
+	"MMC1.hpp"
+
+1494995108 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+	<stdio.h>
+
+1495001840 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\uxrom.cpp
+	"UxROM.hpp"
+	<stdio.h>
+
+1494997898 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cpu.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1494995164 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cpu.h
+	"Cartridge/Mappers/MemoryMapper.h"
+	"Logging/CPULogger.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"CPUIO.hpp"
+
+1494995132 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\logging\cpulogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../CPUIO.hpp"
+
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\logging\logger.h
+	<iostream>
+	<fstream>
+	<cstdarg>
+	<stdexcept>
+
+1479906398 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cpushareddata.h
+
+1494995766 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\input.h
+	<SDL2/SDL.h>
+	"CPUIO.hpp"
+
+1494996371 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\ppu.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"CPUIO.hpp"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+	"Logging/Logger.h"
+
+1494215387 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\graphixengine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\drawable.hpp
+
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1494230936 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1494230938 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\debugger\breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1479906398 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\opcodes.inc
+
+1494230938 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\debugger\breakpoint.cpp
+	"Breakpoint.h"
+
+1494230938 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\debugger\debugger.cpp
+	"Debugger.h"
+
+1494230938 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\debugger\debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1494230938 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\debugger\socketserver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1494230938 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\debugger\socketserver.cpp
+	"SocketServer.h"
+
+1494996184 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\input.cpp
+	"Input.h"
+
+1494996260 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\logging\cpulogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\logging\logger.cpp
+	"Logger.h"
+
+1494998845 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\ppu.cpp
+	"PPU.h"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\color.cpp
+	"Color.hpp"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\graphixengine.cpp
+	"GraphixEngine.hpp"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\sprite.cpp
+	"Sprite.hpp"
+
+1494230936 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\retrographix\texture.cpp
+	"Texture.hpp"
+
+1121653608 c:\gnuwin32\include\zlib.h
+	"zconf.h"
+
+1121874026 c:\gnuwin32\include\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1494870337 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\cartdb.hpp
+
+1494910004 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\gxrom.hpp
+	"BasicMapper.hpp"
+
+1494910130 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\gxrom.cpp
+	"GxROM.hpp"
+
+1494914105 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc2.cpp
+	"MMC2.hpp"
+
+1494915265 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc2.hpp
+	"BasicMapper.hpp"
+
+1494916285 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc2_4.hpp
+	"BasicMapper.hpp"
+
+1494916262 source:c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cartridge\mappers\mmc2_4.cpp
+	"MMC2_4.hpp"
+
+1494994620 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cpuio.hpp
 

@@ -1,10 +1,11 @@
 #ifndef CPU_H_INCLUDED
 #define CPU_H_INCLUDED
-#include "Cartridge/Boards/Board.hpp"
+#include "Cartridge/Mappers/MemoryMapper.h"
 #include "Logging/CPULogger.h"
 #include "Input.h"
 #include "PPU.h"
 #include "APU.h"
+#include "CPUIO.hpp"
 //#include "Cartridge/Cartridge.hpp"
 
 struct CpuStateData{
@@ -16,15 +17,16 @@ struct CpuStateData{
     Registers regs;
     ProcessorFlags flags;
     InstructionData instData;
-    InterruptLines ints;
+    CPUIO io;
 };
 
 class CPU : public CpuStateData {
 
     public:
-        unsigned char * cpuCartSpace[12];
+
         bool isRunning;
-        CPU(Board &m);
+        //int M2;
+        CPU(MemoryMapper &m);
         ~CPU();
         int run(int);
         void reset();
@@ -34,14 +36,14 @@ class CPU : public CpuStateData {
         void write(int addr, unsigned char);
         unsigned char readCode(int); //Special function for reading opcodes without advancing the clock.
         unsigned char ** getPRGPointers();
-        void setMemoryMappePtr(Board *);
+        void setMemoryMappePtr(MemoryMapper *);
 		void setPPUPtr(PPU *);
 		void pollForInterrupts();
 		void saveState (FILE * file);
 		bool loadState (FILE * file);
 
 	private:
-        Board &mapper;
+        MemoryMapper &mapper;
         Input * controller;
         PPU * ppu;
         APU * apu;
@@ -49,6 +51,8 @@ class CPU : public CpuStateData {
 		typedef void (CPU::*rmwOp)(unsigned char &); //RMW operation function type
 		typedef void (CPU::*rdOp)(unsigned char); //Read operation function type
         CPULogger *logger;
+        int addressBus;
+        unsigned char dataBus;
         int getAddress(int);
 		void rmw(rmwOp, int);
 		void rd(rdOp, int);

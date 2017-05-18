@@ -1,26 +1,25 @@
 #ifndef MMC3_HPP_INCLUDED
 #define MMC3_HPP_INCLUDED
 
-#include "Board.hpp"
+#include "BasicMapper.hpp"
 
-class MMC3 : public Board {
+class MMC3 : public BasicMapper {
     public:
-        MMC3(unsigned char * header);
-        void init();
+        MMC3(CartIO &ioRef);
         ~MMC3();
-        unsigned char read(int addr);
-        void write(int addr, unsigned char val);
-        void setPPUAddress(int addr);
+        void writeCPU(int addr, unsigned char val);
+        unsigned char readPPU(int address);
+        void writePPU (int address, unsigned char val);
         void sync();
         void clockCPU();
         void clockPPU();
-        bool loadState(FILE * file);
+        /*bool loadState(FILE * file);
         void saveState(FILE * file);
         void saveSRAM(FILE * batteryFile);
-        void loadSRAM(FILE * batteryFile);
+        void loadSRAM(FILE * batteryFile);*/
     protected:
-        unsigned char ** prg;
         int oldPPUA12;
+        int needsMCACC;
         //Registers
         unsigned char commandRegs[8];
         unsigned char bankSelect;
@@ -30,7 +29,7 @@ class MMC3 : public Board {
         unsigned char irqCounter;
         unsigned char irqEnable;
 
-        int altBehavior = 0;
+        int altBehavior;
 
         int prgSizeMask;
         int chrSizeMask;
