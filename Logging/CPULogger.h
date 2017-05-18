@@ -2,7 +2,7 @@
 #define CPULOGGER_H_INCLUDED
 #include "Logger.h"
 #include "../CPUSharedData.h"
-#include "../x6502Interrupts.h"
+#include "../CPUIO.hpp"
 
 using namespace std;
 
@@ -10,12 +10,12 @@ class CPULogger : public Logger{
     private:
         Registers &regs;
         ProcessorFlags &flags;
-        InterruptLines &ints;
+        CPUIO &io;
         InstructionData &instData;
         string composeInstruction();
 
     public:
-        CPULogger(Registers &, ProcessorFlags &, InterruptLines &, InstructionData &,
+        CPULogger(Registers &, ProcessorFlags &, CPUIO &, InstructionData &,
             const char * fileName = NULL);
         void logInstruction();
         ~CPULogger();

@@ -988,7 +988,7 @@ void PPU::spriteEvaluationTileLoading()
 {
     oamAddress = 0;
 
-    //Garbage fetches
+    //Garbage fetches - Quick and dirty (probably wrong as hell)
     switch (ticks){
         case 257: case 265: case 273: case 281: case 289: case 297: case 305:
             tickFetchNT();

@@ -1,5 +1,5 @@
 #define SDL_MAIN_HANDLED
-#define BENCH 1
+#define BENCH 0
 //define DEBUGGER
 #include <stdio.h>
 #include "Cartridge/Cartridge.hpp"
@@ -41,37 +41,54 @@ int main(){
     //std::string romFileName   = "games/ppu_vbl_nmi/ppu_vbl_nmi.nes";
     //std::string romFileName   = "games/instr_test-v4/official_only.nes";
 
-
     //std::string romFileName   = "games/NROM/Baseball (USA, Europe).nes";
     //std::string romFileName   = "games/NROM/Balloon Fight.nes";
     //std::string romFileName   = "games/GxROM/Super Mario Bros. + Duck Hunt (USA).nes";
+    //std::string romFileName   = "games/ColorDreams/Metal Fighter (USA) (Unl).nes";
 
-    //std::string romFileName   = "games/nes-test-roms-master/mmc3_test_2/rom_singles/4-scanline_timing.nes";
+
+    //std::string romFileName   = "games/blargg_ppu_tests/sprite_ram.nes";
+    //std::string romFileName   = "games/mmc3_test_2/rom_singles/4-scanline_timing.nes";
     //std::string romFileName   = "games/NROM/smb.nes";
     //std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
+
+    //std::string romFileName   = "games/CNROM/Adventure Island.nes";
     //std::string romFileName   = "games/CNROM/Ninja Jajamaru Kun (Japan).nes";
+    //std::string romFileName   = "games/CNROM/Urusei Yatsura - Lum no Wedding Bell (Japan).nes";
+    //std::string romFileName   = "games/CNROM/AV Pachi Slot (Japan) (Unl).nes";
+    //std::string romFileName   = "games/CNROM/Jajamaru no Daibouken (Japan).nes";
+    //std::string romFileName   = "games/CNROM/Paperboy (USA).nes";
+
+    //std::string romFileName   = "games/cpu_exec_space/test_cpu_exec_space_apu.nes";
+    //std::string romFileName   = "games/cpu_exec_space/test_cpu_exec_space_ppuio.nes";
+
     //std::string romFileName   = "games/UxROM/Contra.nes";
     //std::string romFileName   = "games/instr_timing/instr_timing.nes";
     //std::string romFileName   = "games/MMC4/Fire Emblem Gaiden (Japan).nes";
     //std::string romFileName   = "games/MMC4/Fire Emblem (Japan).nes";
     //std::string romFileName   = "games/MMC2/Mike Tyson's Punch-Out!! (USA).nes";
-    //std::string romFileName   = "games/MMC3/Tiny Toon Adventures (USA).nes";
-    //std::string romFileName   = "games/MMC3/Super Mario Bros. 3 (USA).nes";
+    std::string romFileName   = "games/MMC3/Tiny Toon Adventures (USA).nes";
+    //std::string romFileName   = "games/MMC3/Crystalis (USA).nes";
     //std::string romFileName   = "games/blargg_ppu_tests/sprite_ram.nes";
-    //std::string romFileName   = "games/MMC3/Mega Man 3 (USA).nes";
-    //std::string romFileName   =  "games/nes-test-roms-master/branch_timing_tests/3.Forward_Branch.nes";
+    //std::string romFileName   = "games/MMC3/Mega Man 4 (USA).nes";
+    //std::string romFileName   =  "games/branch_timing_tests/2.Backward_Branch.nes";
+    //std::string romFileName   =  "games/cpu_timing_test6/cpu_timing_test.nes";
+
     //std::string romFileName   =  "games/nes-test-roms-master/cpu_dummy_reads/cpu_dummy_reads.nes";
-    //std::string romFileName   =  "games/nes-test-roms-master/cpu_interrupts_v2/cpu_interrupts.nes";
+    //std::string romFileName   =  "games/cpu_interrupts_v2/cpu_interrupts.nes";
     //std::string romFileName   =  "games/nes-test-roms-master/cpu_reset/ram_after_reset.nes";
-    //std::string romFileName   =  "games/nes-test-roms-master/cpu_timing_test6/cpu_timing_test.nes";
+    //std::string romFileName   =  "games/cpu_timing_test6/cpu_timing_test.nes";
     //std::string romFileName   =  "games/nes-test-roms-master/instr_misc/instr_misc.nes";
     //std::string romFileName   =  "games/nes-test-roms-master/nmi_sync/demo_ntsc.nes";
     //std::string romFileName   =  "games/nes-test-roms-master/scanline-a1/scanline.nes";
     //std::string romFileName   =  "games/nes-test-roms-master/window5/colorwin_ntsc.nes";
     //std::string romFileName   =  "games/MMC3/Ninja Gaiden Episode III - The Ancient Ship of Doom (USA).nes";
     //std::string romFileName   =  "games/MMC3/Super C (USA).nes";
-    //std::string romFileName   =  "games/MMC3/Kick Master (USA).nes";
+    //std::string romFileName   =  "games/MMC3/Super Mario Bros. 3 (USA).nes";
+    //std::string romFileName   =  "games/MMC3/Bart vs. the World (USA).nes";
 
+
+    //std::string romFileName = "games/mmc3_test_2/rom_singles/5-MMC3.nes";
 
     //std::string romFileName   =  "games/Mapper225/64-in-1 (J).nes";
     //std::string romFileName   =  "games/CNROM/B-Wings (J).nes";
@@ -86,11 +103,14 @@ int main(){
     //std::string romFileName   =  "games/MMC3/Burai Fighter (USA).nes";
     //std::string romFileName   =  "games/MMC3/Incredible Crash Dummies, The (USA).nes";
     //std::string romFileName   =  "games/MMC3/G.I. Joe - A Real American Hero (USA).nes";
-    std::string romFileName   =  "games/MMC3/chuchu.nes";
+    //std::string romFileName   =  "games/MMC3/chuchu.nes";
 
     //std::string romFileName   = "games/MMC1/Mega Man 2 (U).nes";
+    //std::string romFileName   = "games/MMC1/Bill & Ted's Excellent Video Game Adventure (USA).nes";
 
-    //std::string romFileName   =  "games/MMC1/Bart.nes";
+
+    //std::string romFileName   =  "games/MMC1/bart.nes";
+    //std::string romFileName   =  "games/MMC1/Legend of Zelda, The (U).nes";
     //std::string romFileName   =  "games/MMC1/Metroid (USA).nes";
     //std::string romFileName   =  "games/MMC1/Dragon Warrior III (USA).nes";
     //std::string romFileName   =  "games/MMC1/Double Dragon (USA).nes";
@@ -102,6 +122,9 @@ int main(){
     //std::string romFileName   =  "C:/Users/Federico Gimeno/Desktop/6502_1.2.11/Nes_Practice/nes_basics.nes";
     //std::string romFileName   =  "games/MMC5/Castlevania III - Dracula's Curse (USA).nes";
     //std::string romFileName   =  "games/Camerica/Micro Machines (USA) (Unl).nes";
+    //std::string romFileName   =  "games/Camerica/Fire Hawk (USA) (Unl).nes";
+    //std::string romFileName   =  "games/Camerica/MiG 29 - Soviet Fighter (Camerica) [!].nes";
+
     //std::string romFileName   =  "games/MMC5/Laser Invasion (U) [!].nes";
     //std::string romFileName   =  "games/MMC5/Uncharted Waters (U) [!].nes";
     //std::string romFileName   =  "games/MMC5/Bandit Kings of Ancient China (U) [!].nes";
@@ -116,37 +139,19 @@ int main(){
     //std::string romFileName   =  "games/MMC5/Metal Slader Glory (Japan).nes";
     //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
 
-
-
-
     std::string saveStatePath = "SaveState";
-    std::string batteryPath   = "Battery";
     Cartridge cart(romFileName);
     saveStatePath.append(getBaseRomName(romFileName));
     saveStatePath.append(".sta");
-    batteryPath.append(getBaseRomName(romFileName));
-    batteryPath.append(".sav");
-    printf("\nRom File path   : %s", romFileName.c_str());
-    printf("\nSave State path : %s", saveStatePath.c_str());
-    printf("\nBattery path    : %s", batteryPath.c_str());
+
+    //printf("\nSave State path : %s", saveStatePath.c_str());
 
     /*Create the instances of the 6502 CPU, the Cartridge interface and the PPU*/
     CPU cpu (*cart.mapper);
-    PPU ppu (cpu.ints, *cart.mapper);
+    PPU ppu (cpu.io, *cart.mapper);
     cpu.setPPUPtr(&ppu);
-    cart.mapper->init();
     cpu.reset();
     ppu.reset();
-
-    if (cart.hasBattery){
-        FILE * batteryFile = fopen(batteryPath.c_str(), "rb");
-        if (batteryFile != NULL){
-            cart.mapper->loadSRAM(batteryFile);
-            fclose(batteryFile);
-        }
-        else
-            printf ("\nError while loading SRAM file");
-    }
 
     #ifdef DEBUGGER
         Debugger debuggerServer(&cpu, &ppu);
@@ -154,7 +159,6 @@ int main(){
         //debuggerServer.InitAndWaitHandshake();
         //debuggerServer.handleRequests();
     #endif // DEBUGGER
-
 
     int pendCycles = 0;
     unsigned lastTimeTick = SDL_GetTicks();
@@ -211,7 +215,7 @@ int main(){
                 }
             }
             if (state[SDL_SCANCODE_F2]){
-                cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
+                //cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
             }
         }
 
@@ -242,15 +246,6 @@ int main(){
         }
     }
 
-    if (cart.hasBattery){
-        FILE * batteryFile = fopen(batteryPath.c_str(), "wb");
-        if (batteryFile != NULL){
-            cart.mapper->saveSRAM(batteryFile);
-            fclose(batteryFile);
-        }
-        else
-            printf ("\nError while saving SRAM file");
-    }
     return 0;
 }
 

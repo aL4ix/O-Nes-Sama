@@ -68,8 +68,8 @@ char instLengths[256] = {
 /*0F*/  2, 2, 0, 0, 2, 2, 2, 0, 1, 3, 1, 0, 3, 3, 3, 0,
 };
 
-CPULogger::CPULogger(Registers &r, ProcessorFlags &f, InterruptLines &i, InstructionData &id,
-    const char * fileName): Logger(fileName), regs(r), flags(f), ints(i), instData(id){
+CPULogger::CPULogger(Registers &r, ProcessorFlags &f, CPUIO &i, InstructionData &id,
+    const char * fileName): Logger(fileName), regs(r), flags(f), io(i), instData(id){
 }
 
 string CPULogger::composeInstruction(){

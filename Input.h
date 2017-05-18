@@ -2,14 +2,15 @@
 #define INPUT_H_INCLUDED
 
 #include <SDL2/SDL.h>
+#include "CPUIO.hpp"
 
 class Input{
 
     public:
         Input();
+        CPUIO * cpuIO;
         unsigned char read(int addr);
         void write (int addr, unsigned char val);
-        bool strobeHigh;
         void latchButtonStatus();
     private:
         const unsigned char _A       = 0x01;
@@ -20,8 +21,7 @@ class Input{
         const unsigned char _Dn      = 0x20;
         const unsigned char _Lft     = 0x40;
         const unsigned char _Rgt     = 0x80;
-        const unsigned char _Up_Dn   = 0x30;
-        const unsigned char _Lft_Rgt = 0xC0;
+
         //Initialize P1 & P2 Controllers, eventually this will be done from the GUI
         unsigned char buttons[2][8] = {
             {  //Player 1 Buttons
