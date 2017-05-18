@@ -15,7 +15,7 @@
 #include "Drawable.hpp"
 #include "Color.hpp"
 
-#define GFX_SOFTWARE_RENDER
+//#define GFX_SOFTWARE_RENDER
 
 //Platform-Dependant
 extern SDL_Renderer* sdlRenderer;

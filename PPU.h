@@ -5,7 +5,7 @@
 #include <vector>
 #include <cstring>
 
-#include "x6502Interrupts.h"
+#include "CPUIO.hpp"
 #include "RetroGraphix/GraphixEngine.hpp"
 #include "RetroGraphix/Texture.hpp"
 #include "RetroGraphix/Color.hpp"
@@ -70,7 +70,7 @@ class PPU : public PPU_State
 friend class Debugger;
 
 public:
-    PPU(struct InterruptLines &ints, Board &m);
+    PPU(struct CPUIO &cio, MemoryMapper &m);
     ~PPU();
     void writeMem(unsigned short Address, unsigned char Value);
     unsigned char readMem(unsigned short Address);
@@ -82,9 +82,10 @@ public:
     bool loadState(FILE* File);
     //bool loadColorPaletteFromFile(const char* FileName);
     bool loadColorPaletteFromArray(const unsigned char* Palette);
-    unsigned char ** ppuCartSpace[16];
-    unsigned char ** getChr();
-    unsigned char ** getNametables();
+
+    //unsigned char ** ppuCartSpace[16];
+    //unsigned char ** getChr();
+    //unsigned char ** getNametables();
 
     Logger logger;
 
@@ -137,8 +138,8 @@ private:
     Color32 setOf4ColorsPalette[4];
 
     //Other
-    struct InterruptLines &ints;
-    Board &mapper;
+    struct CPUIO &cpuIO;
+    MemoryMapper &mapper;
 
     //Debugger
     std::function<void(Breakpoint*)> debugProcess;

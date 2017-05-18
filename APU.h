@@ -6,8 +6,8 @@
 #include <queue>
 #include <SDL2/SDL.h>
 
-#include "x6502Interrupts.h"
-#include "Cartridge/Boards/Board.hpp"
+#include "CPUIO.hpp"
+#include "Cartridge/Mappers/MemoryMapper.h"
 
 
 const unsigned short AMPLITUDE = 35000;
@@ -38,7 +38,7 @@ void audio_callback(void*, Uint8*, int);
 class APU
 {
 public:
-    explicit APU(InterruptLines &ints);
+    explicit APU(CPUIO &cpuIO);
     void writeMem(unsigned short Address, unsigned char Value);
     unsigned char readMem(unsigned short Address);
 
@@ -46,11 +46,14 @@ public:
                                                   &APU::write4008, &APU::write4009, &APU::write400A, &APU::write400B, &APU::write400C, &APU::write400D, &APU::write400E, &APU::write400F,
                                                   &APU::write4010, &APU::write4011, &APU::write4012, &APU::write4013, &APU::unimpleme, &APU::write4015, &APU::unimpleme, &APU::write4017};
                                                  //0             1                   2               3               4                   5               6               7
-    unsigned char (APU::*readFuncs[24])(void) = {&APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch,
+    unsigned char (APU::*readFuncs[32])(void) = {&APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch,
                                                  //8             9                   A               B               C                   D               E               F
                                                  &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch,
                                                  //10            11                  12              13              14                  15              16              17
-                                                 &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::read4015,  &APU::readLatch, &APU::readLatch};
+                                                 &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::read4015,  &APU::readLatch, &APU::readLatch,
+                                                 //18            19                  1A              1B              1C                  1D              1E              1F
+                                                 &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch, &APU::readLatch,  &APU::readLatch, &APU::readLatch
+                                                 };
     unsigned char readLatch();
     void unimpleme(unsigned char); //14 16
     unsigned char read4015();
@@ -81,7 +84,7 @@ public:
     void reset();
 
     //Other
-    void setMemoryMapper(Board* Board);
+    void setMemoryMapper(MemoryMapper* Board);
     Beeper b;
 
 private:
@@ -235,8 +238,8 @@ private:
     bool isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount);
 
     //OTHER
-    InterruptLines &ints;
-    Board* board;
+    CPUIO &cpuIO;
+    MemoryMapper* board;
 
 };
 

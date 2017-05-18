@@ -25,9 +25,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="SDL2main" />
-					<Add library="SDL2_net" />
-					<Add library="SDL2" />
 				</Linker>
 			</Target>
 		</Build>
@@ -35,59 +32,44 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
+			<Add directory="C:/SDL32/include" />
+			<Add directory="C:/GnuWin32/include" />
 		</Compiler>
 		<Linker>
 			<Add library="SDL2" />
 			<Add library="SDL2main" />
 			<Add library="SDL2_net" />
+			<Add library="z" />
+			<Add directory="C:/SDL32/lib" />
+			<Add directory="C:/GnuWin32/lib" />
 		</Linker>
 		<Unit filename="APU.cpp" />
 		<Unit filename="APU.h" />
 		<Unit filename="CPU.cpp" />
 		<Unit filename="CPU.h" />
 		<Unit filename="CPUSharedData.h" />
-		<Unit filename="Cartridge/Boards/Board.cpp" />
-		<Unit filename="Cartridge/Boards/Board.hpp" />
-		<Unit filename="Cartridge/Boards/BoardData.hpp" />
-		<Unit filename="Cartridge/Boards/GxROM.cpp" />
-		<Unit filename="Cartridge/Boards/GxROM.hpp" />
-		<Unit filename="Cartridge/Boards/MMC1.cpp" />
-		<Unit filename="Cartridge/Boards/MMC1.hpp" />
-		<Unit filename="Cartridge/Boards/MMC2.cpp" />
-		<Unit filename="Cartridge/Boards/MMC2.hpp" />
-		<Unit filename="Cartridge/Boards/MMC3.cpp" />
-		<Unit filename="Cartridge/Boards/MMC3.hpp" />
+		<Unit filename="Cartridge/CartDB.hpp" />
+		<Unit filename="Cartridge/CartIO.hpp" />
 		<Unit filename="Cartridge/Cartridge.cpp" />
 		<Unit filename="Cartridge/Cartridge.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper000.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper000.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper001.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper001.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper002.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper002.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper003.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper003.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper007.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper007.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper009.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper009.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper010.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper010.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper011.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper011.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper066.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper066.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper071.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper071.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper087.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper087.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper185.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper185.hpp" />
-		<Unit filename="Cartridge/Mappers/Mapper225.cpp" />
-		<Unit filename="Cartridge/Mappers/Mapper225.hpp" />
-		<Unit filename="Cartridge/Mappers/MapperUtils.cpp" />
-		<Unit filename="Cartridge/Mappers/MapperUtils.hpp" />
+		<Unit filename="Cartridge/Mappers/AxROM.cpp" />
+		<Unit filename="Cartridge/Mappers/AxROM.hpp" />
+		<Unit filename="Cartridge/Mappers/BasicMapper.cpp" />
+		<Unit filename="Cartridge/Mappers/BasicMapper.hpp" />
+		<Unit filename="Cartridge/Mappers/CNROM.cpp" />
+		<Unit filename="Cartridge/Mappers/CNROM.hpp" />
+		<Unit filename="Cartridge/Mappers/GxROM.cpp" />
+		<Unit filename="Cartridge/Mappers/GxROM.hpp" />
+		<Unit filename="Cartridge/Mappers/MMC1.cpp" />
+		<Unit filename="Cartridge/Mappers/MMC1.hpp" />
+		<Unit filename="Cartridge/Mappers/MMC2_4.cpp" />
+		<Unit filename="Cartridge/Mappers/MMC2_4.hpp" />
+		<Unit filename="Cartridge/Mappers/MMC3.cpp" />
+		<Unit filename="Cartridge/Mappers/MMC3.hpp" />
+		<Unit filename="Cartridge/Mappers/MemoryMapper.cpp" />
+		<Unit filename="Cartridge/Mappers/MemoryMapper.h" />
+		<Unit filename="Cartridge/Mappers/UxROM.cpp" />
+		<Unit filename="Cartridge/Mappers/UxROM.hpp" />
 		<Unit filename="Debugger/Breakpoint.cpp" />
 		<Unit filename="Debugger/Breakpoint.h" />
 		<Unit filename="Debugger/Debugger.cpp" />
@@ -97,7 +79,6 @@
 		<Unit filename="Input.cpp" />
 		<Unit filename="Input.h" />
 		<Unit filename="Instructions.h" />
-		<Unit filename="Logging/CPULog.txt" />
 		<Unit filename="Logging/CPULogger.cpp" />
 		<Unit filename="Logging/CPULogger.h" />
 		<Unit filename="Logging/Logger.cpp" />
@@ -119,8 +100,9 @@
 		<Unit filename="x6502Interrupts.h" />
 		<Extensions>
 			<code_completion />
-			<debugger />
 			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
