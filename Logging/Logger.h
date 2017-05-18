@@ -17,7 +17,10 @@ class Logger {
         void Init(const char * fileName = NULL);
         void LogWithFormat(const char* format, ...);
         void LogWithPrefix(const char* feature, const char* format, ...);
+        void LogWithVarPrefix(const char* feature, const unsigned varPrefix, const char* format, ...);
         void Log(const char* message);
+        void EnableFeature(const char* feature);
+        void DisableFeature(const char* feature);
     protected:
         char buffer[1024];
         void LogVarArgs(const char* format, va_list args);

@@ -47,10 +47,29 @@ void Logger::LogWithPrefix(const char* feature, const char* format, ...)
     va_end(args);
 }
 
+void Logger::LogWithVarPrefix(const char* feature, const unsigned varPrefix, const char* format, ...)
+{
+    LogWithFormat("%s%d: ", feature, varPrefix);
+    va_list args;
+    va_start(args, format);
+    LogVarArgs(format, args);
+    va_end(args);
+}
+
 void Logger::LogWithFormat(const char* format, ...)
 {
     va_list args;
     va_start(args, format);
     LogVarArgs(format, args);
     va_end(args);
+}
+
+void Logger::EnableFeature(const char* feature)
+{
+
+}
+
+void Logger::DisableFeature(const char* feature)
+{
+
 }
