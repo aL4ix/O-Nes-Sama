@@ -36,7 +36,7 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 1.0;
+const double ZOOM = 2.0;
 
 PPU::PPU(CPUIO &cio, MemoryMapper &m) : gfx(256*ZOOM, 240*ZOOM), cpuIO(cio), mapper(m)
 {
