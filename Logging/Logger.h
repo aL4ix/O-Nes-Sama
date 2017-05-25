@@ -5,6 +5,8 @@
 #include <fstream>
 #include <cstdarg>
 #include <stdexcept>
+#include <regex>
+#include <map>
 
 /*TODO: Support switching between std out and file or both at the same time*/
 
@@ -16,14 +18,17 @@ class Logger {
         ~Logger();
         void Init(const char * fileName = NULL);
         void LogWithFormat(const char* format, ...);
-        void LogWithPrefix(const char* feature, const char* format, ...);
-        void LogWithVarPrefix(const char* feature, const unsigned varPrefix, const char* format, ...);
+        void LogFeature(const char* feature, const char* format, ...);
+        void LogVariableFeature(const char* feature, const unsigned varPrefix, const char* format, ...);
         void Log(const char* message);
-        void EnableFeature(const char* feature);
-        void DisableFeature(const char* feature);
+        void EnableFeature(const char* featureRegex);
+        void DisableFeature(const char* featureRegex);
     protected:
         char buffer[1024];
-        void LogVarArgs(const char* format, va_list args);
+        void LogVAList(const char* format, va_list args);
+        std::map<const char*, std::regex> regexFeaturesEnabled;
+        bool IsRegexMatchesThenLog(const char* format, ...);
+        void VAListToBuffer(const char* format, va_list args);
     private:
         std::ostream *out;
 };
