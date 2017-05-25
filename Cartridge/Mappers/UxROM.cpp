@@ -24,11 +24,11 @@ void Mapper071::writeCPU(int address, unsigned char val){
 
     switch (address >> 12){
         case 8: case 9:
-            if ((val >> 4) & 1){
+            /*if ((val >> 4) & 1){
                 io.switchToSingleScrHi();
             } else {
                 io.switchToSingleScrLo();
-            }
+            }*/
             break;
         case 12: case 13: case 14:case 15:
             io.switch16K(0, val & (io.iNESHeader.prgSize16k - 1), io.prgBuffer, io.prgSpace);

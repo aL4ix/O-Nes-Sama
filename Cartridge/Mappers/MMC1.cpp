@@ -1,19 +1,20 @@
 #include "MMC1.hpp"
 
-int isPRGLarge = 0;
-int isCHRLarge = 0;
-int superPRGBank = 0;
-int chrSizeMask = 0;
-int prgSizeMask = 0;
-unsigned char control = 0xC;
-unsigned char shiftReg = 0b10000;
-unsigned char wRamBank = 0;
-unsigned char prgBank = 0;
-unsigned char chrBanks[2];
-unsigned countM2, lastCountM2 = 0;
-
 
 MMC1::MMC1(CartIO &ioRef) : BasicMapper(ioRef){
+    isPRGLarge = 0;
+    isCHRLarge = 0;
+    superPRGBank = 0;
+    chrSizeMask = 0;
+    prgSizeMask = 0;
+    control = 0xC;
+    shiftReg = 0b10000;
+    wRamBank = 0;
+    prgBank = 0;
+    chrBanks[2] = {0};
+    countM2, lastCountM2 = 0;
+
+
     io.wRam = new unsigned char [0x8000]; //32K
     io.switch8K(0, 0, io.wRam, io.wRamSpace);
     prgSizeMask = io.iNESHeader.prgSize16k - 1;
@@ -130,7 +131,7 @@ void MMC1::sync(){
     switch((control & 0xC) >> 2){
         case 0: case 1:
             // No game I know switches between modes
-            io.switch32K((prgBank & prgSizeMask) >> 1, io.prgBuffer, io.prgSpace, superPRGBank * 0x40000);
+            io.switch32K(0, (prgBank & prgSizeMask) >> 1, io.prgBuffer, io.prgSpace, superPRGBank * 0x40000);
             break;
         case 2: //Fix first bank at $8000
             io.switch16K(0, 0, io.prgBuffer, io.prgSpace);

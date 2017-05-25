@@ -4,7 +4,9 @@
 #include "../CPUIO.hpp"
 
 struct debug{
-    int * isRendering;
+    bool * isRendering;
+    unsigned char * reg2000;
+    unsigned char * reg2001;
     int * tick;
     int * sl;
 };
@@ -93,11 +95,12 @@ struct CartIO {
 
     }
 
-    inline void switch32K (int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
+    inline void switch32K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
 
         memBank <<= 5;
+        offset <<= 5;
         for (int i=0; i < 32; i++){
-            space[i] = &memBuffer[outer + (memBank + i) * 0x400];
+            space[offset + i] = &memBuffer[outer + (memBank + i) * 0x400];
         }
     }
 
@@ -128,6 +131,10 @@ struct CartIO {
     void switchToSingleScrHi ()
     {
         ntSpace[0] = ntSpace[1] = ntSpace[2] = ntSpace[3] = &ntSystemRam[0x400];
+    }
+
+    void mapIntoNametable(int offset, unsigned char * buffer){
+        ntSpace[offset] = buffer;
     }
 };
 

@@ -14,9 +14,9 @@ class MMC3 : public BasicMapper {
         void clockCPU();
         void clockPPU();
         /*bool loadState(FILE * file);
-        void saveState(FILE * file);
+        void saveState(FILE * file);*/
         void saveSRAM(FILE * batteryFile);
-        void loadSRAM(FILE * batteryFile);*/
+        void loadSRAM(FILE * batteryFile);
     protected:
         int oldPPUA12;
         int needsMCACC;
