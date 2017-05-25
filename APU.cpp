@@ -469,7 +469,7 @@ void APU::process(unsigned cpuCycles)
         }
         if(halfCyclesUntilNoise > 0)
             halfCyclesUntilNoise--;
-        if(halfCyclesUntilNoise == 0)
+        else//if(halfCyclesUntilNoise == 0)
         {
             clockNoise();
         }
@@ -836,17 +836,16 @@ void APU::clockNoise()
     //getchar();
     bool feedback = shiftRegisterNoise & 0x1;
     //XOR with bit 6 if modeFlag else bit 1
-    feedback ^= (modeFlagNoise) ? (shiftRegisterNoise & 0x20) != 0 : (shiftRegisterNoise & 0x2) != 0;
+    feedback ^= (modeFlagNoise) ? (shiftRegisterNoise & 0x40) != 0 : (shiftRegisterNoise & 0x2) != 0;
     shiftRegisterNoise >>= 1;
     shiftRegisterNoise |= feedback << 14;
     //printf("SH: %X ", shiftRegisterNoise);
-    if((!(shiftRegisterNoise & 0x1)) && lengthCounterNoise)
+    if(((shiftRegisterNoise & 0x1) == 0) && lengthCounterNoise > 0)
     {
         outputNoise = (constantVolumeFlagNoise) ? constVolEnvDivPeriodNoise : envelopeVolumeNoise;
     }
     else
         outputNoise = 0;
-
 }
 
 bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount)
