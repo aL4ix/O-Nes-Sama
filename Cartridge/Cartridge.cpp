@@ -10,6 +10,7 @@
 #include "Mappers/MMC1.hpp"
 #include "Mappers/MMC2_4.hpp"
 #include "Mappers/MMC3.hpp"
+#include "Mappers/MMC5.hpp"
 
 using namespace std;
 std::string batteryPath   = "Battery";
@@ -119,6 +120,9 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
         case 4:
             mpr = new MMC3(io);
             break;
+        case 5:
+            mpr = new MMC5(io);
+            break;
         case 7:
             mpr = new Mapper007(io);
             break;
@@ -149,10 +153,9 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
         case 185:
             mpr = new Mapper185(io);
             break;
-        /*
         case 225:
-            mpr = new Mapper225(header);
-            break;*/
+            mpr = new Mapper255(io);
+            break;
     }
     return mpr;
 }

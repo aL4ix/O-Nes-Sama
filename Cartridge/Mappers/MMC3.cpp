@@ -26,10 +26,16 @@ MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
             break;
         }
     }
+
+    if (io.iNESHeader.romCRC32 != lowGMan){
+
+        io.wRam = new unsigned char [0x2000];
+        io.switch8K(0, 0, io.wRam, io.wRamSpace);
+    }
+
     printf ("\nNeeds MC_ACC Behavior   : %d", needsMCACC);
 
-    io.wRam = new unsigned char [0x2000];
-    io.switch8K(0, 0, io.wRam, io.wRamSpace);
+
     prgSizeMask = (io.iNESHeader.prgSize16k << 1) - 1;
 
     commandRegs[6] = 0;
@@ -217,16 +223,14 @@ void MMC3::saveState(FILE * file){
     tempR[13] = irqEnable;
     Board::saveState(file);
 }
-
-
-void MMC3::saveSRAM(FILE * batteryFile) {
-    MapperUtils::saveSRAM(wramBuffer, batteryFile);
-}
-
-void MMC3::loadSRAM(FILE * batteryFile) {
-    MapperUtils::loadSRAM(wramBuffer, batteryFile);
-}
 */
 
+void MMC3::saveSRAM(FILE * batteryFile){
+    fwrite(io.wRam, 0x2000, 1, batteryFile);
+}
+
+void MMC3::loadSRAM(FILE * batteryFile){
+    fread(io.wRam, 0x2000, 1, batteryFile);
+}
 
 MMC3::~MMC3(){}

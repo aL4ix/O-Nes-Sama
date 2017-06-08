@@ -20,4 +20,21 @@ public:
 };
 
 
+/* 64 in 1 and other multi-carts */
+class Mapper255 : public BasicMapper{
+
+public:
+    Mapper255(CartIO &ioRef);
+    //4 x 4 bit ram register
+
+    unsigned char ramReg[4];
+    int mirr;
+    int prgMode;
+    int prgPos;
+    int prgReg;
+    int chrReg;
+    void writeCPU(int address, unsigned char val);
+};
+
+
 #endif // GXROM_HPP_INCLUDED
