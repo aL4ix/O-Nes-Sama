@@ -11,10 +11,10 @@ MMC1::MMC1(CartIO &ioRef) : BasicMapper(ioRef){
     shiftReg = 0b10000;
     wRamBank = 0;
     prgBank = 0;
-    chrBanks[2] = {0};
+    chrBanks[0] = 0;
+    chrBanks[1] = 0;
     countM2 = 0;
     lastCountM2 = 0;
-
 
     io.wRam = new unsigned char [0x8000]; //32K
     io.switch8K(0, 0, io.wRam, io.wRamSpace);
@@ -152,4 +152,47 @@ void MMC1::saveSRAM(FILE * batteryFile){
 
 void MMC1::loadSRAM(FILE * batteryFile){
     fread(io.wRam, 0x8000, 1, batteryFile);
+}
+
+void MMC1::loadState(FILE * file){
+
+    fread(&isPRGLarge  , sizeof(int *), 1, file);
+    fread(&isCHRLarge  , sizeof(int *), 1, file);
+    fread(&superPRGBank, sizeof(int *), 1, file);
+    fread(&control    , sizeof(unsigned char *), 1, file);
+    fread(&shiftReg   , sizeof(unsigned char *), 1, file);
+    fread(&wRamBank   , sizeof(unsigned char *), 1, file);
+    fread(&prgBank    , sizeof(unsigned char *), 1, file);
+    fread(chrBanks    , sizeof(unsigned char)  , 2, file);
+    fread(&countM2    , sizeof(unsigned *)     , 1, file);
+    fread(&lastCountM2, sizeof(unsigned *)     , 1, file);
+
+    if (io.wRam)
+        fread(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fread(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fread(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+    sync();
+
+}
+
+void MMC1::saveState(FILE * file){
+
+    fwrite(&isPRGLarge  , sizeof(int *), 1, file);
+    fwrite(&isCHRLarge  , sizeof(int *), 1, file);
+    fwrite(&superPRGBank, sizeof(int *), 1, file);
+    fwrite(&control    , sizeof(unsigned char *), 1, file);
+    fwrite(&shiftReg   , sizeof(unsigned char *), 1, file);
+    fwrite(&wRamBank   , sizeof(unsigned char *), 1, file);
+    fwrite(&prgBank    , sizeof(unsigned char *), 1, file);
+    fwrite(chrBanks    , sizeof(unsigned char)  , 2, file);
+    fwrite(&countM2    , sizeof(unsigned *)     , 1, file);
+    fwrite(&lastCountM2, sizeof(unsigned *)     , 1, file);
+
+    if (io.wRam)
+        fwrite(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fwrite(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fwrite(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+
 }

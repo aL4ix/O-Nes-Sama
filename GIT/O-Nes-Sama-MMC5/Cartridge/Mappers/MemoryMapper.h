@@ -19,6 +19,8 @@ class MemoryMapper{
         virtual void clockPPU() = 0;
         virtual void loadSRAM(FILE * batteryFile) = 0;
         virtual void saveSRAM(FILE * batteryFile) = 0;
+        virtual void saveState(FILE * file) = 0;
+        virtual void loadState(FILE * file) = 0;
 
 };
 

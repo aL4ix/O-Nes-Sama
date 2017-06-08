@@ -6,14 +6,12 @@
 #include "PPU.h"
 #include "APU.h"
 #include "CPUIO.hpp"
-//#include "Cartridge/Cartridge.hpp"
 
 struct CpuStateData{
     unsigned char ram[0x800];
     bool isIntPendng;
     bool isNMIPending;
     bool isIRQPending;
-    //bool isSprDMAPending;
     Registers regs;
     ProcessorFlags flags;
     InstructionData instData;

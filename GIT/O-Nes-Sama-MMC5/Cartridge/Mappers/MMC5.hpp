@@ -3,10 +3,10 @@
 
 #include "BasicMapper.hpp"
 
-struct PrgBanks{
+/*struct PrgBanks{
     unsigned char romToggle;
     unsigned char bank;
-};
+};*/
 
 class MMC5 : public BasicMapper{
     public:
@@ -25,6 +25,8 @@ class MMC5 : public BasicMapper{
         //sRAM functions
         void saveSRAM(FILE * batteryFile);
         void loadSRAM(FILE * batteryFile);
+        void saveState(FILE * file);
+        void loadState(FILE * file);
 
     private:
         //PPU Access handlers
@@ -48,14 +50,14 @@ class MMC5 : public BasicMapper{
         unsigned char fillModeTile;
         unsigned char fillModeColor;
         unsigned char prgRamBank;
-        PrgBanks prgBanks[4];
+        unsigned char prgBanks[4];
         unsigned char chrSelA[8];
         unsigned char chrSelB[4];
         unsigned char chrUpperBank;
         unsigned char vSplitMode;
         unsigned char vSplitScroll;
         unsigned char vSplitBank;
-        int irqCounter;
+        unsigned char irqCounter;
         unsigned char irqScanline;
         unsigned char irqEnabled;
         unsigned char irqStatus;

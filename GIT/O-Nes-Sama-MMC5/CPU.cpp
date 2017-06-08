@@ -351,6 +351,7 @@ inline void CPU::interruptSequence(int brk){
     regs.p |= flags.I_FLAG;
     regs.pc = read(vec);
     regs.pc |= ((read(vec + 1)) << 8);
+
     io.reset = 0;
     io.nmi = 0;
     io.irq = 0;

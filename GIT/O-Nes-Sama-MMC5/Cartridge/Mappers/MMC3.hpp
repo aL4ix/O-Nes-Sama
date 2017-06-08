@@ -13,13 +13,17 @@ class MMC3 : public BasicMapper {
         void sync();
         void clockCPU();
         void clockPPU();
-        /*bool loadState(FILE * file);
-        void saveState(FILE * file);*/
         void saveSRAM(FILE * batteryFile);
         void loadSRAM(FILE * batteryFile);
+        void loadState(FILE * file);
+        void saveState(FILE * file);
     protected:
         int oldPPUA12;
         int needsMCACC;
+        int edgeCount;
+        int cycleDelay;
+        int prgSizeMask;
+        int chrSizeMask;
         //Registers
         unsigned char commandRegs[8];
         unsigned char bankSelect;
@@ -29,12 +33,8 @@ class MMC3 : public BasicMapper {
         unsigned char irqCounter;
         unsigned char irqEnable;
 
-        int altBehavior;
 
-        int prgSizeMask;
-        int chrSizeMask;
 
-        int edgeCount;
         void clockIRQCounter();
         void syncPRG();
         void syncCHR();

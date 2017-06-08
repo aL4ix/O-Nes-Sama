@@ -1,7 +1,18 @@
 #include "MMC5.hpp"
 #include <stdlib.h>
 
+int mask1K;
+int mask2K;
+int mask4K;
+int mask8K;
+
 MMC5::MMC5(CartIO & ioRef) : BasicMapper (ioRef){
+
+    mask1K = (io.iNESHeader.chrSize8k << 3) - 1;
+    mask2K = (io.iNESHeader.chrSize8k << 2) - 1;
+    mask4K = (io.iNESHeader.chrSize8k << 1) - 1;
+    mask8K = io.iNESHeader.chrSize8k - 1;
+
     ntAddr = -1;
     tilebank = 0;
     is8x16 = 0;
@@ -23,10 +34,10 @@ MMC5::MMC5(CartIO & ioRef) : BasicMapper (ioRef){
     irqStatus = 0;
     multiplier[0] = 0;
     multiplier[1] = 0;
-    prgBanks[0].bank = 0;
-    prgBanks[1].bank = 0;
-    prgBanks[2].bank = 0;
-    prgBanks[3].bank = 0xFF;
+    prgBanks[0] = 0;
+    prgBanks[1] = 0;
+    prgBanks[2] = 0;
+    prgBanks[3] = 0xFF;
     curChrSet = 0;
     io.wRam = new unsigned char [0x10000]; //64 K
     io.switch8K(0, 0, io.wRam, io.wRamSpace);
@@ -87,7 +98,7 @@ void MMC5::writeCPU(int address, unsigned char val){
             break;
         case 0x5104:
             exRamMode = val & 3;
-            printf ("\nExram Mode %X", exRamMode);
+            //printf ("\nExram Mode %X", exRamMode);
 
             if (exRamMode == 1){
                 ppuReadFunc = &MMC5::readPPUExRam1;
@@ -114,29 +125,18 @@ void MMC5::writeCPU(int address, unsigned char val){
         case 0x5113:
             prgRamBank = val & 7;
             io.switch8K(0, prgRamBank, io.wRam, io.wRamSpace);
-
             break;
         case 0x5114:
-            prgBanks[0].bank = val;
-            prgBanks[0].romToggle = val >> 7;
-            io.prgWritable = !prgBanks[0].romToggle;
-            //if (io.prgWritable) printf ("\nRAM toggle 0: %X", io.prgWritable);
+            prgBanks[0] = val;
             break;
         case 0x5115:
-            prgBanks[1].bank = val;
-            prgBanks[1].romToggle = val >> 7;
-            io.prgWritable = !prgBanks[1].romToggle;
-            //if (io.prgWritable) printf ("\nRAM toggle 1: %X", io.prgWritable);
+            prgBanks[1] = val;
             break;
         case 0x5116:
-            prgBanks[2].bank = val;
-            prgBanks[2].romToggle = val >> 7;
-            io.prgWritable = !prgBanks[2].romToggle;
-            //if (io.prgWritable) printf ("\nRAM toggle 2: %X", io.prgWritable);
-
+            prgBanks[2] = val;
             break;
         case 0x5117:
-            prgBanks[3].bank = val & 0x7F;
+            prgBanks[3] = val & 0x7F;
             //io.prgWritable = 0;
             break;
         case 0x5120: case 0x5121: case 0x5122: case 0x5123: case 0x5124: case 0x5125:
@@ -202,6 +202,7 @@ void MMC5::writeCPU(int address, unsigned char val){
 }
 
 unsigned char MMC5::readPPU(int address){
+    clockPPU();
     return (this->*ppuReadFunc)(address);
 }
 
@@ -218,11 +219,10 @@ unsigned char MMC5::readPPUExRam1(int address){
     if (address >= 0x3000)
         address &= 0x2FFF;
 
-    int mask1K = address >> 10;
-    int mask4K = (io.iNESHeader.chrSize8k << 1) - 1;
+    int div400 = address >> 10;
     io.ppuAddrBus = address;
 
-    switch (mask1K){
+    switch (div400){
 
         case 0: case 1: case 2: case 3:
             io.switch4K(0, tilebank & mask4K, io.chrBuffer, io.chrSpace);
@@ -234,19 +234,9 @@ unsigned char MMC5::readPPUExRam1(int address){
             if ((address & 0x3FF) < 0x3C0){
                 ntAddr = address & 0x3FF;
                 tilebank = exRam[ntAddr] & 0x3F;
-
-                if (tilebank > mask4K){
-                    //printf("\nHere");
-                }
-
                 return BasicMapper::readPPU(address);
             }
             else {
-
-                if (tilebank == -1){
-                    printf("\nHere");
-
-                }
                 unsigned char color = exRam[ntAddr] >> 6;
                 return color | (color << 2) | (color << 4) | (color << 6);
             }
@@ -256,6 +246,7 @@ unsigned char MMC5::readPPUExRam1(int address){
 }
 
 void MMC5::writePPU(int address, unsigned char val){
+    clockPPU();
     BasicMapper::writePPU(address, val);
 }
 
@@ -270,7 +261,6 @@ void MMC5::clockPPU(){
     }
 
     clockIRQ();
-
     syncCHR();
 
 }
@@ -288,7 +278,6 @@ void MMC5::clockCPU(){
                     break;
                 case 1:
                     if (!((io.cpuIO->dataBus) & 0x18)){
-                        //printf ("\nTurned off.");
                         irqStatus &= ~0x40;
                     }
                     break;
@@ -302,7 +291,7 @@ void MMC5::clockIRQ(){
     if (!(irqStatus & 0x40)){
         irqCounter = 0;
     } else {
-        if ((*io.dbg.tick == 337)){
+        if ((*io.dbg.tick == 339)){
 
             if (irqScanline == irqCounter){
                 irqStatus |= 0x80;
@@ -324,46 +313,46 @@ void MMC5::syncPRG(){
 
     switch (prgMode){
         case 0:
-            io.switch32K(0, (prgBanks[3].bank >> 2) & mask32, io.prgBuffer, io.prgSpace);
+            io.switch32K(0, (prgBanks[3] >> 2) & mask32, io.prgBuffer, io.prgSpace);
             break;
         case 1:
-            if (prgBanks[1].romToggle)
-                io.switch16K(0, (prgBanks[1].bank >> 1) & mask16, io.prgBuffer, io.prgSpace);
+            if (prgBanks[1] & 0x80)
+                io.switch16K(0, (prgBanks[1] >> 1) & mask16, io.prgBuffer, io.prgSpace);
             else
-                io.switch16K(0, (prgBanks[1].bank >> 1) & 7, io.wRam, io.prgSpace);
+                io.switch16K(0, (prgBanks[1] >> 1) & 7, io.wRam, io.prgSpace);
 
-            io.switch16K(1, (prgBanks[3].bank >> 1) & mask16, io.prgBuffer, io.prgSpace);
+            io.switch16K(1, (prgBanks[3] >> 1) & mask16, io.prgBuffer, io.prgSpace);
             break;
         case 2:
-            if (prgBanks[1].romToggle)
-                io.switch16K(0, (prgBanks[1].bank >> 1) & mask16, io.prgBuffer, io.prgSpace);
+            if (prgBanks[1] & 0x80)
+                io.switch16K(0, (prgBanks[1] >> 1) & mask16, io.prgBuffer, io.prgSpace);
             else
-                io.switch16K(0, (prgBanks[1].bank >> 1) & 7, io.wRam, io.prgSpace);
+                io.switch16K(0, (prgBanks[1] >> 1) & 7, io.wRam, io.prgSpace);
 
-            if (prgBanks[2].romToggle)
-                io.switch8K(2, prgBanks[2].bank & mask8, io.prgBuffer, io.prgSpace);
+            if (prgBanks[2] & 0x80)
+                io.switch8K(2, prgBanks[2] & mask8, io.prgBuffer, io.prgSpace);
             else
-                io.switch8K(2, prgBanks[2].bank & 7, io.wRam, io.prgSpace);
+                io.switch8K(2, prgBanks[2] & 7, io.wRam, io.prgSpace);
 
-            io.switch8K(3, prgBanks[3].bank & mask8, io.prgBuffer, io.prgSpace);
+            io.switch8K(3, prgBanks[3] & mask8, io.prgBuffer, io.prgSpace);
             break;
         case 3:
-            if (prgBanks[0].romToggle)
-                io.switch8K(0, prgBanks[0].bank & mask8, io.prgBuffer, io.prgSpace);
+            if (prgBanks[0] & 0x80)
+                io.switch8K(0, prgBanks[0] & mask8, io.prgBuffer, io.prgSpace);
             else
-                io.switch8K(0, prgBanks[0].bank & 7, io.wRam, io.prgSpace);
+                io.switch8K(0, prgBanks[0] & 7, io.wRam, io.prgSpace);
 
-            if (prgBanks[1].romToggle)
-                io.switch8K(1, prgBanks[1].bank & mask8, io.prgBuffer, io.prgSpace);
+            if (prgBanks[1] & 0x80)
+                io.switch8K(1, prgBanks[1] & mask8, io.prgBuffer, io.prgSpace);
             else
-                io.switch8K(1, prgBanks[1].bank & 7, io.wRam, io.prgSpace);
+                io.switch8K(1, prgBanks[1] & 7, io.wRam, io.prgSpace);
 
-            if (prgBanks[2].romToggle)
-                io.switch8K(2, prgBanks[2].bank & mask8, io.prgBuffer, io.prgSpace);
+            if (prgBanks[2] & 0x80)
+                io.switch8K(2, prgBanks[2] & mask8, io.prgBuffer, io.prgSpace);
             else
-                io.switch8K(2, prgBanks[2].bank & 7, io.wRam, io.prgSpace);
+                io.switch8K(2, prgBanks[2] & 7, io.wRam, io.prgSpace);
 
-            io.switch8K(3, prgBanks[3].bank & mask8, io.prgBuffer, io.prgSpace);
+            io.switch8K(3, prgBanks[3] & mask8, io.prgBuffer, io.prgSpace);
             break;
     }
 }
@@ -404,16 +393,6 @@ void MMC5::syncCHR(){
 
 void MMC5::syncCHRA(){
 
-    int mask1K = (io.iNESHeader.chrSize8k << 3) - 1;
-    int mask2K = (io.iNESHeader.chrSize8k << 2) - 1;
-    int mask4K = (io.iNESHeader.chrSize8k << 1) - 1;
-    int mask8K = io.iNESHeader.chrSize8k - 1;
-
-
-    if (tilebank > mask1K){
-        printf("\nHere");
-    }
-
     switch(chrMode){
         case 0: //8K Banks
             io.switch8K(0, chrSelA[7] & mask8K, io.chrBuffer, io.chrSpace);
@@ -447,27 +426,27 @@ void MMC5::syncCHRB(){
 
     switch(chrMode){
         case 0: //8K Banks
-            io.switch8K(0, chrSelB[0x3], io.chrBuffer, io.chrSpace);
+            io.switch8K(0, chrSelB[0x3] & mask8K, io.chrBuffer, io.chrSpace);
             break;
         case 1: //4K Banks
-            io.switch4K(0, chrSelB[0x3], io.chrBuffer, io.chrSpace);
-            io.switch4K(1, chrSelB[0x3], io.chrBuffer, io.chrSpace);
+            io.switch4K(0, chrSelB[0x3] & mask4K, io.chrBuffer, io.chrSpace);
+            io.switch4K(1, chrSelB[0x3] & mask4K, io.chrBuffer, io.chrSpace);
             break;
         case 2: //2K Banks
-            io.switch2K(0, chrSelB[0x1], io.chrBuffer, io.chrSpace);
-            io.switch2K(1, chrSelB[0x3], io.chrBuffer, io.chrSpace);
-            io.switch2K(2, chrSelB[0x1], io.chrBuffer, io.chrSpace);
-            io.switch2K(3, chrSelB[0x3], io.chrBuffer, io.chrSpace);
+            io.switch2K(0, chrSelB[0x1] & mask2K, io.chrBuffer, io.chrSpace);
+            io.switch2K(1, chrSelB[0x3] & mask2K, io.chrBuffer, io.chrSpace);
+            io.switch2K(2, chrSelB[0x1] & mask2K, io.chrBuffer, io.chrSpace);
+            io.switch2K(3, chrSelB[0x3] & mask2K, io.chrBuffer, io.chrSpace);
             break;
         case 3: //1K Banks
-            io.switch1K(0, chrSelB[0x0] , io.chrBuffer, io.chrSpace);
-            io.switch1K(1, chrSelB[0x1], io.chrBuffer, io.chrSpace);
-            io.switch1K(2, chrSelB[0x2], io.chrBuffer, io.chrSpace);
-            io.switch1K(3, chrSelB[0x3], io.chrBuffer, io.chrSpace);
-            io.switch1K(4, chrSelB[0x0], io.chrBuffer, io.chrSpace);
-            io.switch1K(5, chrSelB[0x1], io.chrBuffer, io.chrSpace);
-            io.switch1K(6, chrSelB[0x2], io.chrBuffer, io.chrSpace);
-            io.switch1K(7, chrSelB[0x3], io.chrBuffer, io.chrSpace);
+            io.switch1K(0, chrSelB[0x0] & mask1K, io.chrBuffer, io.chrSpace);
+            io.switch1K(1, chrSelB[0x1] & mask1K, io.chrBuffer, io.chrSpace);
+            io.switch1K(2, chrSelB[0x2] & mask1K, io.chrBuffer, io.chrSpace);
+            io.switch1K(3, chrSelB[0x3] & mask1K, io.chrBuffer, io.chrSpace);
+            io.switch1K(4, chrSelB[0x0] & mask1K, io.chrBuffer, io.chrSpace);
+            io.switch1K(5, chrSelB[0x1] & mask1K, io.chrBuffer, io.chrSpace);
+            io.switch1K(6, chrSelB[0x2] & mask1K, io.chrBuffer, io.chrSpace);
+            io.switch1K(7, chrSelB[0x3] & mask1K, io.chrBuffer, io.chrSpace);
             break;
     }
 }
@@ -502,4 +481,97 @@ void MMC5::saveSRAM(FILE * batteryFile){
 
 void MMC5::loadSRAM(FILE * batteryFile){
     fread(io.wRam, 0x10000, 1, batteryFile);
+}
+
+void MMC5::saveState(FILE * file) {
+
+    fwrite(&curChrSet, sizeof(int *), 1, file);
+    fwrite(&is8x16   , sizeof(int *), 1, file);
+    fwrite(&ntAddr   , sizeof(int *), 1, file);
+
+    fwrite(&tilebank ,     sizeof(unsigned char *), 1, file);
+    fwrite(&prgMode  ,     sizeof(unsigned char *), 1, file);
+    fwrite(&chrMode  ,     sizeof(unsigned char *), 1, file);
+    fwrite(&wRamProt1,     sizeof(unsigned char *), 1, file);
+    fwrite(&wRamProt2,     sizeof(unsigned char *), 1, file);
+    fwrite(&exRamMode,     sizeof(unsigned char *), 1, file);
+    fwrite(&ntMapping,     sizeof(unsigned char *), 1, file);
+    fwrite(&fillModeTile , sizeof(unsigned char *), 1, file);
+    fwrite(&fillModeColor, sizeof(unsigned char *), 1, file);
+    fwrite(&prgRamBank   , sizeof(unsigned char *), 1, file);
+
+    for (int i = 0; i < 4; i++){
+        fwrite(&prgBanks[i]   , sizeof(unsigned char *), 1, file);
+        fwrite(&chrSelB[i]   , sizeof(unsigned char *), 1, file);
+    }
+
+    for (int i = 0; i < 8; i++){
+        fwrite(&chrSelA[i]   , sizeof(unsigned char *), 1, file);
+    }
+
+    fwrite(&chrUpperBank , sizeof(unsigned char *), 1, file);
+    fwrite(&vSplitMode   , sizeof(unsigned char *), 1, file);
+    fwrite(&vSplitScroll , sizeof(unsigned char *), 1, file);
+    fwrite(&vSplitBank   , sizeof(unsigned char *), 1, file);
+    fwrite(&irqCounter   , sizeof(unsigned char *), 1, file);
+    fwrite(&irqScanline  , sizeof(unsigned char *), 1, file);
+    fwrite(&irqEnabled   , sizeof(unsigned char *), 1, file);
+    fwrite(&irqStatus    , sizeof(unsigned char *), 1, file);
+    fwrite(&multiplier[0], sizeof(unsigned char *), 1, file);
+    fwrite(&multiplier[1], sizeof(unsigned char *), 1, file);
+    fwrite(exRam         , sizeof(unsigned char), 0x400, file);
+    fwrite(fillMode      , sizeof(unsigned char), 0x400, file);
+    fwrite(io.wRam       , sizeof(unsigned char), 0x10000, file);
+    fwrite(io.ntSystemRam, sizeof(unsigned char), 0x800, file);
+
+    if (io.iNESHeader.chrSize8k == 0)
+        fwrite(io.chrBuffer, sizeof(unsigned char), 0x2000, file);
+
+}
+
+void MMC5::loadState(FILE * file) {
+
+    fread(&curChrSet, sizeof(int *), 1, file);
+    fread(&is8x16   , sizeof(int *), 1, file);
+    fread(&ntAddr   , sizeof(int *), 1, file);
+
+    fread(&tilebank ,     sizeof(unsigned char *), 1, file);
+    fread(&prgMode  ,     sizeof(unsigned char *), 1, file);
+    fread(&chrMode  ,     sizeof(unsigned char *), 1, file);
+    fread(&wRamProt1,     sizeof(unsigned char *), 1, file);
+    fread(&wRamProt2,     sizeof(unsigned char *), 1, file);
+    fread(&exRamMode,     sizeof(unsigned char *), 1, file);
+    fread(&ntMapping,     sizeof(unsigned char *), 1, file);
+    fread(&fillModeTile , sizeof(unsigned char *), 1, file);
+    fread(&fillModeColor, sizeof(unsigned char *), 1, file);
+    fread(&prgRamBank   , sizeof(unsigned char *), 1, file);
+
+    for (int i = 0; i < 4; i++){
+        fread(&prgBanks[i]   , sizeof(unsigned char *), 1, file);
+        fread(&chrSelB[i]   , sizeof(unsigned char *), 1, file);
+    }
+
+    for (int i = 0; i < 8; i++){
+        fread(&chrSelA[i]   , sizeof(unsigned char *), 1, file);
+    }
+
+    fread(&chrUpperBank , sizeof(unsigned char *), 1, file);
+    fread(&vSplitMode   , sizeof(unsigned char *), 1, file);
+    fread(&vSplitScroll , sizeof(unsigned char *), 1, file);
+    fread(&vSplitBank   , sizeof(unsigned char *), 1, file);
+    fread(&irqCounter   , sizeof(unsigned char *), 1, file);
+    fread(&irqScanline  , sizeof(unsigned char *), 1, file);
+    fread(&irqEnabled   , sizeof(unsigned char *), 1, file);
+    fread(&irqStatus    , sizeof(unsigned char *), 1, file);
+    fread(&multiplier[0], sizeof(unsigned char *), 1, file);
+    fread(&multiplier[1], sizeof(unsigned char *), 1, file);
+    fread(exRam         , sizeof(unsigned char), 0x400, file);
+    fread(fillMode      , sizeof(unsigned char), 0x400, file);
+    fread(io.wRam       , sizeof(unsigned char), 0x10000, file);
+    fread(io.ntSystemRam, sizeof(unsigned char), 0x800, file);
+
+    if (io.iNESHeader.chrSize8k == 0)
+        fread(io.chrBuffer, sizeof(unsigned char), 0x2000, file);
+
+    sync();
 }

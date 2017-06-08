@@ -115,7 +115,7 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
             mpr = new Mapper002(io);
             break;
         case 3:
-            mpr = new Mapper003(io);
+            mpr = new CNROM(io);
             break;
         case 4:
             mpr = new MMC3(io);
@@ -133,7 +133,7 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
             mpr = new Mapper011(io);
             break;
         case 66:
-            mpr = new Mapper066(io);
+            mpr = new GNROM(io);
             break;
         case 71:
             mpr = new Mapper071(io);
@@ -154,18 +154,10 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
             mpr = new Mapper185(io);
             break;
         case 225:
-            mpr = new Mapper255(io);
+            mpr = new Mapper225(io);
             break;
     }
     return mpr;
-}
-
-bool Cartridge::loadState(FILE * file){
-//    return mapper->loadState(file);
-}
-
-void Cartridge::saveState(FILE * file){
-//    mapper->saveState(file);
 }
 
 std::string Cartridge::getBaseRomName(std::string tmpRomName){

@@ -85,6 +85,24 @@ inline void BasicMapper::writePPU(int address, unsigned char val){
     }
 }
 
+void BasicMapper::saveState(FILE * file) {
+
+    if (io.wRam)
+        fwrite(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fwrite(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fwrite(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+
+}
+
+void BasicMapper::loadState(FILE * file) {
+    if (io.wRam)
+        fread(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fread(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fread(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+}
+
 BasicMapper::~BasicMapper(){
     delete [] io.wRam;
     delete [] io.prgBuffer;
