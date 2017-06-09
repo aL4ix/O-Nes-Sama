@@ -112,7 +112,7 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
             mpr = new MMC1(io);
             break;
         case 2:
-            mpr = new Mapper002(io);
+            mpr = new UxROM(io);
             break;
         case 3:
             mpr = new CNROM(io);

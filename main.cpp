@@ -46,7 +46,6 @@ int main(){
     //std::string romFileName   = "games/GxROM/Super Mario Bros. + Duck Hunt (USA).nes";
     //std::string romFileName   = "games/ColorDreams/Metal Fighter (USA) (Unl).nes";
 
-
     //std::string romFileName   = "games/blargg_ppu_tests/sprite_ram.nes";
     //std::string romFileName   = "games/mmc3_test_2/rom_singles/4-scanline_timing.nes";
     //std::string romFileName   = "games/NROM/smb.nes";
@@ -111,8 +110,6 @@ int main(){
     //std::string romFileName   = "games/MMC1/Bill & Ted's Excellent Video Game Adventure (USA).nes";
     //std::string romFileName   = "games/MMC3/Low G Man - The Low Gravity Man (U) [!].nes";
 
-
-
     //std::string romFileName   =  "games/MMC1/bart.nes";
     //std::string romFileName   =  "games/MMC1/Legend of Zelda, The (U).nes";
     //std::string romFileName   =  "games/MMC1/Metroid (USA).nes";
@@ -125,7 +122,7 @@ int main(){
     //std::string romFileName   =  "games/MMC1/Final Fantasy I & II (Japan).nes";
     //std::string romFileName   =  "C:/Users/Federico Gimeno/Desktop/6502_1.2.11/Nes_Practice/nes_basics.nes";
 
-    //std::string romFileName   =  "games/Camerica/Micro Machines (USA) (Unl).nes";
+    std::string romFileName   =  "games/Camerica/Micro Machines (USA) (Unl).nes";
     //std::string romFileName   =  "games/Camerica/Fire Hawk (USA) (Unl).nes";
     //std::string romFileName   =  "games/Camerica/MiG 29 - Soviet Fighter (Camerica) [!].nes";
 
@@ -136,7 +133,7 @@ int main(){
     //std::string romFileName   =  "games/MMC5/Just Breed (J) [!].nes";
 
     //std::string romFileName   =  "games/MMC5/Castlevania III - Dracula's Curse (USA).nes";
-    std::string romFileName   =  "games/MMC5/Shin 4 Nin Uchi Mahjong - Yakuman Tengoku (J) [!].nes";
+    //std::string romFileName   =  "games/MMC5/Shin 4 Nin Uchi Mahjong - Yakuman Tengoku (J) [!].nes";
 
 
     //std::string romFileName   =  "games/allpads/allpads.nes";
