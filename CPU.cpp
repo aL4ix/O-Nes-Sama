@@ -50,7 +50,7 @@ CPU::CPU(MemoryMapper &m) : mapper(m){
 
     /*Initialize Logger*/
     #if LOG_LEVEL == 1
-    logger = new CPULogger (regs, flags, ints, instData, "Logging/CPULog.txt");
+    logger = new CPULogger (regs, flags, io, instData, "Logging/CPULog.txt");
     #endif
 }
 
@@ -61,10 +61,9 @@ CPU::CPU(MemoryMapper &m) : mapper(m){
 unsigned char CPU::read(int addr){
     unsigned char ret = -1;
 
-
-    mapper.clockCPU();
     ppu->process(1);
     apu->process(1);
+
     /*Increase cycle count*/
     cycleCount ++;
     generalCycleCount++;
@@ -78,7 +77,6 @@ unsigned char CPU::read(int addr){
         else {
             ret = apu->readMem(addr);
         }
-
     }
 
 
@@ -97,8 +95,12 @@ unsigned char CPU::read(int addr){
                 break;
         }
     }
+
+
     io.addressBus = addr;
     io.dataBus = ret;
+    io.wr = 0;
+    mapper.clockCPU();
     return ret;
 }
 
@@ -133,11 +135,12 @@ void CPU::write(int addr, unsigned char val){
     /*Increase cycle count*/
     cycleCount ++;
     generalCycleCount++;
-    mapper.clockCPU();
     ppu->process(1);
     apu->process(1);
+
     io.addressBus = addr;
     io.dataBus = val;
+    io.wr = 1;
 
     if ((addr >= 0x4000) && (addr <= 0x401F)) //APU's only read register
     {
@@ -178,6 +181,7 @@ void CPU::write(int addr, unsigned char val){
                 break;
         }
     }
+    mapper.clockCPU();
 }
 
 void CPU::setPPUPtr(PPU * p){
@@ -347,6 +351,7 @@ inline void CPU::interruptSequence(int brk){
     regs.p |= flags.I_FLAG;
     regs.pc = read(vec);
     regs.pc |= ((read(vec + 1)) << 8);
+
     io.reset = 0;
     io.nmi = 0;
     io.irq = 0;
@@ -357,7 +362,7 @@ void CPU::pollForInterrupts(){
     if (isIRQPending && io.nmi)
     {
         printf ("\nIRQ Forgotten...");
-        io.irq=0;
+        isIRQPending = 0;
     }
     isIntPendng =  io.reset || io.nmi || isIRQPending;
 

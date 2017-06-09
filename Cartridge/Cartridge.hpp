@@ -8,7 +8,6 @@
 
 class Cartridge{
     public:
-        //BoardData bData;
         Cartridge(std::string fileName);
         ~Cartridge();
         CartIO io;
@@ -16,11 +15,9 @@ class Cartridge{
         int hasBattery;
         void loadRomFile();
         void initMapper();
-        void saveState(FILE * file);
-        bool loadState(FILE * file);
-        std::string getBaseRomName(std::string tmpRomName);
 
     private:
+        std::string getBaseRomName(std::string tmpRomName);
         std::string fileNameBase;
         std::string romFileName;
         MemoryMapper * createMapper(int mapperNo);

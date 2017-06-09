@@ -5,6 +5,7 @@ struct CPUIO {
     int nmi;
     int irq;
     int reset;
+    int wr;
     unsigned char dataBus;
     int addressBus;
 };

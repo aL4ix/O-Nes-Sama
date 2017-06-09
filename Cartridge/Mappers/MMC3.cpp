@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int cyclesToIgnore = 3;
-
 MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
 
+    cycleDelay = 3;
     oldPPUA12   = 0;
     needsMCACC  = 0;
     bankSelect  = 0;
@@ -14,7 +13,6 @@ MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
     irqReload   = 0;
     irqCounter  = 0;
     irqEnable   = 0;
-    altBehavior = 0;
     prgSizeMask = 0;
     chrSizeMask = 0;
     edgeCount   = 0;
@@ -155,9 +153,13 @@ void inline MMC3::clockCPU(){
 
 }
 
-void inline MMC3::clockPPU(){}
+void inline MMC3::clockPPU(){
+    clockIRQCounter();
+}
 
 inline void MMC3::clockIRQCounter(){
+    if (io.ppuAddrBus > 0x2FFF)
+        io.ppuAddrBus &= 0x2FFF;
 
     int ppuA12 = (io.ppuAddrBus >> 12) & 1;
 
@@ -173,7 +175,7 @@ inline void MMC3::clockIRQCounter(){
 
     if (edgeCondition){
 
-        if (edgeCount > cyclesToIgnore){
+        if (edgeCount > cycleDelay){
             if (irqReload){
                 irqCounter = irqLatch;
                 irqReload = 0;
@@ -197,40 +199,58 @@ inline void MMC3::clockIRQCounter(){
     oldPPUA12 = ppuA12;
 }
 
-/*bool MMC3::loadState(FILE * file){
-    Board::loadState(file);
-    for (int i = 0; i < 8; i++){
-        commandRegs[i] = tempR[i];
-    }
-    bankSelect = tempR[8];
-    mirroring  = tempR[9];
-    irqLatch   = tempR[10];
-    irqReload  = tempR[11];
-    irqCounter = tempR[12];
-    irqEnable  = tempR[13];
-    sync();
-}
-
-void MMC3::saveState(FILE * file){
-    for (int i = 0; i < 8; i++){
-        tempR[i] = commandRegs[i];
-    }
-    tempR[8]  = bankSelect;
-    tempR[9]  = mirroring;
-    tempR[10] = irqLatch;
-    tempR[11] = irqReload;
-    tempR[12] = irqCounter;
-    tempR[13] = irqEnable;
-    Board::saveState(file);
-}
-*/
-
 void MMC3::saveSRAM(FILE * batteryFile){
     fwrite(io.wRam, 0x2000, 1, batteryFile);
 }
 
 void MMC3::loadSRAM(FILE * batteryFile){
     fread(io.wRam, 0x2000, 1, batteryFile);
+}
+
+void MMC3::loadState(FILE * file){
+
+    fread(&oldPPUA12 , sizeof(int *), 1, file);
+    fread(&needsMCACC, sizeof(int *), 1, file);
+    fread(&edgeCount , sizeof(int *), 1, file);
+    fread(&cycleDelay, sizeof(int *), 1, file);
+    fread(commandRegs, sizeof (unsigned char), 8, file);
+    fread(&bankSelect , sizeof (unsigned char *), 1, file);
+    fread(&mirroring  , sizeof (unsigned char *), 1, file);
+    fread(&irqLatch   , sizeof (unsigned char *), 1, file);
+    fread(&irqReload  , sizeof (unsigned char *), 1, file);
+    fread(&irqCounter , sizeof (unsigned char *), 1, file);
+    fread(&irqEnable  , sizeof (unsigned char *), 1, file);
+
+    if (io.wRam)
+        fread(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fread(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fread(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+
+    sync();
+
+}
+
+void MMC3::saveState(FILE * file){
+
+    fwrite(&oldPPUA12 , sizeof(int *), 1, file);
+    fwrite(&needsMCACC, sizeof(int *), 1, file);
+    fwrite(&edgeCount , sizeof(int *), 1, file);
+    fwrite(&cycleDelay, sizeof(int *), 1, file);
+    fwrite(commandRegs, sizeof (unsigned char), 8, file);
+    fwrite(&bankSelect , sizeof (unsigned char *), 1, file);
+    fwrite(&mirroring  , sizeof (unsigned char *), 1, file);
+    fwrite(&irqLatch   , sizeof (unsigned char *), 1, file);
+    fwrite(&irqReload  , sizeof (unsigned char *), 1, file);
+    fwrite(&irqCounter , sizeof (unsigned char *), 1, file);
+    fwrite(&irqEnable  , sizeof (unsigned char *), 1, file);
+
+    if (io.wRam)
+        fwrite(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fwrite(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fwrite(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+
 }
 
 MMC3::~MMC3(){}

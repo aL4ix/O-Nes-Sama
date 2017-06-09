@@ -5,8 +5,10 @@
 
 struct debug{
     bool * isRendering;
+    bool isFetchingBGTile;
     unsigned char * reg2000;
     unsigned char * reg2001;
+    unsigned char * atColor;
     int * tick;
     int * sl;
 };
@@ -42,7 +44,7 @@ struct CartIO {
     struct CPUIO * cpuIO;
 
     //Memory buffers
-    unsigned char ntSystemRam[0x800] = {0xFF};
+    unsigned char ntSystemRam[0x800];
     unsigned char * prgBuffer;
     unsigned char * chrBuffer;
     unsigned char * wRam;
@@ -56,7 +58,7 @@ struct CartIO {
     /*Bank Switching Functions*/
 
     inline void switch1K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
-        space[offset] = &memBuffer[outer + memBank * 0x400];
+        space[offset] = &memBuffer[outer + (memBank * 0x400)];
     }
 
     inline void switch2K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
@@ -102,11 +104,6 @@ struct CartIO {
         for (int i=0; i < 32; i++){
             space[offset + i] = &memBuffer[outer + (memBank + i) * 0x400];
         }
-    }
-
-    inline void setOuter256KBank (int memBank){
-
-
     }
 
     /*NT mirroring functions*/

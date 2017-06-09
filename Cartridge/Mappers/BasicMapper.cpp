@@ -3,6 +3,8 @@
 
 BasicMapper::BasicMapper(CartIO &ioRef) : MemoryMapper(ioRef){
 
+    io.prgWritable = 0;
+
     //Init PRG & CHR
     io.switch16K(0, 0, io.prgBuffer, io.prgSpace);
     io.switch16K(1, io.iNESHeader.prgSize16k > 1, io.prgBuffer, io.prgSpace);
@@ -38,8 +40,9 @@ inline void BasicMapper::writeCPU(int address, unsigned char val){
 
     switch (address >> 12){
         case 6: case 7:
-            if (io.wRam)
+            if (io.wRam){
                 io.wRamSpace[(address-0x6000) >> 10][address & 0x3FF] = val;
+            }
             break;
     }
 }
@@ -80,6 +83,24 @@ inline void BasicMapper::writePPU(int address, unsigned char val){
             io.ntSpace[mask1K & 3][address & 0x3FF] = val;
             return;
     }
+}
+
+void BasicMapper::saveState(FILE * file) {
+
+    if (io.wRam)
+        fwrite(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fwrite(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fwrite(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+
+}
+
+void BasicMapper::loadState(FILE * file) {
+    if (io.wRam)
+        fread(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fread(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fread(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
 }
 
 BasicMapper::~BasicMapper(){

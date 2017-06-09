@@ -67,7 +67,7 @@ int main(){
     //std::string romFileName   = "games/MMC4/Fire Emblem Gaiden (Japan).nes";
     //std::string romFileName   = "games/MMC4/Fire Emblem (Japan).nes";
     //std::string romFileName   = "games/MMC2/Mike Tyson's Punch-Out!! (USA).nes";
-    std::string romFileName   = "games/MMC3/Tiny Toon Adventures (USA).nes";
+    //std::string romFileName   = "games/MMC3/Tiny Toon Adventures (USA).nes";
     //std::string romFileName   = "games/MMC3/Crystalis (USA).nes";
     //std::string romFileName   = "games/blargg_ppu_tests/sprite_ram.nes";
     //std::string romFileName   = "games/MMC3/Mega Man 4 (USA).nes";
@@ -88,9 +88,11 @@ int main(){
     //std::string romFileName   =  "games/MMC3/Bart vs. the World (USA).nes";
 
 
-    //std::string romFileName = "games/mmc3_test_2/rom_singles/5-MMC3.nes";
+    //std::string romFileName = "games/mmc3_test_2/rom_singles/4-scanline_timing.nes";
 
     //std::string romFileName   =  "games/Mapper225/64-in-1 (J).nes";
+    //std::string romFileName   =  "games/MMC1/Super Mario Bros. + Duck Hunt + World Class Track Meet (USA).nes";
+
     //std::string romFileName   =  "games/CNROM/B-Wings (J).nes";
     //std::string romFileName   =  "games/NROM/Nim & Nom 24-11-16.nes";
 
@@ -107,6 +109,8 @@ int main(){
 
     //std::string romFileName   = "games/MMC1/Mega Man 2 (U).nes";
     //std::string romFileName   = "games/MMC1/Bill & Ted's Excellent Video Game Adventure (USA).nes";
+    //std::string romFileName   = "games/MMC3/Low G Man - The Low Gravity Man (U) [!].nes";
+
 
 
     //std::string romFileName   =  "games/MMC1/bart.nes";
@@ -120,7 +124,7 @@ int main(){
     //std::string romFileName   =  "games/MMC1/Romance of the Three Kingdoms (USA).nes";
     //std::string romFileName   =  "games/MMC1/Final Fantasy I & II (Japan).nes";
     //std::string romFileName   =  "C:/Users/Federico Gimeno/Desktop/6502_1.2.11/Nes_Practice/nes_basics.nes";
-    //std::string romFileName   =  "games/MMC5/Castlevania III - Dracula's Curse (USA).nes";
+
     //std::string romFileName   =  "games/Camerica/Micro Machines (USA) (Unl).nes";
     //std::string romFileName   =  "games/Camerica/Fire Hawk (USA) (Unl).nes";
     //std::string romFileName   =  "games/Camerica/MiG 29 - Soviet Fighter (Camerica) [!].nes";
@@ -131,8 +135,8 @@ int main(){
     //std::string romFileName   =  "games/MMC5/L'Empereur (J).nes";
     //std::string romFileName   =  "games/MMC5/Just Breed (J) [!].nes";
 
-
-    //std::string romFileName   =  "games/MMC5/Shin 4 Nin Uchi Mahjong - Yakuman Tengoku (J) [!].nes";
+    //std::string romFileName   =  "games/MMC5/Castlevania III - Dracula's Curse (USA).nes";
+    std::string romFileName   =  "games/MMC5/Shin 4 Nin Uchi Mahjong - Yakuman Tengoku (J) [!].nes";
 
 
     //std::string romFileName   =  "games/allpads/allpads.nes";
@@ -193,7 +197,7 @@ int main(){
             if (state[SDL_SCANCODE_F10]){
                 FILE * file = fopen (saveStatePath.c_str(), "rb");
                 if (file != NULL){
-                    cart.loadState(file);
+                    cart.mapper->loadState(file);
                     cpu.loadState(file);
                     ppu.loadState(file);
                     printf("\nLoaded state \"%s\"", saveStatePath.c_str());
@@ -205,7 +209,7 @@ int main(){
             if (state[SDL_SCANCODE_F11]){
                 FILE * file = fopen (saveStatePath.c_str(), "wb");
                 if (file != NULL){
-                    cart.saveState(file);
+                    cart.mapper->saveState(file);
                     cpu.saveState(file);
                     ppu.saveState(file);
                     fclose(file);

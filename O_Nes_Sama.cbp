@@ -47,6 +47,7 @@
 		<Unit filename="APU.h" />
 		<Unit filename="CPU.cpp" />
 		<Unit filename="CPU.h" />
+		<Unit filename="CPUIO.hpp" />
 		<Unit filename="CPUSharedData.h" />
 		<Unit filename="Cartridge/CartDB.hpp" />
 		<Unit filename="Cartridge/CartIO.hpp" />
@@ -66,6 +67,8 @@
 		<Unit filename="Cartridge/Mappers/MMC2_4.hpp" />
 		<Unit filename="Cartridge/Mappers/MMC3.cpp" />
 		<Unit filename="Cartridge/Mappers/MMC3.hpp" />
+		<Unit filename="Cartridge/Mappers/MMC5.cpp" />
+		<Unit filename="Cartridge/Mappers/MMC5.hpp" />
 		<Unit filename="Cartridge/Mappers/MemoryMapper.cpp" />
 		<Unit filename="Cartridge/Mappers/MemoryMapper.h" />
 		<Unit filename="Cartridge/Mappers/UxROM.cpp" />
@@ -96,8 +99,6 @@
 		<Unit filename="RetroGraphix/Texture.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="opcodes.inc" />
-		<Unit filename="x6502Interrupts" />
-		<Unit filename="x6502Interrupts.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

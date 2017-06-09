@@ -24,6 +24,8 @@ class MMC1 : public BasicMapper {
         void sync();
         void loadSRAM(FILE * batteryFile);
         void saveSRAM(FILE * batteryFile);
+        void loadState(FILE * file);
+        void saveState(FILE * file);
 };
 
 #endif // MMC1_HPP_INCLUDED
