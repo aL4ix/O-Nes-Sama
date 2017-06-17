@@ -8,8 +8,6 @@ class MMC3 : public BasicMapper {
         MMC3(CartIO &ioRef);
         ~MMC3();
         void writeCPU(int addr, unsigned char val);
-        unsigned char readPPU(int address);
-        void writePPU (int address, unsigned char val);
         void sync();
         void clockCPU();
         void clockPPU();
@@ -18,6 +16,7 @@ class MMC3 : public BasicMapper {
         void loadState(FILE * file);
         void saveState(FILE * file);
     protected:
+        int chrAccess;
         int oldPPUA12;
         int needsMCACC;
         int edgeCount;

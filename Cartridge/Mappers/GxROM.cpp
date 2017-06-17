@@ -9,8 +9,8 @@ GNROM::GNROM(CartIO &ioRef) : BasicMapper(ioRef){
 }
 
 void GNROM::sync(){
-    io.switch32K(0, prgBank, io.prgBuffer, io.prgSpace);
-    io.switch8K(0, chrBank, io.chrBuffer, io.chrSpace);
+    io.swapPRGROM(32, 0, prgBank, io.prgBuffer, 0);
+    io.swapCHR(8, 0, chrBank, io.chrBuffer);
 }
 void GNROM::writeCPU(int address, unsigned char val){
     switch (address >> 12){
@@ -51,8 +51,8 @@ void Mapper011::writeCPU(int address, unsigned char val){
 }
 
 void Mapper011::sync(){
-    io.switch32K(0, prgBank, io.prgBuffer, io.prgSpace);
-    io.switch8K(0, chrBank, io.chrBuffer, io.chrSpace);
+    io.swapPRGROM(32, 0, prgBank, io.prgBuffer, 0);
+    io.swapCHR(8, 0, chrBank, io.chrBuffer, 0);
 }
 
 
@@ -72,7 +72,7 @@ Mapper225::Mapper225(CartIO &ioRef) : BasicMapper(ioRef){
 
 void Mapper225::sync(){
 
-    io.switch8K(0, chrReg, io.chrBuffer, io.chrSpace);
+    io.swapCHR(8, 0, chrReg, io.chrBuffer);
 
     if (!mirr)
         io.switchVerMirroring();
@@ -80,10 +80,10 @@ void Mapper225::sync(){
         io.switchHorMirroring();
 
     if (!prgMode){
-        io.switch32K(0, hiBit | prgReg, io.prgBuffer, io.prgSpace);
+        io.swapPRGROM(32, 0, hiBit | prgReg, io.prgBuffer, 0);
     } else {
-        io.switch16K(0, ((prgReg << 1) | hiBit) | prgPos, io.prgBuffer, io.prgSpace);
-        io.switch16K(1, ((prgReg << 1) | hiBit) | prgPos, io.prgBuffer, io.prgSpace);
+        io.swapPRGROM(16, 0, ((prgReg << 1) | hiBit) | prgPos, io.prgBuffer, 0);
+        io.swapPRGROM(16, 1, ((prgReg << 1) | hiBit) | prgPos, io.prgBuffer, 0);
     }
 }
 

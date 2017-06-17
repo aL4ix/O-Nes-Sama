@@ -4,7 +4,7 @@
 UxROM::UxROM(CartIO &ioRef) : BasicMapper(ioRef){
     //Fixed PRG-ROM bank (CPU 0xC000)
     mask = io.iNESHeader.prgSize16k - 1;
-    io.switch16K(1, mask, io.prgBuffer, io.prgSpace);
+    io.swapPRGROM(16, 1, mask, io.prgBuffer, 0);
 }
 
 void UxROM::writeCPU(int address, unsigned char val){
@@ -29,7 +29,7 @@ void UxROM::saveState(FILE * file){
 }
 
 void UxROM::sync(){
-    io.switch16K(0, bank & mask, io.prgBuffer, io.prgSpace);
+    io.swapPRGROM(16, 0, bank & mask, io.prgBuffer, 0);
 
 }
 
@@ -40,7 +40,7 @@ void UxROM::sync(){
 
 Mapper071::Mapper071(CartIO &ioRef) : UxROM(ioRef){
     //Fixed PRG-ROM bank (CPU 0xC000)
-    io.switch16K(1, (io.iNESHeader.prgSize16k - 1), io.prgBuffer, io.prgSpace);
+    io.swapPRGROM(16, 1, (io.iNESHeader.prgSize16k - 1), io.prgBuffer, 0);
 }
 
 

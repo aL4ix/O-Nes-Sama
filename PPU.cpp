@@ -216,7 +216,6 @@ void PPU::process(int cpuCycles)
         mapper.clockPPU();
         renderTick();
 
-
         if(zeroHit>0)
         {
             zeroHit--;
@@ -497,6 +496,9 @@ void PPU::write2001(unsigned char Value)
     }
 
     //Intensify colors
+    //if (Value & 0xE0){
+        //printf ("\nEmphasis %X!!", (Value & 0xE0) >> 5);
+    //}
     //Grayscale
 }
 
@@ -559,8 +561,6 @@ void PPU::write2006(unsigned char Value)
             mapper.io.ppuAddrBus = addressBus = loopy_v;
             mapper.clockPPU();
 		}
-
-
     }
     else // first
     {
@@ -798,6 +798,7 @@ bool PPU::loadColorPaletteFromArray(const unsigned char* Palette)
         unsigned char g = Palette[i*3+1];
         unsigned char b = Palette[i*3+2];
         colorPalette[i].SetColor(r, g, b);
+
     }
     return true;
 }
@@ -813,6 +814,7 @@ void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
     const unsigned char at = intReadMem(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
     curPalette = at >> (2 * palSubNum);
     curPalette &= 0x03;
+
 }
 
 void PPU::loadSetOf4Colors(const int Pal)

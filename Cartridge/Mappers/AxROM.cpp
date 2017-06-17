@@ -17,7 +17,7 @@ void Mapper007::writeCPU(int address, unsigned char val){
 void Mapper007::sync(){
     int mask = (io.iNESHeader.prgSize16k - 1) >> 1;
 
-    io.switch32K(0, bank & mask, io.prgBuffer, io.prgSpace);
+    io.swapPRGROM(32, 0, bank & mask, io.prgBuffer, 0);
 
     if (bank & 0x10)
         io.switchToSingleScrHi();

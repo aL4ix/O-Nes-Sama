@@ -14,6 +14,7 @@ MMC5::MMC5(CartIO & ioRef) : BasicMapper (ioRef){
     mask8K = io.iNESHeader.chrSize8k - 1;
 
     ntAddr = -1;
+    curTile = -1;
     tilebank = 0;
     is8x16 = 0;
     prgMode = 3;
@@ -40,7 +41,6 @@ MMC5::MMC5(CartIO & ioRef) : BasicMapper (ioRef){
     prgBanks[3] = 0xFF;
     curChrSet = 0;
     io.wRam = new unsigned char [0x10000]; //64 K
-    io.switch8K(0, 0, io.wRam, io.wRamSpace);
     sync();
 
 }
@@ -50,8 +50,9 @@ unsigned char MMC5::readCPU(int address){
     switch (address){
         case 0x5204:
             {
-                ret = irqStatus;
+                ret = irqStatus & 0xC0;
                 irqStatus &= ~0x80;
+                io.cpuIO->irq = 0;
                 break;
             }
         case 0x5205:
@@ -80,15 +81,14 @@ unsigned char MMC5::readCPU(int address){
 
 void MMC5::writeCPU(int address, unsigned char val){
 
-
     switch (address){
         case 0x5100:
             prgMode = val & 3;
-            printf ("\nPRG Mode %X", prgMode);
+            //printf ("\nPRG Mode %X", prgMode);
             break;
         case 0x5101:
             chrMode = val & 3;
-            printf ("\nCHR Mode %X", chrMode);
+            //printf ("\nCHR Mode %X", chrMode);
             break;
         case 0x5102:
             wRamProt1 = val & 3;
@@ -98,17 +98,11 @@ void MMC5::writeCPU(int address, unsigned char val){
             break;
         case 0x5104:
             exRamMode = val & 3;
-            //printf ("\nExram Mode %X", exRamMode);
-
-            if (exRamMode == 1){
-                ppuReadFunc = &MMC5::readPPUExRam1;
-            }
-            else{
-                ppuReadFunc = &MMC5::basicReadPPU;
-            }
+            //printf ("\nExram Mode: %x", val);
             break;
         case 0x5105:
             ntMapping = val;
+            //printf ("\nNT Mapping: %x", val);
             break;
         case 0x5106: //Fill Mode Tile
             fillModeTile = val;
@@ -124,7 +118,8 @@ void MMC5::writeCPU(int address, unsigned char val){
             break;
         case 0x5113:
             prgRamBank = val & 7;
-            io.switch8K(0, prgRamBank, io.wRam, io.wRamSpace);
+            //printf ("PRG RAM Bank %d", prgRamBank);
+            io.swapPRGRAM(prgRamBank, 1);
             break;
         case 0x5114:
             prgBanks[0] = val;
@@ -137,7 +132,6 @@ void MMC5::writeCPU(int address, unsigned char val){
             break;
         case 0x5117:
             prgBanks[3] = val & 0x7F;
-            //io.prgWritable = 0;
             break;
         case 0x5120: case 0x5121: case 0x5122: case 0x5123: case 0x5124: case 0x5125:
         case 0x5126: case 0x5127:
@@ -165,6 +159,11 @@ void MMC5::writeCPU(int address, unsigned char val){
             break;
         case 0x5204:
             irqEnabled = val >> 7;
+            if (irqEnabled && (irqStatus & 0x80)){
+                io.cpuIO->irq = 1;
+            } else {
+                 io.cpuIO->irq = 0;
+            }
             break;
         case 0x5205:
             multiplier[0] = val;
@@ -172,6 +171,21 @@ void MMC5::writeCPU(int address, unsigned char val){
         case 0x5206:
             multiplier[1] = val;
             break;
+    }
+
+    //Set the PPU vRAM handlers
+    if ((vSplitMode & 0x80) && (exRamMode < 2)){
+        if (exRamMode == 1){
+            //Split & ExAttributes
+        } else {
+            ppuReadFunc = &MMC5::readPPUVSplit;
+        }
+    } else if (exRamMode == 1) {
+        ppuReadFunc = &MMC5::readPPUExAttr;
+        //ppuReadFunc = &MMC5::basicReadPPU;
+    }
+    else {
+        ppuReadFunc = &MMC5::basicReadPPU;
     }
 
     if ((address >= 0x5C00) && (address <= 0x5FFF)){
@@ -186,23 +200,19 @@ void MMC5::writeCPU(int address, unsigned char val){
         }
     }
 
-    //if (io.prgWritable){
-        switch (address >> 12){
-            case 8: case 9: case 10: case 11:
-            case 12: case 13: case 14:case 15:
-                io.prgSpace[(address >> 10) & 0x1F][address & 0x3FF] = val;
-                //printf ("\nWrote RAM via 0x8XXX: %X", address);
+    switch (address >> 12){
+        case 8: case 9: case 10: case 11:
+        case 12: case 13: case 14:case 15:
+            io.prgSpace[(address >> 10) & 0x1F][address & 0x3FF] = val;
             break;
-        }
-    //}
+    }
 
-    sync();
     BasicMapper::writeCPU(address, val);
+    sync();
 
 }
 
 unsigned char MMC5::readPPU(int address){
-    clockPPU();
     return (this->*ppuReadFunc)(address);
 }
 
@@ -210,7 +220,7 @@ unsigned char MMC5::basicReadPPU(int address){
     return BasicMapper::readPPU(address);
 }
 
-unsigned char MMC5::readPPUExRam1(int address){
+unsigned char MMC5::readPPUExAttr(int address){
 
     if (isFetchingSpr){
         return BasicMapper::readPPU(address);
@@ -223,21 +233,22 @@ unsigned char MMC5::readPPUExRam1(int address){
     io.ppuAddrBus = address;
 
     switch (div400){
+        case 0: case 1: case 2: case 3: case 4:
+        case 5: case 6: case 7:
 
-        case 0: case 1: case 2: case 3:
-            io.switch4K(0, tilebank & mask4K, io.chrBuffer, io.chrSpace);
-            break;
-        case 4: case 5: case 6: case 7:
-            io.switch4K(1, tilebank & mask4K, io.chrBuffer, io.chrSpace);
+
             break;
         case 8: case 9: case 10: case 11:
             if ((address & 0x3FF) < 0x3C0){
                 ntAddr = address & 0x3FF;
-                tilebank = exRam[ntAddr] & 0x3F;
+                tilebank = (exRam[ntAddr] & 0x3F) | (chrUpperBank << 6);
+                io.swapCHR(4, 0, tilebank & mask4K, io.chrBuffer);
+                io.swapCHR(4, 1, tilebank & mask4K, io.chrBuffer);
                 return BasicMapper::readPPU(address);
             }
             else {
                 unsigned char color = exRam[ntAddr] >> 6;
+
                 return color | (color << 2) | (color << 4) | (color << 6);
             }
     }
@@ -245,24 +256,106 @@ unsigned char MMC5::readPPUExRam1(int address){
     return BasicMapper::readPPU(address);
 }
 
+unsigned char MMC5::readPPUVSplit(int address){
+
+    if (isFetchingSpr){
+        return BasicMapper::readPPU(address);
+    }
+
+    if (address >= 0x3000)
+        address &= 0x2FFF;
+
+    int div400 = address >> 10;
+    io.ppuAddrBus = address;
+
+
+    switch (div400){
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+            if (isSplitArea){
+                io.swapCHR(4, 0, vSplitBank, io.chrBuffer);
+                io.swapCHR(4, 1, vSplitBank, io.chrBuffer);
+                //return io.chrSpace[address >> 10][(address & 0x3F8) | (vScroll & 7)];
+            }
+            break;
+        case 8: case 9: case 10: case 11:
+            if ((address & 0x3FF) < 0x3C0){
+                //curTile = address & 0x1F;
+
+
+                if (isSplitArea)
+                    return exRam[((vScroll & 0xF8) << 2) | (curTile & 0x1F)];
+            } else {
+                if (isSplitArea)
+                    return exRam[0x3C0 | (((vScroll & 0xF8) << 2) | (curTile & 0x1F)) >> 2];
+            }
+    }
+    return BasicMapper::readPPU(address);
+}
+
+
 void MMC5::writePPU(int address, unsigned char val){
-    clockPPU();
     BasicMapper::writePPU(address, val);
 }
 
 void MMC5::clockPPU(){
 
-    irqStatus &= ~0x40;
-    irqStatus |= (*io.dbg.isRendering) << 6; //In Frame
-    isFetchingSpr = (*io.dbg.tick >= 256) && (*io.dbg.tick <= 319);
+    if (io.ppuAddrBus>= 0x3000)
+        io.ppuAddrBus &= 0x2FFF;
 
-    if (irqEnabled && (irqStatus & 0x80)){
-        io.cpuIO->irq = 1;
+    isFetchingSpr = (*io.dbg.tick >= 257) && (*io.dbg.tick <= 319);
+    isFetchingNT = (io.ppuAddrBus >= 0x2000) && ((io.ppuAddrBus & 0x3FF) < 0x3C0);
+
+    if (!(*io.dbg.isRendering)){
+        irqStatus &= ~0x80;
+        irqStatus &= ~0x40;
+        irqCounter = -1;
     }
 
-    clockIRQ();
-    syncCHR();
+    if (!isFetchingSpr){
+        if (!(*io.dbg.tick & 7) && (*io.dbg.tick < 336)){
+            curTile++;
+            if ((vSplitMode & 0x80) && (exRamMode < 2)){
+                if (vSplitMode & 0x40){
+                    if (curTile == (vSplitMode & 0x1F)){
+                        isSplitArea = 1;
+                    }
+                    else if (curTile == 0) {
+                        isSplitArea = 0;
+                    } else if (curTile >= 34){
+                        isSplitArea = 0;
+                    }
+                } else {
+                    if (curTile == 0){
+                        isSplitArea = 1;
+                    }
+                    else if (curTile == (vSplitMode & 0x1F)) {
+                        isSplitArea = 0;
+                    }
+                }
+            }
+        }
+    } else {
+        isSplitArea = 0;
+    }
 
+    if (*io.dbg.tick == 320){
+        curTile = 0;
+        if (*io.dbg.sl == -1){
+            vScroll = vSplitScroll;
+            if (vScroll >= 240)
+              vScroll -= 16;
+        } else if (*io.dbg.sl < 240) {
+            vScroll++;
+        }
+        if (vScroll >= 240) {
+            vScroll -= 240;
+        }
+    }
+
+    syncCHR();
+    clockIRQ();
+
+    lastAddr = io.ppuAddrBus;
 }
 
 void MMC5::clockCPU(){
@@ -279,6 +372,7 @@ void MMC5::clockCPU(){
                 case 1:
                     if (!((io.cpuIO->dataBus) & 0x18)){
                         irqStatus &= ~0x40;
+                        irqCounter = -1;
                     }
                     break;
             }
@@ -287,22 +381,21 @@ void MMC5::clockCPU(){
 }
 
 void MMC5::clockIRQ(){
+    if ((*io.dbg.tick == 3)){
 
-    if (!(irqStatus & 0x40)){
-        irqCounter = 0;
-    } else {
-        if ((*io.dbg.tick == 339)){
-
-            if (irqScanline == irqCounter){
-                irqStatus |= 0x80;
-            }
-            irqCounter++;
-
-        } else {
+        if (*io.dbg.sl == 0){
             irqStatus |= 0x40;
-            irqStatus &= ~0x80;
         }
+        if (irqScanline == irqCounter){
+            irqStatus |= 0x80;
+        }
+        irqCounter++;
     }
+
+    if (irqEnabled && (irqStatus & 0x80)){
+        io.cpuIO->irq = 1;
+    }
+
 }
 
 void MMC5::syncPRG(){
@@ -313,46 +406,50 @@ void MMC5::syncPRG(){
 
     switch (prgMode){
         case 0:
-            io.switch32K(0, (prgBanks[3] >> 2) & mask32, io.prgBuffer, io.prgSpace);
+            io.swapPRGROM(32, 0, (prgBanks[3] >> 2) & mask32, io.prgBuffer, 0);
             break;
         case 1:
             if (prgBanks[1] & 0x80)
-                io.switch16K(0, (prgBanks[1] >> 1) & mask16, io.prgBuffer, io.prgSpace);
+                io.swapPRGROM(16, 0, (prgBanks[1] >> 1) & mask16, io.prgBuffer, 0);
             else
-                io.switch16K(0, (prgBanks[1] >> 1) & 7, io.wRam, io.prgSpace);
+                io.swapPRGROM(16, 0, (prgBanks[1] >> 1) & 7, io.wRam, 1);
 
-            io.switch16K(1, (prgBanks[3] >> 1) & mask16, io.prgBuffer, io.prgSpace);
+            io.swapPRGROM(16, 1, (prgBanks[3] >> 1) & mask16, io.prgBuffer, 0);
             break;
         case 2:
             if (prgBanks[1] & 0x80)
-                io.switch16K(0, (prgBanks[1] >> 1) & mask16, io.prgBuffer, io.prgSpace);
+                io.swapPRGROM(16, 0, (prgBanks[1] >> 1) & mask16, io.prgBuffer, 0);
             else
-                io.switch16K(0, (prgBanks[1] >> 1) & 7, io.wRam, io.prgSpace);
+                io.swapPRGROM(16, 0, (prgBanks[1] >> 1) & 7, io.wRam, 1);
 
             if (prgBanks[2] & 0x80)
-                io.switch8K(2, prgBanks[2] & mask8, io.prgBuffer, io.prgSpace);
+                io.swapPRGROM(8, 2, prgBanks[2] & mask8, io.prgBuffer, 0);
             else
-                io.switch8K(2, prgBanks[2] & 7, io.wRam, io.prgSpace);
+                io.swapPRGROM(8, 2, prgBanks[2] & 7, io.wRam, 1);
 
-            io.switch8K(3, prgBanks[3] & mask8, io.prgBuffer, io.prgSpace);
+            io.swapPRGROM(8, 3, prgBanks[3] & mask8, io.prgBuffer, 0);
             break;
         case 3:
             if (prgBanks[0] & 0x80)
-                io.switch8K(0, prgBanks[0] & mask8, io.prgBuffer, io.prgSpace);
-            else
-                io.switch8K(0, prgBanks[0] & 7, io.wRam, io.prgSpace);
+                io.swapPRGROM(8, 0, prgBanks[0] & mask8, io.prgBuffer, 0);
+            else{
+                io.swapPRGROM(8, 0, prgBanks[0] & 7, io.wRam, 1);
+            }
 
             if (prgBanks[1] & 0x80)
-                io.switch8K(1, prgBanks[1] & mask8, io.prgBuffer, io.prgSpace);
-            else
-                io.switch8K(1, prgBanks[1] & 7, io.wRam, io.prgSpace);
+                io.swapPRGROM(8, 1, prgBanks[1] & mask8, io.prgBuffer, 0);
+            else{
+                io.swapPRGROM(8, 1, prgBanks[1] & 7, io.wRam, 1);
+            }
 
             if (prgBanks[2] & 0x80)
-                io.switch8K(2, prgBanks[2] & mask8, io.prgBuffer, io.prgSpace);
-            else
-                io.switch8K(2, prgBanks[2] & 7, io.wRam, io.prgSpace);
+                io.swapPRGROM(8, 2, prgBanks[2] & mask8, io.prgBuffer, 0);
+            else{
+                io.swapPRGROM(8, 2, prgBanks[2] & 7, io.wRam, 1);
 
-            io.switch8K(3, prgBanks[3] & mask8, io.prgBuffer, io.prgSpace);
+            }
+
+            io.swapPRGROM(8, 3, prgBanks[3] & mask8, io.prgBuffer, 0);
             break;
     }
 }
@@ -365,13 +462,13 @@ void MMC5::sync(){
 
 void MMC5::syncCHR(){
 
-    if (exRamMode == 1 && !isFetchingSpr){
+    if ((exRamMode == 1 && !isFetchingSpr) || isSplitArea){
         return;
     }
 
     if (is8x16){
 
-        if (!isFetchingSpr){
+        if (!isFetchingSpr && (irqStatus & 0x40)){
             syncCHRB();
         }
         else {
@@ -387,7 +484,6 @@ void MMC5::syncCHR(){
             syncCHRA();
         }
     }
-
 }
 
 
@@ -395,29 +491,28 @@ void MMC5::syncCHRA(){
 
     switch(chrMode){
         case 0: //8K Banks
-            io.switch8K(0, chrSelA[7] & mask8K, io.chrBuffer, io.chrSpace);
+            io.swapCHR(8, 0, chrSelA[7] & mask8K, io.chrBuffer);
             break;
         case 1: //4K Banks
-            io.switch4K(0, chrSelA[3] & mask4K, io.chrBuffer, io.chrSpace);
-            io.switch4K(1, chrSelA[7] & mask4K, io.chrBuffer, io.chrSpace);
-
+            io.swapCHR(4, 0, chrSelA[3] & mask4K, io.chrBuffer);
+            io.swapCHR(4, 1, chrSelA[7] & mask4K, io.chrBuffer);
             break;
         case 2: //2K Banks
-            io.switch2K(0, chrSelA[1] & mask2K, io.chrBuffer, io.chrSpace);
-            io.switch2K(1, chrSelA[3] & mask2K, io.chrBuffer, io.chrSpace);
-            io.switch2K(2, chrSelA[5] & mask2K, io.chrBuffer, io.chrSpace);
-            io.switch2K(3, chrSelA[7] & mask2K, io.chrBuffer, io.chrSpace);
+            io.swapCHR(2, 0, chrSelA[1] & mask2K, io.chrBuffer);
+            io.swapCHR(2, 1, chrSelA[3] & mask2K, io.chrBuffer);
+            io.swapCHR(2, 2, chrSelA[5] & mask2K, io.chrBuffer);
+            io.swapCHR(2, 3, chrSelA[7] & mask2K, io.chrBuffer);
 
             break;
         case 3: //1K Banks
-            io.switch1K(0, chrSelA[0] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(1, chrSelA[1] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(2, chrSelA[2] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(3, chrSelA[3] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(4, chrSelA[4] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(5, chrSelA[5] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(6, chrSelA[6] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(7, chrSelA[7] & mask1K, io.chrBuffer, io.chrSpace);
+            io.swapCHR(1, 0, chrSelA[0] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 1, chrSelA[1] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 2, chrSelA[2] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 3, chrSelA[3] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 4, chrSelA[4] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 5, chrSelA[5] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 6, chrSelA[6] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 7, chrSelA[7] & mask1K, io.chrBuffer);
             break;
     }
 }
@@ -426,27 +521,27 @@ void MMC5::syncCHRB(){
 
     switch(chrMode){
         case 0: //8K Banks
-            io.switch8K(0, chrSelB[0x3] & mask8K, io.chrBuffer, io.chrSpace);
+            io.swapCHR(8, 0, chrSelB[0x3] & mask8K, io.chrBuffer);
             break;
         case 1: //4K Banks
-            io.switch4K(0, chrSelB[0x3] & mask4K, io.chrBuffer, io.chrSpace);
-            io.switch4K(1, chrSelB[0x3] & mask4K, io.chrBuffer, io.chrSpace);
+            io.swapCHR(4, 0, chrSelB[0x3] & mask4K, io.chrBuffer);
+            io.swapCHR(4, 1, chrSelB[0x3] & mask4K, io.chrBuffer);
             break;
         case 2: //2K Banks
-            io.switch2K(0, chrSelB[0x1] & mask2K, io.chrBuffer, io.chrSpace);
-            io.switch2K(1, chrSelB[0x3] & mask2K, io.chrBuffer, io.chrSpace);
-            io.switch2K(2, chrSelB[0x1] & mask2K, io.chrBuffer, io.chrSpace);
-            io.switch2K(3, chrSelB[0x3] & mask2K, io.chrBuffer, io.chrSpace);
+            io.swapCHR(2, 0, chrSelB[0x1] & mask2K, io.chrBuffer);
+            io.swapCHR(2, 1, chrSelB[0x3] & mask2K, io.chrBuffer);
+            io.swapCHR(2, 2, chrSelB[0x1] & mask2K, io.chrBuffer);
+            io.swapCHR(2, 3, chrSelB[0x3] & mask2K, io.chrBuffer);
             break;
         case 3: //1K Banks
-            io.switch1K(0, chrSelB[0x0] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(1, chrSelB[0x1] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(2, chrSelB[0x2] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(3, chrSelB[0x3] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(4, chrSelB[0x0] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(5, chrSelB[0x1] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(6, chrSelB[0x2] & mask1K, io.chrBuffer, io.chrSpace);
-            io.switch1K(7, chrSelB[0x3] & mask1K, io.chrBuffer, io.chrSpace);
+            io.swapCHR(1, 0, chrSelB[0x0] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 1, chrSelB[0x1] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 2, chrSelB[0x2] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 3, chrSelB[0x3] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 4, chrSelB[0x0] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 5, chrSelB[0x1] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 6, chrSelB[0x2] & mask1K, io.chrBuffer);
+            io.swapCHR(1, 7, chrSelB[0x3] & mask1K, io.chrBuffer);
             break;
     }
 }
@@ -457,14 +552,17 @@ void MMC5::syncNT(){
     for (int i = 0; i < 4; i++){
 
         switch (m & 3){
-            case 0: case 1:
-                io.ntSpace[i] = &io.ntSystemRam[(m & 3) * 0x400];
+            case 0:
+                io.ntSpace[i] = io.ntSystemRam;
+                break;
+            case 1:
+                io.ntSpace[i] = &io.ntSystemRam[0x400];
                 break;
             case 2:
-                if (exRamMode == 2){
-                    io.ntSpace[i] = zeroes;
-                } else {
+                if ((exRamMode == 0) || (exRamMode == 1)){
                     io.ntSpace[i] = exRam;
+                } else {
+                    io.ntSpace[i] = zeroes;
                 }
                 break;
             case 3:
@@ -480,14 +578,20 @@ void MMC5::saveSRAM(FILE * batteryFile){
 }
 
 void MMC5::loadSRAM(FILE * batteryFile){
+    sync();
     fread(io.wRam, 0x10000, 1, batteryFile);
 }
 
 void MMC5::saveState(FILE * file) {
 
-    fwrite(&curChrSet, sizeof(int *), 1, file);
-    fwrite(&is8x16   , sizeof(int *), 1, file);
-    fwrite(&ntAddr   , sizeof(int *), 1, file);
+    fwrite(&curChrSet   , sizeof(int *), 1, file);
+    fwrite(&is8x16      , sizeof(int *), 1, file);
+    fwrite(&ntAddr      , sizeof(int *), 1, file);
+    fwrite(&slDetect    , sizeof(int *), 1, file);
+    fwrite(&curTile     , sizeof(int *), 1, file);
+    fwrite(&isFetchingNT, sizeof(int *), 1, file);
+    fwrite(&isSplitArea , sizeof(int *), 1, file);
+    fwrite(&vScroll     , sizeof(int *), 1, file);
 
     fwrite(&tilebank ,     sizeof(unsigned char *), 1, file);
     fwrite(&prgMode  ,     sizeof(unsigned char *), 1, file);
@@ -531,9 +635,14 @@ void MMC5::saveState(FILE * file) {
 
 void MMC5::loadState(FILE * file) {
 
-    fread(&curChrSet, sizeof(int *), 1, file);
-    fread(&is8x16   , sizeof(int *), 1, file);
-    fread(&ntAddr   , sizeof(int *), 1, file);
+    fread(&curChrSet   , sizeof(int *), 1, file);
+    fread(&is8x16      , sizeof(int *), 1, file);
+    fread(&ntAddr      , sizeof(int *), 1, file);
+    fread(&slDetect    , sizeof(int *), 1, file);
+    fread(&curTile     , sizeof(int *), 1, file);
+    fread(&isFetchingNT, sizeof(int *), 1, file);
+    fread(&isSplitArea , sizeof(int *), 1, file);
+    fread(&vScroll     , sizeof(int *), 1, file);
 
     fread(&tilebank ,     sizeof(unsigned char *), 1, file);
     fread(&prgMode  ,     sizeof(unsigned char *), 1, file);

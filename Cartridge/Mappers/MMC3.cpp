@@ -28,11 +28,10 @@ MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
     if (io.iNESHeader.romCRC32 != lowGMan){
 
         io.wRam = new unsigned char [0x2000];
-        io.switch8K(0, 0, io.wRam, io.wRamSpace);
+        io.swapPRGRAM(0, 1);
     }
 
     printf ("\nNeeds MC_ACC Behavior   : %d", needsMCACC);
-
 
     prgSizeMask = (io.iNESHeader.prgSize16k << 1) - 1;
 
@@ -47,7 +46,7 @@ void MMC3::writeCPU(int addr, unsigned char val){
 
     switch (addr >> 12){
         case 0x6: case 0x7:
-            io.wRamSpace[(addr - 0x6000) >> 10][addr & 0x3FF] = val;
+            io.wRamSpace[addr & 0x1FFF] = val;
             break;
         case 0x8: case 0x9:
             if (addr & 1)
@@ -78,43 +77,28 @@ void MMC3::writeCPU(int addr, unsigned char val){
     sync();
 }
 
-unsigned char MMC3::readPPU(int address){
-    unsigned char ret = BasicMapper::readPPU(address);
-    clockIRQCounter();
-    return ret;
-}
-
-void MMC3::writePPU(int address, unsigned char val){
-
-    clockIRQCounter();
-    BasicMapper::writePPU(address, val);
-
-}
-
 void MMC3::syncPRG(){
     bool prgMode = bankSelect & 0x40;
 
-    io.switch8K((!prgMode) << 1  , (prgSizeMask - 1) & prgSizeMask, io.prgBuffer, io.prgSpace);
-    io.switch8K(prgMode << 1     , commandRegs[6]    & prgSizeMask, io.prgBuffer, io.prgSpace);
-    io.switch8K(1                , commandRegs[7]    & prgSizeMask, io.prgBuffer, io.prgSpace);
-    io.switch8K(3                , prgSizeMask       & prgSizeMask, io.prgBuffer, io.prgSpace);
+    io.swapPRGROM(8, (!prgMode) << 1  , (prgSizeMask - 1) & prgSizeMask, io.prgBuffer, 0);
+    io.swapPRGROM(8, prgMode << 1     , commandRegs[6]    & prgSizeMask, io.prgBuffer, 0);
+    io.swapPRGROM(8, 1                , commandRegs[7]    & prgSizeMask, io.prgBuffer, 0);
+    io.swapPRGROM(8, 3                , prgSizeMask       & prgSizeMask, io.prgBuffer, 0);
 }
 
 void MMC3::syncCHR(){
     bool chrMode = (bankSelect & 0x80);
     int chrMask1K = (io.iNESHeader.chrSize8k << 3) - 1;
 
-    //printf ("\n%x", chrMask1K);
+    io.swapCHR(1, (chrMode  << 2) | 0, (commandRegs[0] & chrMask1K) & 0xFE, io.chrBuffer);
+    io.swapCHR(1, (chrMode  << 2) | 1, (commandRegs[0] & chrMask1K) | 1   , io.chrBuffer);
+    io.swapCHR(1, (chrMode  << 2) | 2, (commandRegs[1] & chrMask1K) & 0xFE, io.chrBuffer);
+    io.swapCHR(1, (chrMode  << 2) | 3, (commandRegs[1] & chrMask1K) | 1   , io.chrBuffer);
 
-    io.switch1K((chrMode  << 2) | 0, (commandRegs[0] & chrMask1K) & 0xFE, io.chrBuffer, io.chrSpace);
-    io.switch1K((chrMode  << 2) | 1, (commandRegs[0] & chrMask1K) | 1   , io.chrBuffer, io.chrSpace);
-    io.switch1K((chrMode  << 2) | 2, (commandRegs[1] & chrMask1K) & 0xFE, io.chrBuffer, io.chrSpace);
-    io.switch1K((chrMode  << 2) | 3, (commandRegs[1] & chrMask1K) | 1   , io.chrBuffer, io.chrSpace);
-
-    io.switch1K((!chrMode  << 2) | 0, commandRegs[2] & chrMask1K, io.chrBuffer, io.chrSpace);
-    io.switch1K((!chrMode  << 2) | 1, commandRegs[3] & chrMask1K, io.chrBuffer, io.chrSpace);
-    io.switch1K((!chrMode  << 2) | 2, commandRegs[4] & chrMask1K, io.chrBuffer, io.chrSpace);
-    io.switch1K((!chrMode  << 2) | 3, commandRegs[5] & chrMask1K, io.chrBuffer, io.chrSpace);
+    io.swapCHR(1, (!chrMode  << 2) | 0, commandRegs[2] & chrMask1K, io.chrBuffer);
+    io.swapCHR(1, (!chrMode  << 2) | 1, commandRegs[3] & chrMask1K, io.chrBuffer);
+    io.swapCHR(1, (!chrMode  << 2) | 2, commandRegs[4] & chrMask1K, io.chrBuffer);
+    io.swapCHR(1, (!chrMode  << 2) | 3, commandRegs[5] & chrMask1K, io.chrBuffer);
 
 }
 
@@ -139,27 +123,18 @@ void inline MMC3::clockCPU(){
 
     if (!ppuA12)
         edgeCount++;
-
-    /*if (io.wRam[0] != 0x80){
-        if ((io.wRam[0] != 0x80) && (io.wRam[1] == 0xDE) && (io.wRam[2] == 0xB0) && (io.wRam[3] == 0x61)){
-            printf ("\n");
-            for (int i = 0; i < 60; i++){
-                printf ("%c", io.wRam[i]);
-            }
-            printf ("\n");
-            exit(1);
-        }
-    }*/
-
 }
 
 void inline MMC3::clockPPU(){
+
+    if (io.ppuAddrBus > 0x2FFF)
+        io.ppuAddrBus &= 0x2FFF;
+
     clockIRQCounter();
 }
 
 inline void MMC3::clockIRQCounter(){
-    if (io.ppuAddrBus > 0x2FFF)
-        io.ppuAddrBus &= 0x2FFF;
+
 
     int ppuA12 = (io.ppuAddrBus >> 12) & 1;
 
@@ -170,8 +145,6 @@ inline void MMC3::clockIRQCounter(){
     } else {
         edgeCondition = !oldPPUA12 && ppuA12;
     }
-
-    //printf ("\n%d", cyclesToIgnore);
 
     if (edgeCondition){
 

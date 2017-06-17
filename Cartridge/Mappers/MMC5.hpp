@@ -1,12 +1,6 @@
 #ifndef MMC5_HPP_INCLUDED
 #define MMC5_HPP_INCLUDED
-
 #include "BasicMapper.hpp"
-
-/*struct PrgBanks{
-    unsigned char romToggle;
-    unsigned char bank;
-};*/
 
 class MMC5 : public BasicMapper{
     public:
@@ -18,9 +12,11 @@ class MMC5 : public BasicMapper{
 
         //Clocking functions and variables
         bool isFetchingSpr;
+        bool isFetchingBG;
         void clockIRQ();
         void clockPPU();
         void clockCPU();
+        void syncCHR();
 
         //sRAM functions
         void saveSRAM(FILE * batteryFile);
@@ -31,13 +27,22 @@ class MMC5 : public BasicMapper{
     private:
         //PPU Access handlers
          unsigned char (MMC5::*ppuReadFunc)(int address);
-         unsigned char readPPUExRam1(int address);
+         unsigned char readPPUExAttr(int address);
+         unsigned char readPPUVSplit(int address);
          unsigned char basicReadPPU(int address);
 
         //Gen vars
         int curChrSet;
         int is8x16;
         int ntAddr;
+
+        int lastAddr;
+        int slDetect;
+        int curTile;
+        int isFetchingNT;
+        int isSplitArea;
+        int vScroll;
+
         unsigned char tilebank;
 
         //Registers
@@ -57,7 +62,7 @@ class MMC5 : public BasicMapper{
         unsigned char vSplitMode;
         unsigned char vSplitScroll;
         unsigned char vSplitBank;
-        unsigned char irqCounter;
+        int irqCounter;
         unsigned char irqScanline;
         unsigned char irqEnabled;
         unsigned char irqStatus;
@@ -70,11 +75,10 @@ class MMC5 : public BasicMapper{
 
         void sync();
         void syncPRG();
-        void syncCHR();
         void syncCHRA();
         void syncCHRB();
         void syncNT();
-
+        void onPPUFetch();
         unsigned char * setNTSource(int ntMode);
 
 };

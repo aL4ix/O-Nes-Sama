@@ -6,12 +6,12 @@ MMC2::MMC2(CartIO & ioRef) : BasicMapper (ioRef){
 
     if (io.iNESHeader.mapperNo == 10){ // IF MMC4, emulate 8K of wRAM
         io.wRam = new unsigned char [0x2000];
-        io.switch8K(0, 0, io.wRam, io.wRamSpace);
+        io.swapPRGRAM(0, 1);
     }
 
-    io.switch8K(1, prgSizeMask - 2, io.prgBuffer, io.prgSpace);
-    io.switch8K(2, prgSizeMask - 1, io.prgBuffer, io.prgSpace);
-    io.switch8K(3, prgSizeMask, io.prgBuffer, io.prgSpace);
+    io.swapPRGROM(8, 1, prgSizeMask - 2, io.prgBuffer, 0);
+    io.swapPRGROM(8, 2, prgSizeMask - 1, io.prgBuffer, 0);
+    io.swapPRGROM(8, 3, prgSizeMask, io.prgBuffer, 0);
 }
 
 void MMC2::writeCPU(int address, unsigned char val){
@@ -39,20 +39,20 @@ void MMC2::writeCPU(int address, unsigned char val){
 
 void MMC2::syncPRG(){
     if (io.iNESHeader.mapperNo == 9)
-        io.switch8K(0, prgBank & 0xF, io.prgBuffer, io.prgSpace);
+        io.swapPRGROM(8, 0, prgBank & 0xF, io.prgBuffer, 0);
     else if (io.iNESHeader.mapperNo == 10)
-        io.switch16K(0, prgBank & 0xF, io.prgBuffer, io.prgSpace);
+        io.swapPRGROM(16, 0, prgBank & 0xF, io.prgBuffer, 0);
 }
 
 void MMC2::syncCHR(){
     if (!latch[0])
-        io.switch4K(0,chrBanks[0] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 0, chrBanks[0] & chrSizeMask, io.chrBuffer);
     else
-        io.switch4K(0, chrBanks[1] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 0, chrBanks[1] & chrSizeMask, io.chrBuffer);
     if (!latch[1])
-        io.switch4K(1, chrBanks[2] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 1, chrBanks[2] & chrSizeMask, io.chrBuffer);
     else
-        io.switch4K(1, chrBanks[3] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 1, chrBanks[3] & chrSizeMask, io.chrBuffer);
 }
 
 void MMC2::setNTMirroring() {

@@ -29,7 +29,7 @@ void CNROM::saveState(FILE * file){
 
 void CNROM::sync(){
     int mask = io.iNESHeader.chrSize8k - 1;
-    io.switch8K(0, bank & mask, io.chrBuffer, io.chrSpace);
+    io.swapCHR(8, 0, bank & mask, io.chrBuffer, 0);
 }
 
 /***************************************
@@ -116,7 +116,7 @@ void Mapper185::writeCPU(int address, unsigned char val){
             if (((bank & 0xF) || isSeicrossV2) && (bank != cp_val)){
                 sync();
             } else {
-                io.switch8K(0, 0, disabledCHR, io.chrSpace);
+                io.swapCHR(8, 0, 0, disabledCHR, 0);
             }
         }
         break;

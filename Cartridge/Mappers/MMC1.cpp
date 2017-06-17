@@ -17,7 +17,7 @@ MMC1::MMC1(CartIO &ioRef) : BasicMapper(ioRef){
     lastCountM2 = 0;
 
     io.wRam = new unsigned char [0x8000]; //32K
-    io.switch8K(0, 0, io.wRam, io.wRamSpace);
+    io.swapPRGRAM(0, 1);
     prgSizeMask = io.iNESHeader.prgSize16k - 1;
     isPRGLarge = (io.iNESHeader.prgSize16k >= 32);
     isCHRLarge =  (io.iNESHeader.chrSize8k >= 2);
@@ -33,7 +33,7 @@ void MMC1::writeCPU(int address, unsigned char val){
     switch (address >> 12){
         case 0x6: case 0x7: /* WRAM Space */
             {
-                io.wRamSpace[wRamBank][address & 0x1FFF] = val;
+                io.wRamSpace[address & 0x1FFF] = val;
             }
             break;
         case 0x8: case 0x9: case 0xA: case 0xB: case 0xC: case 0xD: case 0xE: case 0xF: /* Mapper space */
@@ -113,7 +113,7 @@ void MMC1::sync(){
     if (!isCHRLarge){
         //wRamMask = 0x7FFF;
         wRamBank = (chrBanks[0] & 0xC) >> 2;
-        io.switch8K(0, wRamBank, io.wRam, io.wRamSpace);
+        io.swapPRGRAM(wRamBank, 1);
         //printf("\nWram Bank: %d", wRam8KBank);
     }
 
@@ -121,30 +121,31 @@ void MMC1::sync(){
     if(control & 0x10){
 
         /*Switch the 4K bank (val) into the $1000-$1FFF PPU space...*/
-        io.switch4K(0, chrBanks[0] & chrSizeMask, io.chrBuffer, io.chrSpace);
-        io.switch4K(1, chrBanks[1] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 0, chrBanks[0] & chrSizeMask, io.chrBuffer);
+        io.swapCHR(4, 1, chrBanks[1] & chrSizeMask, io.chrBuffer);
 
     } else {
-        io.switch8K(0, (chrBanks[0] >> 1) & ((chrSizeMask >> 1) | 1), io.chrBuffer, io.chrSpace);
+        io.swapCHR(8, 0, (chrBanks[0] >> 1) & ((chrSizeMask >> 1) | 1), io.chrBuffer);
     }
 
     /* Sync PRG state... jeez what a PITA */
+
+
     switch((control & 0xC) >> 2){
         case 0: case 1:
             // No game I know switches between modes
-            io.switch32K(0, (prgBank & prgSizeMask) >> 1, io.prgBuffer, io.prgSpace, superPRGBank * 0x40000);
+            io.swapPRGROM(32, 0, ((superPRGBank << 4) | (prgBank & prgSizeMask)) >> 1, io.prgBuffer, 0);
             break;
         case 2: //Fix first bank at $8000
-            io.switch16K(0, 0, io.prgBuffer, io.prgSpace);
-            io.switch16K(1, prgBank & prgSizeMask, io.prgBuffer, io.prgSpace, superPRGBank  * 0x40000);
+            io.swapPRGROM(16, 0, 0, io.prgBuffer, 0);
+            io.swapPRGROM(16, 1, ((superPRGBank << 4) | prgBank & prgSizeMask), io.prgBuffer, 0);
             break;
         case 3: //Fix last bank at $C000
-            io.switch16K(0, prgBank & prgSizeMask, io.prgBuffer, io.prgSpace, superPRGBank  * 0x40000);
-            io.switch16K(1, prgSizeMask, io.prgBuffer, io.prgSpace, superPRGBank  * 0x40000);
+            io.swapPRGROM(16, 0, ((superPRGBank << 4) | prgBank & prgSizeMask) , io.prgBuffer, 0);
+            io.swapPRGROM(16, 1, (superPRGBank << 4) | prgSizeMask, io.prgBuffer, 0);
             break;
     }
 }
-
 
 void MMC1::saveSRAM(FILE * batteryFile){
     fwrite(io.wRam, 0x8000, 1, batteryFile);

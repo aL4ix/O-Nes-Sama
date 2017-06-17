@@ -3,12 +3,11 @@
 
 BasicMapper::BasicMapper(CartIO &ioRef) : MemoryMapper(ioRef){
 
-    io.prgWritable = 0;
 
     //Init PRG & CHR
-    io.switch16K(0, 0, io.prgBuffer, io.prgSpace);
-    io.switch16K(1, io.iNESHeader.prgSize16k > 1, io.prgBuffer, io.prgSpace);
-    io.switch8K(0, 0, io.chrBuffer, io.chrSpace);
+    io.swapPRGROM(16, 0, 0, io.prgBuffer, 0);
+    io.swapPRGROM(16, 1, io.iNESHeader.prgSize16k > 1, io.prgBuffer, 0);
+    io.swapCHR(8, 0, 0, io.chrBuffer);
 
     if (io.iNESHeader.ntMirroring) //Vertical
     {
@@ -26,7 +25,7 @@ inline unsigned char BasicMapper::readCPU(int address){
     switch (address >> 12){
         case 6: case 7:
             if (io.wRam)
-                ret = io.wRamSpace[(address - 0x6000) >> 10][address & 0x3FF];
+                ret = io.wRamSpace[address & 0x1FFF];
             break;
         case 8: case 9: case 10: case 11:
         case 12: case 13: case 14:case 15:
@@ -41,7 +40,7 @@ inline void BasicMapper::writeCPU(int address, unsigned char val){
     switch (address >> 12){
         case 6: case 7:
             if (io.wRam){
-                io.wRamSpace[(address-0x6000) >> 10][address & 0x3FF] = val;
+                io.wRamSpace[address & 0x1FFF] = val;
             }
             break;
     }
@@ -52,14 +51,14 @@ inline unsigned char BasicMapper::readPPU(int address){
     if (address >= 0x3000)
         address &= 0x2FFF;
 
-    int mask1K = address >> 10;
+    int div400 = address >> 10;
     io.ppuAddrBus = address;
 
-    switch (mask1K){
+    switch (div400){
         case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-            return io.chrSpace[mask1K & 7][address & 0x3FF];
+            return io.chrSpace[div400 & 7][address & 0x3FF];
         case 8: case 9: case 10: case 11:
-            return io.ntSpace[mask1K & 3][address & 0x3FF];
+            return io.ntSpace[div400 & 3][address & 0x3FF];
     }
     return 0;
 }
@@ -69,18 +68,18 @@ inline void BasicMapper::writePPU(int address, unsigned char val){
     if (address >= 0x3000)
         address &= 0x2FFF;
 
-    int mask1K = address >> 10;
+    int div400 = address >> 10;
     io.ppuAddrBus = address;
 
-    switch (mask1K){
+    switch (div400){
         case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
             if (io.chrWritable){
-                io.chrSpace[mask1K][address & 0x3FF] = val;
+                io.chrSpace[div400][address & 0x3FF] = val;
 
             }
             return;
         case 8: case 9: case 10: case 11:
-            io.ntSpace[mask1K & 3][address & 0x3FF] = val;
+            io.ntSpace[div400 & 3][address & 0x3FF] = val;
             return;
     }
 }
