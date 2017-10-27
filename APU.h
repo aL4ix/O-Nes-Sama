@@ -4,14 +4,16 @@
 #include <functional>
 #include <cstdio>
 #include <queue>
+#include <vector>
 #include <SDL2/SDL.h>
 
 #include "CPUIO.hpp"
 #include "Cartridge/Mappers/MemoryMapper.h"
 
 
-const unsigned short AMPLITUDE = 35000;
+const unsigned short AMPLITUDE = 30000;
 const unsigned SAMPLING = 48000;
+const unsigned BUFFER_LENGTH = 1024;
 
 
 class Beeper
@@ -21,12 +23,17 @@ private:
     double parte;
     unsigned entero;
     std::queue<unsigned short> beeps;
+    std::vector<unsigned short> avgBuffer;
+    Uint16* bufferCopy;
+    FILE* fileOutput;
+    bool semaphoreForBufferCopy;
 public:
     Beeper();
     ~Beeper();
     void load(unsigned short sample);
     void loadSamples(Uint16 *stream, int length);
     void wait();
+    unsigned getSize();
 
     unsigned long long count;
 };
@@ -240,7 +247,6 @@ private:
     //OTHER
     CPUIO &cpuIO;
     MemoryMapper* board;
-
 };
 
 #endif // APU_H_INCLUDED

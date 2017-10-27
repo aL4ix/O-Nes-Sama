@@ -6,21 +6,35 @@ Beeper::Beeper()
     parte = (double(21477272)/12) / SAMPLING;
     acc = parte;
     entero = 0;
-    SDL_AudioSpec desiredSpec;
-    desiredSpec.freq = 0;
 
+    SDL_AudioSpec desiredSpec;
+    SDL_zero(desiredSpec);
     desiredSpec.freq = SAMPLING;
     desiredSpec.format = AUDIO_U16SYS;
     desiredSpec.channels = 1;
-    desiredSpec.samples = 1024;
+    desiredSpec.samples = BUFFER_LENGTH;
     desiredSpec.callback = audio_callback;
     desiredSpec.userdata = this;
 
     SDL_AudioSpec obtainedSpec;
-    printf("FREq: %d %d\n", desiredSpec.freq, obtainedSpec.freq);
 
-    // you might want to look for errors here
-    SDL_OpenAudio(&desiredSpec, &obtainedSpec);
+    if(SDL_OpenAudio(&desiredSpec, &obtainedSpec) != 0)
+    {
+        printf("Failed to open audio: %s\n", SDL_GetError());
+    }
+    /*
+    // For some reason this is equivalent to the one above but this doesn't work
+    if(SDL_OpenAudioDevice(NULL, 0, &desiredSpec, &obtainedSpec, SDL_AUDIO_ALLOW_ANY_CHANGE) == 0)
+    {
+        printf("Failed to open audio: %s\n", SDL_GetError());
+    }
+    */
+
+    /* Debug */
+    bufferCopy = new Uint16[BUFFER_LENGTH];
+    fileOutput = fopen("APUout.debug", "wb");
+    semaphoreForBufferCopy = false;
+    /* End Debug */
 
     // start play audio
     SDL_PauseAudio(0);
@@ -29,6 +43,8 @@ Beeper::Beeper()
 Beeper::~Beeper()
 {
     SDL_CloseAudio();
+    delete [] bufferCopy;
+    fclose(fileOutput);
 }
 
 void Beeper::loadSamples(Uint16 *stream, int length)
@@ -36,7 +52,7 @@ void Beeper::loadSamples(Uint16 *stream, int length)
     int i = 0;
     while (i < length) {
         if (beeps.empty()) {
-            //printf("U ");
+            printf("Sound Underrun! %d\n", length - i);
             while (i < length) {
                 stream[i] = 0;
                 i++;
@@ -45,33 +61,48 @@ void Beeper::loadSamples(Uint16 *stream, int length)
         }
         else
         {
-            //printf("SI\n");
             unsigned short c = beeps.front();
             beeps.pop();
             stream[i] = c;
             i++;
         }
     }
-    //printf("%d ", beeps.size());
-    if(beeps.size() >= 1024*5)
+    if(beeps.size() >= BUFFER_LENGTH*5)
     {
+        printf("Dropping sound buffer: %d\n", beeps.size());
         for(unsigned a=0; a<1024; a++)
             beeps.pop();
         //std::queue<unsigned char> empty;
         //std::swap( beeps, empty );
     }
+    /* Debug */
+    memcpy(bufferCopy, stream, sizeof(Uint16)*BUFFER_LENGTH);
+    semaphoreForBufferCopy = true;
+    /* End Debug */
 }
 
 void Beeper::load(unsigned short sample)
 {
+    avgBuffer.push_back(sample);
     if(entero++ == unsigned(acc))
     {
         acc -= entero;
         acc += parte;
         entero = 0;
+
+        double avg = 0;
+        unsigned size = avgBuffer.size();
+        for(unsigned i=0; i<size; i++)
+            avg += avgBuffer[i];
+        avgBuffer.clear();
         SDL_LockAudio();
-        beeps.push(sample);
+        beeps.push(avg / size);
         SDL_UnlockAudio();
+        if(semaphoreForBufferCopy)
+        {
+            fwrite(bufferCopy, sizeof(Uint16), BUFFER_LENGTH, fileOutput);
+            semaphoreForBufferCopy = false;
+        }
     }
 }
 
@@ -84,6 +115,11 @@ void Beeper::wait()
         size = beeps.size();
         SDL_UnlockAudio();
     } while (size > 0);
+}
+
+unsigned Beeper::getSize()
+{
+    return beeps.size();
 }
 
 void audio_callback(void *_beeper, Uint8 *_streamInBytes, int _lengthInBytes)
@@ -836,17 +872,16 @@ void APU::clockNoise()
     //getchar();
     bool feedback = shiftRegisterNoise & 0x1;
     //XOR with bit 6 if modeFlag else bit 1
-    feedback ^= (modeFlagNoise) ? (shiftRegisterNoise & 0x20) != 0 : (shiftRegisterNoise & 0x2) != 0;
+    feedback ^= (modeFlagNoise) ? (shiftRegisterNoise & 0x40) != 0 : (shiftRegisterNoise & 0x2) != 0;
     shiftRegisterNoise >>= 1;
     shiftRegisterNoise |= feedback << 14;
     //printf("SH: %X ", shiftRegisterNoise);
-    if((!(shiftRegisterNoise & 0x1)) && lengthCounterNoise)
+    if(((shiftRegisterNoise & 0x1) == 0) && lengthCounterNoise > 0)
     {
         outputNoise = (constantVolumeFlagNoise) ? constVolEnvDivPeriodNoise : envelopeVolumeNoise;
     }
     else
         outputNoise = 0;
-
 }
 
 bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount)
