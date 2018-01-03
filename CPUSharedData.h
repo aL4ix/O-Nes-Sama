@@ -28,7 +28,7 @@ struct InstructionData{
     unsigned char opcode;
     unsigned char arg1;
     unsigned char arg2;
-    int generalCycleCount;
+    unsigned generalCycleCount;
     int addr;
 };
 

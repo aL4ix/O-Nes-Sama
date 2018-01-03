@@ -5,6 +5,7 @@
 
 #include "NSFMapper.hpp"
 #include "../CPU.h"
+#include "../RetroAudio.hpp"
 
 class NSFLoader
 {
@@ -13,7 +14,7 @@ public:
     ~NSFLoader();
 
     void loadRomFile();
-    void initializingATune(CPU& cpu);
+    void initializingATune(CPU& cpu, unsigned short int song=0);
     void play(CPU& cpu);
 
     NSFMapper* mapper;

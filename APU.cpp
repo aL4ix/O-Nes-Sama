@@ -1,137 +1,6 @@
 #include "APU.h"
 
 
-Beeper::Beeper()
-{
-    parte = (double(21477272)/12) / SAMPLING;
-    acc = parte;
-    entero = 0;
-
-    SDL_AudioSpec desiredSpec;
-    SDL_zero(desiredSpec);
-    desiredSpec.freq = SAMPLING;
-    desiredSpec.format = AUDIO_U16SYS;
-    desiredSpec.channels = 1;
-    desiredSpec.samples = BUFFER_LENGTH;
-    desiredSpec.callback = audio_callback;
-    desiredSpec.userdata = this;
-
-    SDL_AudioSpec obtainedSpec;
-
-    if(SDL_OpenAudio(&desiredSpec, &obtainedSpec) != 0)
-    {
-        printf("Failed to open audio: %s\n", SDL_GetError());
-    }
-    /*
-    // For some reason this is equivalent to the one above but this doesn't work
-    if(SDL_OpenAudioDevice(NULL, 0, &desiredSpec, &obtainedSpec, SDL_AUDIO_ALLOW_ANY_CHANGE) == 0)
-    {
-        printf("Failed to open audio: %s\n", SDL_GetError());
-    }
-    */
-
-    /* Debug */
-    bufferCopy = new Uint16[BUFFER_LENGTH];
-    fileOutput = fopen("APUout.debug", "wb");
-    semaphoreForBufferCopy = false;
-    /* End Debug */
-
-    // start play audio
-    SDL_PauseAudio(0);
-}
-
-Beeper::~Beeper()
-{
-    SDL_CloseAudio();
-    delete [] bufferCopy;
-    fclose(fileOutput);
-}
-
-void Beeper::loadSamples(Uint16 *stream, int length)
-{
-    int i = 0;
-    while (i < length) {
-        if (beeps.empty()) {
-            printf("Sound Underrun! %d\n", length - i);
-            while (i < length) {
-                stream[i] = 0;
-                i++;
-            }
-            return;
-        }
-        else
-        {
-            unsigned short c = beeps.front();
-            beeps.pop();
-            stream[i] = c;
-            i++;
-        }
-    }
-    if(beeps.size() >= BUFFER_LENGTH*5)
-    {
-        printf("Dropping sound buffer: %d\n", beeps.size());
-        for(unsigned a=0; a<1024; a++)
-            beeps.pop();
-        //std::queue<unsigned char> empty;
-        //std::swap( beeps, empty );
-    }
-    /* Debug */
-    memcpy(bufferCopy, stream, sizeof(Uint16)*BUFFER_LENGTH);
-    semaphoreForBufferCopy = true;
-    /* End Debug */
-}
-
-void Beeper::load(unsigned short sample)
-{
-    avgBuffer.push_back(sample);
-    if(entero++ == unsigned(acc))
-    {
-        acc -= entero;
-        acc += parte;
-        entero = 0;
-
-        double avg = 0;
-        unsigned size = avgBuffer.size();
-        for(unsigned i=0; i<size; i++)
-            avg += avgBuffer[i];
-        avgBuffer.clear();
-        SDL_LockAudio();
-        beeps.push(avg / size);
-        SDL_UnlockAudio();
-        if(semaphoreForBufferCopy)
-        {
-            fwrite(bufferCopy, sizeof(Uint16), BUFFER_LENGTH, fileOutput);
-            semaphoreForBufferCopy = false;
-        }
-    }
-}
-
-void Beeper::wait()
-{
-    int size;
-    do {
-        SDL_Delay(20);
-        SDL_LockAudio();
-        size = beeps.size();
-        SDL_UnlockAudio();
-    } while (size > 0);
-}
-
-unsigned Beeper::getSize()
-{
-    return beeps.size();
-}
-
-void audio_callback(void *_beeper, Uint8 *_streamInBytes, int _lengthInBytes)
-{
-    Uint16 *stream = (Uint16*) _streamInBytes;
-    int length = _lengthInBytes / 2;
-    Beeper* beeper = (Beeper*) _beeper;
-
-    beeper->loadSamples(stream, length);
-}
-
-
 APU::APU(CPUIO &cpuIO) :
     halfCycles(0), modeFrameCounter(false), inhibitFrameCounter(false), irqFrameCounter(false),
     lengthCounterPulse1(0), lengthCounterPulse2(0), lengthCounterTriangle(0), lengthCounterNoise(0),
@@ -161,6 +30,9 @@ APU::APU(CPUIO &cpuIO) :
     lookupTableTND[0] = 0;
     for(unsigned n=1; n<203; n++)
         lookupTableTND[n] = AMPLITUDE * 163.67 / (24329.0 / n + 100);
+
+    //Debug
+    callCyclesCount = 0;
 }
 
 void APU::writeMem(unsigned short Address, unsigned char Value)
@@ -205,7 +77,7 @@ unsigned char APU::readLatch()
 
 void APU::unimpleme(unsigned char)
 {
-    throw std::bad_function_call();
+    //throw std::bad_function_call();
 }
 
 unsigned char APU::read4015()
@@ -466,6 +338,9 @@ void APU::write4017(unsigned char Value)
 
 void APU::process(unsigned cpuCycles)
 {
+    //Debug
+    callCyclesCount += cpuCycles;
+
     for(unsigned i=0; i<cpuCycles; i++)
     {
         if(halfCyclesUntilNextStep > 0)
@@ -516,7 +391,7 @@ void APU::process(unsigned cpuCycles)
             printf("CLIPPING!!!\n");
             mixer = 65535;
         }
-        b.load(mixer);
+        afx.load(mixer);
 
         //fprintf(file, "%c", mixer);
         //b.count++;

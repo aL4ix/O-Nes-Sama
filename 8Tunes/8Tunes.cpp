@@ -21,7 +21,7 @@ int main()
     CPU cpu(*loader.mapper);
     PPU ppu;
     cpu.setPPUPtr(&ppu);
-    loader.initializingATune(cpu);
+    loader.initializingATune(cpu, 4); //Battletoads 23
     loader.play(cpu);
 
     return 0;

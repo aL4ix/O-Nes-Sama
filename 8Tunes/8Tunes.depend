@@ -1,0 +1,150 @@
+# depslib dependency file v1.0
+1514925123 source:/home/alaix/git/O-Nes-Sama-apu/8Tunes/8Tunes.cpp
+	<iostream>
+	"NSFLoader.h"
+	"../CPU.h"
+	"DummyPPU.h"
+	<unistd.h>
+
+1514946526 source:/home/alaix/git/O-Nes-Sama-apu/APU.cpp
+	"APU.h"
+
+1514946519 /home/alaix/git/O-Nes-Sama-apu/APU.h
+	<cstdio>
+	"CPUIO.hpp"
+	"Cartridge/Mappers/MemoryMapper.h"
+	"RetroAudio.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/CPUIO.hpp
+
+1499399848 /home/alaix/git/O-Nes-Sama-apu/Cartridge/Mappers/MemoryMapper.h
+	"../CartIO.hpp"
+	"../../CPUIO.hpp"
+	"../CartDB.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/Cartridge/CartIO.hpp
+	<stdio.h>
+	"../CPUIO.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/Cartridge/CartDB.hpp
+
+1508719970 source:/home/alaix/git/O-Nes-Sama-apu/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1509065571 /home/alaix/git/O-Nes-Sama-apu/CPU.h
+	"Cartridge/Mappers/MemoryMapper.h"
+	"Logging/CPULogger.h"
+	"8Tunes/DummyInput.h"
+	"8Tunes/DummyPPU.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"CPUIO.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../CPUIO.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/Logging/Logger.h
+	<iostream>
+	<fstream>
+	<cstdarg>
+	<stdexcept>
+	<regex>
+	<map>
+
+1509068996 /home/alaix/git/O-Nes-Sama-apu/CPUSharedData.h
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/Input.h
+	<SDL2/SDL.h>
+	"CPUIO.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/PPU.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"CPUIO.hpp"
+	"RetroGraphix/GraphixEngine.hpp"
+	"RetroGraphix/Texture.hpp"
+	"RetroGraphix/Color.hpp"
+	"RetroGraphix/Sprite.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+	"Logging/Logger.h"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/RetroGraphix/Drawable.hpp
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/Debugger/Breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/Cartridge/Cartridge.hpp
+	"CartIO.hpp"
+	"Mappers/MemoryMapper.h"
+	<string>
+	"zlib.h"
+
+1495687942 /home/alaix/git/O-Nes-Sama-apu/opcodes.inc
+
+1508993247 source:/home/alaix/git/O-Nes-Sama-apu/8Tunes/NSFMapper.cpp
+	"NSFMapper.hpp"
+
+1499568038 /home/alaix/git/O-Nes-Sama-apu/8Tunes/NSFMapper.hpp
+	"../Cartridge/Mappers/MemoryMapper.h"
+	"../Cartridge/CartIO.hpp"
+	"../CPU.h"
+
+1496972530 /home/alaix/git/O-Nes-Sama-apu/8Tunes/DummyInput.h
+
+1496979369 /home/alaix/git/O-Nes-Sama-apu/8Tunes/DummyPPU.h
+
+1514952584 source:/home/alaix/git/O-Nes-Sama-apu/8Tunes/NSFLoader.cpp
+	"NSFLoader.h"
+
+1514950928 /home/alaix/git/O-Nes-Sama-apu/8Tunes/NSFLoader.h
+	<cstdio>
+	"NSFMapper.hpp"
+	"../CPU.h"
+	"../RetroAudio.hpp"
+
+1495687942 source:/home/alaix/git/O-Nes-Sama-apu/Cartridge/Mappers/MemoryMapper.cpp
+	"MemoryMapper.h"
+
+1514951687 source:/home/alaix/git/O-Nes-Sama-apu/RetroAudio.cpp
+	"RetroAudio.hpp"
+
+1514950869 /home/alaix/git/O-Nes-Sama-apu/RetroAudio.hpp
+	<SDL2/SDL.h>
+	<queue>
+	<vector>
+

@@ -67,10 +67,10 @@ int main(){
     //std::string romFileName   = "games/MMC4/Fire Emblem Gaiden (Japan).nes";
     //std::string romFileName   = "games/MMC4/Fire Emblem (Japan).nes";
     //std::string romFileName   = "games/MMC2/Mike Tyson's Punch-Out!! (USA).nes";
-    std::string romFileName   = "games/MMC3/Tiny Toon Adventures (USA).nes";
+    //std::string romFileName   = "games/MMC3/Tiny Toon Adventures (USA).nes";
     //std::string romFileName   = "games/MMC3/Crystalis (USA).nes";
     //std::string romFileName   = "games/blargg_ppu_tests/sprite_ram.nes";
-    //std::string romFileName   = "games/MMC3/Mega Man 4 (USA).nes";
+    //std::string romFileName   = "games/MMC3/Mega Man 3 (USA).nes";
     //std::string romFileName   =  "games/branch_timing_tests/2.Backward_Branch.nes";
     //std::string romFileName   =  "games/cpu_timing_test6/cpu_timing_test.nes";
 
@@ -138,6 +138,9 @@ int main(){
     //std::string romFileName   =  "games/allpads/allpads.nes";
     //std::string romFileName   =  "games/MMC5/Metal Slader Glory (Japan).nes";
     //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
+    //std::string romFileName   =  "games/Incredible Crash DummiesIncredible Crash Dummies, The (USA).nesC The (USA).nes";
+    //std::string romFileName   =  "games/sprdma_and_dmc_dma.nes";
+    std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
 
     std::string saveStatePath = "SaveState";
     Cartridge cart(romFileName);
@@ -162,6 +165,9 @@ int main(){
 
     int pendCycles = 0;
     unsigned lastTimeTick = SDL_GetTicks();
+    unsigned emuStartTime = lastTimeTick;
+    unsigned secondsCount = 0;
+    unsigned lastCpuCount = 0;
 
     while (cpu.isRunning){
         #ifdef DEBUGGER
@@ -220,6 +226,7 @@ int main(){
         }
 
         pendCycles = cpu.run(cycles + pendCycles);
+        //printf("C: %d A: %d B:%d\n", cpu.instData.generalCycleCount, cpu.apu->halfCycles, cpu.apu->b.getSize());
         frameCtr ++;
         unsigned now = SDL_GetTicks();
         timediff = now - lastTimeTick;
@@ -235,6 +242,14 @@ int main(){
         else
             ++underrun;
         lastTimeTick = now + sleeptime;
+
+        const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
+        if(secondsCount != secondsSinceStart)
+        {
+            secondsCount = secondsSinceStart;
+            printf("S:%ul B:%ul C:%u\n", cpu.apu->b.getSamplesCountAndReset(), cpu.apu->b.getSize(), cpu.instData.generalCycleCount-lastCpuCount);
+            lastCpuCount = cpu.instData.generalCycleCount;
+        }
 
         #if BENCH == 1
         //Benchmark to file

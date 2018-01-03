@@ -1,49 +1,17 @@
 #ifndef APU_H_INCLUDED
 #define APU_H_INCLUDED
 
-#include <functional>
 #include <cstdio>
-#include <queue>
-#include <vector>
-#include <SDL2/SDL.h>
 
 #include "CPUIO.hpp"
 #include "Cartridge/Mappers/MemoryMapper.h"
-
-
-const unsigned short AMPLITUDE = 30000;
-const unsigned SAMPLING = 48000;
-const unsigned BUFFER_LENGTH = 1024;
-
-
-class Beeper
-{
-private:
-    double acc;
-    double parte;
-    unsigned entero;
-    std::queue<unsigned short> beeps;
-    std::vector<unsigned short> avgBuffer;
-    Uint16* bufferCopy;
-    FILE* fileOutput;
-    bool semaphoreForBufferCopy;
-public:
-    Beeper();
-    ~Beeper();
-    void load(unsigned short sample);
-    void loadSamples(Uint16 *stream, int length);
-    void wait();
-    unsigned getSize();
-
-    unsigned long long count;
-};
-
-
-void audio_callback(void*, Uint8*, int);
+#include "RetroAudio.hpp"
 
 
 class APU
 {
+    friend int main();
+
 public:
     explicit APU(CPUIO &cpuIO);
     void writeMem(unsigned short Address, unsigned char Value);
@@ -92,7 +60,10 @@ public:
 
     //Other
     void setMemoryMapper(MemoryMapper* Board);
-    Beeper b;
+    RetroAudio afx;
+
+    //Debug
+    unsigned callCyclesCount;
 
 private:
     const bool MODE_4STEP = false;
@@ -120,7 +91,7 @@ private:
     {
         428, 380, 340, 320, 286, 254, 226, 214, 190, 160, 142, 128, 106,  84,  72,  54
     };
-    unsigned short halfCycles;
+    unsigned halfCycles;
     bool modeFrameCounter;
     bool inhibitFrameCounter;
     bool irqFrameCounter;

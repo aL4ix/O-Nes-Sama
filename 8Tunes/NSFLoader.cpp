@@ -120,14 +120,17 @@ void NSFLoader::loadRomFile()
     printf("8: %x\n", mapper->readCPU(0xf000));
 }
 
-void NSFLoader::initializingATune(CPU& cpu)
+void NSFLoader::initializingATune(CPU& cpu, unsigned short int song)
 {
     mapper->setCPU(&cpu);
     cpu.reset();
     cpu.apu->powerup();
     cpu.apu->writeMem(0x4015, 0xF);
     cpu.apu->writeMem(0x4017, 0x40);
-    startingSong = 23; //Battletoads 23
+    if(song != 0)
+    {
+        startingSong = song;
+    }
     cpu.regs.a = startingSong - 1;
     cpu.regs.x = 0; // NTSC
     for(int address=0x6000; address<0x8000; address++)
@@ -143,20 +146,22 @@ void NSFLoader::initializingATune(CPU& cpu)
 void NSFLoader::play(CPU& cpu)
 {
     //Master clock of NES machine.
-    int NTSCmasterclock = 21477272;
+    unsigned NTSCmasterclock = 21477272;
     //CPU Frequency in Hz
-	int cpufreq = NTSCmasterclock / 12;
+	unsigned cpufreq = NTSCmasterclock / 12;
 	//Synchronization freq
-	int syncfreq = 60;
-	double invsyncfreq = 1.0 / syncfreq;
-	double delayFloat = invsyncfreq*1000.0;
-	double countDelay = 0.;
-    //Global cycle counter
-    int cycles = invsyncfreq * cpufreq;
-    int timediff = 0;
-    int sleeptime = 0;
-    int pendCycles = 0;
-    unsigned lastTimeTick = SDL_GetTicks();
+	unsigned syncfreq = 60;
+
+	RetroAccFrac rafForCPUCycles(cpufreq, syncfreq);
+	RetroAccFrac rafForTime(1000, syncfreq);
+
+	int pendCycles = 0;
+	unsigned lastTimeTick = SDL_GetTicks();
+    unsigned emuStartTime = lastTimeTick;
+    unsigned secondsCount = 0;
+    unsigned FPS = 0;
+    unsigned sumCycles = 0;
+    unsigned cpuCurGenCycCount = 0;
 
     cpu.write(0x1FF, 0xFF);
     cpu.write(0x1FE, 0xF9);
@@ -165,8 +170,12 @@ void NSFLoader::play(CPU& cpu)
 
     for(int i=0; i<10000; i++)
     {
+        unsigned cycles = rafForCPUCycles.getNextSlice();
+        sumCycles += cycles;
+
+
         pendCycles = cpu.run(cycles + pendCycles);
-        //printf("IR1: %d,%x\n", cpu.isRunning, cpu.regs.pc);
+        //printf("slice:%u pend:%d\n", cycles, pendCycles);
         if(cpu.regs.pc == 0xfffa || cpu.regs.pc == 0xfffb) // NSF did a RTS
         {
             cpu.write(0x1FF, 0xFF);
@@ -176,17 +185,34 @@ void NSFLoader::play(CPU& cpu)
         }
 
         unsigned now = SDL_GetTicks();
-        timediff = now - lastTimeTick;
-        countDelay += delayFloat;
-        int thisFrameTimeInMilis = countDelay;
-        countDelay -= thisFrameTimeInMilis;
-        sleeptime = thisFrameTimeInMilis - timediff;
+        unsigned timeSpent = now - lastTimeTick;
+        unsigned thisFrameTimeInMilis = rafForTime.getNextSlice();
+        unsigned sleeptime = thisFrameTimeInMilis - timeSpent;
+        FPS++;
 
-        if (sleeptime > 0)
+        if(sleeptime > 0)
         {
             SDL_Delay(sleeptime);
         }
+        else
+        {
+            printf("NSF underrun!\n");
+        }
         lastTimeTick = now + sleeptime;
+
+        const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
+        if(secondsCount != secondsSinceStart)
+        {
+            secondsCount = secondsSinceStart;
+            printf("T:%u F:%u S:%llu CycNSF:%u CycSpentCPU:%u A:%u\n", now, FPS,
+                   cpu.apu->afx.getSamplesCountAndReset(), sumCycles,
+                   cpu.instData.generalCycleCount-cpuCurGenCycCount,
+                   cpu.apu->callCyclesCount);
+            sumCycles = 0;
+            FPS = 0;
+            cpu.apu->callCyclesCount = 0;
+            cpuCurGenCycCount = cpu.instData.generalCycleCount;
+        }
     }
 
 }
