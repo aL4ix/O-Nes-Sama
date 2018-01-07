@@ -85,6 +85,8 @@
 		<Unit filename="Logging/Logger.h" />
 		<Unit filename="PPU.cpp" />
 		<Unit filename="PPU.h" />
+		<Unit filename="RetroAudio.cpp" />
+		<Unit filename="RetroAudio.hpp" />
 		<Unit filename="RetroGraphix/Color.cpp" />
 		<Unit filename="RetroGraphix/Color.hpp" />
 		<Unit filename="RetroGraphix/Drawable.hpp" />

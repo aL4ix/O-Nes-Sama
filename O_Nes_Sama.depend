@@ -855,17 +855,14 @@
 
 1494994620 c:\users\federico gimeno\desktop\new_o_nes_sama\o_nes_sama\cpuio.hpp
 
-1509415728 source:/home/alaix/git/O-Nes-Sama-apu/APU.cpp
+1515045267 source:/home/alaix/git/O-Nes-Sama-apu/APU.cpp
 	"APU.h"
 
-1509414472 /home/alaix/git/O-Nes-Sama-apu/APU.h
-	<functional>
+1514946519 /home/alaix/git/O-Nes-Sama-apu/APU.h
 	<cstdio>
-	<queue>
-	<vector>
-	<SDL2/SDL.h>
 	"CPUIO.hpp"
 	"Cartridge/Mappers/MemoryMapper.h"
+	"RetroAudio.hpp"
 
 1495687942 /home/alaix/git/O-Nes-Sama-apu/CPUIO.hpp
 
@@ -1076,7 +1073,7 @@
 1495687942 source:/home/alaix/git/O-Nes-Sama-apu/Logging/Logger.cpp
 	"Logger.h"
 
-1509421274 source:/home/alaix/git/O-Nes-Sama-apu/main.cpp
+1515046397 source:/home/alaix/git/O-Nes-Sama-apu/main.cpp
 	<stdio.h>
 	"Cartridge/Cartridge.hpp"
 	"CPU.h"
@@ -1102,4 +1099,12 @@
 1496972530 /home/alaix/git/O-Nes-Sama-apu/8Tunes/DummyInput.h
 
 1496979369 /home/alaix/git/O-Nes-Sama-apu/8Tunes/DummyPPU.h
+
+1514950869 /home/alaix/git/O-Nes-Sama-apu/RetroAudio.hpp
+	<SDL2/SDL.h>
+	<queue>
+	<vector>
+
+1515043386 source:/home/alaix/git/O-Nes-Sama-apu/RetroAudio.cpp
+	"RetroAudio.hpp"
 

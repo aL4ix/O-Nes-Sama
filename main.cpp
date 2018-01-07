@@ -141,6 +141,11 @@ int main(){
     //std::string romFileName   =  "games/Incredible Crash DummiesIncredible Crash Dummies, The (USA).nesC The (USA).nes";
     //std::string romFileName   =  "games/sprdma_and_dmc_dma.nes";
     std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
+    //std::string romFileName   =  "games/apu_sweep/min period.nes";
+    //std::string romFileName   =  "games/apu_sweep/sweep cutoff.nes";
+    //std::string romFileName   =  "games/apu_sweep/sweep sub.nes";
+    //std::string romFileName   =  "games/apu_test/apu_test.nes";
+    //std::string romFileName   =  "games/Huge Insect (Sachen) [!].nes";
 
     std::string saveStatePath = "SaveState";
     Cartridge cart(romFileName);
@@ -247,7 +252,7 @@ int main(){
         if(secondsCount != secondsSinceStart)
         {
             secondsCount = secondsSinceStart;
-            printf("S:%ul B:%ul C:%u\n", cpu.apu->b.getSamplesCountAndReset(), cpu.apu->b.getSize(), cpu.instData.generalCycleCount-lastCpuCount);
+            printf("S:%ul B:%ul C:%u\n", cpu.apu->afx.getSamplesCountAndReset(), cpu.apu->afx.getSize(), cpu.instData.generalCycleCount-lastCpuCount);
             lastCpuCount = cpu.instData.generalCycleCount;
         }
 

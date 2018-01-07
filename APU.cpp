@@ -109,6 +109,8 @@ void APU::write4001(unsigned char Value)
     enableSweepFlagPulse1 = (Value & 0x80) && shiftCountPulse1;
     negateFlagPulse1 = Value & 0x8;
     reloadSweepPulse1 = true;
+
+    //printf("w4001:%X N:%u S:%u E:%u\n", Value, negateFlagPulse1, shiftCountPulse1, enableSweepFlagPulse1);
 }
 
 void APU::write4002(unsigned char Value)
@@ -166,6 +168,7 @@ void APU::write4008(unsigned char Value)
 {
     haltTriangle = Value & 0x80;
     counterReloadTriangle = Value & 0x7f;
+    //printf("w4008:%X HC:%u\n", Value, halfCycles);
 }
 
 void APU::write4009(unsigned char Value)
@@ -176,6 +179,7 @@ void APU::write4009(unsigned char Value)
 void APU::write400A(unsigned char Value)
 {
     timerTriangle = (timerTriangle & 0x700) | Value;
+    //printf("w400A:%X HC:%u\n", Value, halfCycles);
 }
 
 void APU::write400B(unsigned char Value)
@@ -186,6 +190,7 @@ void APU::write400B(unsigned char Value)
     }
     timerTriangle = ((Value & 0x7) << 8) | (timerTriangle & 0xFF);
     linearCounterReloadFlagTriangle = true;
+    //printf("w400B:%X HC:%u\n", Value, halfCycles);
 }
 
 void APU::write400C(unsigned char Value)
@@ -312,6 +317,8 @@ void APU::write4015(unsigned char Value)
         lengthCounterPulse1 = 0;
         enablePulse1 = false;
     }
+
+    //printf("4015:%X\n", Value);
 }
 
 void APU::write4017(unsigned char Value)
@@ -384,6 +391,15 @@ void APU::process(unsigned cpuCycles)
         {
             clockNoise();
         }
+
+        /*
+        outputTriangle = 0;
+        outputNoise = 0;
+        outputLevelDMC = 0;
+        outputPulse1 = 0;
+        outputPulse2 = 0;
+        */
+
         unsigned mixer = lookupTableTND[3*outputTriangle + 2*outputNoise + outputLevelDMC];
         mixer += lookupTablePulse[outputPulse1 + outputPulse2];
         if(mixer > 65535)
@@ -541,18 +557,13 @@ void APU::clockHalfFrame()
         lengthCounterTriangle--;
 
     //Sweep Pulse1
-    if(reloadSweepPulse1)
-    {/*
-        if(dividerSweepCounterPulse1 == 0 && enableSweepFlagPulse1)
-        {
-            //period is also adjusted??
-        }
-        else*/
-        dividerSweepCounterPulse1 = dividerSweepPulse1;
-        reloadSweepPulse1 = false;
-    }
-    else if(dividerSweepCounterPulse1 > 0)
+    if(dividerSweepCounterPulse1 > 0)
+    {
         dividerSweepCounterPulse1--;
+        if(dividerSweepCounterPulse1 == 0)
+            1+1;
+        //printf("RedDiv to %u\n", dividerSweepCounterPulse1);
+    }
     else
     {
         dividerSweepCounterPulse1 = dividerSweepPulse1;
@@ -563,6 +574,18 @@ void APU::clockHalfFrame()
             else
                 timerPulse1 += (timerPulse1 >> shiftCountPulse1);
         }
+        //printf("Timer: %u\n", timerPulse1);
+    }
+    if(reloadSweepPulse1)
+    {/*
+        if(dividerSweepCounterPulse1 == 0 && enableSweepFlagPulse1)
+        {
+            //period is also adjusted??
+        }
+        else*/
+        dividerSweepCounterPulse1 = dividerSweepPulse1;
+        reloadSweepPulse1 = false;
+        //printf("SetDiv to %u\n", dividerSweepCounterPulse1);
     }
 
     //Length Pulse 1
@@ -573,17 +596,7 @@ void APU::clockHalfFrame()
         lengthCounterPulse1--;
 
     //Sweep Pulse 2
-    if(reloadSweepPulse2)
-    {/*
-        if(dividerSweepCounterPulse2 == 0 && enableSweepFlagPulse2)
-        {
-            //period is also adjusted??
-        }
-        else*/
-        dividerSweepCounterPulse2 = dividerSweepPulse2;
-        reloadSweepPulse2 = false;
-    }
-    else if(dividerSweepCounterPulse2 > 0)
+    if(dividerSweepCounterPulse2 > 0)
         dividerSweepCounterPulse2--;
     else
     {
@@ -595,6 +608,16 @@ void APU::clockHalfFrame()
             else
                 timerPulse2 += (timerPulse2 >> shiftCountPulse2);
         }
+    }
+    if(reloadSweepPulse2)
+    {/*
+        if(dividerSweepCounterPulse2 == 0 && enableSweepFlagPulse2)
+        {
+            //period is also adjusted??
+        }
+        else*/
+        dividerSweepCounterPulse2 = dividerSweepPulse2;
+        reloadSweepPulse2 = false;
     }
 
     //Length Pulse 2
@@ -698,7 +721,7 @@ unsigned char APU::loadLengthCounter(unsigned char Value)
 void APU::clockTriangle()
 {
     halfCyclesUntilTriangle = timerTriangle;
-    if(lengthCounterTriangle > 0 && linearCounterTriangle > 0)
+    if(lengthCounterTriangle > 0 && linearCounterTriangle > 0 && timerTriangle >= 2)
     {
         outputTriangle = sequencerTriangle[sequencerStepTriangle++];
         sequencerStepTriangle &= 31;
@@ -761,7 +784,7 @@ void APU::clockNoise()
 
 bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount)
 {
-    return (Timer < 8 || (!Negate && Timer + (Timer >> ShiftCount) > 0x7FF) );
+    return (Timer < 8 || (!Negate && (Timer + (Timer >> ShiftCount) > 0x7FF)) );
 }
 
 void APU::setMemoryMapper(MemoryMapper* Board)

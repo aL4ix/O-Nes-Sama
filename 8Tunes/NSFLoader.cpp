@@ -149,6 +149,7 @@ void NSFLoader::play(CPU& cpu)
     unsigned NTSCmasterclock = 21477272;
     //CPU Frequency in Hz
 	unsigned cpufreq = NTSCmasterclock / 12;
+	//cpufreq = 1789657;
 	//Synchronization freq
 	unsigned syncfreq = 60;
 
@@ -187,7 +188,7 @@ void NSFLoader::play(CPU& cpu)
         unsigned now = SDL_GetTicks();
         unsigned timeSpent = now - lastTimeTick;
         unsigned thisFrameTimeInMilis = rafForTime.getNextSlice();
-        unsigned sleeptime = thisFrameTimeInMilis - timeSpent;
+        int sleeptime = thisFrameTimeInMilis - timeSpent;
         FPS++;
 
         if(sleeptime > 0)
@@ -200,14 +201,15 @@ void NSFLoader::play(CPU& cpu)
         }
         lastTimeTick = now + sleeptime;
 
+        continue;
         const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
         if(secondsCount != secondsSinceStart)
         {
             secondsCount = secondsSinceStart;
-            printf("T:%u F:%u S:%llu CycNSF:%u CycSpentCPU:%u A:%u\n", now, FPS,
+            printf("S:%llu CycNSF:%u CycSpentCPU:%u A:%u B:%u",
                    cpu.apu->afx.getSamplesCountAndReset(), sumCycles,
                    cpu.instData.generalCycleCount-cpuCurGenCycCount,
-                   cpu.apu->callCyclesCount);
+                   cpu.apu->callCyclesCount, cpu.apu->afx.getSize());
             sumCycles = 0;
             FPS = 0;
             cpu.apu->callCyclesCount = 0;
