@@ -23,15 +23,10 @@ int main(){
 	int cpufreq = NTSCmasterclock / 12;
 	//Synchronization freq
 	int syncfreq = 60;
-	double invsyncfreq = 1.0 / syncfreq;
-	double delayFloat = invsyncfreq*1000.0;
-	double countDelay = 0.;
+	RetroAccFrac rafForCPUCycles(cpufreq, syncfreq);
+	RetroAccFrac rafForTime(1000, syncfreq);
     int underrun = 0;
-    //Global cycle counter
-    int cycles = invsyncfreq * cpufreq;
-    int timediff = 0;
-    int sleeptime = 0;
-    int frameCtr = 0;
+    unsigned frameCtr = 0;
 
 /********************************************************/
 /*               Modules Declaration                    */
@@ -140,7 +135,11 @@ int main(){
     //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
     //std::string romFileName   =  "games/Incredible Crash DummiesIncredible Crash Dummies, The (USA).nesC The (USA).nes";
     //std::string romFileName   =  "games/sprdma_and_dmc_dma.nes";
-    std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
+    //std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
+    //std::string romFileName   =  "games/Overlord (U) [!].nes";
+    //std::string romFileName   =  "games/Solstice - The Quest for the Staff of Demnos (U) [!].nes";
+    //std::string romFileName   =  "games/Power Blade (U) [!].nes";
+    std::string romFileName   =  "games/Skate or Die 2 - The Search for Double Trouble (U) [!].nes";
     //std::string romFileName   =  "games/apu_sweep/min period.nes";
     //std::string romFileName   =  "games/apu_sweep/sweep cutoff.nes";
     //std::string romFileName   =  "games/apu_sweep/sweep sub.nes";
@@ -169,10 +168,12 @@ int main(){
     #endif // DEBUGGER
 
     int pendCycles = 0;
-    unsigned lastTimeTick = SDL_GetTicks();
+	unsigned lastTimeTick = SDL_GetTicks();
     unsigned emuStartTime = lastTimeTick;
     unsigned secondsCount = 0;
-    unsigned lastCpuCount = 0;
+    unsigned FPS = 0;
+    unsigned sumCycles = 0;
+    unsigned cpuCurGenCycCount = 0;
 
     while (cpu.isRunning){
         #ifdef DEBUGGER
@@ -230,15 +231,17 @@ int main(){
             }
         }
 
+        unsigned cycles = rafForCPUCycles.getNextSlice();
+        sumCycles += cycles;
         pendCycles = cpu.run(cycles + pendCycles);
         //printf("C: %d A: %d B:%d\n", cpu.instData.generalCycleCount, cpu.apu->halfCycles, cpu.apu->b.getSize());
         frameCtr ++;
+
         unsigned now = SDL_GetTicks();
-        timediff = now - lastTimeTick;
-        countDelay += delayFloat;
-        int thisFrameTimeInMilis = countDelay;
-        countDelay -= thisFrameTimeInMilis;
-        sleeptime = thisFrameTimeInMilis - timediff;
+        unsigned timeSpent = now - lastTimeTick;
+        unsigned thisFrameTimeInMilis = rafForTime.getNextSlice();
+        int sleeptime = thisFrameTimeInMilis - timeSpent;
+        FPS++;
 
         if (sleeptime > 0)
         {
@@ -252,8 +255,14 @@ int main(){
         if(secondsCount != secondsSinceStart)
         {
             secondsCount = secondsSinceStart;
-            printf("S:%ul B:%ul C:%u\n", cpu.apu->afx.getSamplesCountAndReset(), cpu.apu->afx.getSize(), cpu.instData.generalCycleCount-lastCpuCount);
-            lastCpuCount = cpu.instData.generalCycleCount;
+            printf("T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u\n", now, FPS,
+                   cpu.apu->afx.getSamplesCountAndReset(), sumCycles,
+                   cpu.instData.generalCycleCount-cpuCurGenCycCount,
+                   cpu.apu->callCyclesCount);
+            sumCycles = 0;
+            FPS = 0;
+            cpu.apu->callCyclesCount = 0;
+            cpuCurGenCycCount = cpu.instData.generalCycleCount;
         }
 
         #if BENCH == 1

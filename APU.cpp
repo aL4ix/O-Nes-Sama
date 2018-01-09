@@ -560,8 +560,6 @@ void APU::clockHalfFrame()
     if(dividerSweepCounterPulse1 > 0)
     {
         dividerSweepCounterPulse1--;
-        if(dividerSweepCounterPulse1 == 0)
-            1+1;
         //printf("RedDiv to %u\n", dividerSweepCounterPulse1);
     }
     else

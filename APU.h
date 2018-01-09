@@ -166,7 +166,7 @@ private:
     bool constantVolumeFlagNoise;
     unsigned char constVolEnvDivPeriodNoise;
     bool modeFlagNoise;
-    unsigned char timerNoise;
+    unsigned short timerNoise;
     bool startFlagNoise;
     unsigned char decayDividerCounterNoise;
     unsigned char envelopeVolumeNoise;
