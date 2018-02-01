@@ -9,9 +9,9 @@ GraphixEngine::GraphixEngine(const unsigned ScreenWidth, const unsigned ScreenHe
     //Platform-Dependant
     window = NULL;
     //Initialize SDL
-	if(SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_AUDIO) < 0)
+	if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 	{
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+		printf("SDL Video could not initialize! SDL_Error: %s\n", SDL_GetError());
         return;
 	}
     //The window we'll be rendering to
@@ -53,5 +53,5 @@ GraphixEngine::~GraphixEngine()
         SDL_DestroyRenderer(sdlRenderer);
     if(window)
         SDL_DestroyWindow(window);
-    SDL_Quit();
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }

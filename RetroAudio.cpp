@@ -24,6 +24,12 @@ unsigned RetroAccFrac::getNextSlice()
 
 RetroAudio::RetroAudio() : outputSamplesCount(0), raf(21477272/12, SAMPLING)
 {
+    if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+	{
+		printf("SDL Audio could not initialize! SDL_Error: %s\n", SDL_GetError());
+        return;
+	}
+
     SDL_AudioSpec desiredSpec;
     SDL_zero(desiredSpec);
     desiredSpec.freq = SAMPLING;
@@ -65,6 +71,7 @@ RetroAudio::~RetroAudio()
     SDL_CloseAudio();
     delete [] bufferCopy;
     fclose(fileOutput);
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
 void RetroAudio::loadSamples(Uint16 *stream, int length)

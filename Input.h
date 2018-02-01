@@ -8,10 +8,12 @@ class Input{
 
     public:
         Input();
+        ~Input();
         CPUIO * cpuIO;
         unsigned char read(int addr);
         void write (int addr, unsigned char val);
         void latchButtonStatus();
+        void updateJoystickState();
     private:
         const unsigned char _A       = 0x01;
         const unsigned char _B       = 0x02;
@@ -23,6 +25,12 @@ class Input{
         const unsigned char _Rgt     = 0x80;
 
         //Initialize P1 & P2 Controllers, eventually this will be done from the GUI
+        /*
+        documenting buttons[8] = {
+            A, B, SELECT, START,
+            UP, DOWN, LEFT, RIGHT
+        }
+        */
         unsigned char buttons[2][8] = {
             {  //Player 1 Buttons
                 SDL_SCANCODE_S , SDL_SCANCODE_A   , SDL_SCANCODE_BACKSPACE, SDL_SCANCODE_RETURN,
@@ -34,7 +42,22 @@ class Input{
             }
         };
 
+        int joyButtonsAndAxis[2][8] = {
+            {
+                1, 0, 6, 7,
+                (1<<1)|1, (1<<1)|0, (0<<1)|1, (0<<1)|0, // (axisNum<<1)|axisIsNegative
+            },
+            {
+                1, 0, 6, 7,
+                (1<<1)|1, (1<<1)|0, (0<<1)|1, (0<<1)|0,
+            }
+        };
+        int numberOfJoys;
+        uint8_t joyState[2][8];
+        SDL_Joystick* joy[2];
+
         int shftRegs[2];
 };
 
 #endif // INPUT_H_INCLUDED
+

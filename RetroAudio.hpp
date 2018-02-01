@@ -22,7 +22,7 @@ private:
 
 const unsigned short AMPLITUDE = 30000;
 const unsigned SAMPLING = 48000;
-const unsigned BUFFER_LENGTH = 1024;
+const unsigned BUFFER_LENGTH = 2048;
 
 
 class RetroAudio

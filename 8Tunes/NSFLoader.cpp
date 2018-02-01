@@ -48,7 +48,7 @@ void NSFLoader::loadRomFile()
         isBankswitched = (bankswitch[0] | bankswitch[1] | bankswitch[2] |
            bankswitch[3] | bankswitch[4] | bankswitch[5] | bankswitch[6] |
            bankswitch[7]) != 0;
-        printf("isBankswitched: %d\n", isBankswitched);
+        //printf("isBankswitched: %d\n", isBankswitched);
 
         unsigned short offset = loadAddress & 0xFFF;
         unsigned short bytesPerBank = 0x1000 - offset;
@@ -56,9 +56,7 @@ void NSFLoader::loadRomFile()
         if(!isBankswitched)
         {
             b = (loadAddress - 0x8000) >> 12;
-            printf("HEY\n");
         }
-        printf("b: %d\n", b);
         for(; b<8; b++)
         {
             unsigned short bytesLoaded = fread(io.prgBuffer + (b*0x1000) + offset, 1, bytesPerBank, file);
@@ -106,10 +104,10 @@ void NSFLoader::loadRomFile()
     }
     else
     {
-        printf("HEY\n");
         for(int i=0; i<8; i++)
             io.switch4K(i, i, io.prgBuffer, io.prgSpace);
     }
+    /*
     printf("1: %x\n", mapper->readCPU(0x8000));
     printf("2: %x\n", mapper->readCPU(0x9001));
     printf("3: %x\n", mapper->readCPU(0xa000));
@@ -117,7 +115,7 @@ void NSFLoader::loadRomFile()
     printf("5: %x\n", mapper->readCPU(0xc000));
     printf("6: %x\n", mapper->readCPU(0xd000));
     printf("7: %x\n", mapper->readCPU(0xe000));
-    printf("8: %x\n", mapper->readCPU(0xf000));
+    printf("8: %x\n", mapper->readCPU(0xf000));*/
 }
 
 void NSFLoader::initializingATune(CPU& cpu, unsigned short int song)
@@ -149,7 +147,6 @@ void NSFLoader::play(CPU& cpu)
     unsigned NTSCmasterclock = 21477272;
     //CPU Frequency in Hz
 	unsigned cpufreq = NTSCmasterclock / 12;
-	//cpufreq = 1789657;
 	//Synchronization freq
 	unsigned syncfreq = 60;
 
@@ -171,11 +168,11 @@ void NSFLoader::play(CPU& cpu)
 
     for(int i=0; i<10000; i++)
     {
-        unsigned cycles = rafForCPUCycles.getNextSlice();
-        sumCycles += cycles;
+        const unsigned cycles = rafForCPUCycles.getNextSlice();
+        const unsigned requestedCycles = cycles + pendCycles;
+        sumCycles += requestedCycles;
 
-
-        pendCycles = cpu.run(cycles + pendCycles);
+        pendCycles = cpu.run(requestedCycles);
         //printf("slice:%u pend:%d\n", cycles, pendCycles);
         if(cpu.regs.pc == 0xfffa || cpu.regs.pc == 0xfffb) // NSF did a RTS
         {
@@ -201,12 +198,13 @@ void NSFLoader::play(CPU& cpu)
         }
         lastTimeTick = now + sleeptime;
 
-        continue;
+        //continue;
+
         const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
         if(secondsCount != secondsSinceStart)
         {
             secondsCount = secondsSinceStart;
-            printf("S:%llu CycNSF:%u CycSpentCPU:%u A:%u B:%u",
+            printf("T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u\n", now, FPS,
                    cpu.apu->afx.getSamplesCountAndReset(), sumCycles,
                    cpu.instData.generalCycleCount-cpuCurGenCycCount,
                    cpu.apu->callCyclesCount, cpu.apu->afx.getSize());

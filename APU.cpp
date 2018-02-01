@@ -22,7 +22,7 @@ APU::APU(CPUIO &cpuIO) :
 {
     powerup();
     reset();
-    file = fopen("hey.txt", "wb");
+    //file = fopen("hey.txt", "wb");
 
     lookupTablePulse[0] = 0;
     for(unsigned n=1; n<31; n++)

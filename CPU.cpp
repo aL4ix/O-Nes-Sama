@@ -265,23 +265,24 @@ int CPU::getAddress(int addrMode){
 /* Main instructions execution loop                                                        */
 /*******************************************************************************************/
 
-int CPU::run(int cycles){
+int CPU::run(const int cycles){
 	isRunning = true;
     int cyclesRemain = cycles;
+    unsigned totalSum = 0;
 
     if (isPaused){
         return 0;
     }
 
     while ((cyclesRemain > 0) && (isRunning)){
-
+        cycleCount = 0;
+        unsigned localGeneralCount = generalCycleCount;
         if (isIntPendng){
             interruptSequence();
             /*if (isIRQPending)
                 printf ("REAL: %d %d\n", ppu->scanlineNum, ppu->ticks);*/
         }
 
-        cycleCount = 0;
 		pageCrossed = false;
 		needsDummy = false;
 
@@ -296,9 +297,21 @@ int CPU::run(int cycles){
 
         #include "opcodes.inc"
 
+        if((generalCycleCount-localGeneralCount) != cycleCount)
+        {
+            printf("HEY\n");
+        }
+
+        totalSum += cycleCount;
         cyclesRemain -= cycleCount;
         instData.generalCycleCount = generalCycleCount;
     }
+    if(totalSum != cycles-cyclesRemain)
+    {
+        printf("NEL");
+        printf(" ts:%u s:%d cr:%d\n", totalSum, cycles, cyclesRemain);
+    }
+
     return cyclesRemain;
 }
 
