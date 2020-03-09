@@ -1,42 +1,19 @@
 #ifndef APU_H_INCLUDED
 #define APU_H_INCLUDED
 
-#include <functional>
 #include <cstdio>
-#include <queue>
-#include <SDL2/SDL.h>
 
 #include "CPUIO.hpp"
 #include "Cartridge/Mappers/MemoryMapper.h"
-
-
-const unsigned short AMPLITUDE = 35000;
-const unsigned SAMPLING = 48000;
-
-
-class Beeper
-{
-private:
-    double acc;
-    double parte;
-    unsigned entero;
-    std::queue<unsigned short> beeps;
-public:
-    Beeper();
-    ~Beeper();
-    void load(unsigned short sample);
-    void loadSamples(Uint16 *stream, int length);
-    void wait();
-
-    unsigned long long count;
-};
-
-
-void audio_callback(void*, Uint8*, int);
+#include "RetroAudio.hpp"
 
 
 class APU
 {
+    const unsigned short AMPLITUDE = 30000;
+
+    friend int main();
+
 public:
     explicit APU(CPUIO &cpuIO);
     void writeMem(unsigned short Address, unsigned char Value);
@@ -85,7 +62,10 @@ public:
 
     //Other
     void setMemoryMapper(MemoryMapper* Board);
-    Beeper b;
+    RetroAudio afx;
+
+    //Debug
+    unsigned callCyclesCount;
 
 private:
     const bool MODE_4STEP = false;
@@ -113,7 +93,7 @@ private:
     {
         428, 380, 340, 320, 286, 254, 226, 214, 190, 160, 142, 128, 106,  84,  72,  54
     };
-    unsigned short halfCycles;
+    unsigned halfCycles;
     bool modeFrameCounter;
     bool inhibitFrameCounter;
     bool irqFrameCounter;
@@ -141,7 +121,7 @@ private:
     unsigned char linearCounterTriangle;
     unsigned char sequencerTriangle[32] = {15, 14, 13, 12, 11, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1,  0,
                                            0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15};
-    FILE* file;
+    //FILE* file;
 
     //Pulse1
     unsigned char sequencerPulse[4][8] = {{0, 1, 0, 0, 0, 0, 0, 0},
@@ -188,7 +168,7 @@ private:
     bool constantVolumeFlagNoise;
     unsigned char constVolEnvDivPeriodNoise;
     bool modeFlagNoise;
-    unsigned char timerNoise;
+    unsigned short timerNoise;
     bool startFlagNoise;
     unsigned char decayDividerCounterNoise;
     unsigned char envelopeVolumeNoise;
@@ -240,7 +220,6 @@ private:
     //OTHER
     CPUIO &cpuIO;
     MemoryMapper* board;
-
 };
 
 #endif // APU_H_INCLUDED

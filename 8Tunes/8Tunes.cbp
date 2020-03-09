@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="8Tunes" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/8Tunes" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/8Tunes" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-march=corei7-avx" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-fexpensive-optimizations" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-DEIGHT_TUNES" />
+		</Compiler>
+		<Linker>
+			<Add library="SDL2" />
+			<Add library="SDL2main" />
+		</Linker>
+		<Unit filename="../APU.cpp" />
+		<Unit filename="../APU.h" />
+		<Unit filename="../CPU.cpp" />
+		<Unit filename="../CPU.h" />
+		<Unit filename="../CPUIO.hpp" />
+		<Unit filename="../CPUSharedData.h" />
+		<Unit filename="../Cartridge/CartIO.hpp" />
+		<Unit filename="../Cartridge/Mappers/MemoryMapper.cpp" />
+		<Unit filename="../Cartridge/Mappers/MemoryMapper.h" />
+		<Unit filename="../RetroAudio.cpp" />
+		<Unit filename="../RetroAudio.hpp" />
+		<Unit filename="../opcodes.inc" />
+		<Unit filename="8Tunes.cpp" />
+		<Unit filename="DummyInput.h" />
+		<Unit filename="DummyPPU.h" />
+		<Unit filename="NSFLoader.cpp" />
+		<Unit filename="NSFLoader.h" />
+		<Unit filename="NSFMapper.cpp" />
+		<Unit filename="NSFMapper.hpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
