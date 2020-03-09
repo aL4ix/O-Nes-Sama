@@ -407,7 +407,7 @@ void APU::process(unsigned cpuCycles)
             printf("CLIPPING!!!\n");
             mixer = 65535;
         }
-        afx.load(mixer);
+        afx.loadSample(mixer);
 
         //fprintf(file, "%c", mixer);
         //b.count++;

@@ -268,7 +268,9 @@ int CPU::getAddress(int addrMode){
 int CPU::run(const int cycles){
 	isRunning = true;
     int cyclesRemain = cycles;
+    #ifdef DEBUG_PRECISETIMING
     unsigned totalSum = 0;
+    #endif // DEBUG_PRECISETIMING
 
     if (isPaused){
         return 0;
@@ -276,7 +278,9 @@ int CPU::run(const int cycles){
 
     while ((cyclesRemain > 0) && (isRunning)){
         cycleCount = 0;
+        #ifdef DEBUG_PRECISETIMING
         unsigned localGeneralCount = generalCycleCount;
+        #endif // DEBUG_PRECISETIMING
         if (isIntPendng){
             interruptSequence();
             /*if (isIRQPending)
@@ -297,20 +301,25 @@ int CPU::run(const int cycles){
 
         #include "opcodes.inc"
 
+        #ifdef DEBUG_PRECISETIMING
         if((generalCycleCount-localGeneralCount) != cycleCount)
         {
             printf("HEY\n");
         }
-
         totalSum += cycleCount;
+        #endif // DEBUG_PRECISETIMING
+
         cyclesRemain -= cycleCount;
         instData.generalCycleCount = generalCycleCount;
     }
+
+    #ifdef DEBUG_PRECISETIMING
     if(totalSum != cycles-cyclesRemain)
     {
         printf("NEL");
         printf(" ts:%u s:%d cr:%d\n", totalSum, cycles, cyclesRemain);
     }
+    #endif // DEBUG_PRECISETIMING
 
     return cyclesRemain;
 }

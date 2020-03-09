@@ -6,10 +6,10 @@
 #include <vector>
 
 
-class RetroAccFrac
+class RetroFraction
 {
 public:
-    RetroAccFrac(unsigned total, unsigned dividedBy);
+    RetroFraction(unsigned total, unsigned dividedBy);
     unsigned getNextSlice();
 
 private:
@@ -20,32 +20,36 @@ private:
 };
 
 
-const unsigned short AMPLITUDE = 30000;
-const unsigned SAMPLING = 48000;
-const unsigned BUFFER_LENGTH = 2048;
-
-
 class RetroAudio
 {
+    const unsigned SAMPLING = 48000;
+    const unsigned BUFFER_LENGTH = 2048;
+
+    friend void audio_callback(void *, Uint8 *, int);
+
+public:
+    RetroAudio();
+    ~RetroAudio();
+    void loadSample(unsigned short sample);
+    unsigned getQueuedCount();
+    unsigned long long getOutputSamplesAndReset();
+    void play();
+
 private:
-    std::queue<unsigned short> beeps;
+
+    std::queue<unsigned short> queuedSamples;
     std::vector<unsigned short> avgBuffer;
     Uint16* bufferCopy;
     FILE* fileOutput;
     bool semaphoreForBufferCopy;
     unsigned long long outputSamplesCount;
-    unsigned samplesToNextSlice;
-public:
-    RetroAudio();
-    ~RetroAudio();
-    void load(unsigned short sample);
-    void loadSamples(Uint16 *stream, int length);
-    void wait();
-    unsigned getSize();
-    unsigned long long getSamplesCountAndReset();
+    unsigned samplesUntilNextSlice;
+    RetroFraction raf;
+    bool warmingUp;
 
-    unsigned long long count;
-    RetroAccFrac raf;
+
+
+    void sendSamplesToHW(Uint16 *stream, int length);
 };
 
 

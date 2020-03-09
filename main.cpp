@@ -6,7 +6,10 @@
 #include "CPU.h"
 #include "PPU.h"
 #include <SDL2/SDL.h>
+
+#ifdef DEBUGGER
 #include "Debugger/Debugger.h"
+#endif // DEBUGGER
 
 std::string getBaseRomName(std::string romFileName);
 
@@ -25,8 +28,8 @@ int main(){
         int cpufreq = NTSCmasterclock / 12;
         //Synchronization freq
         int syncfreq = 60;
-        RetroAccFrac rafForCPUCycles(cpufreq, syncfreq);
-        RetroAccFrac rafForTime(1000, syncfreq);
+        RetroFraction rafForCPUCycles(cpufreq, syncfreq);
+        RetroFraction rafForTime(1000, syncfreq);
         int underrun = 0;
         unsigned frameCtr = 0;
 
@@ -47,7 +50,8 @@ int main(){
         //std::string romFileName   = "games/blargg_ppu_tests/sprite_ram.nes";
         //std::string romFileName   = "games/mmc3_test_2/rom_singles/4-scanline_timing.nes";
         //std::string romFileName   = "games/NROM/smb.nes";
-        //std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
+        //std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
+        std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
 
         //std::string romFileName   = "games/CNROM/Adventure Island.nes";
         //std::string romFileName   = "games/CNROM/Ninja Jajamaru Kun (Japan).nes";
@@ -102,7 +106,7 @@ int main(){
         //std::string romFileName   =  "games/MMC3/G.I. Joe - A Real American Hero (USA).nes";
         //std::string romFileName   =  "games/MMC3/chuchu.nes";
 
-        std::string romFileName   = "games/MMC1/Mega Man 2 (U).nes";
+        //std::string romFileName   = "games/MMC1/Mega Man 2 (U).nes";
         //std::string romFileName   = "games/MMC1/Bill & Ted's Excellent Video Game Adventure (USA).nes";
 
 
@@ -171,11 +175,13 @@ int main(){
 
         int pendCycles = 0;
         unsigned lastTimeTick = SDL_GetTicks();
-        unsigned emuStartTime = lastTimeTick;
-        unsigned secondsCount = 0;
         unsigned FPS = 0;
         unsigned sumCycles = 0;
+        #ifdef DEBUG_PRECISETIMING
+        unsigned emuStartTime = lastTimeTick;
+        unsigned secondsCount = 0;
         unsigned cpuCurGenCycCount = 0;
+        #endif // DEBUG_PRECISETIMING
 
         while (cpu.isRunning){
             #ifdef DEBUGGER
@@ -188,7 +194,9 @@ int main(){
                 }
             #endif // DEBUGGER
 
+            //HOW CAN WE FIX THIS?
             cpu.controller->updateJoystickState();
+
             SDL_Event event;
             bool windowClosed = false;
             while(SDL_PollEvent(&event))
@@ -255,19 +263,21 @@ int main(){
                 ++underrun;
             lastTimeTick = now + sleeptime;
 
+            #ifdef DEBUG_PRECISETIMING
             const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
             if(secondsCount != secondsSinceStart)
             {
                 secondsCount = secondsSinceStart;
                 printf("T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u\n", now, FPS,
-                       cpu.apu->afx.getSamplesCountAndReset(), sumCycles,
+                       cpu.apu->afx.getOutputSamplesAndReset(), sumCycles,
                        cpu.instData.generalCycleCount-cpuCurGenCycCount,
-                       cpu.apu->callCyclesCount, cpu.apu->afx.getSize());
+                       cpu.apu->callCyclesCount, cpu.apu->afx.getQueuedCount());
                 sumCycles = 0;
                 FPS = 0;
                 cpu.apu->callCyclesCount = 0;
                 cpuCurGenCycCount = cpu.instData.generalCycleCount;
             }
+            #endif // DEBUG_PRECISETIMING
 
             #if BENCH == 1
             //Benchmark to file

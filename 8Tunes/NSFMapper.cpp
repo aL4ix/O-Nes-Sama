@@ -78,3 +78,8 @@ void NSFMapper::setCPU(CPU* Cpu)
 {
     cpu = Cpu;
 }
+
+NSFMapper::~NSFMapper()
+{
+    delete [] io.wRam;
+}

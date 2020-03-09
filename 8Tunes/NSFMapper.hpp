@@ -9,6 +9,7 @@ class NSFMapper : public MemoryMapper
 {
 public:
     NSFMapper(CartIO &ioRef);
+    ~NSFMapper();
     unsigned char readCPU(int address);
     unsigned char readPPU(int address);
     void writeCPU(int address, unsigned char val);

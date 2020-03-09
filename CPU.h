@@ -29,9 +29,6 @@ struct CpuStateData{
 
 class CPU : public CpuStateData {
 
-    friend class NSFLoader;
-    friend int main();
-
     public:
 
         bool isRunning;
@@ -154,6 +151,9 @@ class CPU : public CpuStateData {
         void TSX();
         void DEX();
         void NOP();
+
+    friend class NSFLoader;
+    friend int main();
 };
 
 

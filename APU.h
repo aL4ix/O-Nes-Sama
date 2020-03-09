@@ -10,6 +10,8 @@
 
 class APU
 {
+    const unsigned short AMPLITUDE = 30000;
+
     friend int main();
 
 public:

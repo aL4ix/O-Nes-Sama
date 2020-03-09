@@ -150,8 +150,8 @@ void NSFLoader::play(CPU& cpu)
 	//Synchronization freq
 	unsigned syncfreq = 60;
 
-	RetroAccFrac rafForCPUCycles(cpufreq, syncfreq);
-	RetroAccFrac rafForTime(1000, syncfreq);
+	RetroFraction rafForCPUCycles(cpufreq, syncfreq);
+	RetroFraction rafForTime(1000, syncfreq);
 
 	int pendCycles = 0;
 	unsigned lastTimeTick = SDL_GetTicks();
@@ -205,9 +205,9 @@ void NSFLoader::play(CPU& cpu)
         {
             secondsCount = secondsSinceStart;
             printf("T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u\n", now, FPS,
-                   cpu.apu->afx.getSamplesCountAndReset(), sumCycles,
+                   cpu.apu->afx.getOutputSamplesAndReset(), sumCycles,
                    cpu.instData.generalCycleCount-cpuCurGenCycCount,
-                   cpu.apu->callCyclesCount, cpu.apu->afx.getSize());
+                   cpu.apu->callCyclesCount, cpu.apu->afx.getQueuedCount());
             sumCycles = 0;
             FPS = 0;
             cpu.apu->callCyclesCount = 0;
