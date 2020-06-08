@@ -25,6 +25,7 @@
 					<Add option="-march=corei7-avx" />
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-fexpensive-optimizations" />
+					<Add option="-DRETRO_AUDIO_DEBUG" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
