@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <queue>
 #include <vector>
-
+#include <stdio.h>
 
 class RetroFraction
 {
@@ -22,6 +22,7 @@ private:
 
 class RetroAudio
 {
+    SDL_AudioDeviceID sdldev;
     const unsigned SAMPLING = 48000;
     const unsigned BUFFER_LENGTH = 2048;
 

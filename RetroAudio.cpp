@@ -33,7 +33,7 @@ RetroAudio::RetroAudio() : outputSamplesCount(0), raf(21477272/12, SAMPLING), wa
     SDL_AudioSpec desiredSpec;
     SDL_zero(desiredSpec);
     desiredSpec.freq = SAMPLING;
-    desiredSpec.format = AUDIO_U16SYS;
+    desiredSpec.format = AUDIO_S16SYS;
     desiredSpec.channels = 1;
     desiredSpec.samples = BUFFER_LENGTH;
     desiredSpec.callback = audio_callback;
@@ -41,16 +41,24 @@ RetroAudio::RetroAudio() : outputSamplesCount(0), raf(21477272/12, SAMPLING), wa
 
     SDL_AudioSpec obtainedSpec;
 
-    if(SDL_OpenAudio(&desiredSpec, &obtainedSpec) != 0)
+    /*if(SDL_OpenAudio(&desiredSpec, &obtainedSpec) != 0)
     {
         printf("Failed to open audio: %s\n", SDL_GetError());
-    }
-    /*
+    }*/
+
     // For some reason this is equivalent to the one above but this doesn't work
-    if(SDL_OpenAudioDevice(NULL, 0, &desiredSpec, &obtainedSpec, SDL_AUDIO_ALLOW_ANY_CHANGE) == 0)
+    sdldev = SDL_OpenAudioDevice(NULL, 0, &desiredSpec, &obtainedSpec, 0);
+    if(sdldev == 0)
     {
         printf("Failed to open audio: %s\n", SDL_GetError());
     }
+
+    /*
+    printf("Describe audio");
+    printf("freq: %d %d ", desiredSpec.freq, obtainedSpec.freq);
+    printf("format: %x %x ", desiredSpec.format, obtainedSpec.format);
+    printf("isunsigned: %d %d ", SDL_AUDIO_ISUNSIGNED(desiredSpec.format), SDL_AUDIO_ISUNSIGNED(obtainedSpec.format));
+    printf("bitsize: %d %d ", SDL_AUDIO_MASK_BITSIZE & desiredSpec.format, SDL_AUDIO_MASK_BITSIZE & obtainedSpec.format);
     */
 
     //Fill buffer so it gives warm up time
@@ -70,7 +78,7 @@ RetroAudio::RetroAudio() : outputSamplesCount(0), raf(21477272/12, SAMPLING), wa
 
 RetroAudio::~RetroAudio()
 {
-    SDL_CloseAudio();
+    //SDL_CloseAudio();
     #ifdef RETRO_AUDIO_DEBUG
     delete [] bufferCopy;
     fclose(fileOutput);
@@ -124,9 +132,9 @@ void RetroAudio::loadSample(unsigned short sample)
             avg += avgBuffer[i];
         avgBuffer.clear();
         avg /= size;
-        SDL_LockAudio();
+        SDL_LockAudioDevice(sdldev);
         queuedSamples.push(avg);
-        SDL_UnlockAudio();
+        SDL_UnlockAudioDevice(sdldev);
         #ifdef RETRO_AUDIO_DEBUG
         if(semaphoreForBufferCopy)
         {
@@ -156,7 +164,7 @@ unsigned long long RetroAudio::getOutputSamplesAndReset()
 
 void RetroAudio::play() {
     // start play audio
-    SDL_PauseAudio(0);
+    SDL_PauseAudioDevice(sdldev, 0);
 }
 
 void audio_callback(void *_beeper, Uint8 *_streamInBytes, int _lengthInBytes)
