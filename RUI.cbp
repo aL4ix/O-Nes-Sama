@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="RUI" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/ONSGUI" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/ONSGUI" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add option="`wx-config --cxxflags`" />
+			<Add option="-D__GNUWIN32__" />
+			<Add option="-D__WXMSW__" />
+			<Add option="-DWXUSINGDLL" />
+			<Add option="-DwxUSE_UNICODE" />
+			<Add directory="C:/SDL2/x86_64-w64-mingw32/include" />
+			<Add directory="C:/wxWidgets/include" />
+			<Add directory="C:/wxWidgets/lib/gcc_dllmu/mswu" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="C:/wxWidgets/include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="`wx-config --libs`" />
+			<Add option="-mthreads" />
+			<Add library="SDL2" />
+			<Add library="SDL2main" />
+			<Add library="libwxmsw31u.a" />
+			<Add library="z" />
+			<Add directory="C:/SDL2/x86_64-w64-mingw32/lib" />
+			<Add directory="C:/wxWidgets/lib/gcc_dllmu" />
+		</Linker>
+		<Unit filename="APU.cpp" />
+		<Unit filename="CPU.cpp" />
+		<Unit filename="Cartridge/Cartridge.cpp" />
+		<Unit filename="Cartridge/Mappers/AxROM.cpp" />
+		<Unit filename="Cartridge/Mappers/BasicMapper.cpp" />
+		<Unit filename="Cartridge/Mappers/CNROM.cpp" />
+		<Unit filename="Cartridge/Mappers/GxROM.cpp" />
+		<Unit filename="Cartridge/Mappers/MMC1.cpp" />
+		<Unit filename="Cartridge/Mappers/MMC2_4.cpp" />
+		<Unit filename="Cartridge/Mappers/MMC3.cpp" />
+		<Unit filename="Cartridge/Mappers/MemoryMapper.cpp" />
+		<Unit filename="Cartridge/Mappers/UxROM.cpp" />
+		<Unit filename="Input.cpp" />
+		<Unit filename="Logging/CPULogger.cpp" />
+		<Unit filename="Logging/Logger.cpp" />
+		<Unit filename="PPU.cpp" />
+		<Unit filename="RetroAudio.cpp" />
+		<Unit filename="RetroGraphix/Color.cpp" />
+		<Unit filename="RetroGraphix/GraphixEngine.cpp" />
+		<Unit filename="RetroGraphix/Sprite.cpp" />
+		<Unit filename="RetroGraphix/Texture.cpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="sdlcore.cpp" />
+		<Unit filename="wxSDLPanel.cpp" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
