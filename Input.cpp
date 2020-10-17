@@ -1,5 +1,5 @@
 #include "Input.h"
-//#include <stdio.h>
+#include <stdio.h>
 
 int strobe = 0;
 

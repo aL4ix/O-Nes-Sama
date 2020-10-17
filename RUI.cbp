@@ -32,8 +32,6 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add option="`wx-config --cxxflags`" />
-			<Add option="-D__GNUWIN32__" />
-			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add directory="C:/SDL2/x86_64-w64-mingw32/include" />
@@ -45,10 +43,8 @@
 		</ResourceCompiler>
 		<Linker>
 			<Add option="`wx-config --libs`" />
-			<Add option="-mthreads" />
 			<Add library="SDL2" />
 			<Add library="SDL2main" />
-			<Add library="libwxmsw31u.a" />
 			<Add library="z" />
 			<Add directory="C:/SDL2/x86_64-w64-mingw32/lib" />
 			<Add directory="C:/wxWidgets/lib/gcc_dllmu" />

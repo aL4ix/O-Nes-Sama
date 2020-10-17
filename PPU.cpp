@@ -38,7 +38,7 @@ unsigned char reverse(unsigned char b) {
 
 const double ZOOM = 2.0;
 
-PPU::PPU(CPUIO &cio, MemoryMapper &m) : gfx(256*ZOOM, 240*ZOOM), cpuIO(cio), mapper(m)
+PPU::PPU(CPUIO &cio, MemoryMapper &m, const void* window) : gfx(256*ZOOM, 240*ZOOM, window), cpuIO(cio), mapper(m)
 {
     mapper.io.dbg.sl = &scanlineNum;
     mapper.io.dbg.tick = &ticks;

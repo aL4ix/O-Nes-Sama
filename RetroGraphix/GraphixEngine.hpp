@@ -33,7 +33,7 @@ private:
     GraphixEngine& operator=(const GraphixEngine& rhs);
 
 public:
-    GraphixEngine(const unsigned Width, const unsigned Height);
+    GraphixEngine(const unsigned Width, const unsigned Height, const void*);
     ~GraphixEngine();
 
     inline void DrawBegin() const
@@ -61,5 +61,6 @@ public:
     }
 
 };
+
 
 #endif // GRAPHIXENGINE_HPP

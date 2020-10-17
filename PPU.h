@@ -70,7 +70,7 @@ class PPU : public PPU_State
 friend class Debugger;
 
 public:
-    PPU(struct CPUIO &cio, MemoryMapper &m);
+    PPU(struct CPUIO &cio, MemoryMapper &m, const void*);
     ~PPU();
     void writeMem(unsigned short Address, unsigned char Value);
     unsigned char readMem(unsigned short Address);

@@ -14,6 +14,7 @@
 #include "APU.h"
 #include "CPUIO.hpp"
 //#include "Cartridge/Cartridge.hpp"
+#include "wxSDLPanel.hpp"
 
 struct CpuStateData{
     unsigned char ram[0x800];
@@ -48,10 +49,11 @@ class CPU : public CpuStateData {
 		void pollForInterrupts();
 		void saveState (FILE * file);
 		bool loadState (FILE * file);
+		Input * controller;
 
 	private:
         MemoryMapper &mapper;
-        Input * controller;
+        //Input * controller;
         PPU * ppu;
         APU * apu;
         //Cartridge &cart;
@@ -153,7 +155,7 @@ class CPU : public CpuStateData {
         void NOP();
 
     friend class NSFLoader;
-    friend int main();
+    //friend void sdlCore(ParamsForSDL const&);
 };
 
 

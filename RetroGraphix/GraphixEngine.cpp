@@ -3,11 +3,11 @@
 //Platform-Dependant
 SDL_Renderer* sdlRenderer = NULL;
 
-GraphixEngine::GraphixEngine(const unsigned ScreenWidth, const unsigned ScreenHeight) :
+GraphixEngine::GraphixEngine(const unsigned ScreenWidth, const unsigned ScreenHeight, const void* windowPtr) :
     screenSurface(NULL)
 {
     //Platform-Dependant
-    window = NULL;
+    //window = NULL;
     //Initialize SDL
 	if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 	{
@@ -15,18 +15,20 @@ GraphixEngine::GraphixEngine(const unsigned ScreenWidth, const unsigned ScreenHe
         return;
 	}
     //The window we'll be rendering to
-    window = SDL_CreateWindow("O-Nes-Sama", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenWidth, ScreenHeight, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindowFrom(windowPtr);
+    sdlRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+    /*window = SDL_CreateWindow("O-Nes-Sama", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenWidth, ScreenHeight, SDL_WINDOW_SHOWN);
     if(window == NULL)
     {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return;
-    }
-    #ifndef GFX_SOFTWARE_RENDER
-        sdlRenderer = SDL_CreateRenderer(window, -1, 0);
-    #else
+    } */
+    //#ifndef GFX_SOFTWARE_RENDER
+        //sdlRenderer = SDL_CreateRenderer(window, -1, 0);
+    /*#else
         SDL_Surface* surface = SDL_GetWindowSurface(window);
         sdlRenderer = SDL_CreateSoftwareRenderer(surface);
-    #endif // GFX_SOFTWARE_RENDER
+    #endif // GFX_SOFTWARE_RENDER*/
     if (sdlRenderer == NULL)
 	{
 		printf("Failed to create renderer : %s\n", SDL_GetError());
@@ -51,7 +53,7 @@ GraphixEngine::~GraphixEngine()
     //Platform-Dependant
     if(sdlRenderer)
         SDL_DestroyRenderer(sdlRenderer);
-    if(window)
-        SDL_DestroyWindow(window);
-    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    //if(window)
+    //    SDL_DestroyWindow(window);
+    //SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
