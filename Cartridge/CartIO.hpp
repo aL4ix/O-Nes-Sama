@@ -29,7 +29,7 @@ struct iNESHdr{
 
 struct CartIO {
 
-    int ppuAddrBus;
+    unsigned short *ppuAddrBus;
     int chrWritable;
     int prgWritable;
     int wRamWritable;

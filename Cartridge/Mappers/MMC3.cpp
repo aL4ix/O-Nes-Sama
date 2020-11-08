@@ -26,6 +26,8 @@ MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
             break;
         }
     }
+
+
     printf ("\nNeeds MC_ACC Behavior   : %d", needsMCACC);
 
     io.wRam = new unsigned char [0x2000];
@@ -58,7 +60,7 @@ void MMC3::writeCPU(int addr, unsigned char val){
             break;
         case 0xC: case 0xD:
             if (addr & 1){
-                irqCounter = 0;
+                //irqCounter = 0;
                 irqReload = 1;
             }
             else{
@@ -75,8 +77,10 @@ void MMC3::writeCPU(int addr, unsigned char val){
 }
 
 unsigned char MMC3::readPPU(int address){
+
     unsigned char ret = BasicMapper::readPPU(address);
     clockIRQCounter();
+
     return ret;
 }
 
@@ -115,7 +119,6 @@ void MMC3::syncCHR(){
 }
 
 void MMC3::sync(){
-
     setNTMirroring();
     syncPRG();
     syncCHR();
@@ -131,10 +134,12 @@ void MMC3::setNTMirroring(){
 
 void inline MMC3::clockCPU(){
 
-    int ppuA12 = (io.ppuAddrBus >> 12) & 1;
+    ppuA12 = (*io.ppuAddrBus >> 12) & 1;
 
     if (!ppuA12)
         edgeCount++;
+
+        //printf("\nEDGE: ", edgeCount);
 
     /*if (io.wRam[0] != 0x80){
         if ((io.wRam[0] != 0x80) && (io.wRam[1] == 0xDE) && (io.wRam[2] == 0xB0) && (io.wRam[3] == 0x61)){
@@ -153,9 +158,10 @@ void inline MMC3::clockPPU(){}
 
 inline void MMC3::clockIRQCounter(){
 
-    int ppuA12 = (io.ppuAddrBus >> 12) & 1;
+    oldPPUA12 = ppuA12;
+    ppuA12 = (*io.ppuAddrBus >> 12) & 1;
 
-    int edgeCondition = 0;
+    bool edgeCondition = 0;
 
     if (needsMCACC){
         edgeCondition = oldPPUA12 && !ppuA12;
@@ -168,27 +174,26 @@ inline void MMC3::clockIRQCounter(){
     if (edgeCondition){
 
         if (edgeCount > cyclesToIgnore){
-            if (irqReload){
+            if ((irqReload) || (irqCounter == 0)){
                 irqCounter = irqLatch;
                 irqReload = 0;
+            } else {
+                irqCounter --;
+                //printf("\nDEB: %d %d %d", *io.dbg.sl, *io.dbg.tick, irqCounter);
             }
 
-            else if (irqCounter == 0){
-                irqCounter = irqLatch;
+           if (irqCounter == 0){
+                if (irqEnable){
+                    io.cpuIO->irq = 1;
+                    //getchar();
+                }
             }
 
-            else{
-                irqCounter--;
-            }
-
-            if (!irqCounter && irqEnable){
-                io.cpuIO->irq = 1;
-            }
         }
         edgeCount = 0;
 
     }
-    oldPPUA12 = ppuA12;
+
 }
 
 /*bool MMC3::loadState(FILE * file){
