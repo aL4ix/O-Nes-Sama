@@ -122,7 +122,7 @@ int main(){
     //std::string romFileName   =  "games/MMC1/Final Fantasy I & II (Japan).nes";
     //std::string romFileName   =  "C:/Users/Federico Gimeno/Desktop/6502_1.2.11/Nes_Practice/nes_basics.nes";
 
-    std::string romFileName   =  "games/Camerica/Micro Machines (USA) (Unl).nes";
+    //std::string romFileName   =  "games/Camerica/Micro Machines (USA) (Unl).nes";
     //std::string romFileName   =  "games/Camerica/Fire Hawk (USA) (Unl).nes";
     //std::string romFileName   =  "games/Camerica/MiG 29 - Soviet Fighter (Camerica) [!].nes";
 
@@ -139,6 +139,11 @@ int main(){
     //std::string romFileName   =  "games/allpads/allpads.nes";
     //std::string romFileName   =  "games/MMC5/Metal Slader Glory (Japan).nes";
     //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
+
+
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/Jurassic Park (U) [!].nes";
+    std::string romFileName   =  "/home/fuumarumota/Desktop/Mickey's Safari in Letterland (U) [!].nes";
+
 
     std::string saveStatePath = "SaveState";
     Cartridge cart(romFileName);

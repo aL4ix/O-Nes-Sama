@@ -280,7 +280,7 @@ int CPU::run(int cycles){
     while ((cyclesRemain > 0) && (isRunning)){
 
         if (isIntPendng){
-            interruptSequence();
+            interruptSequence(0);
             /*if (isIRQPending)
                 printf ("REAL: %d %d\n", ppu->scanlineNum, ppu->ticks);*/
         }
@@ -370,7 +370,7 @@ void CPU::pollForInterrupts(){
 
 void CPU::reset(){
     io.reset = 1;
-    interruptSequence(1);
+    interruptSequence(0);
     apu->reset();
     printf("\nReset: %X", regs.pc);
 }
