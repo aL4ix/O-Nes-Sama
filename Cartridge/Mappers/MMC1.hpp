@@ -14,7 +14,7 @@ class MMC1 : public BasicMapper {
         unsigned char wRamBank;
         unsigned char prgBank;
         unsigned char chrBanks[2] = {0};
-        unsigned countM2, lastCountM2;
+        int lastWr, wr;
     public:
         MMC1(CartIO &ioRef);
         ~MMC1();

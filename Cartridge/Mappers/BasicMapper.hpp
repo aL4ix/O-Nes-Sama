@@ -29,3 +29,4 @@ class Mapper000 : public BasicMapper{
 };
 
 #endif // MAPPER000_HPP_INCLUDED
+

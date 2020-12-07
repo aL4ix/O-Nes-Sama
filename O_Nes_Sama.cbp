@@ -29,6 +29,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
@@ -81,13 +82,14 @@
 		<Unit filename="Debugger/SocketServer.h" />
 		<Unit filename="Input.cpp" />
 		<Unit filename="Input.h" />
-		<Unit filename="Instructions.h" />
 		<Unit filename="Logging/CPULogger.cpp" />
 		<Unit filename="Logging/CPULogger.h" />
 		<Unit filename="Logging/Logger.cpp" />
 		<Unit filename="Logging/Logger.h" />
 		<Unit filename="PPU.cpp" />
 		<Unit filename="PPU.h" />
+		<Unit filename="RetroAudio.cpp" />
+		<Unit filename="RetroAudio.hpp" />
 		<Unit filename="RetroGraphix/Color.cpp" />
 		<Unit filename="RetroGraphix/Color.hpp" />
 		<Unit filename="RetroGraphix/Drawable.hpp" />
@@ -100,9 +102,6 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="opcodes.inc" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>

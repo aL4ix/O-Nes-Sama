@@ -8,7 +8,7 @@
 class MemoryMapper{
     public:
         CartIO & io;
-        CPUIO * cpuIO;
+        //CPUIO * cpuIO;
         MemoryMapper(CartIO &);
         ~MemoryMapper();
         virtual unsigned char readCPU(int address) = 0;

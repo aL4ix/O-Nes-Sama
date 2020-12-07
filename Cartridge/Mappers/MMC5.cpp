@@ -5,6 +5,11 @@ int mask1K;
 int mask2K;
 int mask4K;
 int mask8K;
+int ppuRdCount = 0;
+int idleCount = 0;
+int lastAddress = 0;
+bool ppuIsReading = false;
+int bgfc = 0;
 
 MMC5::MMC5(CartIO & ioRef) : BasicMapper (ioRef){
 
@@ -50,7 +55,7 @@ unsigned char MMC5::readCPU(int address){
     switch (address){
         case 0x5204:
             {
-                ret = irqStatus & 0xC0;
+                ret = irqStatus;
                 irqStatus &= ~0x80;
                 io.cpuIO->irq = 0;
                 break;
@@ -159,11 +164,11 @@ void MMC5::writeCPU(int address, unsigned char val){
             break;
         case 0x5204:
             irqEnabled = val >> 7;
-            if (irqEnabled && (irqStatus & 0x80)){
-                io.cpuIO->irq = 1;
-            } else {
-                 io.cpuIO->irq = 0;
-            }
+            //if (irqEnabled && (irqStatus & 0x80)){
+            //    io.cpuIO->irq = 1;
+            //} else {
+            //     io.cpuIO->irq = 0;
+            //}
             break;
         case 0x5205:
             multiplier[0] = val;
@@ -213,6 +218,46 @@ void MMC5::writeCPU(int address, unsigned char val){
 }
 
 unsigned char MMC5::readPPU(int address){
+
+    address &= 0x3fff;
+    //if (address >= 0x3000) address -= 0x1000;
+
+
+    //Checks if 3 consecutive nametable/attribute fetches have occurred from the same address
+    if ((address >= 0x2000) && (address <= 0x2FFF)){
+        //Watch the BG fetches from nt range
+
+
+        //IRQ counter logic
+        /*if (*io.dbg.tick == 337){
+            printf ("\n%YAAAAAH %x %x %d %d", lastAddress, address, *io.dbg.sl, *io.dbg.tick);
+        }*/
+        if (lastAddress == address){
+
+            ppuRdCount++;
+            //printf ("\n%x %x %d %d", lastAddress, address, *io.dbg.sl, *io.dbg.tick);
+            if (ppuRdCount == 2){
+                //printf ("\n%x %x %d %d", lastAddress, address, *io.dbg.sl, *io.dbg.tick);
+                if (irqStatus & 0x40){
+                    irqCounter++;
+                    clockIRQ();
+                }
+                else {
+                    irqStatus |= 0x40;
+                    irqCounter=0;
+                }
+            }
+
+        }
+
+
+    } else {
+        ppuRdCount = 0;
+    }
+
+    lastAddress = address;
+    ppuIsReading = true;
+    sync();
     return (this->*ppuReadFunc)(address);
 }
 
@@ -230,7 +275,7 @@ unsigned char MMC5::readPPUExAttr(int address){
         address &= 0x2FFF;
 
     int div400 = address >> 10;
-    io.ppuAddrBus = address;
+    *io.ppuAddrBus = address;
 
     switch (div400){
         case 0: case 1: case 2: case 3: case 4:
@@ -266,7 +311,7 @@ unsigned char MMC5::readPPUVSplit(int address){
         address &= 0x2FFF;
 
     int div400 = address >> 10;
-    io.ppuAddrBus = address;
+    *io.ppuAddrBus = address;
 
 
     switch (div400){
@@ -294,24 +339,26 @@ unsigned char MMC5::readPPUVSplit(int address){
 
 
 void MMC5::writePPU(int address, unsigned char val){
+    ppuRdCount = 0;
+    ppuIsReading = false;
     BasicMapper::writePPU(address, val);
 }
 
 void MMC5::clockPPU(){
 
-    if (io.ppuAddrBus>= 0x3000)
-        io.ppuAddrBus &= 0x2FFF;
+    /*if (*io.ppuAddrBus>= 0x3000)
+        *io.ppuAddrBus &= 0x2FFF;*/
 
     isFetchingSpr = (*io.dbg.tick >= 257) && (*io.dbg.tick <= 319);
-    isFetchingNT = (io.ppuAddrBus >= 0x2000) && ((io.ppuAddrBus & 0x3FF) < 0x3C0);
+    isFetchingNT = (*io.ppuAddrBus >= 0x2000) && ((*io.ppuAddrBus & 0x3FF) < 0x3C0);
 
-    if (!(*io.dbg.isRendering)){
+    /*if (!(*io.dbg.isRendering)){
         irqStatus &= ~0x80;
         irqStatus &= ~0x40;
         irqCounter = -1;
-    }
+    }*/
 
-    if (!isFetchingSpr){
+    /*if (!isFetchingSpr){
         if (!(*io.dbg.tick & 7) && (*io.dbg.tick < 336)){
             curTile++;
             if ((vSplitMode & 0x80) && (exRamMode < 2)){
@@ -355,12 +402,28 @@ void MMC5::clockPPU(){
     syncCHR();
     clockIRQ();
 
-    lastAddr = io.ppuAddrBus;
+    lastAddr = *io.ppuAddrBus;*/
 }
 
 void MMC5::clockCPU(){
 
     int isPPUAccess = (io.cpuIO->addressBus >= 0x2000) && (io.cpuIO->addressBus <= 0x3FFF);
+    int readingNmiVec = (io.cpuIO->wr == 0) && ((io.cpuIO->addressBus == 0xFFFA) || (io.cpuIO->addressBus == 0xFFFB));
+
+    if (readingNmiVec) {
+        irqStatus &= ~0x40;
+    }
+
+    if (ppuIsReading){
+        idleCount = 0;
+    } else {
+        idleCount++;
+        if (idleCount == 3){
+            irqStatus &= ~0x40;
+        }
+    }
+
+    ppuIsReading = false;
 
     if (isPPUAccess){
         int ppuReg = io.cpuIO->addressBus & 7;
@@ -370,9 +433,8 @@ void MMC5::clockCPU(){
                     is8x16 = ((io.cpuIO->dataBus) & 0x20);
                     break;
                 case 1:
-                    if (!((io.cpuIO->dataBus) & 0x18)){
-                        irqStatus &= ~0x40;
-                        irqCounter = -1;
+                    if (io.cpuIO->dataBus & 0x18){
+                        //irqStatus &= ~0x40;
                     }
                     break;
             }
@@ -381,21 +443,25 @@ void MMC5::clockCPU(){
 }
 
 void MMC5::clockIRQ(){
-    if ((*io.dbg.tick == 3)){
 
-        if (*io.dbg.sl == 0){
-            irqStatus |= 0x40;
-        }
-        if (irqScanline == irqCounter){
-            irqStatus |= 0x80;
-        }
-        irqCounter++;
+    if (irqCounter == 241){
+        getchar();
+        irqStatus &= ~0x40;
+        irqCounter = 0;
+        io.cpuIO->irq = 0;
     }
 
-    if (irqEnabled && (irqStatus & 0x80)){
-        io.cpuIO->irq = 1;
+    if (irqCounter == 0){
+        irqStatus &= ~0x80;
+        io.cpuIO->irq = 0;
     }
 
+    if (irqScanline == irqCounter){
+        irqStatus |= 0x80;
+        if (irqEnabled){
+            io.cpuIO->irq = 1;
+        }
+    }
 }
 
 void MMC5::syncPRG(){

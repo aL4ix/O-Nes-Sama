@@ -83,6 +83,10 @@ public:
     //bool loadColorPaletteFromFile(const char* FileName);
     bool loadColorPaletteFromArray(const unsigned char* Palette);
 
+    //unsigned char ** ppuCartSpace[16];
+    //unsigned char ** getChr();
+    //unsigned char ** getNametables();
+
     Logger logger;
 
 private:
@@ -108,8 +112,8 @@ private:
     unsigned char (PPU::*readFuncs[8])(void) = {&PPU::readLatch, &PPU::readLatch, &PPU::read2002, &PPU::readLatch, &PPU::read2004, &PPU::readLatch, &PPU::readLatch, &PPU::read2007};
     unsigned char intReadMem(unsigned short Address);
     void intWriteMem(unsigned short Address, unsigned char Value);
-    unsigned char intReadMemLean(unsigned short Address);
-    void intWriteMemLean(unsigned short Address, unsigned char Value);
+    unsigned char intReadMemLean(unsigned short Address, bool updateBus=true);
+    void intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus=true);
     void coarseX();
     //void coarseY();
     //void deCoarseX();

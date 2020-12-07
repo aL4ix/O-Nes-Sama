@@ -13,8 +13,8 @@ MMC1::MMC1(CartIO &ioRef) : BasicMapper(ioRef){
     prgBank = 0;
     chrBanks[0] = 0;
     chrBanks[1] = 0;
-    countM2 = 0;
-    lastCountM2 = 0;
+    wr = 0;
+    lastWr = 0;
 
     io.wRam = new unsigned char [0x8000]; //32K
     io.swapPRGRAM(0, 1);
@@ -30,14 +30,16 @@ MMC1::MMC1(CartIO &ioRef) : BasicMapper(ioRef){
 }
 
 void MMC1::writeCPU(int address, unsigned char val){
-    switch (address >> 12){
-        case 0x6: case 0x7: /* WRAM Space */
-            {
-                io.wRamSpace[address & 0x1FFF] = val;
-            }
-            break;
-        case 0x8: case 0x9: case 0xA: case 0xB: case 0xC: case 0xD: case 0xE: case 0xF: /* Mapper space */
-            if ((countM2 - lastCountM2) > 1){ //If M2 count is less <= 1 ignore writes to mapper.
+
+
+    if (lastWr != 1){
+        switch (address >> 12){
+            case 0x6: case 0x7: /* WRAM Space */
+                {
+                    io.wRamSpace[address & 0x1FFF] = val;
+                }
+                break;
+            case 0x8: case 0x9: case 0xA: case 0xB: case 0xC: case 0xD: case 0xE: case 0xF: /* Mapper space */
                 if (val & 0x80){ //Reset the MMC1 on bit 7 set.
                     shiftReg = 0x10;
                     control |= 0xC;
@@ -66,16 +68,15 @@ void MMC1::writeCPU(int address, unsigned char val){
                         shiftReg = (shiftReg >> 1) | ((val & 1) << 4); //Push bit 1 into shift register
                     }
                 }
-            }
-            lastCountM2 = countM2;
-            sync();
-
-            break;
+        }
     }
+    sync();
 }
 
 void MMC1::clockCPU(){
-    countM2++;
+    lastWr = wr;
+    wr = io.cpuIO->wr;
+
 }
 
 void MMC1::setNTMirroring(){
@@ -165,8 +166,8 @@ void MMC1::loadState(FILE * file){
     fread(&wRamBank   , sizeof(unsigned char *), 1, file);
     fread(&prgBank    , sizeof(unsigned char *), 1, file);
     fread(chrBanks    , sizeof(unsigned char)  , 2, file);
-    fread(&countM2    , sizeof(unsigned *)     , 1, file);
-    fread(&lastCountM2, sizeof(unsigned *)     , 1, file);
+    fread(&wr    , sizeof(unsigned *)     , 1, file);
+    fread(&lastWr, sizeof(unsigned *)     , 1, file);
 
     if (io.wRam)
         fread(io.wRam, sizeof (unsigned char), 0x2000, file);
@@ -187,8 +188,8 @@ void MMC1::saveState(FILE * file){
     fwrite(&wRamBank   , sizeof(unsigned char *), 1, file);
     fwrite(&prgBank    , sizeof(unsigned char *), 1, file);
     fwrite(chrBanks    , sizeof(unsigned char)  , 2, file);
-    fwrite(&countM2    , sizeof(unsigned *)     , 1, file);
-    fwrite(&lastCountM2, sizeof(unsigned *)     , 1, file);
+    fwrite(&wr    , sizeof(unsigned *)     , 1, file);
+    fwrite(&lastWr, sizeof(unsigned *)     , 1, file);
 
     if (io.wRam)
         fwrite(io.wRam, sizeof (unsigned char), 0x2000, file);

@@ -11,15 +11,19 @@ class MMC3 : public BasicMapper {
         void sync();
         void clockCPU();
         void clockPPU();
+        //unsigned char readPPU(int address);
+        //void writePPU(int address, unsigned char val);
         void saveSRAM(FILE * batteryFile);
         void loadSRAM(FILE * batteryFile);
         void loadState(FILE * file);
         void saveState(FILE * file);
     protected:
         int chrAccess;
+        int ppuA12;
         int oldPPUA12;
         int needsMCACC;
         int edgeCount;
+        int edgeCount_old;
         int cycleDelay;
         int prgSizeMask;
         int chrSizeMask;

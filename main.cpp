@@ -140,9 +140,64 @@ int main(){
     //std::string romFileName   =  "games/MMC5/Metal Slader Glory (Japan).nes";
     //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
 
+    /*Test Games*/
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Jurassic Park (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Mickey's Safari in Letterland (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Contra (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Battletoads (U) [!].nes";
+    std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Castlevania III - Dracula's Curse (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Uchuu Keibitai SDF (J).nes";
 
-    //std::string romFileName   =  "/home/fuumarumota/Desktop/Jurassic Park (U) [!].nes";
-    std::string romFileName   =  "/home/fuumarumota/Desktop/Mickey's Safari in Letterland (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Incredible Crash Dummies, The (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Megaman V (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Wolverine (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Burai Fighter (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Donkey Kong (U) (PRG1) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Megaman II (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Kick Master (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Ninja Gaiden (U) [!].nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/Bill & Ted's Excellent Video Game Adventure (U) [!].nes";
+
+
+
+    /*MMC3 tests*/
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/mmc3_test_2/rom_singles/1-clocking.nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/mmc3_test_2/rom_singles/2-details.nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/mmc3_test_2/rom_singles/3-A12_clocking.nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/mmc3_test_2/rom_singles/4-scanline_timing.nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/mmc3_test_2/rom_singles/5-MMC3.nes";
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/mmc3_test_2/rom_singles/6-MMC3_alt.nes";
+
+
+    /*CPU Interrupt tests*/
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/cpu_interrupts_v2/rom_singles/1-cli_latency.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/cpu_interrupts_v2/rom_singles/2-nmi_and_brk.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/cpu_interrupts_v2/rom_singles/3-nmi_and_irq.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/cpu_interrupts_v2/rom_singles/4-irq_and_dma.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/cpu_interrupts_v2/cpu_interrupts.nes";
+
+
+    /*PPU TESTS*/
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/nmi_sync/demo_ntsc.nes";
+
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/blargg_apu/08.irq_timing.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/blargg_ppu_tests/vram_access.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/blargg_ppu_tests/vbl_clear_time.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/blargg_ppu_tests/sprite_ram.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/blargg_ppu_tests/power_up_palette.nes";
+    //std::string romFileName = "/home/fuumarumota/Desktop/test_roms/blargg_ppu_tests/palette_ram.nes";
+
+    //std::string romFileName   =  "/home/fuumarumota/Desktop/test_roms/nmi_sync/demo_ntsc.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/01-vbl_basics.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/02-vbl_set_time.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/03-vbl_clear_time.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/04-nmi_control.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/05-nmi_timing.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/06-suppression.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/07-nmi_on_timing.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/rom_singles/08-nmi_off_timing.nes";
+    //std::string romFileName   = "/home/fuumarumota/Desktop/test_roms/ppu_vbl_nmi/ppu_vbl_nmi.nes";
+
 
 
     std::string saveStatePath = "SaveState";

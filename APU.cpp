@@ -1,101 +1,6 @@
 #include "APU.h"
 
 
-Beeper::Beeper()
-{
-    parte = (double(21477272)/12) / SAMPLING;
-    acc = parte;
-    entero = 0;
-    SDL_AudioSpec desiredSpec;
-    desiredSpec.freq = 0;
-
-    desiredSpec.freq = SAMPLING;
-    desiredSpec.format = AUDIO_U16SYS;
-    desiredSpec.channels = 1;
-    desiredSpec.samples = 1024;
-    desiredSpec.callback = audio_callback;
-    desiredSpec.userdata = this;
-
-    SDL_AudioSpec obtainedSpec;
-    printf("FREq: %d %d\n", desiredSpec.freq, obtainedSpec.freq);
-
-    // you might want to look for errors here
-    SDL_OpenAudio(&desiredSpec, &obtainedSpec);
-
-    // start play audio
-    SDL_PauseAudio(0);
-}
-
-Beeper::~Beeper()
-{
-    SDL_CloseAudio();
-}
-
-void Beeper::loadSamples(Uint16 *stream, int length)
-{
-    int i = 0;
-    while (i < length) {
-        if (beeps.empty()) {
-            //printf("U ");
-            while (i < length) {
-                stream[i] = 0;
-                i++;
-            }
-            return;
-        }
-        else
-        {
-            //printf("SI\n");
-            unsigned short c = beeps.front();
-            beeps.pop();
-            stream[i] = c;
-            i++;
-        }
-    }
-    //printf("%d ", beeps.size());
-    if(beeps.size() >= 1024*5)
-    {
-        for(unsigned a=0; a<1024; a++)
-            beeps.pop();
-        //std::queue<unsigned char> empty;
-        //std::swap( beeps, empty );
-    }
-}
-
-void Beeper::load(unsigned short sample)
-{
-    if(entero++ == unsigned(acc))
-    {
-        acc -= entero;
-        acc += parte;
-        entero = 0;
-        SDL_LockAudio();
-        beeps.push(sample);
-        SDL_UnlockAudio();
-    }
-}
-
-void Beeper::wait()
-{
-    int size;
-    do {
-        SDL_Delay(20);
-        SDL_LockAudio();
-        size = beeps.size();
-        SDL_UnlockAudio();
-    } while (size > 0);
-}
-
-void audio_callback(void *_beeper, Uint8 *_streamInBytes, int _lengthInBytes)
-{
-    Uint16 *stream = (Uint16*) _streamInBytes;
-    int length = _lengthInBytes / 2;
-    Beeper* beeper = (Beeper*) _beeper;
-
-    beeper->loadSamples(stream, length);
-}
-
-
 APU::APU(CPUIO &cpuIO) :
     halfCycles(0), modeFrameCounter(false), inhibitFrameCounter(false), irqFrameCounter(false),
     lengthCounterPulse1(0), lengthCounterPulse2(0), lengthCounterTriangle(0), lengthCounterNoise(0),
@@ -117,7 +22,7 @@ APU::APU(CPUIO &cpuIO) :
 {
     powerup();
     reset();
-    file = fopen("hey.txt", "wb");
+    //file = fopen("hey.txt", "wb");
 
     lookupTablePulse[0] = 0;
     for(unsigned n=1; n<31; n++)
@@ -125,6 +30,9 @@ APU::APU(CPUIO &cpuIO) :
     lookupTableTND[0] = 0;
     for(unsigned n=1; n<203; n++)
         lookupTableTND[n] = AMPLITUDE * 163.67 / (24329.0 / n + 100);
+
+    //Debug
+    callCyclesCount = 0;
 }
 
 void APU::writeMem(unsigned short Address, unsigned char Value)
@@ -169,7 +77,7 @@ unsigned char APU::readLatch()
 
 void APU::unimpleme(unsigned char)
 {
-    throw std::bad_function_call();
+    //throw std::bad_function_call();
 }
 
 unsigned char APU::read4015()
@@ -183,6 +91,7 @@ unsigned char APU::read4015()
     reg4015 |= (irqFrameCounter) << 6;
     reg4015 |= (irqDMC) << 7;
     irqFrameCounter = false;
+    cpuIO.irq = 0;
     return reg4015;
 }
 
@@ -201,6 +110,8 @@ void APU::write4001(unsigned char Value)
     enableSweepFlagPulse1 = (Value & 0x80) && shiftCountPulse1;
     negateFlagPulse1 = Value & 0x8;
     reloadSweepPulse1 = true;
+
+    //printf("w4001:%X N:%u S:%u E:%u\n", Value, negateFlagPulse1, shiftCountPulse1, enableSweepFlagPulse1);
 }
 
 void APU::write4002(unsigned char Value)
@@ -258,6 +169,7 @@ void APU::write4008(unsigned char Value)
 {
     haltTriangle = Value & 0x80;
     counterReloadTriangle = Value & 0x7f;
+    //printf("w4008:%X HC:%u\n", Value, halfCycles);
 }
 
 void APU::write4009(unsigned char Value)
@@ -268,6 +180,7 @@ void APU::write4009(unsigned char Value)
 void APU::write400A(unsigned char Value)
 {
     timerTriangle = (timerTriangle & 0x700) | Value;
+    //printf("w400A:%X HC:%u\n", Value, halfCycles);
 }
 
 void APU::write400B(unsigned char Value)
@@ -278,6 +191,7 @@ void APU::write400B(unsigned char Value)
     }
     timerTriangle = ((Value & 0x7) << 8) | (timerTriangle & 0xFF);
     linearCounterReloadFlagTriangle = true;
+    //printf("w400B:%X HC:%u\n", Value, halfCycles);
 }
 
 void APU::write400C(unsigned char Value)
@@ -404,6 +318,8 @@ void APU::write4015(unsigned char Value)
         lengthCounterPulse1 = 0;
         enablePulse1 = false;
     }
+
+    //printf("4015:%X\n", Value);
 }
 
 void APU::write4017(unsigned char Value)
@@ -430,6 +346,9 @@ void APU::write4017(unsigned char Value)
 
 void APU::process(unsigned cpuCycles)
 {
+    //Debug
+    callCyclesCount += cpuCycles;
+
     for(unsigned i=0; i<cpuCycles; i++)
     {
         if(halfCyclesUntilNextStep > 0)
@@ -473,6 +392,15 @@ void APU::process(unsigned cpuCycles)
         {
             clockNoise();
         }
+
+        /*
+        outputTriangle = 0;
+        outputNoise = 0;
+        outputLevelDMC = 0;
+        outputPulse1 = 0;
+        outputPulse2 = 0;
+        */
+
         unsigned mixer = lookupTableTND[3*outputTriangle + 2*outputNoise + outputLevelDMC];
         mixer += lookupTablePulse[outputPulse1 + outputPulse2];
         if(mixer > 65535)
@@ -480,7 +408,7 @@ void APU::process(unsigned cpuCycles)
             printf("CLIPPING!!!\n");
             mixer = 65535;
         }
-        b.load(mixer);
+        afx.loadSample(mixer);
 
         //fprintf(file, "%c", mixer);
         //b.count++;
@@ -630,18 +558,11 @@ void APU::clockHalfFrame()
         lengthCounterTriangle--;
 
     //Sweep Pulse1
-    if(reloadSweepPulse1)
-    {/*
-        if(dividerSweepCounterPulse1 == 0 && enableSweepFlagPulse1)
-        {
-            //period is also adjusted??
-        }
-        else*/
-        dividerSweepCounterPulse1 = dividerSweepPulse1;
-        reloadSweepPulse1 = false;
-    }
-    else if(dividerSweepCounterPulse1 > 0)
+    if(dividerSweepCounterPulse1 > 0)
+    {
         dividerSweepCounterPulse1--;
+        //printf("RedDiv to %u\n", dividerSweepCounterPulse1);
+    }
     else
     {
         dividerSweepCounterPulse1 = dividerSweepPulse1;
@@ -652,6 +573,18 @@ void APU::clockHalfFrame()
             else
                 timerPulse1 += (timerPulse1 >> shiftCountPulse1);
         }
+        //printf("Timer: %u\n", timerPulse1);
+    }
+    if(reloadSweepPulse1)
+    {/*
+        if(dividerSweepCounterPulse1 == 0 && enableSweepFlagPulse1)
+        {
+            //period is also adjusted??
+        }
+        else*/
+        dividerSweepCounterPulse1 = dividerSweepPulse1;
+        reloadSweepPulse1 = false;
+        //printf("SetDiv to %u\n", dividerSweepCounterPulse1);
     }
 
     //Length Pulse 1
@@ -662,17 +595,7 @@ void APU::clockHalfFrame()
         lengthCounterPulse1--;
 
     //Sweep Pulse 2
-    if(reloadSweepPulse2)
-    {/*
-        if(dividerSweepCounterPulse2 == 0 && enableSweepFlagPulse2)
-        {
-            //period is also adjusted??
-        }
-        else*/
-        dividerSweepCounterPulse2 = dividerSweepPulse2;
-        reloadSweepPulse2 = false;
-    }
-    else if(dividerSweepCounterPulse2 > 0)
+    if(dividerSweepCounterPulse2 > 0)
         dividerSweepCounterPulse2--;
     else
     {
@@ -684,6 +607,16 @@ void APU::clockHalfFrame()
             else
                 timerPulse2 += (timerPulse2 >> shiftCountPulse2);
         }
+    }
+    if(reloadSweepPulse2)
+    {/*
+        if(dividerSweepCounterPulse2 == 0 && enableSweepFlagPulse2)
+        {
+            //period is also adjusted??
+        }
+        else*/
+        dividerSweepCounterPulse2 = dividerSweepPulse2;
+        reloadSweepPulse2 = false;
     }
 
     //Length Pulse 2
@@ -787,7 +720,7 @@ unsigned char APU::loadLengthCounter(unsigned char Value)
 void APU::clockTriangle()
 {
     halfCyclesUntilTriangle = timerTriangle;
-    if(lengthCounterTriangle > 0 && linearCounterTriangle > 0)
+    if(lengthCounterTriangle > 0 && linearCounterTriangle > 0 && timerTriangle >= 2)
     {
         outputTriangle = sequencerTriangle[sequencerStepTriangle++];
         sequencerStepTriangle &= 31;
@@ -836,22 +769,21 @@ void APU::clockNoise()
     //getchar();
     bool feedback = shiftRegisterNoise & 0x1;
     //XOR with bit 6 if modeFlag else bit 1
-    feedback ^= (modeFlagNoise) ? (shiftRegisterNoise & 0x20) != 0 : (shiftRegisterNoise & 0x2) != 0;
+    feedback ^= (modeFlagNoise) ? (shiftRegisterNoise & 0x40) != 0 : (shiftRegisterNoise & 0x2) != 0;
     shiftRegisterNoise >>= 1;
     shiftRegisterNoise |= feedback << 14;
     //printf("SH: %X ", shiftRegisterNoise);
-    if((!(shiftRegisterNoise & 0x1)) && lengthCounterNoise)
+    if(((shiftRegisterNoise & 0x1) == 0) && lengthCounterNoise > 0)
     {
         outputNoise = (constantVolumeFlagNoise) ? constVolEnvDivPeriodNoise : envelopeVolumeNoise;
     }
     else
         outputNoise = 0;
-
 }
 
 bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount)
 {
-    return (Timer < 8 || (!Negate && Timer + (Timer >> ShiftCount) > 0x7FF) );
+    return (Timer < 8 || (!Negate && (Timer + (Timer >> ShiftCount) > 0x7FF)) );
 }
 
 void APU::setMemoryMapper(MemoryMapper* Board)

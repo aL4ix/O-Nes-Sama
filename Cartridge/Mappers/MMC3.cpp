@@ -2,9 +2,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+int edges_m = 0;
+int mcacc_cnt = -1;
+int edge_latch = 0;
+int edge_latch_l = 0;
+bool preesc_l, preesc = false;
+
+
 MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
 
-    cycleDelay = 3;
+    cycleDelay  = 4;
     oldPPUA12   = 0;
     needsMCACC  = 0;
     bankSelect  = 0;
@@ -16,6 +23,7 @@ MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
     prgSizeMask = 0;
     chrSizeMask = 0;
     edgeCount   = 0;
+    mcacc_cnt = 0;
 
     /*MC-ACC Games that are detected via CRC32*/
     for (int i=0; i < 3; i++){
@@ -44,6 +52,7 @@ MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
 
 void MMC3::writeCPU(int addr, unsigned char val){
 
+
     switch (addr >> 12){
         case 0x6: case 0x7:
             io.wRamSpace[addr & 0x1FFF] = val;
@@ -63,6 +72,9 @@ void MMC3::writeCPU(int addr, unsigned char val){
             if (addr & 1){
                 irqCounter = 0;
                 irqReload = 1;
+                edges_m=0;
+                //mcacc_cnt = 0;
+
             }
             else{
                 irqLatch = val;
@@ -75,6 +87,7 @@ void MMC3::writeCPU(int addr, unsigned char val){
             break;
     }
     sync();
+
 }
 
 void MMC3::syncPRG(){
@@ -119,57 +132,98 @@ void MMC3::setNTMirroring(){
 
 void inline MMC3::clockCPU(){
 
-    int ppuA12 = (io.ppuAddrBus >> 12) & 1;
 
     if (!ppuA12)
         edgeCount++;
+    if (edgeCount == cycleDelay){
+        edge_latch_l = edge_latch;
+        edge_latch = 0;
+    }
 }
 
 void inline MMC3::clockPPU(){
 
-    if (io.ppuAddrBus > 0x2FFF)
-        io.ppuAddrBus &= 0x2FFF;
+    oldPPUA12 = ppuA12;
+    ppuA12 = (*io.ppuAddrBus >> 12) & 1;
 
-    clockIRQCounter();
+    if (needsMCACC){
+
+        if (oldPPUA12 && !ppuA12) {
+
+            mcacc_cnt = edges_m % 8;
+            edges_m ++;
+
+            if (mcacc_cnt == 0){
+                edge_latch_l = edge_latch;
+                edge_latch = 0;
+            } else {
+                edge_latch_l = edge_latch;
+                edge_latch = 1;
+            }
+
+            if (!edge_latch_l && edge_latch) {
+                clockIRQCounter();
+            }
+        }
+
+    }
+    else {
+
+        if (!oldPPUA12 && ppuA12) {
+            edgeCount = 0;
+            edge_latch_l = edge_latch;
+            edge_latch = 1;
+
+            if (edge_latch_l == 0 && edge_latch == 1){
+                //printf ("\nClocked MAPPER: %03d %03d %03d 0x%04x", edgeCount, *io.dbg.sl, *io.dbg.tick, *io.ppuAddrBus);
+                clockIRQCounter();
+            }
+        }
+    }
 }
 
 inline void MMC3::clockIRQCounter(){
 
 
-    int ppuA12 = (io.ppuAddrBus >> 12) & 1;
-
-    int edgeCondition = 0;
-
-    if (needsMCACC){
-        edgeCondition = oldPPUA12 && !ppuA12;
+    //New Behavior
+   /*if ((irqReload) || (irqCounter == 0)){
+        irqCounter = irqLatch;
+        irqReload = 0;
+        //edges_m=0;
     } else {
-        edgeCondition = !oldPPUA12 && ppuA12;
+        irqCounter --;
     }
 
-    if (edgeCondition){
+    if (irqCounter == 0){
 
-        if (edgeCount > cycleDelay){
-            if (irqReload){
-                irqCounter = irqLatch;
-                irqReload = 0;
-            }
-
-            else if (irqCounter == 0){
-                irqCounter = irqLatch;
-            }
-
-            else{
-                irqCounter--;
-            }
-
-            if (!irqCounter && irqEnable){
-                io.cpuIO->irq = 1;
-            }
+        if (irqEnable){
+            io.cpuIO->irq = 1;
         }
-        edgeCount = 0;
+    }*/
 
+
+    //Old behavior
+    int lst_cnt = 0;
+
+    if (irqReload && irqLatch == 0){
+            io.cpuIO->irq = 1;
     }
-    oldPPUA12 = ppuA12;
+
+    if ((irqReload) || (irqCounter == 0)){
+        irqCounter = irqLatch;
+        irqReload = 0;
+
+    } else {
+        lst_cnt = irqCounter;
+        irqCounter --;
+    }
+
+    if (lst_cnt == 1 && irqCounter == 0){
+        if (irqEnable){
+            io.cpuIO->irq = 1;
+        }
+    }
+
 }
 
 void MMC3::saveSRAM(FILE * batteryFile){

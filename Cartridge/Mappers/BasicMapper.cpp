@@ -48,11 +48,13 @@ inline void BasicMapper::writeCPU(int address, unsigned char val){
 
 inline unsigned char BasicMapper::readPPU(int address){
 
-    if (address >= 0x3000)
-        address &= 0x2FFF;
-
     int div400 = address >> 10;
-    io.ppuAddrBus = address;
+
+    *io.ppuAddrBus = address;
+
+    if (address >= 0x3000){
+        address &= ~ 0x1000;
+    }
 
     switch (div400){
         case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
@@ -65,17 +67,17 @@ inline unsigned char BasicMapper::readPPU(int address){
 
 inline void BasicMapper::writePPU(int address, unsigned char val){
 
-    if (address >= 0x3000)
-        address &= 0x2FFF;
-
     int div400 = address >> 10;
-    io.ppuAddrBus = address;
+
+    *io.ppuAddrBus = address;
+
+    if (address >= 0x3000)
+        address &= ~ 0x1000;
 
     switch (div400){
         case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
             if (io.chrWritable){
                 io.chrSpace[div400][address & 0x3FF] = val;
-
             }
             return;
         case 8: case 9: case 10: case 11:
@@ -83,6 +85,7 @@ inline void BasicMapper::writePPU(int address, unsigned char val){
             return;
     }
 }
+
 
 void BasicMapper::saveState(FILE * file) {
 
