@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../O-Nes-Sama" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
+					<Add directory="../O-Nes-Sama" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -83,27 +85,28 @@
 		<Unit filename="Logging/CPULogger.h" />
 		<Unit filename="Logging/Logger.cpp" />
 		<Unit filename="Logging/Logger.h" />
+		<Unit filename="ONesSamaCore.cpp" />
+		<Unit filename="ONesSamaCore.h" />
 		<Unit filename="PPU.cpp" />
 		<Unit filename="PPU.h" />
-		<Unit filename="RetroAudio.cpp" />
-		<Unit filename="RetroAudio.hpp" />
-		<Unit filename="RetroGraphix/Color.cpp" />
-		<Unit filename="RetroGraphix/Color.hpp" />
-		<Unit filename="RetroGraphix/Drawable.hpp" />
-		<Unit filename="RetroGraphix/GraphixEngine.cpp" />
-		<Unit filename="RetroGraphix/GraphixEngine.hpp" />
-		<Unit filename="RetroGraphix/Sprite.cpp" />
-		<Unit filename="RetroGraphix/Sprite.hpp" />
-		<Unit filename="RetroGraphix/Texture.cpp" />
-		<Unit filename="RetroGraphix/Texture.hpp" />
+		<Unit filename="RetroEmu/Color.cpp" />
+		<Unit filename="RetroEmu/Color.hpp" />
+		<Unit filename="RetroEmu/Drawable.hpp" />
+		<Unit filename="RetroEmu/GraphixEngine.cpp" />
+		<Unit filename="RetroEmu/GraphixEngine.hpp" />
+		<Unit filename="RetroEmu/RetroAudio.cpp" />
+		<Unit filename="RetroEmu/RetroAudio.hpp" />
+		<Unit filename="RetroEmu/RetroFraction.cpp" />
+		<Unit filename="RetroEmu/RetroFraction.hpp" />
+		<Unit filename="RetroEmu/Sprite.cpp" />
+		<Unit filename="RetroEmu/Sprite.hpp" />
+		<Unit filename="RetroEmu/Texture.cpp" />
+		<Unit filename="RetroEmu/Texture.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="opcodes.inc" />
 		<Unit filename="x6502Interrupts" />
 		<Unit filename="x6502Interrupts.h" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>

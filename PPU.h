@@ -6,10 +6,10 @@
 #include <cstring>
 
 #include "CPUIO.hpp"
-#include "RetroGraphix/GraphixEngine.hpp"
-#include "RetroGraphix/Texture.hpp"
-#include "RetroGraphix/Color.hpp"
-#include "RetroGraphix/Sprite.hpp"
+#include "RetroEmu/GraphixEngine.hpp"
+#include "RetroEmu/Texture.hpp"
+#include "RetroEmu/Color.hpp"
+#include "RetroEmu/Sprite.hpp"
 #include "Debugger/Breakpoint.h"
 #include "Cartridge/Cartridge.hpp"
 #include "Logging/Logger.h"
