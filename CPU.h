@@ -154,6 +154,7 @@ class CPU : public CpuStateData {
 
     friend class NSFLoader;
     friend int main();
+    friend class ONesSamaCore;
 };
 
 

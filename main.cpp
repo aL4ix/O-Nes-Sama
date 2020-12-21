@@ -5,6 +5,10 @@
 #include "Cartridge/Cartridge.hpp"
 #include "CPU.h"
 #include "PPU.h"
+#include "RetroEmu/RetroFraction.hpp"
+#include "RetroEmu/RetroAudio.hpp"
+#include "RetroEmu/RetroGraphics.hpp"
+#include "RetroEmu/RetroInput.hpp"
 #include <SDL2/SDL.h>
 
 #ifdef DEBUGGER
@@ -51,7 +55,7 @@ int main(){
         //std::string romFileName   = "games/mmc3_test_2/rom_singles/4-scanline_timing.nes";
         //std::string romFileName   = "games/NROM/smb.nes";
         //std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
-        std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
+        //std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
 
         //std::string romFileName   = "games/CNROM/Adventure Island.nes";
         //std::string romFileName   = "games/CNROM/Ninja Jajamaru Kun (Japan).nes";
@@ -151,6 +155,7 @@ int main(){
         //std::string romFileName   =  "games/apu_sweep/sweep sub.nes";
         //std::string romFileName   =  "games/apu_test/apu_test.nes";
         //std::string romFileName   =  "games/Huge Insect (Sachen) [!].nes";
+        std::string romFileName   =  "games/Battletoads & Double Dragon - The Ultimate Team (USA).nes";
 
         std::string saveStatePath = "SaveState";
         Cartridge cart(romFileName);
@@ -165,6 +170,22 @@ int main(){
         cpu.setPPUPtr(&ppu);
         cpu.reset();
         ppu.reset();
+
+        RetroAudio retroAudio;
+        std::function<void(unsigned short, unsigned short)> foo = [&](unsigned short left, unsigned short right) {
+            retroAudio.loadSample(left);
+        };
+        cpu.apu->setPushAudioSampleCallback(foo);
+        const double ZOOM = 2.0;
+        RetroGraphics retroGraphics(256*ZOOM, 240*ZOOM);
+        retroGraphics.Init(256, 240, ZOOM);
+        RetroInput retroInput;
+
+        {
+            unsigned char* defaultPalette = ppu.getDefaultPalette();
+            retroGraphics.loadColorPaletteFromArray(defaultPalette);
+            delete [] defaultPalette;
+        }
 
         #ifdef DEBUGGER
             Debugger debuggerServer(&cpu, &ppu);
@@ -194,8 +215,7 @@ int main(){
                 }
             #endif // DEBUGGER
 
-            //HOW CAN WE FIX THIS?
-            cpu.controller->updateJoystickState();
+            cpu.controller->updatePlayersInput(retroInput.updateAndGetInputs());
 
             SDL_Event event;
             bool windowClosed = false;
@@ -243,11 +263,17 @@ int main(){
                 }
             }
 
+            //
+
             unsigned cycles = rafForCPUCycles.getNextSlice();
             sumCycles += cycles;
             pendCycles = cpu.run(cycles + pendCycles);
             //printf("C: %d A: %d B:%d\n", cpu.instData.generalCycleCount, cpu.apu->halfCycles, cpu.apu->b.getSize());
             frameCtr ++;
+
+            retroGraphics.DrawBegin();
+            retroGraphics.DrawPaletted(ppu.getPalettedFrameBuffer(), 256*240);
+            retroGraphics.DrawEnd();
 
             unsigned now = SDL_GetTicks();
             unsigned timeSpent = now - lastTimeTick;

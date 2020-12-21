@@ -16,16 +16,19 @@ class ONesSamaCore
         ONesSamaCore();
         virtual ~ONesSamaCore();
         bool loadCartridge(std::string fileName);
+        bool unloadCartridge();
         bool reset();
-        void getFramebuffer();
-        void getAudiobuffer();
+        unsigned char* getPalettedFrameBuffer();
+        unsigned char* getDefaultPalette();
+        void setPushAudioSampleCallback(std::function<void(unsigned short left, unsigned short right)> pushAudioSampleCallback);
         bool run(unsigned cycles);
-        void setControllerOne(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right);
-        void setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right);
+        void setControllersMatrix(bool (*input)[8]);
+        //void setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right);
         void saveState();
         void loadState();
         void pause();
         void debug();
+        void testMe();
 
     protected:
 

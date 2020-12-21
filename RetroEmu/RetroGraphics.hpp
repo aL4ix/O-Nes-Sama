@@ -1,50 +1,40 @@
-#ifndef GRAPHIXENGINE_HPP
-#define GRAPHIXENGINE_HPP
-
-/**
- * @class GraphixEngine
- * @author aLaix
- * @date 04/11/2015
- * @file GraphixEngine.hpp
- * @brief This is a Graphics Engine for SDL, taking in account this could be ported to:
- *        OpenGL or software render, like in the ol' days.
- */
+#ifndef RETRO_GRAPHICS_HPP
+#define RETRO_GRAPHICS_HPP
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
-#include "Drawable.hpp"
-#include "Color.hpp"
+#include "RetroColor.hpp"
 
-//#define GFX_SOFTWARE_RENDER
+#define GFX_SOFTWARE_RENDER
 
-//Platform-Dependant
+//Platform-Dependent
 extern SDL_Renderer* sdlRenderer;
 
-class GraphixEngine
+class RetroGraphics
 {
 private:
     Color32 background;
 
-    //Platform-Dependant
+    //Platform-Dependent
     SDL_Window* window;
     SDL_Surface* screenSurface;
 
-    GraphixEngine(const GraphixEngine& rhs);
-    GraphixEngine& operator=(const GraphixEngine& rhs);
+    RetroGraphics(const RetroGraphics& rhs);
+    RetroGraphics& operator=(const RetroGraphics& rhs);
 
 public:
-    GraphixEngine(const unsigned Width, const unsigned Height);
-    ~GraphixEngine();
+    RetroGraphics(const unsigned Width, const unsigned Height);
+    ~RetroGraphics();
 
     inline void DrawBegin() const
     {
-        //Platform-Dependant
+        //Platform-Dependent
         // Clear the window
         SDL_RenderClear(sdlRenderer);
     }
     inline void DrawEnd() const
     {
-        //Platform-Dependant
+        //Platform-Dependent
         // Render the changes
         #ifndef GFX_SOFTWARE_RENDER
             SDL_RenderPresent(sdlRenderer);
@@ -52,14 +42,14 @@ public:
             SDL_UpdateWindowSurface(window);
         #endif // GFX_SOFTWARE_RENDER
     }
-    void SetBackgroundColor(const Color32& Color)
-    {
-        //Platform-Dependant
-        // Set color of renderer
-        SDL_SetRenderDrawColor(sdlRenderer, Color.GetR(), Color.GetG(),
-            Color.GetB(), 255);
-    }
-
+    bool Init(const int width, const int height, const double zoom);
+    SDL_Rect sdlRect;
+    SDL_Texture* texture;
+    bool Draw(const void* pixels, const size_t sizeInBytes);
+    bool DrawPaletted(const unsigned char* pixels, const size_t sizeInBytes);
+    bool loadColorPaletteFromFile(const char* FileName);
+    bool loadColorPaletteFromArray(const unsigned char* Palette);
+    Color32 colorPalette[64];
 };
 
-#endif // GRAPHIXENGINE_HPP
+#endif // RETRO_GRAPHICS_HPP

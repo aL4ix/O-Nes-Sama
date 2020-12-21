@@ -85,27 +85,22 @@
 		<Unit filename="Logging/CPULogger.h" />
 		<Unit filename="Logging/Logger.cpp" />
 		<Unit filename="Logging/Logger.h" />
-		<Unit filename="ONesSamaCore.cpp" />
 		<Unit filename="ONesSamaCore.h" />
 		<Unit filename="PPU.cpp" />
 		<Unit filename="PPU.h" />
-		<Unit filename="RetroEmu/Color.cpp" />
-		<Unit filename="RetroEmu/Color.hpp" />
-		<Unit filename="RetroEmu/Drawable.hpp" />
-		<Unit filename="RetroEmu/GraphixEngine.cpp" />
-		<Unit filename="RetroEmu/GraphixEngine.hpp" />
 		<Unit filename="RetroEmu/RetroAudio.cpp" />
 		<Unit filename="RetroEmu/RetroAudio.hpp" />
+		<Unit filename="RetroEmu/RetroColor.cpp" />
+		<Unit filename="RetroEmu/RetroColor.hpp" />
 		<Unit filename="RetroEmu/RetroFraction.cpp" />
 		<Unit filename="RetroEmu/RetroFraction.hpp" />
-		<Unit filename="RetroEmu/Sprite.cpp" />
-		<Unit filename="RetroEmu/Sprite.hpp" />
-		<Unit filename="RetroEmu/Texture.cpp" />
-		<Unit filename="RetroEmu/Texture.hpp" />
+		<Unit filename="RetroEmu/RetroGraphics.cpp" />
+		<Unit filename="RetroEmu/RetroGraphics.hpp" />
+		<Unit filename="RetroEmu/RetroInput.cpp" />
+		<Unit filename="RetroEmu/RetroInput.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="opcodes.inc" />
 		<Unit filename="x6502Interrupts" />
-		<Unit filename="x6502Interrupts.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

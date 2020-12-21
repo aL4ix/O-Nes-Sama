@@ -63,8 +63,8 @@ bool (*RetroInput::updateAndGetInputs())[8]
     {
         for (int j = 0; j < 8; j++)
         {
-            playerInput[i][j] = (state[buttons[i][j]] << j);
-            playerInput[i][j] |= (joyState[i][j] << j);
+            playerInput[i][j] = state[buttons[i][j]];
+            playerInput[i][j] |= joyState[i][j];
         }
     }
     return playerInput;

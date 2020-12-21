@@ -12,18 +12,17 @@ ONesSamaCore::ONesSamaCore() :
 
 bool ONesSamaCore::loadCartridge(std::string romFileName)
 {
-    Cartridge cart(romFileName);
+    cart = new Cartridge(romFileName);
     saveStatePath.append(getBaseRomName(romFileName));
     saveStatePath.append(".sta");
 
     //printf("\nSave State path : %s", saveStatePath.c_str());
 
     /*Create the instances of the 6502 CPU, the Cartridge interface and the PPU*/
-    CPU cpu (*cart.mapper);
-    PPU ppu (cpu.io, *cart.mapper);
-    cpu.setPPUPtr(&ppu);
-    cpu.reset();
-    ppu.reset();
+    cpu = new CPU(*cart->mapper);
+    ppu = new PPU(cpu->io, *cart->mapper);
+    cpu->setPPUPtr(ppu);
+    reset();
 
     #ifdef DEBUGGER
         Debugger debuggerServer(&cpu, &ppu);
@@ -32,47 +31,72 @@ bool ONesSamaCore::loadCartridge(std::string romFileName)
         //debuggerServer.handleRequests();
     #endif // DEBUGGER
 
-    int pendCycles = 0;
+    /*int pendCycles = 0;
     unsigned lastTimeTick = SDL_GetTicks();
     unsigned FPS = 0;
-    unsigned sumCycles = 0;
+    unsigned sumCycles = 0;*/
     #ifdef DEBUG_PRECISETIMING
     unsigned emuStartTime = lastTimeTick;
     unsigned secondsCount = 0;
     unsigned cpuCurGenCycCount = 0;
     #endif // DEBUG_PRECISETIMING
+    return true;
+}
+
+bool ONesSamaCore::unloadCartridge()
+{
+    if(ppu)
+    {
+        delete ppu;
+    }
+    if(cpu)
+    {
+        delete cpu;
+    }
+    if(cart)
+    {
+        delete cart;
+    }
+    return true;
 }
 
 bool ONesSamaCore::reset()
 {
     cpu->reset();
     ppu->reset();
+    return true;
 }
 
-void ONesSamaCore::getFramebuffer()
+unsigned char* ONesSamaCore::getPalettedFrameBuffer()
 {
-
+    return ppu->getPalettedFrameBuffer();
 }
 
-void ONesSamaCore::getAudiobuffer()
+unsigned char* ONesSamaCore::getDefaultPalette()
 {
+    return ppu->getDefaultPalette();
+}
 
+void ONesSamaCore::setPushAudioSampleCallback(std::function<void(unsigned short left, unsigned short right)> pushAudioSampleCallback)
+{
+    cpu->apu->setPushAudioSampleCallback(pushAudioSampleCallback);
 }
 
 bool ONesSamaCore::run(unsigned cycles)
 {
-
+    cpu->run(cycles);
+    return true;
 }
 
-void ONesSamaCore::setControllerOne(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right)
+void ONesSamaCore::setControllersMatrix(bool (*input)[8])
+{
+    cpu->controller->updatePlayersInput(input);
+}
+
+/*void ONesSamaCore::setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right)
 {
 
-}
-
-void ONesSamaCore::setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right)
-{
-
-}
+}*/
 
 void ONesSamaCore::saveState()
 {
@@ -112,21 +136,15 @@ void ONesSamaCore::debug()
     //cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
 }
 
+void ONesSamaCore::testMe()
+{
+    printf("ONESSAMACORE: TEST 123\n");
+}
+
 
 ONesSamaCore::~ONesSamaCore()
 {
-    if(ppu)
-    {
-        delete ppu;
-    }
-    if(cpu)
-    {
-        delete cpu;
-    }
-    if(cart)
-    {
-        delete cart;
-    }
+    unloadCartridge();
 }
 
 /********************************************************/
