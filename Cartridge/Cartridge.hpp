@@ -24,6 +24,7 @@ class Cartridge{
         std::string fileNameBase;
         std::string romFileName;
         MemoryMapper * createMapper(int mapperNo);
+        std::string batteryPath   = "Battery";
 
 };
 

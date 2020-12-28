@@ -15,6 +15,7 @@ static retro_input_state_t input_state_cb;
 
 uint32_t framebuffer[256*240];
 ONesSamaCore oNesSamaCore;
+uint32_t colorPalette[64];
 
 static void fallback_log(enum retro_log_level level, const char *fmt, ...)
 {
@@ -52,18 +53,29 @@ void retro_get_system_av_info(struct retro_system_av_info* info)
     std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
 
     memset(info, 0, sizeof(*info));
-    info->timing.fps = 60;
-    info->timing.sample_rate = 21477272/12;
-    info->geometry.base_width = 256;
-    info->geometry.base_height = 240;
-    info->geometry.max_width = 256;
-    info->geometry.max_height = 240;
-    info->geometry.aspect_ratio = 256.f / 240.f;
+    info->timing.fps = oNesSamaCore.getPPUFPS();
+    info->timing.sample_rate = oNesSamaCore.cpufreq;
+    constexpr unsigned ppuWidth = oNesSamaCore.getPPUInteralWidth();
+    constexpr unsigned ppuHeight = oNesSamaCore.getPPUInteralHeight();
+    info->geometry.base_width = ppuWidth;
+    info->geometry.base_height = ppuHeight;
+    info->geometry.max_width = ppuWidth;
+    info->geometry.max_height = ppuHeight;
+    info->geometry.aspect_ratio = float(ppuWidth) / ppuHeight;
 
     enum retro_pixel_format pixel_format = RETRO_PIXEL_FORMAT_XRGB8888;
     if(!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &pixel_format))
     {
         std::cout << "ONESSAMA: " << "FAILED ALV!" << std::endl;
+    }
+
+    unsigned char* palette = oNesSamaCore.getDefaultPalette();
+    for(int pos=0; pos<64; pos++)
+    {
+        unsigned char r = palette[pos*3+0];
+        unsigned char g = palette[pos*3+1];
+        unsigned char b = palette[pos*3+2];
+        colorPalette[pos] = b | (g << 8) | (r << 16);
     }
 }
 
@@ -86,6 +98,7 @@ bool retro_load_game(const struct retro_game_info* game)
     if(game && game->path)
     {
         oNesSamaCore.loadCartridge(game->path);
+        oNesSamaCore.reset();
     }
 
     return true;
@@ -94,7 +107,7 @@ bool retro_load_game(const struct retro_game_info* game)
 void retro_unload_game()
 {
     std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
-    //Do we need this?
+    oNesSamaCore.unloadCartridge();
 }
 
 void retro_reset()
@@ -107,13 +120,7 @@ void retro_run()
 {
     //std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
 
-    /*input_poll_cb();
-    int16_t a = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A);
-    */
     //int debugLine = 0;
-
-    oNesSamaCore.setPushAudioSampleCallback(audio_cb);
-    //std::cout << debugLine++ << std::endl;
 
     //INPUT
     bool inputs[2][8];
@@ -133,29 +140,17 @@ void retro_run()
     oNesSamaCore.setControllersMatrix(inputs);
     //std::cout << debugLine++ << std::endl;
 
-    int NTSCmasterclock = 21477272;
-        //CPU Frequency in Hz
-    int cpufreq = NTSCmasterclock / 12;
-    oNesSamaCore.run(cpufreq/60);
-    //std::cout << debugLine++ << std::endl;
-
-    uint32_t colorPalette[64];
-    unsigned char* palette = oNesSamaCore.getDefaultPalette();
-    for(int pos=0; pos<64; pos++)
-    {
-        unsigned char r = palette[pos*3+0];
-        unsigned char g = palette[pos*3+1];
-        unsigned char b = palette[pos*3+2];
-        colorPalette[pos] = b | (g << 8) | (r << 16);
-    }
+    oNesSamaCore.run(oNesSamaCore.cpufreq/60);
     //std::cout << debugLine++ << std::endl;
 
     unsigned char* palettedFrameBuffer = oNesSamaCore.getPalettedFrameBuffer();
-    for(int pos=0; pos<256*240; pos++)
+    constexpr unsigned ppuWidth = oNesSamaCore.getPPUInteralWidth();
+    constexpr unsigned ppuHeight = oNesSamaCore.getPPUInteralHeight();
+    for(unsigned pos=0; pos<ppuWidth*ppuHeight; pos++)
     {
         framebuffer[pos] = colorPalette[palettedFrameBuffer[pos]];
     }
-    video_cb(framebuffer, 256, 240, sizeof(uint32_t)*256);
+    video_cb(framebuffer, ppuWidth, ppuHeight, sizeof(uint32_t)*ppuWidth);
     //std::cout << debugLine++ << std::endl;
 }
 /////////////////////////SET CALLBACKS/////////////////////////////////////////
@@ -166,7 +161,9 @@ void retro_set_environment(retro_environment_t cb)
 }
 void retro_set_audio_sample(retro_audio_sample_t cb)
 {
+    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
     audio_cb = cb;
+    oNesSamaCore.setPushAudioSampleCallback(audio_cb);
 }
 void retro_set_video_refresh(retro_video_refresh_t cb)
 {
@@ -193,8 +190,10 @@ bool retro_unserialize(const void *data, size_t size) { return false; }
 void retro_deinit(void) {}
 void retro_set_audio_sample_batch(retro_audio_sample_batch_t cb) {}
 
+/*
 int main()
 {
-    /*struct retro_system_info rsi;
-    retro_get_system_info(&rsi);*/
+    //struct retro_system_info rsi;
+    //retro_get_system_info(&rsi);
 }
+*/

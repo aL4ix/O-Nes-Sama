@@ -23,7 +23,7 @@ private:
     RetroGraphics& operator=(const RetroGraphics& rhs);
 
 public:
-    RetroGraphics(const unsigned Width, const unsigned Height);
+    RetroGraphics(const unsigned internalWidth, const unsigned internalHeight, const double zoom);
     ~RetroGraphics();
 
     inline void DrawBegin() const
@@ -42,7 +42,6 @@ public:
             SDL_UpdateWindowSurface(window);
         #endif // GFX_SOFTWARE_RENDER
     }
-    bool Init(const int width, const int height, const double zoom);
     SDL_Rect sdlRect;
     SDL_Texture* texture;
     bool Draw(const void* pixels, const size_t sizeInBytes);

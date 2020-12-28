@@ -80,9 +80,9 @@ public:
     unsigned char* getPalettedFrameBuffer();
     unsigned char* getDefaultPalette();
 
-    //unsigned char ** ppuCartSpace[16];
-    //unsigned char ** getChr();
-    //unsigned char ** getNametables();
+    static constexpr unsigned INTERNAL_WIDTH = 256;
+    static constexpr unsigned INTERNAL_HEIGHT = 240;
+    static constexpr unsigned INTERNAL_FPS = 60;
 
     Logger logger;
 

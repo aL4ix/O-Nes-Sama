@@ -3,37 +3,40 @@
 //Platform-Dependent
 SDL_Renderer* sdlRenderer = NULL;
 
-RetroGraphics::RetroGraphics(const unsigned ScreenWidth, const unsigned ScreenHeight) :
+RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned internalHeight, const double zoom) :
     screenSurface(NULL)
 {
+    const unsigned screenWidth = internalWidth * zoom;
+    const unsigned screenHeight = internalHeight * zoom;
+
     //Platform-Dependent
     window = NULL;
     //Initialize SDL
-	if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-	{
-		printf("RetroGraphics SDL Video could not initialize: %s\n", SDL_GetError());
+    if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
+    {
+        printf("RetroGraphics SDL Video could not initialize: %s\n", SDL_GetError());
         return;
-	}
+    }
     //The window we'll be rendering to
-    window = SDL_CreateWindow("O-Nes-Sama", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, ScreenWidth, ScreenHeight, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("O-Nes-Sama", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     if(window == NULL)
     {
         printf("RetroGraphics window could not be created: %s\n", SDL_GetError());
         return;
     }
-    #ifndef GFX_SOFTWARE_RENDER
-        sdlRenderer = SDL_CreateRenderer(window, -1, 0);
-    #else
-        SDL_Surface* surface = SDL_GetWindowSurface(window);
-        sdlRenderer = SDL_CreateSoftwareRenderer(surface);
-    #endif // GFX_SOFTWARE_RENDER
+#ifndef GFX_SOFTWARE_RENDER
+    sdlRenderer = SDL_CreateRenderer(window, -1, 0);
+#else
+    SDL_Surface* surface = SDL_GetWindowSurface(window);
+    sdlRenderer = SDL_CreateSoftwareRenderer(surface);
+#endif // GFX_SOFTWARE_RENDER
     if (sdlRenderer == NULL)
-	{
-		printf("RetroGraphics failed to create renderer: %s\n", SDL_GetError());
-		return;
-	}
+    {
+        printf("RetroGraphics failed to create renderer: %s\n", SDL_GetError());
+        return;
+    }
     // Set size of renderer to the same as window
-	/*SDL_RenderSetLogicalSize(sdlRenderer, ScreenWidth, ScreenHeight);
+    /*SDL_RenderSetLogicalSize(sdlRenderer, ScreenWidth, ScreenHeight);
     SDL_RendererInfo* info;
     SDL_GetRendererInfo(sdlRenderer, info);
     for(int i=0; i<info->num_texture_formats; i++)
@@ -44,30 +47,25 @@ RetroGraphics::RetroGraphics(const unsigned ScreenWidth, const unsigned ScreenHe
     sdlPixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGB888);
     Color32::Transparent.SetColor(0, 0, 0, 0);
 
-}
-
-bool RetroGraphics::Init(const int width, const int height, const double zoom)
-{
-    //Platform-Dependent
+    //Init
     sdlRect.x = 0;
     sdlRect.y = 0;
 
     texture = SDL_CreateTexture(sdlRenderer, sdlPixelFormat->format,
-        SDL_TEXTUREACCESS_STREAMING, width, height);
-    sdlRect.w = width*zoom;
-    sdlRect.h = height*zoom;
+                                SDL_TEXTUREACCESS_STREAMING, internalWidth, internalHeight);
+    sdlRect.w = screenWidth;
+    sdlRect.h = screenHeight;
     if(texture == NULL)
     {
         printf("RetroGraphics failed to init: %s\n", SDL_GetError());
-        return false;
+        throw false;
     }
-    return true;
 }
 
 bool RetroGraphics::Draw(const void* pixels, const size_t sizeInBytes)
 {
     //Platform-Dependent
-    #define T uint32_t
+#define T uint32_t
     const T* dataPixels = (T*)(pixels);
     T* texturePixels = NULL;
     int pitch = 0;
@@ -85,6 +83,7 @@ bool RetroGraphics::Draw(const void* pixels, const size_t sizeInBytes)
         printf("RetroGraphics failed to draw: %s\n", SDL_GetError());
     }
     return true;
+#undef T
 }
 
 bool RetroGraphics::loadColorPaletteFromFile(const char* FileName)

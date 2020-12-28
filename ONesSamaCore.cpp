@@ -1,8 +1,6 @@
 #include "ONesSamaCore.h"
 
 ONesSamaCore::ONesSamaCore() :
-    fractionForCPUCycles(cpufreq, syncfreq),
-    fractionForTime(1000, syncfreq),
     saveStatePath("SaveState"),
     cart(nullptr),
     cpu(nullptr),
@@ -22,7 +20,6 @@ bool ONesSamaCore::loadCartridge(std::string romFileName)
     cpu = new CPU(*cart->mapper);
     ppu = new PPU(cpu->io, *cart->mapper);
     cpu->setPPUPtr(ppu);
-    reset();
 
     #ifdef DEBUGGER
         Debugger debuggerServer(&cpu, &ppu);
@@ -31,15 +28,6 @@ bool ONesSamaCore::loadCartridge(std::string romFileName)
         //debuggerServer.handleRequests();
     #endif // DEBUGGER
 
-    /*int pendCycles = 0;
-    unsigned lastTimeTick = SDL_GetTicks();
-    unsigned FPS = 0;
-    unsigned sumCycles = 0;*/
-    #ifdef DEBUG_PRECISETIMING
-    unsigned emuStartTime = lastTimeTick;
-    unsigned secondsCount = 0;
-    unsigned cpuCurGenCycCount = 0;
-    #endif // DEBUG_PRECISETIMING
     return true;
 }
 
@@ -48,14 +36,17 @@ bool ONesSamaCore::unloadCartridge()
     if(ppu)
     {
         delete ppu;
+        ppu = nullptr;
     }
     if(cpu)
     {
         delete cpu;
+        cpu = nullptr;
     }
     if(cart)
     {
         delete cart;
+        cart = nullptr;
     }
     return true;
 }
@@ -82,10 +73,9 @@ void ONesSamaCore::setPushAudioSampleCallback(std::function<void(unsigned short 
     cpu->apu->setPushAudioSampleCallback(pushAudioSampleCallback);
 }
 
-bool ONesSamaCore::run(unsigned cycles)
+int ONesSamaCore::run(const int cycles)
 {
-    cpu->run(cycles);
-    return true;
+    return cpu->run(cycles);
 }
 
 void ONesSamaCore::setControllersMatrix(bool (*input)[8])
@@ -136,9 +126,14 @@ void ONesSamaCore::debug()
     //cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
 }
 
-void ONesSamaCore::testMe()
+bool ONesSamaCore::getCPUIsRunning()
 {
-    printf("ONESSAMACORE: TEST 123\n");
+    return cpu->isRunning;
+}
+
+void ONesSamaCore::setCPUIsRunning(bool isRunning)
+{
+    cpu->isRunning = isRunning;
 }
 
 

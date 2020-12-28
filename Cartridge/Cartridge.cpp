@@ -12,7 +12,6 @@
 #include "Mappers/MMC3.hpp"
 
 using namespace std;
-std::string batteryPath   = "Battery";
 
 Cartridge::Cartridge(std::string fileName){
     romFileName = fileName;
@@ -159,6 +158,7 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
 
 bool Cartridge::loadState(FILE * file){
 //    return mapper->loadState(file);
+    return false;
 }
 
 void Cartridge::saveState(FILE * file){

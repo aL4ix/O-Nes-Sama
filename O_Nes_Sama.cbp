@@ -85,6 +85,7 @@
 		<Unit filename="Logging/CPULogger.h" />
 		<Unit filename="Logging/Logger.cpp" />
 		<Unit filename="Logging/Logger.h" />
+		<Unit filename="ONesSamaCore.cpp" />
 		<Unit filename="ONesSamaCore.h" />
 		<Unit filename="PPU.cpp" />
 		<Unit filename="PPU.h" />
