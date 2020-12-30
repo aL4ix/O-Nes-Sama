@@ -40,7 +40,6 @@
 		<Linker>
 			<Add library="SDL2" />
 			<Add library="SDL2main" />
-			<Add library="SDL2_net" />
 			<Add library="z" />
 			<Add directory="C:/SDL32/lib" />
 			<Add directory="C:/GnuWin32/lib" />
@@ -49,7 +48,6 @@
 		<Unit filename="APU.h" />
 		<Unit filename="CPU.cpp" />
 		<Unit filename="CPU.h" />
-		<Unit filename="CPUSharedData.h" />
 		<Unit filename="Cartridge/CartDB.hpp" />
 		<Unit filename="Cartridge/CartIO.hpp" />
 		<Unit filename="Cartridge/Cartridge.cpp" />
@@ -72,15 +70,8 @@
 		<Unit filename="Cartridge/Mappers/MemoryMapper.h" />
 		<Unit filename="Cartridge/Mappers/UxROM.cpp" />
 		<Unit filename="Cartridge/Mappers/UxROM.hpp" />
-		<Unit filename="Debugger/Breakpoint.cpp" />
-		<Unit filename="Debugger/Breakpoint.h" />
-		<Unit filename="Debugger/Debugger.cpp" />
-		<Unit filename="Debugger/Debugger.h" />
-		<Unit filename="Debugger/SocketServer.cpp" />
-		<Unit filename="Debugger/SocketServer.h" />
 		<Unit filename="Input.cpp" />
 		<Unit filename="Input.h" />
-		<Unit filename="Instructions.h" />
 		<Unit filename="Logging/CPULogger.cpp" />
 		<Unit filename="Logging/CPULogger.h" />
 		<Unit filename="Logging/Logger.cpp" />
@@ -101,7 +92,6 @@
 		<Unit filename="RetroEmu/RetroInput.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="opcodes.inc" />
-		<Unit filename="x6502Interrupts" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

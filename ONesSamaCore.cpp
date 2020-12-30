@@ -68,7 +68,7 @@ unsigned char* ONesSamaCore::getDefaultPalette()
     return ppu->getDefaultPalette();
 }
 
-void ONesSamaCore::setPushAudioSampleCallback(std::function<void(unsigned short left, unsigned short right)> pushAudioSampleCallback)
+void ONesSamaCore::setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right))
 {
     cpu->apu->setPushAudioSampleCallback(pushAudioSampleCallback);
 }

@@ -1,6 +1,11 @@
 #include "APU.h"
 
 
+void apuDoNothingToPushAudioSample(short left, short right)
+{
+}
+
+
 APU::APU(CPUIO &cpuIO) :
     pushAudioSample(nullptr),
     halfCycles(0), modeFrameCounter(false), inhibitFrameCounter(false), irqFrameCounter(false),
@@ -31,6 +36,8 @@ APU::APU(CPUIO &cpuIO) :
     lookupTableTND[0] = 0;
     for(unsigned n=1; n<203; n++)
         lookupTableTND[n] = AMPLITUDE * 163.67 / (24329.0 / n + 100);
+
+    setPushAudioSampleCallback(apuDoNothingToPushAudioSample);
 
     //Debug
     callCyclesCount = 0;
@@ -801,7 +808,7 @@ void APU::setMemoryMapper(MemoryMapper* Board)
     board = Board;
 }
 
-void APU::setPushAudioSampleCallback(std::function<void(unsigned short left, unsigned short right)>pushAudioSampleCallback)
+void APU::setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right))
 {
     pushAudioSample = pushAudioSampleCallback;
 }

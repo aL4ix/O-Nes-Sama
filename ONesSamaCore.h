@@ -19,7 +19,7 @@ public:
     bool reset();
     unsigned char* getPalettedFrameBuffer();
     unsigned char* getDefaultPalette();
-    void setPushAudioSampleCallback(std::function<void(unsigned short left, unsigned short right)> pushAudioSampleCallback);
+    void setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right));
     int run(const int cycles);
     void setControllersMatrix(bool (*input)[8]);
     //void setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right);

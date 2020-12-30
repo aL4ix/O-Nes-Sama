@@ -353,7 +353,6 @@ void PPU::renderTick()
             }
             const auto pos = (scanlineNum << 8) | ticks;
             palettedFrameBuffer[pos] = palette[colorToRender];
-            //framebuffer[pos].SetColor(colorPalette[palette[colorToRender]].GetColor());
         }
     }
 }

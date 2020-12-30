@@ -18,6 +18,9 @@
 
 std::string getBaseRomName(std::string romFileName);
 
+RetroAudio retroAudio;
+void pushAudioSample(short left, short right);
+
 int main(){
 /********************************************************/
 /*                   Timing info                        */
@@ -161,12 +164,7 @@ int main(){
 
         ONesSamaCore oNesSamaCore;
         oNesSamaCore.loadCartridge(romFileName);
-
-        RetroAudio retroAudio;
-        std::function<void(unsigned short, unsigned short)> audio_cb = [&](unsigned short left, unsigned short right) {
-            retroAudio.loadSample(left);
-        };
-        oNesSamaCore.setPushAudioSampleCallback(audio_cb);
+        oNesSamaCore.setPushAudioSampleCallback(pushAudioSample);
 
         const double ZOOM = 2.0;
         RetroGraphics retroGraphics(oNesSamaCore.getPPUInteralWidth(), oNesSamaCore.getPPUInteralWidth(), ZOOM);
@@ -296,4 +294,9 @@ std::string getBaseRomName(std::string tmpRomName){
     tmpRomName.replace(tmpRomName.begin(), tmpRomName.begin() + pathSepIndex, "");
     fileNameBase = tmpRomName;
     return fileNameBase;
+}
+
+void pushAudioSample(short left, short right)
+{
+    retroAudio.loadSample(left);
 }

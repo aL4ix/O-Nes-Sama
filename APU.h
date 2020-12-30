@@ -62,8 +62,8 @@ public:
 
     //Other
     void setMemoryMapper(MemoryMapper* Board);
-    std::function<void(unsigned short left, unsigned short right)> pushAudioSample;
-    void setPushAudioSampleCallback(std::function<void(unsigned short left, unsigned short right)> pushAudioSampleCallback);
+    void (*pushAudioSample)(short left, short right);
+    void setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right));
 
     //Debug
     unsigned callCyclesCount;
