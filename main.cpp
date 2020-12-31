@@ -16,10 +16,10 @@
 #include "Debugger/Debugger.h"
 #endif // DEBUGGER
 
-std::string getBaseRomName(std::string romFileName);
 
-RetroAudio retroAudio;
+std::string getBaseRomName(std::string romFileName);
 void pushAudioSample(short left, short right);
+
 
 int main(){
 /********************************************************/
@@ -287,6 +287,7 @@ std::string getBaseRomName(std::string tmpRomName){
     return fileNameBase;
 }
 
+RetroAudio retroAudio;
 void pushAudioSample(short left, short right)
 {
     retroAudio.loadSample(left);
