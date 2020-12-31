@@ -50,4 +50,4 @@ set_source_files_properties(libretro/libretro.cpp
         PROPERTIES OBJECT_DEPENDS ${LINKER_SCRIPT})
         
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fexpensive-optimizations")

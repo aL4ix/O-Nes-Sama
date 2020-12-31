@@ -7,6 +7,7 @@
 #include "Cartridge/Cartridge.hpp"
 #include "CPU.h"
 #include "PPU.h"
+#include "RetroEmu/RetroFraction.hpp"
 
 
 class ONesSamaCore
@@ -21,6 +22,7 @@ public:
     unsigned char* getDefaultPalette();
     void setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right));
     int run(const int cycles);
+    bool runOneFrame();
     void setControllersMatrix(bool (*input)[8]);
     //void setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right);
     void saveState();
@@ -45,8 +47,8 @@ public:
 
     static constexpr int NTSCmasterclock = 21477272;
     //CPU Frequency in Hz
-    int cpufreq = NTSCmasterclock / 12;
-
+    static constexpr int cpufreq = NTSCmasterclock / 12;
+    RetroFraction fractionForCPUCycles;
 
 protected:
 
@@ -55,6 +57,7 @@ private:
     Cartridge* cart;
     CPU* cpu;
     PPU* ppu;
+    int pendCycles;
 
     static std::string getBaseRomName(std::string romFileName);
 };

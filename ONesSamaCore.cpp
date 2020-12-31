@@ -1,10 +1,12 @@
 #include "ONesSamaCore.h"
 
 ONesSamaCore::ONesSamaCore() :
+    fractionForCPUCycles(cpufreq, 60),
     saveStatePath("SaveState"),
     cart(nullptr),
     cpu(nullptr),
-    ppu(nullptr)
+    ppu(nullptr),
+    pendCycles(0)
 {
 }
 
@@ -76,6 +78,13 @@ void ONesSamaCore::setPushAudioSampleCallback(void (*pushAudioSampleCallback)(sh
 int ONesSamaCore::run(const int cycles)
 {
     return cpu->run(cycles);
+}
+
+bool ONesSamaCore::runOneFrame()
+{
+    unsigned cycles = fractionForCPUCycles.getNextSlice();
+    pendCycles = run(cycles + pendCycles);
+    return true;
 }
 
 void ONesSamaCore::setControllersMatrix(bool (*input)[8])

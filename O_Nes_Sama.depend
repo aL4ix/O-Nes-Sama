@@ -1587,7 +1587,7 @@
 1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Logging/Logger.cpp
 	"Logger.h"
 
-1609304997 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/main.cpp
+1609386387 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/main.cpp
 	<stdio.h>
 	"ONesSamaCore.h"
 	"Cartridge/Cartridge.hpp"
@@ -1618,16 +1618,17 @@
 1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Texture.cpp
 	"Texture.hpp"
 
-1609303936 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/ONesSamaCore.cpp
+1609386181 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/ONesSamaCore.cpp
 	"ONesSamaCore.h"
 
-1609303936 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/ONesSamaCore.h
+1609386110 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/ONesSamaCore.h
 	<stdint.h>
 	<stddef.h>
 	<string>
 	"Cartridge/Cartridge.hpp"
 	"CPU.h"
 	"PPU.h"
+	"RetroEmu/RetroFraction.hpp"
 
 1608340727 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/GraphixEngine.hpp
 	<stdio.h>

@@ -30,13 +30,8 @@ int main(){
         #if BENCH == 1
         Logger bench ("Bench.txt");
         #endif
-        //Master clock of NES machine.
-        int NTSCmasterclock = 21477272;
-        //CPU Frequency in Hz
-        int cpufreq = NTSCmasterclock / 12;
         //Synchronization freq
         int syncfreq = 60;
-        RetroFraction rafForCPUCycles(cpufreq, syncfreq);
         RetroFraction rafForTime(1000, syncfreq);
         int underrun = 0;
         unsigned frameCtr = 0;
@@ -176,10 +171,8 @@ int main(){
         RetroInput retroInput;
         oNesSamaCore.reset();
 
-        int pendCycles = 0;
         unsigned lastTimeTick = SDL_GetTicks();
         unsigned FPS = 0;
-        unsigned sumCycles = 0;
         #ifdef DEBUG_PRECISETIMING
         unsigned emuStartTime = lastTimeTick;
         unsigned secondsCount = 0;
@@ -226,9 +219,7 @@ int main(){
                 }
             }
 
-            unsigned cycles = rafForCPUCycles.getNextSlice();
-            sumCycles += cycles;
-            pendCycles = oNesSamaCore.run(cycles + pendCycles);
+            oNesSamaCore.runOneFrame();
             //printf("C: %d A: %d B:%d\n", cpu.instData.generalCycleCount, cpu.apu->halfCycles, cpu.apu->b.getSize());
             frameCtr ++;
 
