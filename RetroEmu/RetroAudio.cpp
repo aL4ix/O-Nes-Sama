@@ -1,34 +1,13 @@
 #include "RetroAudio.hpp"
 
 
-RetroFraction::RetroFraction(unsigned total, unsigned dividedBy)
-{
-    slice = total/dividedBy; // Get the size of a normal slice
-    fracAccumulated = 0; // Start the count at 0 so the remaining part will accumulate
-    fracNumerator = total % dividedBy; // This is the remaining part, this will accumulate in fracAccumulated
-    fracDenominator = dividedBy; //If you divide by 60FPS you will keep the fraction as 60 so you can know when you got a whole frame
-}
-
-unsigned RetroFraction::getNextSlice()
-{
-    unsigned wholePartAccumulated = 0;
-    fracAccumulated += fracNumerator;
-    if(fracAccumulated >= fracDenominator) // We got a whole part!
-    {
-        fracAccumulated -= fracDenominator;
-        wholePartAccumulated = 1;
-    }
-    return slice+wholePartAccumulated;
-}
-
-
-RetroAudio::RetroAudio() : outputSamplesCount(0), raf(21477272/12, SAMPLING), warmingUp(true)
+RetroAudio::RetroAudio() : outputSamplesCount(0), slicesFraction(21477272/12, SAMPLING), warmingUp(true)
 {
     if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-	{
-		printf("SDL Audio could not initialize! SDL_Error: %s\n", SDL_GetError());
+    {
+        printf("SDL Audio could not initialize! SDL_Error: %s\n", SDL_GetError());
         return;
-	}
+    }
 
     SDL_AudioSpec desiredSpec;
     SDL_zero(desiredSpec);
@@ -62,37 +41,41 @@ RetroAudio::RetroAudio() : outputSamplesCount(0), raf(21477272/12, SAMPLING), wa
     */
 
     //Fill buffer so it gives warm up time
-    for(unsigned i=0; i<BUFFER_LENGTH; i++) {
+    for(unsigned i=0; i<BUFFER_LENGTH; i++)
+    {
         queuedSamples.push(0);
     }
 
-    samplesUntilNextSlice = raf.getNextSlice();
+    samplesUntilNextSlice = slicesFraction.getNextSlice();
 
     semaphoreForBufferCopy = false;
-    #ifdef RETRO_AUDIO_DEBUG
+#ifdef RETRO_AUDIO_DEBUG
     bufferCopy = new Uint16[BUFFER_LENGTH];
     fileOutput = fopen("APUout.debug", "wb");
     printf("Started Audio. Slice:%u\n", samplesUntilNextSlice);
-    #endif // RETRO_AUDIO_DEBUG
+#endif // RETRO_AUDIO_DEBUG
 }
 
 RetroAudio::~RetroAudio()
 {
     //SDL_CloseAudio();
-    #ifdef RETRO_AUDIO_DEBUG
+#ifdef RETRO_AUDIO_DEBUG
     delete [] bufferCopy;
     fclose(fileOutput);
-    #endif // RETRO_AUDIO_DEBUG
+#endif // RETRO_AUDIO_DEBUG
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
 void RetroAudio::sendSamplesToHW(Uint16 *stream, int length)
 {
     int i = 0;
-    while (i < length) {
-        if (queuedSamples.empty()) {
+    while (i < length)
+    {
+        if (queuedSamples.empty())
+        {
             printf("Sound Underrun! filling %d\n", length - i);
-            while (i < length) {
+            while (i < length)
+            {
                 stream[i] = 0;
                 i++;
             }
@@ -112,10 +95,10 @@ void RetroAudio::sendSamplesToHW(Uint16 *stream, int length)
         for(unsigned a=0; a<1024; a++)
             queuedSamples.pop();
     }
-    #ifdef RETRO_AUDIO_DEBUG
-        memcpy(bufferCopy, stream, sizeof(Uint16)*BUFFER_LENGTH);
-        semaphoreForBufferCopy = true;
-    #endif // RETRO_AUDIO_DEBUG
+#ifdef RETRO_AUDIO_DEBUG
+    memcpy(bufferCopy, stream, sizeof(Uint16)*BUFFER_LENGTH);
+    semaphoreForBufferCopy = true;
+#endif // RETRO_AUDIO_DEBUG
 }
 
 void RetroAudio::loadSample(unsigned short sample)
@@ -124,7 +107,7 @@ void RetroAudio::loadSample(unsigned short sample)
     if(--samplesUntilNextSlice == 0)
     {
         outputSamplesCount += 1;
-        samplesUntilNextSlice = raf.getNextSlice();
+        samplesUntilNextSlice = slicesFraction.getNextSlice();
 
         unsigned avg = 0;
         const unsigned size = avgBuffer.size();
@@ -135,14 +118,15 @@ void RetroAudio::loadSample(unsigned short sample)
         SDL_LockAudioDevice(sdldev);
         queuedSamples.push(avg);
         SDL_UnlockAudioDevice(sdldev);
-        #ifdef RETRO_AUDIO_DEBUG
+#ifdef RETRO_AUDIO_DEBUG
         if(semaphoreForBufferCopy)
         {
             fwrite(bufferCopy, sizeof(Uint16), BUFFER_LENGTH, fileOutput);
             semaphoreForBufferCopy = false;
         }
-        #endif // RETRO_AUDIO_DEBUG
-        if(warmingUp) {
+#endif // RETRO_AUDIO_DEBUG
+        if(warmingUp)
+        {
             play();
             warmingUp = false;
         }
@@ -162,7 +146,8 @@ unsigned long long RetroAudio::getOutputSamplesAndReset()
     return ret;
 }
 
-void RetroAudio::play() {
+void RetroAudio::play()
+{
     // start play audio
     SDL_PauseAudioDevice(sdldev, 0);
 }

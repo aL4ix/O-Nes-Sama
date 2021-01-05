@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../O-Nes-Sama" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O3" />
+					<Add directory="../O-Nes-Sama" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -38,7 +40,6 @@
 		<Linker>
 			<Add library="SDL2" />
 			<Add library="SDL2main" />
-			<Add library="SDL2_net" />
 			<Add library="z" />
 			<Add directory="C:/SDL32/lib" />
 			<Add directory="C:/GnuWin32/lib" />
@@ -47,7 +48,6 @@
 		<Unit filename="APU.h" />
 		<Unit filename="CPU.cpp" />
 		<Unit filename="CPU.h" />
-		<Unit filename="CPUSharedData.h" />
 		<Unit filename="Cartridge/CartDB.hpp" />
 		<Unit filename="Cartridge/CartIO.hpp" />
 		<Unit filename="Cartridge/Cartridge.cpp" />
@@ -70,40 +70,29 @@
 		<Unit filename="Cartridge/Mappers/MemoryMapper.h" />
 		<Unit filename="Cartridge/Mappers/UxROM.cpp" />
 		<Unit filename="Cartridge/Mappers/UxROM.hpp" />
-		<Unit filename="Debugger/Breakpoint.cpp" />
-		<Unit filename="Debugger/Breakpoint.h" />
-		<Unit filename="Debugger/Debugger.cpp" />
-		<Unit filename="Debugger/Debugger.h" />
-		<Unit filename="Debugger/SocketServer.cpp" />
-		<Unit filename="Debugger/SocketServer.h" />
 		<Unit filename="Input.cpp" />
 		<Unit filename="Input.h" />
-		<Unit filename="Instructions.h" />
 		<Unit filename="Logging/CPULogger.cpp" />
 		<Unit filename="Logging/CPULogger.h" />
 		<Unit filename="Logging/Logger.cpp" />
 		<Unit filename="Logging/Logger.h" />
+		<Unit filename="ONesSamaCore.cpp" />
+		<Unit filename="ONesSamaCore.h" />
 		<Unit filename="PPU.cpp" />
 		<Unit filename="PPU.h" />
-		<Unit filename="RetroAudio.cpp" />
-		<Unit filename="RetroAudio.hpp" />
-		<Unit filename="RetroGraphix/Color.cpp" />
-		<Unit filename="RetroGraphix/Color.hpp" />
-		<Unit filename="RetroGraphix/Drawable.hpp" />
-		<Unit filename="RetroGraphix/GraphixEngine.cpp" />
-		<Unit filename="RetroGraphix/GraphixEngine.hpp" />
-		<Unit filename="RetroGraphix/Sprite.cpp" />
-		<Unit filename="RetroGraphix/Sprite.hpp" />
-		<Unit filename="RetroGraphix/Texture.cpp" />
-		<Unit filename="RetroGraphix/Texture.hpp" />
+		<Unit filename="RetroEmu/RetroAudio.cpp" />
+		<Unit filename="RetroEmu/RetroAudio.hpp" />
+		<Unit filename="RetroEmu/RetroColor.cpp" />
+		<Unit filename="RetroEmu/RetroColor.hpp" />
+		<Unit filename="RetroEmu/RetroFraction.cpp" />
+		<Unit filename="RetroEmu/RetroFraction.hpp" />
+		<Unit filename="RetroEmu/RetroGraphics.cpp" />
+		<Unit filename="RetroEmu/RetroGraphics.hpp" />
+		<Unit filename="RetroEmu/RetroInput.cpp" />
+		<Unit filename="RetroEmu/RetroInput.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="opcodes.inc" />
-		<Unit filename="x6502Interrupts" />
-		<Unit filename="x6502Interrupts.h" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>

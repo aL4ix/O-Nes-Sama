@@ -1362,3 +1362,345 @@
 	<SDL2/SDL.h>
 	"Debugger/Debugger.h"
 
+1609304848 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/APU.cpp
+	"APU.h"
+
+1609304327 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/APU.h
+	<cstdio>
+	<functional>
+	"CPUIO.hpp"
+	"Cartridge/Mappers/MemoryMapper.h"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/CPUIO.hpp
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MemoryMapper.h
+	"../CartIO.hpp"
+	"../../CPUIO.hpp"
+	"../CartDB.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/CartIO.hpp
+	<stdio.h>
+	"../CPUIO.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/CartDB.hpp
+
+1607214672 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroAudio.hpp
+	<SDL2/SDL.h>
+	<queue>
+	<vector>
+	<stdio.h>
+
+1609303494 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Cartridge.cpp
+	"Cartridge.hpp"
+	<fstream>
+	<iostream>
+	<stdlib.h>
+	"Mappers/BasicMapper.hpp"
+	"Mappers/UxROM.hpp"
+	"Mappers/CNROM.hpp"
+	"Mappers/AxROM.hpp"
+	"Mappers/GxROM.hpp"
+	"Mappers/MMC1.hpp"
+	"Mappers/MMC2_4.hpp"
+	"Mappers/MMC3.hpp"
+
+1609303494 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Cartridge.hpp
+	"CartIO.hpp"
+	"Mappers/MemoryMapper.h"
+	<string>
+	"zlib.h"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/BasicMapper.hpp
+	"MemoryMapper.h"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/UxROM.hpp
+	"BasicMapper.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/CNROM.hpp
+	"BasicMapper.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/AxROM.hpp
+	"BasicMapper.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/GxROM.hpp
+	"BasicMapper.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MMC1.hpp
+	"BasicMapper.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MMC2_4.hpp
+	"BasicMapper.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MMC3.hpp
+	"BasicMapper.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/AxROM.cpp
+	"AxROM.hpp"
+	<stdio.h>
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/BasicMapper.cpp
+	"BasicMapper.hpp"
+	<stdio.h>
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/CNROM.cpp
+	"CNROM.hpp"
+	<stdio.h>
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/GxROM.cpp
+	"GxROM.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MemoryMapper.cpp
+	"MemoryMapper.h"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MMC1.cpp
+	"MMC1.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MMC2_4.cpp
+	"MMC2_4.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/MMC3.cpp
+	"MMC3.hpp"
+	<stdlib.h>
+	<stdio.h>
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Cartridge/Mappers/UxROM.cpp
+	"UxROM.hpp"
+	<stdio.h>
+
+1609303494 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/CPU.cpp
+	"CPU.h"
+	<stdio.h>
+	<fstream>
+	<stdlib.h>
+	<iostream>
+	"opcodes.inc"
+
+1608244846 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/CPU.h
+	"Cartridge/Mappers/MemoryMapper.h"
+	"Logging/CPULogger.h"
+	"8Tunes/DummyInput.h"
+	"8Tunes/DummyPPU.h"
+	"Input.h"
+	"PPU.h"
+	"APU.h"
+	"CPUIO.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Logging/CPULogger.h
+	"Logger.h"
+	"../CPUSharedData.h"
+	"../CPUIO.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Logging/Logger.h
+	<iostream>
+	<fstream>
+	<cstdarg>
+	<stdexcept>
+	<regex>
+	<map>
+
+1607214672 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/CPUSharedData.h
+
+1607214672 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/8Tunes/DummyInput.h
+
+1607214672 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/8Tunes/DummyPPU.h
+
+1608506854 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Input.h
+	"CPUIO.hpp"
+	<cstring>
+
+1609303494 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/PPU.h
+	<unordered_map>
+	<functional>
+	<vector>
+	<cstring>
+	"CPUIO.hpp"
+	"RetroEmu/RetroColor.hpp"
+	"Debugger/Breakpoint.h"
+	"Cartridge/Cartridge.hpp"
+	"Logging/Logger.h"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"Color.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Drawable.hpp
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"GraphixEngine.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"GraphixEngine.hpp"
+	"Drawable.hpp"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Debugger/Breakpoint.h
+	<stdio.h>
+	<string>
+	<vector>
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/opcodes.inc
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Debugger/Breakpoint.cpp
+	"Breakpoint.h"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Debugger/Debugger.cpp
+	"Debugger.h"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Debugger/Debugger.h
+	<iomanip>
+	<sstream>
+	"../PPU.h"
+	"../CPU.h"
+	"Breakpoint.h"
+	"SocketServer.h"
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/Debugger/SocketServer.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unordered_map>
+	<SDL2/SDL_net.h>
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Debugger/SocketServer.cpp
+	"SocketServer.h"
+
+1608506861 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Input.cpp
+	"Input.h"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Logging/CPULogger.cpp
+	"CPULogger.h"
+	<sstream>
+	<string>
+	<iomanip>
+	<iostream>
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/Logging/Logger.cpp
+	"Logger.h"
+
+1609386387 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/main.cpp
+	<stdio.h>
+	"ONesSamaCore.h"
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	"RetroEmu/RetroFraction.hpp"
+	"RetroEmu/RetroAudio.hpp"
+	"RetroEmu/RetroGraphics.hpp"
+	"RetroEmu/RetroInput.hpp"
+	<SDL2/SDL.h>
+	"Debugger/Debugger.h"
+
+1609303523 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/PPU.cpp
+	"PPU.h"
+
+1607214672 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroAudio.cpp
+	"RetroAudio.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Color.cpp
+	"Color.hpp"
+
+1607214672 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Sprite.cpp
+	"Sprite.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroGraphix/Texture.cpp
+	"Texture.hpp"
+
+1609386181 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/ONesSamaCore.cpp
+	"ONesSamaCore.h"
+
+1609386110 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/ONesSamaCore.h
+	<stdint.h>
+	<stddef.h>
+	<string>
+	"Cartridge/Cartridge.hpp"
+	"CPU.h"
+	"PPU.h"
+	"RetroEmu/RetroFraction.hpp"
+
+1608340727 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/GraphixEngine.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"Drawable.hpp"
+	"RetroColor.hpp"
+
+1608341055 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/Drawable.hpp
+
+1607214666 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/Color.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1608341051 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/Texture.hpp
+	<cstddef>
+	<SDL2/SDL.h>
+	"RetroGraphics.hpp"
+
+1608341052 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/Sprite.hpp
+	<SDL2/SDL.h>
+	"Texture.hpp"
+	"RetroGraphics.hpp"
+	"Drawable.hpp"
+
+1608085844 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroAudio.hpp
+	<SDL2/SDL.h>
+	<queue>
+	<vector>
+	<stdio.h>
+	"RetroFraction.hpp"
+
+1608085584 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroFraction.hpp
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/Color.cpp
+	"Color.hpp"
+
+1607214672 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/GraphixEngine.cpp
+	"GraphixEngine.hpp"
+
+1608085849 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroAudio.cpp
+	"RetroAudio.hpp"
+
+1608085531 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroFraction.cpp
+	"RetroFraction.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/Sprite.cpp
+	"Sprite.hpp"
+
+1607214666 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/Texture.cpp
+	"Texture.hpp"
+
+1609303494 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroGraphics.hpp
+	<stdio.h>
+	<SDL2/SDL.h>
+	"RetroColor.hpp"
+
+1608413460 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroColor.hpp
+	<cinttypes>
+	<SDL2/SDL.h>
+	<stdio.h>
+
+1608354221 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroColor.cpp
+	"RetroColor.hpp"
+
+1609303494 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroGraphics.cpp
+	"RetroGraphics.hpp"
+
+1608509561 source:/media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroInput.cpp
+	"RetroInput.hpp"
+
+1608503925 /media/walkerian/DataLinux/CppPy/O-Nes-Sama/RetroEmu/RetroInput.hpp
+	<SDL2/SDL.h>
+	"CPUIO.hpp"
+

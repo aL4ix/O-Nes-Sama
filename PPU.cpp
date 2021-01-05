@@ -36,9 +36,7 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 2.0;
-
-PPU::PPU(CPUIO &cio, MemoryMapper &m) : gfx(256*ZOOM, 240*ZOOM), cpuIO(cio), mapper(m)
+PPU::PPU(CPUIO &cio, MemoryMapper &m) : cpuIO(cio), mapper(m)
 {
     mapper.io.dbg.sl = &scanlineNum;
     mapper.io.dbg.tick = &ticks;
@@ -46,17 +44,16 @@ PPU::PPU(CPUIO &cio, MemoryMapper &m) : gfx(256*ZOOM, 240*ZOOM), cpuIO(cio), map
     //mapper.ppuStatus.isRendering = &isRendering;
     //mapper.setPPUChrMemPtr(chr);
     //mapper.setPPUNTMemPtr(nametable);
-    const unsigned char defaultPalette[] = {70, 70, 70, 0, 6, 90, 0, 6, 120, 2, 6, 115, 53, 3, 76, 87, 0, 14, 90, 0, 0, 65, 0, 0, 18, 2, 0, 0, 20, 0, 0, 30, 0, 0, 30, 0, 0, 21, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 157, 157, 0, 74, 185, 5, 48, 225, 87, 24, 218, 159, 7, 167, 204, 2, 85, 207, 11, 0, 164, 35, 0, 92, 63, 0, 11, 88, 0, 0, 102, 0, 0, 103, 19, 0, 94, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 31, 158, 255, 83, 118, 255, 152, 101, 255, 252, 103, 255, 255, 108, 179, 255, 116, 102, 255, 128, 20, 196, 154, 0, 113, 179, 0, 40, 196, 33, 0, 200, 116, 0, 191, 208, 43, 43, 43, 0, 0, 0, 0, 0, 0, 254, 255, 255, 158, 213, 255, 175, 192, 255, 208, 184, 255, 254, 191, 255, 255, 192, 224, 255, 195, 189, 255, 202, 156, 231, 213, 139, 197, 223, 142, 166, 230, 163, 148, 232, 197, 146, 228, 235, 167, 167, 167, 0, 0, 0, 0, 0, 0};
-    loadColorPaletteFromArray(defaultPalette);
     powerOn();
     reset();
 
     //GFX
-    back.MoveTo(0, 0);
+    //gfx.Init(256, 240, ZOOM);
+    /*back.MoveTo(0, 0);
     tex.Create(256, 240);
     back.SetTexture(tex);
     back.SetWidth(256*ZOOM);
-    back.SetHeight(240*ZOOM);
+    back.SetHeight(240*ZOOM);*/
 
     //DEBUGGER
     debugProcess = nullptr;
@@ -355,7 +352,7 @@ void PPU::renderTick()
                     colorToRender = (palSprite<<2) | colorSprite;
             }
             const auto pos = (scanlineNum << 8) | ticks;
-            framebuffer[pos].SetColor(colorPalette[palette[colorToRender]].GetColor());
+            palettedFrameBuffer[pos] = palette[colorToRender];
         }
     }
 }
@@ -754,46 +751,19 @@ void PPU::deCoarseX()
 
 void PPU::displayFrame()
 {
-    const Color32 &backgroundColor = colorPalette[palette[0]];
-    gfx.SetBackgroundColor(backgroundColor);
-    gfx.DrawBegin();
+    frameBufferReady = true;
+    //const Color32 &backgroundColor = colorPalette[palette[0]];
+    //gfx.SetBackgroundColor(backgroundColor);
+    //gfx.DrawBegin();
 
-    tex.LoadFromMemory((void*)framebuffer, 256*240*4);
-    back.Draw();
+    //gfx.Draw((void*)framebuffer, 256*240*4);
+    /*tex.LoadFromMemory((void*)framebuffer, 256*240*4);
+    back.Draw();*/
 
-    gfx.DrawEnd();
+    //gfx.DrawEnd();
 
     //printf("\n\n");
     //system("pause");
-}
-/*
-bool PPU::loadColorPaletteFromFile(const char* FileName)
-{
-    FILE* file;
-    file = fopen(FileName, "rb");
-    if(!file)
-        return false;
-    for(int i=0; i<64; i++)
-    {
-        unsigned char r = fgetc(file);
-        unsigned char g = fgetc(file);
-        unsigned char b = fgetc(file);
-        colorPalette[i].SetColor(r, g, b);
-    }
-    fclose(file);
-    return true;
-}
-*/
-bool PPU::loadColorPaletteFromArray(const unsigned char* Palette)
-{
-    for(int i=0; i<64; i++)
-    {
-        unsigned char r = Palette[i*3+0];
-        unsigned char g = Palette[i*3+1];
-        unsigned char b = Palette[i*3+2];
-        colorPalette[i].SetColor(r, g, b);
-    }
-    return true;
 }
 
 void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
@@ -811,12 +781,12 @@ void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
 
 void PPU::loadSetOf4Colors(const int Pal)
 {
-    const int pal = Pal << 2; // Pal * 4
-    setOf4ColorsPalette[0] = Color32::Transparent;
+    //const int pal = Pal << 2; // Pal * 4
+    //setOf4ColorsPalette[0] = Color32::Transparent;
     for(int i=1; i<4; i++)
     {
-        auto c = palette[pal+i];
-        setOf4ColorsPalette[i] = colorPalette[c];
+        //auto c = palette[pal+i];
+        //setOf4ColorsPalette[i] = colorPalette[c];
     }
 }
 
@@ -886,7 +856,7 @@ void PPU::generateCHR(Color32 chrImage[64], const unsigned char Tile, const unsi
     unsigned char chrWithoutPalettes[8][8];
     GenerateCHRBitmapWithoutPalette(SubBank, Tile, chrWithoutPalettes);
     loadSetOf4Colors(Palette);
-    setOf4ColorsPalette[0].SetColor(colorPalette[palette[0]].GetColor());
+    //setOf4ColorsPalette[0].SetColor(colorPalette[palette[0]].GetColor());
     GenerateCHRBitmap(chrImage, chrWithoutPalettes);
 }
 
@@ -1191,3 +1161,16 @@ void PPU::tick328()
 
     }
 }
+
+unsigned char* PPU::getPalettedFrameBuffer()
+{
+    frameBufferReady = false;
+    return palettedFrameBuffer;
+}
+
+unsigned char* PPU::getDefaultPalette()
+{
+    unsigned char* defaultPalette{ new unsigned char[192]{70, 70, 70, 0, 6, 90, 0, 6, 120, 2, 6, 115, 53, 3, 76, 87, 0, 14, 90, 0, 0, 65, 0, 0, 18, 2, 0, 0, 20, 0, 0, 30, 0, 0, 30, 0, 0, 21, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 157, 157, 0, 74, 185, 5, 48, 225, 87, 24, 218, 159, 7, 167, 204, 2, 85, 207, 11, 0, 164, 35, 0, 92, 63, 0, 11, 88, 0, 0, 102, 0, 0, 103, 19, 0, 94, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 31, 158, 255, 83, 118, 255, 152, 101, 255, 252, 103, 255, 255, 108, 179, 255, 116, 102, 255, 128, 20, 196, 154, 0, 113, 179, 0, 40, 196, 33, 0, 200, 116, 0, 191, 208, 43, 43, 43, 0, 0, 0, 0, 0, 0, 254, 255, 255, 158, 213, 255, 175, 192, 255, 208, 184, 255, 254, 191, 255, 255, 192, 224, 255, 195, 189, 255, 202, 156, 231, 213, 139, 197, 223, 142, 166, 230, 163, 148, 232, 197, 146, 228, 235, 167, 167, 167, 0, 0, 0, 0, 0, 0} };
+    return defaultPalette;
+}
+

@@ -2,10 +2,10 @@
 #define APU_H_INCLUDED
 
 #include <cstdio>
+#include <functional>
 
 #include "CPUIO.hpp"
 #include "Cartridge/Mappers/MemoryMapper.h"
-#include "RetroAudio.hpp"
 
 
 class APU
@@ -62,7 +62,8 @@ public:
 
     //Other
     void setMemoryMapper(MemoryMapper* Board);
-    RetroAudio afx;
+    void (*pushAudioSample)(short left, short right);
+    void setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right));
 
     //Debug
     unsigned callCyclesCount;

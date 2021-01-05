@@ -20,6 +20,13 @@ bool isDMAPending = false;
 
 CPU::CPU(MemoryMapper &m) : mapper(m){
 
+    cycleCount = 0;
+    addr = 0;
+    pageCrossed = false; /*Used to detect a mem page cross causing extra cycles*/
+    needsDummy = false; /*Used to determine if a dummy read is needed in W / RMW instructions*/
+    generalCycleCount = 0;
+    isDMAPending = false;
+
     //mapper.setCPUCartSpaceMemPtr(cpuCartSpace);
     /*mapper.io.cpuIRQLine = &ints.irq;
     mapper.io.cpuAddrBus = &addressBus;
@@ -43,6 +50,7 @@ CPU::CPU(MemoryMapper &m) : mapper(m){
     io.irq = 0;
     io.reset = 0;
     isNMIPending = false;
+    isIntPendng = false;
     controller = new Input;
     controller->cpuIO = &io;
     apu = new APU(io);
@@ -50,7 +58,7 @@ CPU::CPU(MemoryMapper &m) : mapper(m){
 
     /*Initialize Logger*/
     #if LOG_LEVEL == 1
-    logger = new CPULogger (regs, flags, ints, instData, "Logging/CPULog.txt");
+    logger = new CPULogger (regs, flags, io, instData, "Logging/CPULog.txt");
     #endif
 }
 

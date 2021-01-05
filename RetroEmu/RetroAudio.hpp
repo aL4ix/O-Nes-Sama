@@ -5,20 +5,7 @@
 #include <queue>
 #include <vector>
 #include <stdio.h>
-
-class RetroFraction
-{
-public:
-    RetroFraction(unsigned total, unsigned dividedBy);
-    unsigned getNextSlice();
-
-private:
-    unsigned slice;
-    unsigned fracAccumulated;
-    unsigned fracNumerator;
-    unsigned fracDenominator;
-};
-
+#include "RetroFraction.hpp"
 
 class RetroAudio
 {
@@ -45,11 +32,8 @@ private:
     bool semaphoreForBufferCopy;
     unsigned long long outputSamplesCount;
     unsigned samplesUntilNextSlice;
-    RetroFraction raf;
+    RetroFraction slicesFraction;
     bool warmingUp;
-
-
-
     void sendSamplesToHW(Uint16 *stream, int length);
 };
 

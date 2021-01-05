@@ -1,7 +1,13 @@
 #include "APU.h"
 
 
+void apuDoNothingToPushAudioSample(short left, short right)
+{
+}
+
+
 APU::APU(CPUIO &cpuIO) :
+    pushAudioSample(nullptr),
     halfCycles(0), modeFrameCounter(false), inhibitFrameCounter(false), irqFrameCounter(false),
     lengthCounterPulse1(0), lengthCounterPulse2(0), lengthCounterTriangle(0), lengthCounterNoise(0),
     haltPulse1(false), haltPulse2(false), haltTriangle(false), haltNoise(false),
@@ -30,6 +36,8 @@ APU::APU(CPUIO &cpuIO) :
     lookupTableTND[0] = 0;
     for(unsigned n=1; n<203; n++)
         lookupTableTND[n] = AMPLITUDE * 163.67 / (24329.0 / n + 100);
+
+    setPushAudioSampleCallback(apuDoNothingToPushAudioSample);
 
     //Debug
     callCyclesCount = 0;
@@ -245,13 +253,15 @@ void APU::write4011(unsigned char Value)
 }
 
 void APU::write4012(unsigned char Value)
-{//                            Value * 64
+{
+    //                            Value * 64
     sampleAddressDMC = 0xC000 | (Value << 6);
     //sampleAddressDMC = 0x8000 + (Value << 6);
 }
 
 void APU::write4013(unsigned char Value)
-{//                          Value * 16
+{
+    //                          Value * 16
     sampleLengthDMC = (Value << 4) + 1;
 }
 
@@ -407,7 +417,13 @@ void APU::process(unsigned cpuCycles)
             printf("CLIPPING!!!\n");
             mixer = 65535;
         }
-        afx.loadSample(mixer);
+        try
+        {
+            pushAudioSample(mixer, mixer);
+        }
+        catch (const std::bad_function_call& ex)
+        {
+        }
 
         //fprintf(file, "%c", mixer);
         //b.count++;
@@ -575,12 +591,13 @@ void APU::clockHalfFrame()
         //printf("Timer: %u\n", timerPulse1);
     }
     if(reloadSweepPulse1)
-    {/*
-        if(dividerSweepCounterPulse1 == 0 && enableSweepFlagPulse1)
-        {
-            //period is also adjusted??
-        }
-        else*/
+    {
+        /*
+           if(dividerSweepCounterPulse1 == 0 && enableSweepFlagPulse1)
+           {
+               //period is also adjusted??
+           }
+           else*/
         dividerSweepCounterPulse1 = dividerSweepPulse1;
         reloadSweepPulse1 = false;
         //printf("SetDiv to %u\n", dividerSweepCounterPulse1);
@@ -608,12 +625,13 @@ void APU::clockHalfFrame()
         }
     }
     if(reloadSweepPulse2)
-    {/*
-        if(dividerSweepCounterPulse2 == 0 && enableSweepFlagPulse2)
-        {
-            //period is also adjusted??
-        }
-        else*/
+    {
+        /*
+           if(dividerSweepCounterPulse2 == 0 && enableSweepFlagPulse2)
+           {
+               //period is also adjusted??
+           }
+           else*/
         dividerSweepCounterPulse2 = dividerSweepPulse2;
         reloadSweepPulse2 = false;
     }
@@ -733,8 +751,8 @@ void APU::clockPulse1()
     sequencerStepPulse1++;
     sequencerStepPulse1 &= 7;
     if(lengthCounterPulse1 > 0
-       && !isSweepSilenced(timerPulse1, negateFlagPulse1, shiftCountPulse1)
-       && sequencerPulse[dutyPulse1][sequencerStepPulse1])
+            && !isSweepSilenced(timerPulse1, negateFlagPulse1, shiftCountPulse1)
+            && sequencerPulse[dutyPulse1][sequencerStepPulse1])
     {
         outputPulse1 = (constantVolumeFlagPulse1) ? constVolEnvDivPeriodPulse1 : envelopeVolumePulse1;
     }
@@ -750,8 +768,8 @@ void APU::clockPulse2()
     sequencerStepPulse2++;
     sequencerStepPulse2 &= 7;
     if(lengthCounterPulse2 > 0
-       && !isSweepSilenced(timerPulse2, negateFlagPulse2, shiftCountPulse2)
-       && sequencerPulse[dutyPulse2][sequencerStepPulse2])
+            && !isSweepSilenced(timerPulse2, negateFlagPulse2, shiftCountPulse2)
+            && sequencerPulse[dutyPulse2][sequencerStepPulse2])
     {
         outputPulse2 = (constantVolumeFlagPulse2) ? constVolEnvDivPeriodPulse2 : envelopeVolumePulse2;
     }
@@ -788,4 +806,9 @@ bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char Shift
 void APU::setMemoryMapper(MemoryMapper* Board)
 {
     board = Board;
+}
+
+void APU::setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right))
+{
+    pushAudioSample = pushAudioSampleCallback;
 }

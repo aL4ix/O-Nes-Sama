@@ -2,16 +2,24 @@
 #define BENCH 0
 //define DEBUGGER
 #include <stdio.h>
+#include "ONesSamaCore.h"
 #include "Cartridge/Cartridge.hpp"
 #include "CPU.h"
 #include "PPU.h"
+#include "RetroEmu/RetroFraction.hpp"
+#include "RetroEmu/RetroAudio.hpp"
+#include "RetroEmu/RetroGraphics.hpp"
+#include "RetroEmu/RetroInput.hpp"
 #include <SDL2/SDL.h>
 
 #ifdef DEBUGGER
 #include "Debugger/Debugger.h"
 #endif // DEBUGGER
 
+
 std::string getBaseRomName(std::string romFileName);
+void pushAudioSample(short left, short right);
+
 
 int main(){
 /********************************************************/
@@ -22,13 +30,8 @@ int main(){
         #if BENCH == 1
         Logger bench ("Bench.txt");
         #endif
-        //Master clock of NES machine.
-        int NTSCmasterclock = 21477272;
-        //CPU Frequency in Hz
-        int cpufreq = NTSCmasterclock / 12;
         //Synchronization freq
         int syncfreq = 60;
-        RetroFraction rafForCPUCycles(cpufreq, syncfreq);
         RetroFraction rafForTime(1000, syncfreq);
         int underrun = 0;
         unsigned frameCtr = 0;
@@ -51,7 +54,7 @@ int main(){
         //std::string romFileName   = "games/mmc3_test_2/rom_singles/4-scanline_timing.nes";
         //std::string romFileName   = "games/NROM/smb.nes";
         //std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
-        std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
+        //std::string romFileName   = "games/AxROM/Battletoads (USA).nes";
 
         //std::string romFileName   = "games/CNROM/Adventure Island.nes";
         //std::string romFileName   = "games/CNROM/Ninja Jajamaru Kun (Japan).nes";
@@ -63,7 +66,7 @@ int main(){
         //std::string romFileName   = "games/cpu_exec_space/test_cpu_exec_space_apu.nes";
         //std::string romFileName   = "games/cpu_exec_space/test_cpu_exec_space_ppuio.nes";
 
-        //std::string romFileName   = "games/UxROM/Contra.nes";
+        std::string romFileName   = "games/UxROM/Contra.nes";
         //std::string romFileName   = "games/instr_timing/instr_timing.nes";
         //std::string romFileName   = "games/MMC4/Fire Emblem Gaiden (Japan).nes";
         //std::string romFileName   = "games/MMC4/Fire Emblem (Japan).nes";
@@ -151,39 +154,32 @@ int main(){
         //std::string romFileName   =  "games/apu_sweep/sweep sub.nes";
         //std::string romFileName   =  "games/apu_test/apu_test.nes";
         //std::string romFileName   =  "games/Huge Insect (Sachen) [!].nes";
+        //std::string romFileName   =  "games/Battletoads & Double Dragon - The Ultimate Team (USA).nes";
 
-        std::string saveStatePath = "SaveState";
-        Cartridge cart(romFileName);
-        saveStatePath.append(getBaseRomName(romFileName));
-        saveStatePath.append(".sta");
 
-        //printf("\nSave State path : %s", saveStatePath.c_str());
+        ONesSamaCore oNesSamaCore;
+        oNesSamaCore.loadCartridge(romFileName);
+        oNesSamaCore.setPushAudioSampleCallback(pushAudioSample);
 
-        /*Create the instances of the 6502 CPU, the Cartridge interface and the PPU*/
-        CPU cpu (*cart.mapper);
-        PPU ppu (cpu.io, *cart.mapper);
-        cpu.setPPUPtr(&ppu);
-        cpu.reset();
-        ppu.reset();
+        const double ZOOM = 2.0;
+        RetroGraphics retroGraphics(oNesSamaCore.getPPUInteralWidth(), oNesSamaCore.getPPUInteralWidth(), ZOOM);
+        {
+            unsigned char* defaultPalette = oNesSamaCore.getDefaultPalette();
+            retroGraphics.loadColorPaletteFromArray(defaultPalette);
+            delete [] defaultPalette;
+        }
+        RetroInput retroInput;
+        oNesSamaCore.reset();
 
-        #ifdef DEBUGGER
-            Debugger debuggerServer(&cpu, &ppu);
-            debuggerServer.InitServer();
-            //debuggerServer.InitAndWaitHandshake();
-            //debuggerServer.handleRequests();
-        #endif // DEBUGGER
-
-        int pendCycles = 0;
         unsigned lastTimeTick = SDL_GetTicks();
         unsigned FPS = 0;
-        unsigned sumCycles = 0;
         #ifdef DEBUG_PRECISETIMING
         unsigned emuStartTime = lastTimeTick;
         unsigned secondsCount = 0;
         unsigned cpuCurGenCycCount = 0;
         #endif // DEBUG_PRECISETIMING
 
-        while (cpu.isRunning){
+        while (oNesSamaCore.getCPUIsRunning()){
             #ifdef DEBUGGER
                 if(!debuggerServer.connected)
                 {
@@ -194,8 +190,7 @@ int main(){
                 }
             #endif // DEBUGGER
 
-            //HOW CAN WE FIX THIS?
-            cpu.controller->updateJoystickState();
+            oNesSamaCore.setControllersMatrix(retroInput.updateAndGetInputs());
 
             SDL_Event event;
             bool windowClosed = false;
@@ -208,46 +203,30 @@ int main(){
                     windowClosed = true;
                 }
                 if (state[SDL_SCANCODE_F7]){
-                    cpu.isPaused = !cpu.isPaused;
+                    oNesSamaCore.pause();
                 }
                 if (state[SDL_SCANCODE_F8]){
-                    cpu.reset();
-                    ppu.reset();
+                    oNesSamaCore.reset();
                 }
                 if (state[SDL_SCANCODE_F10]){
-                    FILE * file = fopen (saveStatePath.c_str(), "rb");
-                    if (file != NULL){
-                        cart.loadState(file);
-                        cpu.loadState(file);
-                        ppu.loadState(file);
-                        printf("\nLoaded state \"%s\"", saveStatePath.c_str());
-                        fclose(file);
-                    } else {
-                        printf("Error loading state file '%s'", saveStatePath.c_str());
-                    }
+                    oNesSamaCore.loadState();
                 }
                 if (state[SDL_SCANCODE_F11]){
-                    FILE * file = fopen (saveStatePath.c_str(), "wb");
-                    if (file != NULL){
-                        cart.saveState(file);
-                        cpu.saveState(file);
-                        ppu.saveState(file);
-                        fclose(file);
-                        printf("\nSaved state \"%s\"", saveStatePath.c_str());
-                    } else {
-                        printf("Error creating state file '%s'", saveStatePath.c_str());
-                    }
+                    oNesSamaCore.saveState();
                 }
                 if (state[SDL_SCANCODE_F2]){
-                    //cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
+                    oNesSamaCore.debug();
                 }
             }
 
-            unsigned cycles = rafForCPUCycles.getNextSlice();
-            sumCycles += cycles;
-            pendCycles = cpu.run(cycles + pendCycles);
+            oNesSamaCore.runOneFrame();
             //printf("C: %d A: %d B:%d\n", cpu.instData.generalCycleCount, cpu.apu->halfCycles, cpu.apu->b.getSize());
             frameCtr ++;
+
+            retroGraphics.DrawBegin();
+            retroGraphics.DrawPaletted(oNesSamaCore.getPalettedFrameBuffer(),
+                                       oNesSamaCore.getPPUInteralWidth()*oNesSamaCore.getPPUInteralHeight());
+            retroGraphics.DrawEnd();
 
             unsigned now = SDL_GetTicks();
             unsigned timeSpent = now - lastTimeTick;
@@ -284,10 +263,11 @@ int main(){
             bench.LogWithPrefix("Benchmark", "%d, %6lf, %d\n", underrun, timediff*100/thisFrameTimeInMilis, frameCtr);
             #endif
             if (windowClosed){
-                cpu.isRunning = false;
+                oNesSamaCore.setCPUIsRunning(false);
                 break;
             }
-        }
+        } // while
+        oNesSamaCore.unloadCartridge();
     }
     SDL_Quit();
     return 0;
@@ -305,4 +285,10 @@ std::string getBaseRomName(std::string tmpRomName){
     tmpRomName.replace(tmpRomName.begin(), tmpRomName.begin() + pathSepIndex, "");
     fileNameBase = tmpRomName;
     return fileNameBase;
+}
+
+RetroAudio retroAudio;
+void pushAudioSample(short left, short right)
+{
+    retroAudio.loadSample(left);
 }

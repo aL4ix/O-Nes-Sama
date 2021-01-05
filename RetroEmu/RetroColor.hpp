@@ -1,35 +1,35 @@
-#ifndef COLOR_HPP
-#define COLOR_HPP
+#ifndef RETRO_COLOR_HPP
+#define RETRO_COLOR_HPP
 
 #include <cinttypes>
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-//Platform-Dependant
+//Platform-Dependent
 extern SDL_PixelFormat* sdlPixelFormat;
 
 template <class T>
-class Color
+class RetroColor
 {
 private:
     T nativeColor;
 
-    //Platform-Dependant
+    //Platform-Dependent
     static unsigned char r;
     static unsigned char g;
     static unsigned char b;
 
 public:
-    Color()
+    RetroColor()
     {
     }
 
-    explicit inline Color(const T Color)
+    explicit inline RetroColor(const T RetroColor)
     {
-        SetColor(Color);
+        SetColor(RetroColor);
     }
 
-    inline Color(const unsigned char R, const unsigned char G,
+    inline RetroColor(const unsigned char R, const unsigned char G,
         const unsigned char B)
     {
         SetColor(R, G, B);
@@ -37,43 +37,43 @@ public:
 
     inline unsigned char GetR() const
     {
-        //Platform-Dependant
+        //Platform-Dependent
         SDL_GetRGB(nativeColor, sdlPixelFormat, &r, &g, &b);
         return r;
     }
     inline unsigned char GetG() const
     {
-        //Platform-Dependant
+        //Platform-Dependent
         SDL_GetRGB(nativeColor, sdlPixelFormat, &r, &g, &b);
         return g;
     }
     inline unsigned char GetB() const
     {
-        //Platform-Dependant
+        //Platform-Dependent
         SDL_GetRGB(nativeColor, sdlPixelFormat, &r, &g, &b);
         return b;
     }
-    inline void SetColor(const T Color)
+    inline void SetColor(const T RetroColor)
     {
-        nativeColor = Color;
+        nativeColor = RetroColor;
     }
     inline void SetColor(const unsigned char R, const unsigned char G,
         const unsigned char B)
     {
-        //Platform-Dependant
+        //Platform-Dependent
         if(sdlPixelFormat)
             nativeColor = SDL_MapRGB(sdlPixelFormat, R, G, B);
         else
-            printf("Error: PixelFormat in Color is NULL\n");
+            printf("RetroColor pixelFormat in Color is NULL\n");
     }
     inline void SetColor(const unsigned char R, const unsigned char G,
         const unsigned char B, const unsigned char A)
     {
-        //Platform-Dependant
+        //Platform-Dependent
         if(sdlPixelFormat)
             nativeColor = SDL_MapRGBA(sdlPixelFormat, R, G, B, A);
         else
-            printf("Error: PixelFormat in Color is NULL\n");
+            printf("RetroColor pixelFormat in Color is NULL\n");
     }
     inline T GetColor() const
     {
@@ -81,27 +81,27 @@ public:
     }
 };
 
-//Platform-Dependant
+//Platform-Dependent
 template<class T>
-unsigned char Color<T>::r;
+unsigned char RetroColor<T>::r;
 template<class T>
-unsigned char Color<T>::g;
+unsigned char RetroColor<T>::g;
 template<class T>
-unsigned char Color<T>::b;
+unsigned char RetroColor<T>::b;
 
-class Color16 : public Color<unsigned short>
+class Color16 : public RetroColor<unsigned short>
 {
-    using Color::Color;
+    using RetroColor::RetroColor;
 };
 
-class Color32 : public Color<unsigned>
+class Color32 : public RetroColor<unsigned>
 {
-friend class GraphixEngine;
+friend class RetroGraphics;
 
 public:
-    using Color::Color;
+    using RetroColor::RetroColor;
     static Color32 Transparent;
 };
 
 
-#endif // COLOR_HPP
+#endif // RETRO_COLOR_HPP
