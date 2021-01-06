@@ -46,11 +46,9 @@ inline void BasicMapper::writeCPU(int address, unsigned char val){
 
 inline unsigned char BasicMapper::readPPU(int address){
 
-    if (address >= 0x3000)
-        address &= 0x2FFF;
-
     int mask1K = address >> 10;
-    io.ppuAddrBus = address;
+    if (address > 0x1FFF)
+        *io.ppuAddrBus = address & 0x2fff;
 
     switch (mask1K){
         case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
@@ -63,11 +61,10 @@ inline unsigned char BasicMapper::readPPU(int address){
 
 inline void BasicMapper::writePPU(int address, unsigned char val){
 
-    if (address >= 0x3000)
-        address &= 0x2FFF;
-
     int mask1K = address >> 10;
-    io.ppuAddrBus = address;
+
+    if (address > 0x1FFF)
+        *io.ppuAddrBus = address & 0x2fff;
 
     switch (mask1K){
         case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:

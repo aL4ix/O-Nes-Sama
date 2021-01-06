@@ -40,6 +40,7 @@ PPU::PPU(CPUIO &cio, MemoryMapper &m) : cpuIO(cio), mapper(m)
 {
     mapper.io.dbg.sl = &scanlineNum;
     mapper.io.dbg.tick = &ticks;
+    mapper.io.ppuAddrBus = &addressBus;
     //mapper.ppuStatus.tick = &ticks;
     //mapper.ppuStatus.isRendering = &isRendering;
     //mapper.setPPUChrMemPtr(chr);
@@ -206,7 +207,7 @@ void PPU::process(int cpuCycles)
             if(tickFuncs[ticks])
                 (this->*tickFuncs[ticks])();
         } else {
-
+            addressBus=loopy_v;
         }
 
         renderTick();
@@ -430,7 +431,8 @@ unsigned char PPU::read2007()
             loopy_v += 32;
         else
             loopy_v++;
-        mapper.readPPU(loopy_v);
+        //mapper.readPPU(loopy_v);
+        addressBus = loopy_v;
     }
     else
     {
@@ -448,8 +450,8 @@ unsigned char PPU::read2007()
     //if(postFetchAddr >= 0x3000)
         //postFetchAddr &= ~0x1000;
     buf2007 = intReadMemLean(postFetchAddr, !isRendering);
-    addressBus = postFetchAddr;
-    mapper.readPPU(postFetchAddr);
+
+    //mapper.readPPU(postFetchAddr);
     return generalLatch = retval; //Falta grayscale
 }
 
@@ -548,7 +550,7 @@ void PPU::write2006(unsigned char Value)
             //getchar();
 		} else {
             //addressBus = loopy_v;
-            mapper.readPPU(loopy_v);
+            //mapper.readPPU(loopy_v);
 		}
 
 
@@ -587,8 +589,8 @@ void PPU::write2007(unsigned char Value)
             loopy_v++;
 
         loopy_v &= 0x7FFF;
-        //addressBus = loopy_v;
-        mapper.readPPU(loopy_v);
+        addressBus = loopy_v;
+        //mapper.readPPU(loopy_v);
     }
     else
     {
@@ -656,7 +658,7 @@ void PPU::intWriteMem(unsigned short Address, unsigned char Value)
 
 unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
 {
-    addressBus = Address;
+    addressBus = Address & 0x3FFF;
     return mapper.readPPU(Address);
 }
 

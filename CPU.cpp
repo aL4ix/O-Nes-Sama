@@ -290,9 +290,9 @@ int CPU::run(const int cycles){
         unsigned localGeneralCount = generalCycleCount;
         #endif // DEBUG_PRECISETIMING
         if (isIntPendng){
-            interruptSequence();
+            interruptSequence(0);
             /*if (isIRQPending)
-                printf ("REAL: %d %d\n", ppu->scanlineNum, ppu->ticks);*/
+                printf ("REAL: %d %d\n", *mapper.io.dbg.sl, *mapper.io.dbg.tick);*/
         }
 
 		pageCrossed = false;
@@ -395,7 +395,7 @@ void CPU::pollForInterrupts(){
 
 void CPU::reset(){
     io.reset = 1;
-    interruptSequence(1);
+    interruptSequence(0);
     apu->reset();
     printf("\nReset: %X", regs.pc);
 }

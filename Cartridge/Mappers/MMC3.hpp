@@ -18,6 +18,7 @@ class MMC3 : public BasicMapper {
         void saveSRAM(FILE * batteryFile);
         void loadSRAM(FILE * batteryFile);*/
     protected:
+        int ppuA12;
         int oldPPUA12;
         int needsMCACC;
         //Registers

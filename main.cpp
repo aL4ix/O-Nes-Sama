@@ -138,6 +138,12 @@ int main(){
 
         //std::string romFileName   =  "games/MMC5/Shin 4 Nin Uchi Mahjong - Yakuman Tengoku (J) [!].nes";
 
+        //std::string romFileName   =  "/home/fuumarumota/Desktop/Jurassic Park (U) [!].nes";
+        //std::string romFileName   =  "/home/fuumarumota/Desktop/Mickey's Safari in Letterland (U) [!].nes";
+        //std::string romFileName   =  "/home/fuumarumota/Desktop/Incredible Crash Dummies, The (U) [!].nes";
+        std::string romFileName   =  "/home/fuumarumota/Desktop/Castlevania III - Dracula's Curse (U) [!].nes";
+
+        //std::string romFileName   =  "/home/fuumarumota/Desktop/Burai Fighter (U) [!].nes";
 
         //std::string romFileName   =  "games/allpads/allpads.nes";
         //std::string romFileName   =  "games/MMC5/Metal Slader Glory (Japan).nes";
