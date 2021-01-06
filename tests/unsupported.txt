@@ -1,0 +1,4 @@
+exram/*
+other/test28.nes
+other/firefly.nes
+other/Streemerz_bundle.nes
