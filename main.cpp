@@ -66,7 +66,7 @@ int main(){
         //std::string romFileName   = "games/cpu_exec_space/test_cpu_exec_space_apu.nes";
         //std::string romFileName   = "games/cpu_exec_space/test_cpu_exec_space_ppuio.nes";
 
-        std::string romFileName   = "games/UxROM/Contra.nes";
+        //std::string romFileName   = "games/UxROM/Contra.nes";
         //std::string romFileName   = "games/instr_timing/instr_timing.nes";
         //std::string romFileName   = "games/MMC4/Fire Emblem Gaiden (Japan).nes";
         //std::string romFileName   = "games/MMC4/Fire Emblem (Japan).nes";
@@ -141,7 +141,7 @@ int main(){
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Jurassic Park (U) [!].nes";
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Mickey's Safari in Letterland (U) [!].nes";
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Incredible Crash Dummies, The (U) [!].nes";
-        std::string romFileName   =  "/home/fuumarumota/Desktop/Castlevania III - Dracula's Curse (U) [!].nes";
+        //std::string romFileName   =  "/home/fuumarumota/Desktop/Castlevania III - Dracula's Curse (U) [!].nes";
 
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Burai Fighter (U) [!].nes";
 
@@ -150,7 +150,7 @@ int main(){
         //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
         //std::string romFileName   =  "games/Incredible Crash DummiesIncredible Crash Dummies, The (USA).nesC The (USA).nes";
         //std::string romFileName   =  "games/sprdma_and_dmc_dma.nes";
-        //std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
+        std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
         //std::string romFileName   =  "games/Overlord (U) [!].nes";
         //std::string romFileName   =  "games/Solstice - The Quest for the Staff of Demnos (U) [!].nes";
         //std::string romFileName   =  "games/Power Blade (U) [!].nes";
@@ -168,7 +168,7 @@ int main(){
         oNesSamaCore.setPushAudioSampleCallback(pushAudioSample);
 
         const double ZOOM = 2.0;
-        RetroGraphics retroGraphics(oNesSamaCore.getPPUInteralWidth(), oNesSamaCore.getPPUInteralWidth(), ZOOM);
+        RetroGraphics retroGraphics(oNesSamaCore.getPPUInteralWidth(), oNesSamaCore.getPPUInteralHeight(), ZOOM);
         {
             unsigned char* defaultPalette = oNesSamaCore.getDefaultPalette();
             retroGraphics.loadColorPaletteFromArray(defaultPalette);
