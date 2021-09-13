@@ -3,14 +3,20 @@
 
 #include "BasicMapper.hpp"
 
-class Mapper002 : public BasicMapper{
+class UxROM : public BasicMapper{
 
 public:
-    Mapper002(CartIO &ioRef);
+    UxROM(CartIO &ioRef);
     void writeCPU(int address, unsigned char val);
+    void saveState(FILE * file);
+    void loadState(FILE * file);
+protected:
+    int mask;
+    int bank;
+    void sync();
 };
 
-class Mapper071 : public BasicMapper{
+class Mapper071 : public UxROM{
 
 public:
     Mapper071(CartIO &ioRef);

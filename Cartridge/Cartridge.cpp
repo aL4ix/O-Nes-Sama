@@ -10,8 +10,10 @@
 #include "Mappers/MMC1.hpp"
 #include "Mappers/MMC2_4.hpp"
 #include "Mappers/MMC3.hpp"
+#include "Mappers/MMC5.hpp"
 
 using namespace std;
+std::string batteryPath   = "Battery";
 
 Cartridge::Cartridge(std::string fileName){
     romFileName = fileName;
@@ -110,13 +112,16 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
             mpr = new MMC1(io);
             break;
         case 2:
-            mpr = new Mapper002(io);
+            mpr = new UxROM(io);
             break;
         case 3:
-            mpr = new Mapper003(io);
+            mpr = new CNROM(io);
             break;
         case 4:
             mpr = new MMC3(io);
+            break;
+        case 5:
+            mpr = new MMC5(io);
             break;
         case 7:
             mpr = new Mapper007(io);
@@ -128,7 +133,7 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
             mpr = new Mapper011(io);
             break;
         case 66:
-            mpr = new Mapper066(io);
+            mpr = new GNROM(io);
             break;
         case 71:
             mpr = new Mapper071(io);
@@ -148,21 +153,11 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
         case 185:
             mpr = new Mapper185(io);
             break;
-        /*
         case 225:
-            mpr = new Mapper225(header);
-            break;*/
+            mpr = new Mapper225(io);
+            break;
     }
     return mpr;
-}
-
-bool Cartridge::loadState(FILE * file){
-//    return mapper->loadState(file);
-    return false;
-}
-
-void Cartridge::saveState(FILE * file){
-//    mapper->saveState(file);
 }
 
 std::string Cartridge::getBaseRomName(std::string tmpRomName){

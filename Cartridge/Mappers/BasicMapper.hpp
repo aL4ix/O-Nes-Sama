@@ -14,8 +14,12 @@ class BasicMapper : public MemoryMapper{
         inline void clockPPU() {};
         void loadSRAM(FILE * batteryFile) {}
         void saveSRAM(FILE * batteryFile) {}
+        void saveState(FILE * file);
+        void loadState(FILE * file);
         BasicMapper(CartIO &ioRef);
         ~BasicMapper();
+    protected:
+        unsigned char stateRegs[20]; //General purpose variables for save states.
 };
 
 
@@ -25,3 +29,4 @@ class Mapper000 : public BasicMapper{
 };
 
 #endif // MAPPER000_HPP_INCLUDED
+

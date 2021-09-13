@@ -326,8 +326,8 @@ switch (instData.opcode){
         rmw(&CPU::SRE, addr);
         break;
     case 0x58: //CLI
-        pollForInterrupts();
         read(regs.pc);
+        pollForInterrupts();
         CLI();
         break;
     case 0x59: //EOR ABSY

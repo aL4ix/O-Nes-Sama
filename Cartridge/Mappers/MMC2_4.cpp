@@ -6,12 +6,12 @@ MMC2::MMC2(CartIO & ioRef) : BasicMapper (ioRef){
 
     if (io.iNESHeader.mapperNo == 10){ // IF MMC4, emulate 8K of wRAM
         io.wRam = new unsigned char [0x2000];
-        io.switch8K(0, 0, io.wRam, io.wRamSpace);
+        io.swapPRGRAM(0, 1);
     }
 
-    io.switch8K(1, prgSizeMask - 2, io.prgBuffer, io.prgSpace);
-    io.switch8K(2, prgSizeMask - 1, io.prgBuffer, io.prgSpace);
-    io.switch8K(3, prgSizeMask, io.prgBuffer, io.prgSpace);
+    io.swapPRGROM(8, 1, prgSizeMask - 2, io.prgBuffer, 0);
+    io.swapPRGROM(8, 2, prgSizeMask - 1, io.prgBuffer, 0);
+    io.swapPRGROM(8, 3, prgSizeMask, io.prgBuffer, 0);
 }
 
 void MMC2::writeCPU(int address, unsigned char val){
@@ -19,10 +19,8 @@ void MMC2::writeCPU(int address, unsigned char val){
 
     switch (address >> 12){
         case 0xA:
-            if (io.iNESHeader.mapperNo == 9)
-                io.switch8K(0, val & 0xF, io.prgBuffer, io.prgSpace);
-            else if (io.iNESHeader.mapperNo == 10)
-                io.switch16K(0, val & 0xF, io.prgBuffer, io.prgSpace);
+            prgBank = val;
+            syncPRG();
             break;
         case 0xB: chrBanks[0] = val;
             break;
@@ -39,15 +37,22 @@ void MMC2::writeCPU(int address, unsigned char val){
     }
 }
 
+void MMC2::syncPRG(){
+    if (io.iNESHeader.mapperNo == 9)
+        io.swapPRGROM(8, 0, prgBank & 0xF, io.prgBuffer, 0);
+    else if (io.iNESHeader.mapperNo == 10)
+        io.swapPRGROM(16, 0, prgBank & 0xF, io.prgBuffer, 0);
+}
+
 void MMC2::syncCHR(){
     if (!latch[0])
-        io.switch4K(0,chrBanks[0] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 0, chrBanks[0] & chrSizeMask, io.chrBuffer);
     else
-        io.switch4K(0, chrBanks[1] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 0, chrBanks[1] & chrSizeMask, io.chrBuffer);
     if (!latch[1])
-        io.switch4K(1, chrBanks[2] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 1, chrBanks[2] & chrSizeMask, io.chrBuffer);
     else
-        io.switch4K(1, chrBanks[3] & chrSizeMask, io.chrBuffer, io.chrSpace);
+        io.swapCHR(4, 1, chrBanks[3] & chrSizeMask, io.chrBuffer);
 }
 
 void MMC2::setNTMirroring() {
@@ -72,10 +77,42 @@ unsigned char MMC2::readPPU(int address){
 }
 
 void MMC2::saveSRAM(FILE * batteryFile){
-    fwrite(io.wRam, 0x8000, 1, batteryFile);
+    fwrite(io.wRam, sizeof(unsigned char), 0x2000, batteryFile);
 }
 
 void MMC2::loadSRAM(FILE * batteryFile){
-    fread(io.wRam, 0x8000, 1, batteryFile);
+    fread(io.wRam, sizeof(unsigned char), 0x2000, batteryFile);
 }
 
+void MMC2::loadState(FILE * file){
+    fread(&prgBank  , sizeof(unsigned char *), 1, file);
+    fread(chrBanks  , sizeof(unsigned char)  , 4, file);
+    fread(&mirroring, sizeof(unsigned char *), 1, file);
+    fread(latch     , sizeof(unsigned char)  , 2, file);
+
+    if (io.wRam)
+        fread(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fread(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fread(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+
+    syncPRG();
+    syncCHR();
+    setNTMirroring();
+
+}
+
+void MMC2::saveState(FILE * file){
+
+    fwrite(&prgBank  , sizeof(unsigned char *), 1, file);
+    fwrite(chrBanks  , sizeof(unsigned char)  , 4, file);
+    fwrite(&mirroring, sizeof(unsigned char *), 1, file);
+    fwrite(latch     , sizeof(unsigned char)  , 2, file);
+
+    if (io.wRam)
+        fwrite(io.wRam, sizeof (unsigned char), 0x2000, file);
+    if (io.iNESHeader.chrSize8k == 0)
+        fwrite(io.chrBuffer, sizeof (unsigned char), 0x2000, file);
+    fwrite(io.ntSystemRam, sizeof (unsigned char), 0x800, file);
+
+}

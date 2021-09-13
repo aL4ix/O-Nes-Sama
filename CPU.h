@@ -2,25 +2,16 @@
 #define CPU_H_INCLUDED
 #include "Cartridge/Mappers/MemoryMapper.h"
 #include "Logging/CPULogger.h"
-
-#ifdef EIGHT_TUNES
-    #include "8Tunes/DummyInput.h"
-    #include "8Tunes/DummyPPU.h"
-#else
-    #include "Input.h"
-    #include "PPU.h"
-#endif // 8TUNES
-
+#include "Input.h"
+#include "PPU.h"
 #include "APU.h"
 #include "CPUIO.hpp"
-//#include "Cartridge/Cartridge.hpp"
 
 struct CpuStateData{
     unsigned char ram[0x800];
     bool isIntPendng;
     bool isNMIPending;
     bool isIRQPending;
-    //bool isSprDMAPending;
     Registers regs;
     ProcessorFlags flags;
     InstructionData instData;
@@ -151,10 +142,6 @@ class CPU : public CpuStateData {
         void TSX();
         void DEX();
         void NOP();
-
-    friend class NSFLoader;
-    friend int main();
-    friend class ONesSamaCore;
 };
 
 

@@ -3,46 +3,54 @@
 
 #include "BasicMapper.hpp"
 
-class Mapper003: public BasicMapper{
+class CNROM: public BasicMapper{
 
 public:
-    Mapper003(CartIO &ioRef);
+    CNROM(CartIO &ioRef);
     void writeCPU(int address, unsigned char val);
+    void saveState(FILE * file);
+    void loadState(FILE * file);
+protected:
+    unsigned char bank;
+    virtual void sync();
 };
 
-class Mapper087: public BasicMapper{
+class Mapper087: public CNROM{
 
 public:
     Mapper087(CartIO &ioRef);
     void writeCPU(int address, unsigned char val);
+
 };
 
-class Mapper101: public BasicMapper{
+class Mapper101: public CNROM{
 
 public:
     Mapper101(CartIO &ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper145: public BasicMapper{
+class Mapper145: public CNROM{
 
 public:
     Mapper145(CartIO &ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper149: public BasicMapper{
+class Mapper149: public CNROM{
 
 public:
     Mapper149(CartIO &ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper185: public BasicMapper{
+class Mapper185: public CNROM{
 
 public:
     Mapper185(CartIO &ioRef);
     void writeCPU(int address, unsigned char val);
+private:
+    unsigned char disabledCHR[0x2000] = {0xFF};
 };
 
 #endif // MAPPER003_HPP_INCLUDED

@@ -16,16 +16,9 @@ int addr = 0;
 bool pageCrossed = false; /*Used to detect a mem page cross causing extra cycles*/
 bool needsDummy = false; /*Used to determine if a dummy read is needed in W / RMW instructions*/
 int generalCycleCount = 0;
-bool isDMAPending = false;
+
 
 CPU::CPU(MemoryMapper &m) : mapper(m){
-
-    cycleCount = 0;
-    addr = 0;
-    pageCrossed = false; /*Used to detect a mem page cross causing extra cycles*/
-    needsDummy = false; /*Used to determine if a dummy read is needed in W / RMW instructions*/
-    generalCycleCount = 0;
-    isDMAPending = false;
 
     //mapper.setCPUCartSpaceMemPtr(cpuCartSpace);
     /*mapper.io.cpuIRQLine = &ints.irq;
@@ -47,10 +40,10 @@ CPU::CPU(MemoryMapper &m) : mapper(m){
     instData.opcode = 0;
     instData.generalCycleCount = 0;
     io.nmi = 0;
+    io.nmi_last = 0;
     io.irq = 0;
     io.reset = 0;
     isNMIPending = false;
-    isIntPendng = false;
     controller = new Input;
     controller->cpuIO = &io;
     apu = new APU(io);
@@ -68,11 +61,13 @@ CPU::CPU(MemoryMapper &m) : mapper(m){
 
 unsigned char CPU::read(int addr){
     unsigned char ret = -1;
+    io.wr = 0;
+    io.addressBus = addr;
 
-
-    mapper.clockCPU();
     ppu->process(1);
     apu->process(1);
+    mapper.clockCPU();
+
     /*Increase cycle count*/
     cycleCount ++;
     generalCycleCount++;
@@ -86,7 +81,6 @@ unsigned char CPU::read(int addr){
         else {
             ret = apu->readMem(addr);
         }
-
     }
 
 
@@ -105,47 +99,57 @@ unsigned char CPU::read(int addr){
                 break;
         }
     }
-    io.addressBus = addr;
+
     io.dataBus = ret;
     return ret;
+
 }
 
 unsigned char CPU::readCode(int addr){
-    switch(addr >> 12){
-        case 0: case 1:
-            return ram[addr & 0x7FF]; //Masked with 0x7FF to handle ram mirrors
-        case 4: /* APU & General I/O */
-            switch (addr & 0x3F){
-                case 0x00: case 0x01: case 0x02: case 0x03: case 0x04: case 0x05: case 0x06: case 0x07:
-                case 0x08: case 0x09: case 0x0A: case 0x0B: case 0x0C: case 0x0D: case 0x0E: case 0x0F:
-                case 0x10: case 0x11: case 0x12: case 0x13: case 0x14: case 0x18: case 0x19: case 0x1A:
-                case 0x1B: case 0x1C: case 0x1D: case 0x1E: case 0x1F:
-                    /* Return Open Bus, because there are not readable registers mapped here*/
-                    return (addr & 0xFF00) >> 8;
-                case 0x15:
-                    /* PUT APU READ HERE */
-                    return apu->readMem(addr);
-                case 0x16: case 0x17:
-                    return controller->read(addr);
-            }
-        case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:
-        case 12: case 13: case 14: case 15:
-            return mapper.readCPU(addr);
-        case 2: case 3:
-            return ppu->readMem(addr);
+    unsigned char ret = -1;
+
+    if ((addr >= 0x4000) && (addr <= 0x401F)) //APU's only read register
+    {
+        if ((addr == 0x4016) || (addr == 0x4017))
+        {
+            ret = controller->read(addr); //Controller input regs.
+        }
+        else {
+            ret = apu->readMem(addr);
+        }
     }
-    return -1;
+    else
+    {
+        switch(addr >> 12){
+            case 0: case 1:
+                ret = ram[addr & 0x7FF]; //Masked with 0x7FF to handle ram mirrors
+                break;
+            case 2: case 3: //PPU regs
+                ret = ppu->readMem(addr);
+                break;
+            case 4: case 5:  case 6:  case 7:  case 8: case 9: case 10: case 11:
+            case 12: case 13: case 14: case 15:
+                ret = mapper.readCPU(addr);
+                break;
+        }
+    }
+
+    //io.addressBus = addr;
+    //io.dataBus = ret;
+
+    return ret;
 }
 
 void CPU::write(int addr, unsigned char val){
     /*Increase cycle count*/
     cycleCount ++;
     generalCycleCount++;
-    mapper.clockCPU();
-    ppu->process(1);
-    apu->process(1);
     io.addressBus = addr;
     io.dataBus = val;
+    io.wr = 1;
+    ppu->process(1);
+    apu->process(1);
+    mapper.clockCPU();
 
     if ((addr >= 0x4000) && (addr <= 0x401F)) //APU's only read register
     {
@@ -156,11 +160,13 @@ void CPU::write(int addr, unsigned char val){
 
         else if (addr == 0x4014) //Sprite DMA
         {
-            if (generalCycleCount & 1)
+            if ((generalCycleCount % 2) == 0)
                 read(addr);
             read(addr);
+            //ppu->process(1);
             for (int i = 0; i < 256; i++){
                 write(0x2004, read((val << 8) + i));
+                //ppu->writeMem(0x2004,readCode((val << 8) + i));
             }
         }
 
@@ -186,6 +192,7 @@ void CPU::write(int addr, unsigned char val){
                 break;
         }
     }
+
 }
 
 void CPU::setPPUPtr(PPU * p){
@@ -273,28 +280,23 @@ int CPU::getAddress(int addrMode){
 /* Main instructions execution loop                                                        */
 /*******************************************************************************************/
 
-int CPU::run(const int cycles){
+int CPU::run(int cycles){
 	isRunning = true;
     int cyclesRemain = cycles;
-    #ifdef DEBUG_PRECISETIMING
-    unsigned totalSum = 0;
-    #endif // DEBUG_PRECISETIMING
 
     if (isPaused){
         return 0;
     }
 
     while ((cyclesRemain > 0) && (isRunning)){
-        cycleCount = 0;
-        #ifdef DEBUG_PRECISETIMING
-        unsigned localGeneralCount = generalCycleCount;
-        #endif // DEBUG_PRECISETIMING
+
         if (isIntPendng){
             interruptSequence(0);
             /*if (isIRQPending)
-                printf ("REAL: %d %d\n", *mapper.io.dbg.sl, *mapper.io.dbg.tick);*/
+                printf ("REAL: %d %d\n", ppu->scanlineNum, ppu->ticks);*/
         }
 
+        cycleCount = 0;
 		pageCrossed = false;
 		needsDummy = false;
 
@@ -308,27 +310,10 @@ int CPU::run(const int cycles){
         regs.pc++;
 
         #include "opcodes.inc"
-
-        #ifdef DEBUG_PRECISETIMING
-        if((generalCycleCount-localGeneralCount) != cycleCount)
-        {
-            printf("HEY\n");
-        }
-        totalSum += cycleCount;
-        #endif // DEBUG_PRECISETIMING
-
+        //mapper.clockCPU();
         cyclesRemain -= cycleCount;
         instData.generalCycleCount = generalCycleCount;
     }
-
-    #ifdef DEBUG_PRECISETIMING
-    if(totalSum != cycles-cyclesRemain)
-    {
-        printf("NEL");
-        printf(" ts:%u s:%d cr:%d\n", totalSum, cycles, cyclesRemain);
-    }
-    #endif // DEBUG_PRECISETIMING
-
     return cyclesRemain;
 }
 
@@ -358,16 +343,20 @@ inline void CPU::interruptSequence(int brk){
     }
 
     //Select Interrupt Vector
-    if (io.irq || brk){
-        vec = 0xFFFE;
-        brk = 0;
+    if (io.reset){
+        vec = 0xFFFC;
+        io.reset = 0;
     }
     if (io.nmi){
         vec = 0xFFFA;
+        io.nmi = 0;
+        isIRQPending = 0;
+        brk = 0;
     }
-
-    if (io.reset)
-        vec = 0xFFFC;
+    if (isIRQPending || brk){
+        vec = 0xFFFE;
+        brk = 0;
+    }
 
     if (!io.reset)
         write(0x100 + (regs.sp--), pVal); //Store P
@@ -377,18 +366,11 @@ inline void CPU::interruptSequence(int brk){
     regs.p |= flags.I_FLAG;
     regs.pc = read(vec);
     regs.pc |= ((read(vec + 1)) << 8);
-    io.reset = 0;
-    io.nmi = 0;
-    io.irq = 0;
+
 }
 
 void CPU::pollForInterrupts(){
     isIRQPending = (!(regs.p & flags.I_FLAG) && io.irq);
-    if (isIRQPending && io.nmi)
-    {
-        printf ("\nIRQ Forgotten...");
-        io.irq=0;
-    }
     isIntPendng =  io.reset || io.nmi || isIRQPending;
 
 }

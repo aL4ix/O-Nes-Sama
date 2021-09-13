@@ -14,12 +14,13 @@ class MMC2 : public BasicMapper {
         void inline clockPPU() {}
         void loadSRAM(FILE * batteryFile);
         void saveSRAM(FILE * batteryFile);
-        //bool loadState(FILE * file);
-        //void saveState(FILE * file);
+        void loadState(FILE * file);
+        void saveState(FILE * file);
 
     protected:
         int prgSizeMask;
         int chrSizeMask;
+        void syncPRG();
         void syncCHR();
         unsigned char prgBank;
         unsigned char chrBanks[4];

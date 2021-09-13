@@ -4,7 +4,11 @@
 #include "../CPUIO.hpp"
 
 struct debug{
-    int * isRendering;
+    bool * isRendering;
+    bool isFetchingBGTile;
+    unsigned char * reg2000;
+    unsigned char * reg2001;
+    unsigned char * atColor;
     int * tick;
     int * sl;
 };
@@ -40,70 +44,79 @@ struct CartIO {
     struct CPUIO * cpuIO;
 
     //Memory buffers
-    unsigned char ntSystemRam[0x800] = {0xFF};
+    unsigned char ntSystemRam[0x800];
     unsigned char * prgBuffer;
     unsigned char * chrBuffer;
     unsigned char * wRam;
 
     /*Pointers for handling bank switching*/
     unsigned char * prgSpace[32];
-    unsigned char * wRamSpace[8];
+    unsigned char * wRamSpace;
     unsigned char * chrSpace[8];
     unsigned char * ntSpace[4];
 
-    /*Bank Switching Functions*/
+    /*PRG Bank Switching Functions*/
 
-    inline void switch1K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
-        space[offset] = &memBuffer[outer + memBank * 0x400];
-    }
-
-    inline void switch2K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
-        memBank <<= 1;
-        offset <<= 1;
-        for (int i=0; i < 2; i++){
-            space[offset + i] = &memBuffer[outer + (memBank + i) * 0x400];
+    inline void swapPRGROM (int size, int offset, int bank, unsigned char * buffer, int wr=0){
+        int shift = 0;
+        switch (size){
+            case 2:  shift = 1;  break;
+            case 4:  shift = 2;  break;
+            case 8:  shift = 3;  break;
+            case 16: shift = 4; break;
+            case 32: shift = 5; break;
         }
-    }
 
-    inline void switch4K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
-        memBank <<= 2;
-        offset <<= 2;
-        for (int i=0; i < 4; i++){
-            space[offset + i] = &memBuffer[outer + (memBank + i) * 0x400];
+        if (shift == 0){
+            prgSpace[offset] = &buffer[(bank * 0x400)];
+        } else {
+            bank <<= shift;
+            offset <<= shift;
+
+            for (int i=0; i < size; i++){
+                prgSpace[offset + i] = &buffer[(bank + i) * 0x400];
+            }
         }
+
+        prgWritable = wr;
     }
 
+    inline void swapPRGRAM (int bank, int wr=0){
+        wRamSpace = &wRam[bank * 0x2000];
+        wRamWritable = wr;
+    }
 
-    inline void switch8K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
-        memBank <<= 3;
+    inline void swapPRGRAMx (int offset, int bank, int wr=0){
+        bank <<= 3;
         offset <<= 3;
 
         for (int i=0; i < 8; i++){
-            space[offset + i] = &memBuffer[outer + (memBank + i) * 0x400];
-        }
-    }
-
-    inline void switch16K (int offset, int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0)
-    {
-        memBank <<= 4;
-        offset <<= 4;
-        for (int i=0; i < 16; i++){
-            space[offset + i] = &memBuffer[outer + (memBank + i) * 0x400];
+            prgSpace[offset + i] = &wRam[(bank + i) * 0x400];
         }
 
+        //prgSpace[offset] = wRamSpace;
+        //wRamSpace = &wRam[bank * 0x2000];
+        prgWritable = 1;
     }
 
-    inline void switch32K (int memBank, unsigned char * memBuffer, unsigned char ** space, int outer=0){
-
-        memBank <<= 5;
-        for (int i=0; i < 32; i++){
-            space[i] = &memBuffer[outer + (memBank + i) * 0x400];
+    inline void swapCHR (int size, int offset, int bank, unsigned char * buffer, int wr=0){
+        int shift = 0;
+        switch (size){
+            case 2: shift = 1;  break;
+            case 4: shift = 2;  break;
+            case 8: shift = 3;  break;
         }
-    }
 
-    inline void setOuter256KBank (int memBank){
+        if (shift == 0){
+            chrSpace[offset] = &buffer[(bank * 0x400)];
+        } else {
+            bank <<= shift;
+            offset <<= shift;
 
-
+            for (int i=0; i < size; i++){
+                chrSpace[offset + i] = &buffer[(bank + i) * 0x400];
+            }
+        }
     }
 
     /*NT mirroring functions*/
