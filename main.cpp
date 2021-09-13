@@ -92,7 +92,7 @@ int main(){
         //std::string romFileName   =  "games/MMC3/Bart vs. the World (USA).nes";
 
 
-        //std::string romFileName = "games/mmc3_test_2/rom_singles/5-MMC3.nes";
+        std::string romFileName = "games/MMC3/1-clocking.nes";
 
         //std::string romFileName   =  "games/Mapper225/64-in-1 (J).nes";
         //std::string romFileName   =  "games/CNROM/B-Wings (J).nes";
@@ -150,7 +150,7 @@ int main(){
         //std::string romFileName   =  "games/MMC5/mmc5exram.nes";
         //std::string romFileName   =  "games/Incredible Crash DummiesIncredible Crash Dummies, The (USA).nesC The (USA).nes";
         //std::string romFileName   =  "games/sprdma_and_dmc_dma.nes";
-        std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
+        //std::string romFileName   =  "games/Jurassic Park (U) [!].nes";
         //std::string romFileName   =  "games/Overlord (U) [!].nes";
         //std::string romFileName   =  "games/Solstice - The Quest for the Staff of Demnos (U) [!].nes";
         //std::string romFileName   =  "games/Power Blade (U) [!].nes";
