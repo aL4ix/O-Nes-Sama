@@ -239,7 +239,7 @@ void APU::write4010(unsigned char Value)
     else
     {
         irqEnableDMC = false;
-        cpuIO.irq = 0;
+        //cpuIO.irq = 0;
         irqDMC = false;
     }
 
@@ -369,7 +369,7 @@ void APU::process(unsigned cpuCycles)
                 processMode1();
             else
                 processMode0();
-            cpuIO.irq = (int)irqFrameCounter;
+            cpuIO.irq = (int)(irqFrameCounter | irqDMC);
         }
         if(halfCyclesUntilNextDMC > 0)
         {

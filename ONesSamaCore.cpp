@@ -8,6 +8,7 @@ ONesSamaCore::ONesSamaCore() :
     ppu(nullptr),
     pendCycles(0)
 {
+
 }
 
 bool ONesSamaCore::loadCartridge(std::string romFileName)

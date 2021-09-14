@@ -431,8 +431,9 @@ unsigned char PPU::read2007()
             loopy_v += 32;
         else
             loopy_v++;
-        mapper.readPPU(loopy_v);
+        //mapper.readPPU(loopy_v);
         addressBus = loopy_v;
+        mapper.clockPPU();
     }
     else
     {
@@ -447,11 +448,10 @@ unsigned char PPU::read2007()
         retval = buf2007;
     }
 
-    //if(postFetchAddr >= 0x3000)
-        //postFetchAddr &= ~0x1000;
+    if(postFetchAddr >= 0x3000)
+        postFetchAddr &= ~0x1000;
     buf2007 = intReadMemLean(postFetchAddr, !isRendering);
 
-    //mapper.readPPU(postFetchAddr);
     return generalLatch = retval; //Falta grayscale
 }
 
@@ -459,20 +459,20 @@ void PPU::write2000(unsigned char Value)
 {
     if(isRendering)
         //printf("2002: %x\n", Value);
-    if((Value & 0x80) && !(reg2000 & 0x80) && (reg2002 & 0x80)){
-        printf ("\nTrigger: %d, %d", ticks, scanlineNum);
+    if((Value & 0x80) && (reg2002 & 0x80) && !(reg2000 & 0x80)){
         triggerNMI();
+        //printf ("\nTrigger: %d, %d", ticks, scanlineNum);
     }
     //RC
     if(!(Value & 0x80) && scanlineNum == 241 && ticks < 3)
         clearNMI();
 
-    /*if (scanlineNum == -1 && ticks <= 1)
-        clearNMI();*/
+    if (scanlineNum == -1 && ticks <= 1)
+        clearNMI();
 
     loopy_t = (loopy_t & 0x73FF) | (Value & 3) << 10;
     reg2000 = Value;
-    printf("2000: %x, Value: %x\n", reg2000 & 0x80, Value & 0x80);
+    //printf("2000: %d\n", reg2000 & 0x18);
 }
 
 void PPU::write2001(unsigned char Value)
@@ -549,8 +549,8 @@ void PPU::write2006(unsigned char Value)
             //printf("\nMFV: %X %d,%d\n", loopy_v, scanlineNum, ticks);
             //getchar();
 		} else {
-            //addressBus = loopy_v;
-            //mapper.readPPU(loopy_v);
+            addressBus = loopy_v;
+            mapper.clockPPU();
 		}
 
 
@@ -590,7 +590,7 @@ void PPU::write2007(unsigned char Value)
 
         loopy_v &= 0x7FFF;
         addressBus = loopy_v;
-        //mapper.readPPU(loopy_v);
+        mapper.clockPPU();
     }
     else
     {
@@ -658,14 +658,17 @@ void PPU::intWriteMem(unsigned short Address, unsigned char Value)
 
 unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
 {
-    addressBus = Address & 0x3FFF;
-    return mapper.readPPU(Address);
+    Address &= 0x3FFF;
+    unsigned char ret = mapper.readPPU(Address);
+    mapper.clockPPU();
+    return ret;
 }
 
 void PPU::intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus)
 {
     Address &= 0x3FFF;
-    addressBus = Address;
+    //addressBus = Address;
+    mapper.clockPPU();
     mapper.writePPU(Address, Value);
 }
 
@@ -776,6 +779,8 @@ void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
     //                      x / 2             y / 2        * 2
     const int palSubNum = ((x >> 1) % 2) + (((y >> 1) % 2) << 1);
     //const unsigned char at = intReadMem(0x23C0 | (loopy_v & 0x0C00) | ((loopy_v >> 4) & 0x38) | ((loopy_v >> 2) & 0x07));
+    //const unsigned char at = intReadMem(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
+    addressBus = intReadMem(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
     const unsigned char at = intReadMem(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
     curPalette = at >> (2 * palSubNum);
     curPalette &= 0x03;
@@ -958,17 +963,28 @@ void PPU::spriteEvaluationBackRend()
 
 void PPU::spriteEvaluationTileLoading()
 {
-    oamAddress = 0;
 
+    oamAddress = 0;
     //Garbage fetches - Quick and dirty (probably wrong as hell)
     switch (ticks){
+        case 257: case 265: case 273: case 281: case 289: case 297: case 305: case 313:
+            tickFetchNT();
+            break;
+        case 259: case 267: case 275: case 283: case 291: case 299: case 307: case 315:
+            tickFetchNT();
+            break;
+    }
+
+
+    //Garbage fetches - Quick and dirty (probably wrong as hell)
+    /*switch (ticks){
         case 257: case 265: case 273: case 281: case 289: case 297: case 305:
             tickFetchNT();
             break;
         case 259: case 267: case 275: case 283: case 291: case 299: case 307:
             tickFetchAT();
             break;
-    }
+    }*/
 }
 
 void PPU::spriteEvaluationOdd()

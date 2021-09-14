@@ -105,7 +105,7 @@ int main(){
         //std::string romFileName = "games/PPU/10-even_odd_timing.nes";
 
 
-        std::string romFileName = "games/CPU/1-cli_latency.nes"; //FAILS
+        //std::string romFileName = "games/CPU/1-cli_latency.nes"; //FAILS
 
         //std::string romFileName   =  "games/Mapper225/64-in-1 (J).nes";
         //std::string romFileName   =  "games/CNROM/B-Wings (J).nes";
@@ -115,9 +115,11 @@ int main(){
         //std::string romFileName   =  "games/dpcmletterbox.nes";
         //std::string romFileName   =  "games/MMC3/Rollerblade Racer (USA).nes";
         //std::string romFileName   =  "games/MMC3/Startropics (USA).nes";
-        //std::string romFileName   =  "games/MMC3/Mickey's Safari in Letterland (U) [!].nes";
+        //std::string romFileName   =  "games/CPU/3-nmi_and_irq.nes";
         //std::string romFileName   =  "games/MMC3/Mickey's Adventure in Numberland (USA).nes";
-        //std::string romFileName   =  "games/MMC3/Burai Fighter (USA).nes";
+        std::string romFileName   =  "games/MMC3/2-details.nes";
+        //std::string romFileName   =  "games/NROM/Donkey Kong (U) (PRG1) [!].nes";
+
         //std::string romFileName   =  "games/MMC3/Incredible Crash Dummies, The (USA).nes";
         //std::string romFileName   =  "games/MMC3/G.I. Joe - A Real American Hero (USA).nes";
         //std::string romFileName   =  "games/MMC3/chuchu.nes";
@@ -177,8 +179,7 @@ int main(){
 
 
         ONesSamaCore oNesSamaCore;
-        oNesSamaCore.loadCartridge(romFileName);
-        oNesSamaCore.setPushAudioSampleCallback(pushAudioSample);
+
 
         const double ZOOM = 2.0;
         RetroGraphics retroGraphics(oNesSamaCore.getPPUInteralWidth(), oNesSamaCore.getPPUInteralHeight(), ZOOM);
@@ -187,6 +188,9 @@ int main(){
             retroGraphics.loadColorPaletteFromArray(defaultPalette);
             delete [] defaultPalette;
         }
+
+        oNesSamaCore.loadCartridge(romFileName);
+        oNesSamaCore.setPushAudioSampleCallback(pushAudioSample);
         RetroInput retroInput;
         oNesSamaCore.reset();
 

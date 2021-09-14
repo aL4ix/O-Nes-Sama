@@ -7,7 +7,7 @@ int mcacc_cnt = -1;
 int edge_latch = 0;
 int edge_latch_l = 0;
 bool preesc_l, preesc = false;
-
+int cyclesToIgnore = 4;
 
 MMC3::MMC3(CartIO & ioRef) : BasicMapper (ioRef){
 
@@ -72,9 +72,8 @@ void MMC3::writeCPU(int addr, unsigned char val){
             if (addr & 1){
                 irqCounter = 0;
                 irqReload = 1;
-                edges_m=0;
+                //edges_m=0;
                 //mcacc_cnt = 0;
-
             }
             else{
                 irqLatch = val;
@@ -131,14 +130,15 @@ void MMC3::setNTMirroring(){
 }
 
 void inline MMC3::clockCPU(){
-
+    ppuA12 = (*io.ppuAddrBus >> 12) & 1;
 
     if (!ppuA12)
         edgeCount++;
-    if (edgeCount == cycleDelay){
+
+    /*if (edgeCount == cycleDelay){
         edge_latch_l = edge_latch;
         edge_latch = 0;
-    }
+    }*/
 }
 
 void inline MMC3::clockPPU(){
@@ -146,39 +146,22 @@ void inline MMC3::clockPPU(){
     oldPPUA12 = ppuA12;
     ppuA12 = (*io.ppuAddrBus >> 12) & 1;
 
+    bool edgeCondition = 0;
+
     if (needsMCACC){
-
-        if (oldPPUA12 && !ppuA12) {
-
-            mcacc_cnt = edges_m % 8;
-            edges_m ++;
-
-            if (mcacc_cnt == 0){
-                edge_latch_l = edge_latch;
-                edge_latch = 0;
-            } else {
-                edge_latch_l = edge_latch;
-                edge_latch = 1;
-            }
-
-            if (!edge_latch_l && edge_latch) {
-                clockIRQCounter();
-            }
-        }
-
+        edgeCondition = oldPPUA12 && !ppuA12;
+    } else {
+        edgeCondition = !oldPPUA12 && ppuA12;
     }
-    else {
 
-        if (!oldPPUA12 && ppuA12) {
-            edgeCount = 0;
-            edge_latch_l = edge_latch;
-            edge_latch = 1;
+    if (edgeCondition){
 
-            if (edge_latch_l == 0 && edge_latch == 1){
-                //printf ("\nClocked MAPPER: %03d %03d %03d 0x%04x", edgeCount, *io.dbg.sl, *io.dbg.tick, *io.ppuAddrBus);
-                clockIRQCounter();
-            }
+        if (edgeCount > cyclesToIgnore){
+            clockIRQCounter();
         }
+
+        edgeCount = 0;
+
     }
 }
 
@@ -186,10 +169,9 @@ inline void MMC3::clockIRQCounter(){
 
 
     //New Behavior
-   /*if ((irqReload) || (irqCounter == 0)){
+   if ((irqReload) || (irqCounter == 0)){
         irqCounter = irqLatch;
         irqReload = 0;
-        //edges_m=0;
     } else {
         irqCounter --;
     }
@@ -199,11 +181,11 @@ inline void MMC3::clockIRQCounter(){
         if (irqEnable){
             io.cpuIO->irq = 1;
         }
-    }*/
+    }
 
 
     //Old behavior
-    int lst_cnt = 0;
+    /*int lst_cnt = 0;
 
     if (irqReload && irqLatch == 0){
             io.cpuIO->irq = 1;
@@ -222,7 +204,7 @@ inline void MMC3::clockIRQCounter(){
         if (irqEnable){
             io.cpuIO->irq = 1;
         }
-    }
+    }*/
 
 }
 
