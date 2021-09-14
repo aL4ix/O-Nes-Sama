@@ -39,12 +39,12 @@ class CPU : public CpuStateData {
 		void pollForInterrupts();
 		void saveState (FILE * file);
 		bool loadState (FILE * file);
+		APU *apu;
+		Input * controller;
 
 	private:
         MemoryMapper &mapper;
-        Input * controller;
         PPU * ppu;
-        APU * apu;
         //Cartridge &cart;
 		typedef void (CPU::*rmwOp)(unsigned char &); //RMW operation function type
 		typedef void (CPU::*rdOp)(unsigned char); //Read operation function type

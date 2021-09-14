@@ -81,6 +81,8 @@ unsigned char CPU::read(int addr){
         else {
             ret = apu->readMem(addr);
         }
+
+        printf ("READ APU ADDR: %x\n", addr);
     }
 
 
@@ -173,6 +175,7 @@ void CPU::write(int addr, unsigned char val){
         else //APU Write
         {
             apu->writeMem(addr, val);
+            printf ("WRITE APU ADDR: %x\n", addr);
         }
     }
 
@@ -292,8 +295,6 @@ int CPU::run(int cycles){
 
         if (isIntPendng){
             interruptSequence(0);
-            /*if (isIRQPending)
-                printf ("REAL: %d %d\n", ppu->scanlineNum, ppu->ticks);*/
         }
 
         cycleCount = 0;

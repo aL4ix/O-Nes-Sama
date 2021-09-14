@@ -6,17 +6,14 @@
 #include <cstring>
 
 #include "CPUIO.hpp"
-#include "RetroGraphix/GraphixEngine.hpp"
-#include "RetroGraphix/Texture.hpp"
-#include "RetroGraphix/Color.hpp"
-#include "RetroGraphix/Sprite.hpp"
+#include "RetroEmu/RetroColor.hpp"
 #include "Debugger/Breakpoint.h"
 #include "Cartridge/Cartridge.hpp"
 #include "Logging/Logger.h"
 
 class PPU_State
 {
-friend class Debugger;
+    friend class Debugger;
 
 protected:
     int scanlineNum;
@@ -67,7 +64,7 @@ protected:
 
 class PPU : public PPU_State
 {
-friend class Debugger;
+    friend class Debugger;
 
 public:
     PPU(struct CPUIO &cio, MemoryMapper &m);
@@ -80,12 +77,12 @@ public:
     void powerOn();
     void saveState(FILE* File);
     bool loadState(FILE* File);
-    //bool loadColorPaletteFromFile(const char* FileName);
-    bool loadColorPaletteFromArray(const unsigned char* Palette);
+    unsigned char* getPalettedFrameBuffer();
+    unsigned char* getDefaultPalette();
 
-    //unsigned char ** ppuCartSpace[16];
-    //unsigned char ** getChr();
-    //unsigned char ** getNametables();
+    static constexpr unsigned INTERNAL_WIDTH = 256;
+    static constexpr unsigned INTERNAL_HEIGHT = 240;
+    static constexpr unsigned INTERNAL_FPS = 60;
 
     Logger logger;
 
@@ -121,9 +118,8 @@ private:
     void renderTick();
 
     //RENDERING
-    Color32 framebuffer[240*256];
-    Sprite back;
-    Texture tex;
+    bool frameBufferReady = false;
+    unsigned char palettedFrameBuffer[240*256];
 
     void loadPaletteFromAttributeTable(const unsigned short NtPos);
     void loadSetOf4Colors(const int Pal);
@@ -133,8 +129,8 @@ private:
     void generateCHR(Color32 chrImage[64], const unsigned char Tile, const unsigned char Palette, const bool SubBank);
 
     //GFX
-    GraphixEngine gfx;
-    Color32 colorPalette[64];
+    //RetroGraphics gfx;
+
     Color32 setOf4ColorsPalette[4];
 
     //Other

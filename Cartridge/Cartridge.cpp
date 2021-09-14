@@ -120,9 +120,6 @@ MemoryMapper * Cartridge::createMapper(int mapperNo){
         case 4:
             mpr = new MMC3(io);
             break;
-        case 5:
-            mpr = new MMC5(io);
-            break;
         case 7:
             mpr = new Mapper007(io);
             break;

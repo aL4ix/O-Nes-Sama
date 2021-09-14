@@ -101,7 +101,7 @@ void ONesSamaCore::saveState()
 {
     FILE * file = fopen (saveStatePath.c_str(), "wb");
     if (file != NULL){
-        cart->saveState(file);
+        cart->mapper->saveState(file);
         cpu->saveState(file);
         ppu->saveState(file);
         fclose(file);
@@ -115,7 +115,7 @@ void ONesSamaCore::loadState()
 {
     FILE * file = fopen (saveStatePath.c_str(), "rb");
     if (file != NULL){
-        cart->loadState(file);
+        cart->mapper->loadState(file);
         cpu->loadState(file);
         ppu->loadState(file);
         printf("\nLoaded state \"%s\"", saveStatePath.c_str());

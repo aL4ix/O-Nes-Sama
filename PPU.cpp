@@ -1,7 +1,5 @@
 #include "PPU.h"
 
-int ppuA12;
-int oldPpuA12;
 /*
 Every cc is a ppu cc, a cpu cc is noted as cpucc
 for NTSC 3 cc's are 1 cpucc
@@ -38,32 +36,25 @@ unsigned char reverse(unsigned char b) {
    return b;
 }
 
-const double ZOOM = 2.0;
-unsigned short oldAddressBus;
-
-
-
-PPU::PPU(CPUIO &cio, MemoryMapper &m) : gfx(256*ZOOM, 240*ZOOM), cpuIO(cio), mapper(m)
+PPU::PPU(CPUIO &cio, MemoryMapper &m) : cpuIO(cio), mapper(m)
 {
     mapper.io.dbg.sl = &scanlineNum;
     mapper.io.dbg.tick = &ticks;
     mapper.io.ppuAddrBus = &addressBus;
-    mapper.io.dbg.isRendering = &isRendering;
     //mapper.ppuStatus.tick = &ticks;
     //mapper.ppuStatus.isRendering = &isRendering;
     //mapper.setPPUChrMemPtr(chr);
     //mapper.setPPUNTMemPtr(nametable);
-    const unsigned char defaultPalette[] = {70, 70, 70, 0, 6, 90, 0, 6, 120, 2, 6, 115, 53, 3, 76, 87, 0, 14, 90, 0, 0, 65, 0, 0, 18, 2, 0, 0, 20, 0, 0, 30, 0, 0, 30, 0, 0, 21, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 157, 157, 0, 74, 185, 5, 48, 225, 87, 24, 218, 159, 7, 167, 204, 2, 85, 207, 11, 0, 164, 35, 0, 92, 63, 0, 11, 88, 0, 0, 102, 0, 0, 103, 19, 0, 94, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 31, 158, 255, 83, 118, 255, 152, 101, 255, 252, 103, 255, 255, 108, 179, 255, 116, 102, 255, 128, 20, 196, 154, 0, 113, 179, 0, 40, 196, 33, 0, 200, 116, 0, 191, 208, 43, 43, 43, 0, 0, 0, 0, 0, 0, 254, 255, 255, 158, 213, 255, 175, 192, 255, 208, 184, 255, 254, 191, 255, 255, 192, 224, 255, 195, 189, 255, 202, 156, 231, 213, 139, 197, 223, 142, 166, 230, 163, 148, 232, 197, 146, 228, 235, 167, 167, 167, 0, 0, 0, 0, 0, 0};
-    loadColorPaletteFromArray(defaultPalette);
     powerOn();
     reset();
 
     //GFX
-    back.MoveTo(0, 0);
+    //gfx.Init(256, 240, ZOOM);
+    /*back.MoveTo(0, 0);
     tex.Create(256, 240);
     back.SetTexture(tex);
     back.SetWidth(256*ZOOM);
-    back.SetHeight(240*ZOOM);
+    back.SetHeight(240*ZOOM);*/
 
     //DEBUGGER
     debugProcess = nullptr;
@@ -125,6 +116,7 @@ PPU::PPU(CPUIO &cio, MemoryMapper &m) : gfx(256*ZOOM, 240*ZOOM), cpuIO(cio), map
         spriteFuncs[i] = &PPU::spriteEvaluationTileLoading;
     for(int i=321; i<=340; i++)
         spriteFuncs[i] = &PPU::spriteEvaluationBackRend;
+    //tickFuncs[255] = &PPU::tick255;
 }
 
 PPU::~PPU()
@@ -149,7 +141,6 @@ void PPU::process(int cpuCycles)
     int cyclesLeft = cpuCycles*3;
     for (int i=0; i<cyclesLeft; i++)
     {
-
         ticks++;
         //printf("%d %d\n", scanlineNum, ticks);
 
@@ -165,12 +156,11 @@ void PPU::process(int cpuCycles)
             else
                 ticksInThisScanline = 341;
         }
-        else if (ticks <= 304 && ticks >= 280)
+        else if (ticks == 304)
 		{
 			if ((isRendering) && (scanlineNum == -1))
             {
                 loopy_v = loopy_t;
-
             }
 		}
 
@@ -194,7 +184,6 @@ void PPU::process(int cpuCycles)
                 }
                 oamAddress = 0;
             }
-
             else if(scanlineNum == 261) //OJO cambiar para PAL
             {
                 scanlineNum = -1;
@@ -208,40 +197,20 @@ void PPU::process(int cpuCycles)
         else if(scanlineNum == -1 && ticks == 1)
         {
             reg2002 = 0;
-            //clearNMI();
             //printf("CZH: %x\n",reg2001);
         }
 
-
-
         if(isRendering)
         {
-
-            oldPpuA12 = ppuA12;
-            ppuA12 = (addressBus >> 12) & 1;
-
-            /*if (ticks == 1 || ticks == 337 || ticks == 339){
-                printf ("\nAddr: %x %d %d", loopy_v, scanlineNum, ticks);
-            }*/
-
             if(spriteFuncs[ticks])
                 (this->*spriteFuncs[ticks])();
             if(tickFuncs[ticks])
                 (this->*tickFuncs[ticks])();
-
         } else {
-            addressBus = loopy_v;
-        }
-
-        if (!oldPpuA12 && ppuA12){
-            //printf ("\nHere2: %d %d", scanlineNum, ticks);
-        }
-        else if (oldPpuA12 && !ppuA12) {
-            //printf ("\nHere PPU: %d %d", scanlineNum, ticks);
+            addressBus=loopy_v;
         }
 
         renderTick();
-
 
         if(zeroHit>0)
         {
@@ -252,6 +221,8 @@ void PPU::process(int cpuCycles)
                 //printf("HIT: %d,%d\n", scanlineNum, ticks);
             }
         }
+
+
 
 
         #ifdef DEBUGGER
@@ -382,7 +353,7 @@ void PPU::renderTick()
                     colorToRender = (palSprite<<2) | colorSprite;
             }
             const auto pos = (scanlineNum << 8) | ticks;
-            framebuffer[pos].SetColor(colorPalette[palette[colorToRender]].GetColor());
+            palettedFrameBuffer[pos] = palette[colorToRender];
         }
     }
 }
@@ -408,14 +379,12 @@ void PPU::powerOn()
 
 void PPU::triggerNMI()
 {
-    cpuIO.nmi_last = cpuIO.nmi;
     cpuIO.nmi = 1;
     //printf("NMI: %d,%d\n", scanlineNum, ticks);
 }
 
 void PPU::clearNMI()
 {
-    cpuIO.nmi_last = cpuIO.nmi;
     cpuIO.nmi = 0;
 }
 
@@ -429,7 +398,6 @@ unsigned char PPU::read2002()
     writeToggle = false;
     unsigned char t = reg2002 | (generalLatch & 0x1f);
     reg2002 &= ~0x80;
-    //clearNMI();
     //RC
 
     if(scanlineNum == 241)
@@ -463,9 +431,8 @@ unsigned char PPU::read2007()
             loopy_v += 32;
         else
             loopy_v++;
-
+        mapper.readPPU(loopy_v);
         addressBus = loopy_v;
-        mapper.clockPPU();
     }
     else
     {
@@ -480,55 +447,47 @@ unsigned char PPU::read2007()
         retval = buf2007;
     }
 
-    if(postFetchAddr >= 0x3000)
-        postFetchAddr &= ~0x1000;
-    //int tmpAddr = postFetchAddr;
-    //if (tmpAddr > 0x3000) tmpAddr -= 0x1000;
-
-
+    //if(postFetchAddr >= 0x3000)
+        //postFetchAddr &= ~0x1000;
     buf2007 = intReadMemLean(postFetchAddr, !isRendering);
 
+    //mapper.readPPU(postFetchAddr);
     return generalLatch = retval; //Falta grayscale
 }
 
 void PPU::write2000(unsigned char Value)
 {
-    /*if(isRendering)
-        printf("2002: %x\n", Value);*/
-    if((Value & 0x80) && (reg2002 & 0x80) && !(reg2000 & 0x80)){
+    if(isRendering)
+        //printf("2002: %x\n", Value);
+    if((Value & 0x80) && !(reg2000 & 0x80) && (reg2002 & 0x80)){
+        printf ("\nTrigger: %d, %d", ticks, scanlineNum);
         triggerNMI();
-        //printf ("\nTrigger: %d, %d", ticks, scanlineNum);
     }
-    if(!(Value & 0x80) && scanlineNum == 241 && ticks < 3){
-        //printf ("\nClear: %d, %d", ticks, scanlineNum);
+    //RC
+    if(!(Value & 0x80) && scanlineNum == 241 && ticks < 3)
         clearNMI();
-    }
 
-    if (scanlineNum == -1 && ticks <= 1)
-        clearNMI();
+    /*if (scanlineNum == -1 && ticks <= 1)
+        clearNMI();*/
 
     loopy_t = (loopy_t & 0x73FF) | (Value & 3) << 10;
     reg2000 = Value;
-    //printf("2000: %d\n", reg2000 & 0x18);
+    printf("2000: %x, Value: %x\n", reg2000 & 0x80, Value & 0x80);
 }
 
 void PPU::write2001(unsigned char Value)
 {
     //printf("2001: %x, S: %d, T: %d\n", scanlineNum, ticks);
     reg2001 = Value;
-    if((Value & 0x18) /*&& (scanlineNum < 240)*/){
-        //printf("TURNED ON: %x %d,%d, %x\n", Value&0x18, scanlineNum, ticks, addressBus);
-        if (scanlineNum < 240)
-            isRendering = true;
+    if((Value & 0x18) && (scanlineNum < 240)){
+        //printf("TURNED ON: %x %d,%d\n", Value&0x18, scanlineNum, ticks);
+        isRendering = true;
     }
     else
     {
-        //printf("TURNED OFF: %x %d,%d, %x\n", Value&0x18, scanlineNum, ticks, loopy_v);;
+        //printf("TURNED OFF: %x %d,%d\n", Value&0x18, scanlineNum, ticks);
         isRendering = false;
-
     }
-    //mapper.clockPPU();
-
 
     //Intensify colors
     //Grayscale
@@ -568,8 +527,8 @@ void PPU::write2005(unsigned char Value)
         loopy_t &= 0x7FE0;
 		loopy_t |= (Value & 0xF8) >> 3;
 		loopy_x = Value & 7;
-		/*if(isRendering)
-            printf("MFX: %x %d,%d\n", loopy_x, scanlineNum, ticks);*/
+		//if(isRendering)
+        //    printf("MFX: %x %d,%d\n", loopy_x, scanlineNum, ticks);
     }
     writeToggle = !writeToggle;
 }
@@ -584,9 +543,17 @@ void PPU::write2006(unsigned char Value)
         loopy_t &= 0x7F00;
 		loopy_t |= Value;
 		loopy_v = loopy_t;
-		addressBus = loopy_v;
-		mapper.clockPPU();
-		//mapper.readPPU(loopy_v);
+
+		if(isRendering)
+		{
+            //printf("\nMFV: %X %d,%d\n", loopy_v, scanlineNum, ticks);
+            //getchar();
+		} else {
+            //addressBus = loopy_v;
+            //mapper.readPPU(loopy_v);
+		}
+
+
     }
     else // first
     {
@@ -594,19 +561,11 @@ void PPU::write2006(unsigned char Value)
 		loopy_t |= (Value & 0x3F) << 8;
     }
     writeToggle = !writeToggle;
-    if(isRendering)
-    {
-        //printf("\nMFV: %X %d,%d\n", loopy_v, scanlineNum, ticks);
-        //getchar();
-    }
-
-
 }
 
 void PPU::write2007(unsigned char Value)
 {
     //printf("W2007: %d,%d\n", scanlineNum, ticks);
-
     if((loopy_v  & 0x3F00) == 0x3F00)
     {
         Value &= 0x3F;
@@ -615,8 +574,8 @@ void PPU::write2007(unsigned char Value)
         if (!(addr & 0x3))
 			palette[addr ^ 0x10] = Value; //Mirror palette
 
-        if(isRendering)
-            printf("MFP: %d, %x %d,%d\n", Value, loopy_v & 0x3FFF, scanlineNum, ticks);
+        //if(!isRendering)
+            //printf("MFP: %d, %x %d,%d\n", Value, loopy_v & 0x3FFF, scanlineNum, ticks);
     }
     else{
         intWriteMemLean(loopy_v, Value);
@@ -631,16 +590,13 @@ void PPU::write2007(unsigned char Value)
 
         loopy_v &= 0x7FFF;
         addressBus = loopy_v;
-        mapper.clockPPU();
-
+        //mapper.readPPU(loopy_v);
     }
     else
     {
         coarseX();
         coarseFineY();
     }
-
-
 }
 
 unsigned char PPU::intReadMem(unsigned short Address)
@@ -702,17 +658,14 @@ void PPU::intWriteMem(unsigned short Address, unsigned char Value)
 
 unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
 {
-    Address & 0x3FFF;
-    unsigned char ret = mapper.readPPU(Address);
-    mapper.clockPPU();
-    return ret;
+    addressBus = Address & 0x3FFF;
+    return mapper.readPPU(Address);
 }
 
 void PPU::intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus)
 {
     Address &= 0x3FFF;
-    //addressBus = Address;
-    mapper.clockPPU();
+    addressBus = Address;
     mapper.writePPU(Address, Value);
 }
 
@@ -800,46 +753,19 @@ void PPU::deCoarseX()
 
 void PPU::displayFrame()
 {
-    const Color32 &backgroundColor = colorPalette[palette[0]];
-    gfx.SetBackgroundColor(backgroundColor);
-    gfx.DrawBegin();
+    frameBufferReady = true;
+    //const Color32 &backgroundColor = colorPalette[palette[0]];
+    //gfx.SetBackgroundColor(backgroundColor);
+    //gfx.DrawBegin();
 
-    tex.LoadFromMemory((void*)framebuffer, 256*240*4);
-    back.Draw();
+    //gfx.Draw((void*)framebuffer, 256*240*4);
+    /*tex.LoadFromMemory((void*)framebuffer, 256*240*4);
+    back.Draw();*/
 
-    gfx.DrawEnd();
+    //gfx.DrawEnd();
 
     //printf("\n\n");
     //system("pause");
-}
-/*
-bool PPU::loadColorPaletteFromFile(const char* FileName)
-{
-    FILE* file;
-    file = fopen(FileName, "rb");
-    if(!file)
-        return false;
-    for(int i=0; i<64; i++)
-    {
-        unsigned char r = fgetc(file);
-        unsigned char g = fgetc(file);
-        unsigned char b = fgetc(file);
-        colorPalette[i].SetColor(r, g, b);
-    }
-    fclose(file);
-    return true;
-}
-*/
-bool PPU::loadColorPaletteFromArray(const unsigned char* Palette)
-{
-    for(int i=0; i<64; i++)
-    {
-        unsigned char r = Palette[i*3+0];
-        unsigned char g = Palette[i*3+1];
-        unsigned char b = Palette[i*3+2];
-        colorPalette[i].SetColor(r, g, b);
-    }
-    return true;
 }
 
 void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
@@ -850,7 +776,6 @@ void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
     //                      x / 2             y / 2        * 2
     const int palSubNum = ((x >> 1) % 2) + (((y >> 1) % 2) << 1);
     //const unsigned char at = intReadMem(0x23C0 | (loopy_v & 0x0C00) | ((loopy_v >> 4) & 0x38) | ((loopy_v >> 2) & 0x07));
-    addressBus = intReadMem(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
     const unsigned char at = intReadMem(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
     curPalette = at >> (2 * palSubNum);
     curPalette &= 0x03;
@@ -858,12 +783,12 @@ void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
 
 void PPU::loadSetOf4Colors(const int Pal)
 {
-    const int pal = Pal << 2; // Pal * 4
-    setOf4ColorsPalette[0] = Color32::Transparent;
+    //const int pal = Pal << 2; // Pal * 4
+    //setOf4ColorsPalette[0] = Color32::Transparent;
     for(int i=1; i<4; i++)
     {
-        auto c = palette[pal+i];
-        setOf4ColorsPalette[i] = colorPalette[c];
+        //auto c = palette[pal+i];
+        //setOf4ColorsPalette[i] = colorPalette[c];
     }
 }
 
@@ -933,7 +858,7 @@ void PPU::generateCHR(Color32 chrImage[64], const unsigned char Tile, const unsi
     unsigned char chrWithoutPalettes[8][8];
     GenerateCHRBitmapWithoutPalette(SubBank, Tile, chrWithoutPalettes);
     loadSetOf4Colors(Palette);
-    setOf4ColorsPalette[0].SetColor(colorPalette[palette[0]].GetColor());
+    //setOf4ColorsPalette[0].SetColor(colorPalette[palette[0]].GetColor());
     GenerateCHRBitmap(chrImage, chrWithoutPalettes);
 }
 
@@ -1037,22 +962,13 @@ void PPU::spriteEvaluationTileLoading()
 
     //Garbage fetches - Quick and dirty (probably wrong as hell)
     switch (ticks){
-        case 257: case 265: case 273: case 281: case 289: case 297: case 305: case 313:
+        case 257: case 265: case 273: case 281: case 289: case 297: case 305:
             tickFetchNT();
             break;
-        case 259: case 267: case 275: case 283: case 291: case 299: case 307: case 315:
-            tickFetchNT();
-            break;
-    }
-
-    /*switch (ticks){
-        case 256: case 264: case 272: case 280: case 288: case 296: case 304: case 312:
-            tickFetchNT();
-            break;
-        case 258: case 266: case 274: case 282: case 290: case 298: case 306: case 314:
+        case 259: case 267: case 275: case 283: case 291: case 299: case 307:
             tickFetchAT();
             break;
-    }*/
+    }
 }
 
 void PPU::spriteEvaluationOdd()
@@ -1128,8 +1044,6 @@ void PPU::tick257()
     //Take one bit from NT and coarseX from loopy_t
     loopy_v &= ~0x41F;
     loopy_v |= loopy_t & 0x41F;
-    //addressBus = loopy_v;
-    //mapper.readPPU(loopy_v);
 
     for(int n=0; n<8; n++)
     {
@@ -1199,12 +1113,10 @@ void PPU::tickOamFetchesHigh()
 void PPU::tickFetchNT()
 {
     curTile = intReadMem(0x2000 | (loopy_v & 0x0FFF));
-
 }
 
 void PPU::tickFetchAT()
 {
-
     loadPaletteFromAttributeTable(loopy_v);
 }
 
@@ -1214,7 +1126,6 @@ void PPU::tickFetchTileLow()
     const bool curSubBank = reg2000 >> 4 & 0x1;
     addressBus = (curSubBank << 12) | (curTile << 4) | fineY;
     curChrLow = intReadMem(addressBus);
-
 }
 
 void PPU::tickFetchTileHigh()
@@ -1223,8 +1134,6 @@ void PPU::tickFetchTileHigh()
     const bool curSubBank = reg2000 >> 4 & 0x1;
     addressBus = (curSubBank << 12) | (curTile << 4) | 0b1000 | fineY;
     curChrHigh = intReadMem(addressBus);
-
-
     if(ticks == 254)
     {
         coarseFineY();
@@ -1233,7 +1142,6 @@ void PPU::tickFetchTileHigh()
 
 void PPU::tickShiftRegisters()
 {
-
     shiftRegisterChrLow |= curChrLow;
     shiftRegisterChrHigh |= curChrHigh;
     latchPalette = curPalette;
@@ -1254,4 +1162,16 @@ void PPU::tick328()
         shiftRegisterPalHigh |= latchHigh;
 
     }
+}
+
+unsigned char* PPU::getPalettedFrameBuffer()
+{
+    frameBufferReady = false;
+    return palettedFrameBuffer;
+}
+
+unsigned char* PPU::getDefaultPalette()
+{
+    unsigned char* defaultPalette{ new unsigned char[192]{70, 70, 70, 0, 6, 90, 0, 6, 120, 2, 6, 115, 53, 3, 76, 87, 0, 14, 90, 0, 0, 65, 0, 0, 18, 2, 0, 0, 20, 0, 0, 30, 0, 0, 30, 0, 0, 21, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 157, 157, 0, 74, 185, 5, 48, 225, 87, 24, 218, 159, 7, 167, 204, 2, 85, 207, 11, 0, 164, 35, 0, 92, 63, 0, 11, 88, 0, 0, 102, 0, 0, 103, 19, 0, 94, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 31, 158, 255, 83, 118, 255, 152, 101, 255, 252, 103, 255, 255, 108, 179, 255, 116, 102, 255, 128, 20, 196, 154, 0, 113, 179, 0, 40, 196, 33, 0, 200, 116, 0, 191, 208, 43, 43, 43, 0, 0, 0, 0, 0, 0, 254, 255, 255, 158, 213, 255, 175, 192, 255, 208, 184, 255, 254, 191, 255, 255, 192, 224, 255, 195, 189, 255, 202, 156, 231, 213, 139, 197, 223, 142, 166, 230, 163, 148, 232, 197, 146, 228, 235, 167, 167, 167, 0, 0, 0, 0, 0, 0} };
+    return defaultPalette;
 }
