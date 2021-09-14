@@ -104,7 +104,7 @@ int main(){
         //std::string romFileName   =  "games/MMC3/Burai Fighter (USA).nes";
         //std::string romFileName   =  "games/MMC3/Incredible Crash Dummies, The (USA).nes";
         //std::string romFileName   =  "games/MMC3/G.I. Joe - A Real American Hero (USA).nes";
-        //std::string romFileName   =  "games/MMC3/chuchu.nes";
+        std::string romFileName   =  "games/MMC3/Mickey's Safari in Letterland (U) [!].nes";
 
         //std::string romFileName   = "games/MMC1/Mega Man 2 (U).nes";
         //std::string romFileName   = "games/MMC1/Bill & Ted's Excellent Video Game Adventure (USA).nes";
@@ -138,7 +138,7 @@ int main(){
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Jurassic Park (U) [!].nes";
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Mickey's Safari in Letterland (U) [!].nes";
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Incredible Crash Dummies, The (U) [!].nes";
-        std::string romFileName   =  "/home/fuumarumota/Desktop/Castlevania III - Dracula's Curse (U) [!].nes";
+        //std::string romFileName   =  "/home/fuumarumota/Desktop/Castlevania III - Dracula's Curse (U) [!].nes";
 
         //std::string romFileName   =  "/home/fuumarumota/Desktop/Burai Fighter (U) [!].nes";
 

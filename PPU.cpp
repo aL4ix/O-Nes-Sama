@@ -434,8 +434,9 @@ unsigned char PPU::read2007()
             loopy_v += 32;
         else
             loopy_v++;
-        //mapper.readPPU(loopy_v);
+
         addressBus = loopy_v;
+        mapper.readPPU(loopy_v);
     }
     else
     {
@@ -552,11 +553,9 @@ void PPU::write2006(unsigned char Value)
             //printf("\nMFV: %X %d,%d\n", loopy_v, scanlineNum, ticks);
             //getchar();
 		} else {
-            //addressBus = loopy_v;
-            //mapper.readPPU(loopy_v);
+            addressBus = loopy_v;
+            mapper.readPPU(loopy_v);
 		}
-
-
     }
     else // first
     {
@@ -593,7 +592,7 @@ void PPU::write2007(unsigned char Value)
 
         loopy_v &= 0x7FFF;
         addressBus = loopy_v;
-        //mapper.readPPU(loopy_v);
+        mapper.readPPU(loopy_v);
     }
     else
     {

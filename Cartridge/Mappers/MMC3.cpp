@@ -60,7 +60,7 @@ void MMC3::writeCPU(int addr, unsigned char val){
             break;
         case 0xC: case 0xD:
             if (addr & 1){
-                //irqCounter = 0;
+                irqCounter = 0;
                 irqReload = 1;
             }
             else{
@@ -169,8 +169,6 @@ inline void MMC3::clockIRQCounter(){
         edgeCondition = !oldPPUA12 && ppuA12;
     }
 
-    //printf ("\n%d", cyclesToIgnore);
-
     if (edgeCondition){
 
         if (edgeCount > cyclesToIgnore){
@@ -179,16 +177,13 @@ inline void MMC3::clockIRQCounter(){
                 irqReload = 0;
             } else {
                 irqCounter --;
-                //printf("\nDEB: %d %d %d", *io.dbg.sl, *io.dbg.tick, irqCounter);
             }
 
            if (irqCounter == 0){
                 if (irqEnable){
                     io.cpuIO->irq = 1;
-                    //getchar();
                 }
             }
-
         }
         edgeCount = 0;
 
