@@ -5,9 +5,7 @@
 #include <string>
 #include <vector>
 
-
-class Breakpoint
-{
+class Breakpoint {
 public:
     virtual ~Breakpoint()
     {
@@ -23,44 +21,38 @@ protected:
     }
 };
 
-struct hash_breakpoint
-{
-    size_t operator()(const Breakpoint* a ) const
+struct hash_breakpoint {
+    size_t operator()(const Breakpoint* a) const
     {
         return a->hash();
     }
 };
 
-struct pred_breakpoint
-{
-    bool operator()(const Breakpoint* a, const Breakpoint *b) const
+struct pred_breakpoint {
+    bool operator()(const Breakpoint* a, const Breakpoint* b) const
     {
         return a->equals(b);
     }
 };
 
-class PPUTime
-{
+class PPUTime {
 public:
     int scanline;
     int tick;
 };
 
-class PPUAddress
-{
+class PPUAddress {
 public:
     unsigned address;
 };
 
-class PPUValue
-{
+class PPUValue {
 public:
     unsigned address;
     unsigned value;
 };
 
-class BreakpointPPUByTime : public Breakpoint, PPUTime
-{
+class BreakpointPPUByTime : public Breakpoint, PPUTime {
 public:
     BreakpointPPUByTime(int Scanline, int Tick);
     size_t hash() const;
@@ -73,8 +65,7 @@ private:
     static std::vector<PPUTime>* container;
 };
 
-class BreakpointPPUByAddress : public Breakpoint, PPUAddress
-{
+class BreakpointPPUByAddress : public Breakpoint, PPUAddress {
 public:
     explicit BreakpointPPUByAddress(unsigned Address);
     size_t hash() const;
@@ -87,8 +78,7 @@ private:
     static std::vector<PPUAddress>* container;
 };
 
-class BreakpointPPUByValue : public Breakpoint, PPUValue
-{
+class BreakpointPPUByValue : public Breakpoint, PPUValue {
 public:
     BreakpointPPUByValue(unsigned Address, unsigned Value);
     size_t hash() const;

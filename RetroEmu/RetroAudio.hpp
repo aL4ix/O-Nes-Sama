@@ -1,19 +1,18 @@
 #ifndef RETRO_AUDIO_HPP_INCLUDED
 #define RETRO_AUDIO_HPP_INCLUDED
 
+#include "RetroFraction.hpp"
 #include <SDL2/SDL.h>
 #include <queue>
-#include <vector>
 #include <stdio.h>
-#include "RetroFraction.hpp"
+#include <vector>
 
-class RetroAudio
-{
+class RetroAudio {
     SDL_AudioDeviceID sdldev;
     const unsigned SAMPLING = 48000;
     const unsigned BUFFER_LENGTH = 2048;
 
-    friend void audio_callback(void *, Uint8 *, int);
+    friend void audio_callback(void*, Uint8*, int);
 
 public:
     RetroAudio();
@@ -24,7 +23,6 @@ public:
     void play();
 
 private:
-
     std::queue<unsigned short> queuedSamples;
     std::vector<unsigned short> avgBuffer;
     Uint16* bufferCopy;
@@ -34,11 +32,9 @@ private:
     unsigned samplesUntilNextSlice;
     RetroFraction slicesFraction;
     bool warmingUp;
-    void sendSamplesToHW(Uint16 *stream, int length);
+    void sendSamplesToHW(Uint16* stream, int length);
 };
 
-
 void audio_callback(void*, Uint8*, int);
-
 
 #endif

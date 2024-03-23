@@ -1,9 +1,21 @@
 #ifndef CPUSHAREDDATA_H_INCLUDED
 #define CPUSHAREDDATA_H_INCLUDED
 
-enum addrMode  { IMP, IMM, ACC, ZP, ZPX, ZPY, ABS, ABSX, ABSY, INDX, INDY, IND, REL };
+enum addrMode { IMP,
+    IMM,
+    ACC,
+    ZP,
+    ZPX,
+    ZPY,
+    ABS,
+    ABSX,
+    ABSY,
+    INDX,
+    INDY,
+    IND,
+    REL };
 
-struct Registers{
+struct Registers {
     unsigned char a;
     unsigned char x;
     unsigned char y;
@@ -12,7 +24,7 @@ struct Registers{
     int pc;
 };
 
-struct ProcessorFlags{
+struct ProcessorFlags {
     /* Constants for the processor status flags */
     const unsigned char N_FLAG = 0x80;
     const unsigned char V_FLAG = 0x40;
@@ -24,7 +36,7 @@ struct ProcessorFlags{
     const unsigned char C_FLAG = 0x1;
 };
 
-struct InstructionData{
+struct InstructionData {
     unsigned char opcode;
     unsigned char arg1;
     unsigned char arg2;

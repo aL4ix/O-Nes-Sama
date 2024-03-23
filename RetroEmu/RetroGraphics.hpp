@@ -1,21 +1,20 @@
 #ifndef RETRO_GRAPHICS_HPP
 #define RETRO_GRAPHICS_HPP
 
-#include <stdio.h>
-#include <SDL2/SDL.h>
 #include "RetroColor.hpp"
+#include <SDL2/SDL.h>
+#include <stdio.h>
 
 #define GFX_SOFTWARE_RENDER
 
-//Platform-Dependent
+// Platform-Dependent
 extern SDL_Renderer* sdlRenderer;
 
-class RetroGraphics
-{
+class RetroGraphics {
 private:
     Color32 background;
 
-    //Platform-Dependent
+    // Platform-Dependent
     SDL_Window* window;
     SDL_Surface* screenSurface;
 
@@ -28,19 +27,19 @@ public:
 
     inline void DrawBegin() const
     {
-        //Platform-Dependent
-        // Clear the window
+        // Platform-Dependent
+        //  Clear the window
         SDL_RenderClear(sdlRenderer);
     }
     inline void DrawEnd() const
     {
-        //Platform-Dependent
-        // Render the changes
-        #ifndef GFX_SOFTWARE_RENDER
-            SDL_RenderPresent(sdlRenderer);
-        #else
-            SDL_UpdateWindowSurface(window);
-        #endif // GFX_SOFTWARE_RENDER
+// Platform-Dependent
+//  Render the changes
+#ifndef GFX_SOFTWARE_RENDER
+        SDL_RenderPresent(sdlRenderer);
+#else
+        SDL_UpdateWindowSurface(window);
+#endif // GFX_SOFTWARE_RENDER
     }
     SDL_Rect sdlRect;
     SDL_Texture* texture;

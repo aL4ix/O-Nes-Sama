@@ -4,17 +4,19 @@
 #include <iomanip>
 #include <sstream>
 
-#include "../PPU.h"
 #include "../CPU.h"
+#include "../PPU.h"
 #include "Breakpoint.h"
 #include "SocketServer.h"
 
-enum ParserState {PARSER_RELEASE = -2, PARSER_QUIT = -1, PARSER_MALFORMED = 0, PARSER_OK};
+enum ParserState { PARSER_RELEASE = -2,
+    PARSER_QUIT = -1,
+    PARSER_MALFORMED = 0,
+    PARSER_OK };
 
-class Debugger : public SocketServer
-{
+class Debugger : public SocketServer {
 public:
-    Debugger(CPU *Cpu, PPU* Ppu);
+    Debugger(CPU* Cpu, PPU* Ppu);
     ~Debugger();
     bool pollHandshake();
     void breakpointReached(Breakpoint* breakpoint);
@@ -28,7 +30,7 @@ public:
     void setPPUMemValue(unsigned short Address, unsigned char Value);
     void setPPUOamValue(unsigned char Address, unsigned char Value);
     void generateBitmapChr(unsigned short Address);
-    void generateRendered(unsigned Address, Color32 bitmap[8*8]);
+    void generateRendered(unsigned Address, Color32 bitmap[8 * 8]);
     void generateRenderedNt(unsigned short Address);
     void generateRenderedOam(unsigned short Address);
     void disableDebugger(unsigned& AddressNum, unsigned& ValueNum);

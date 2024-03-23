@@ -3,15 +3,15 @@
 
 #include "BasicMapper.hpp"
 class MMC1 : public BasicMapper {
-    public:
-        MMC1(CartIO &ioRef);
-        ~MMC1();
-        void writeCPU(int addr, unsigned char val);
-        void clockCPU();
-        void setNTMirroring();
-        void sync();
-        void loadSRAM(FILE * batteryFile);
-        void saveSRAM(FILE * batteryFile);
+public:
+    MMC1(CartIO& ioRef);
+    ~MMC1();
+    void writeCPU(int addr, unsigned char val);
+    void clockCPU();
+    void setNTMirroring();
+    void sync();
+    void loadSRAM(FILE* batteryFile);
+    void saveSRAM(FILE* batteryFile);
 };
 
 #endif // MMC1_HPP_INCLUDED

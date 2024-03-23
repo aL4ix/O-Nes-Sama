@@ -1,3 +1,4 @@
+// clang-format off
 #include "libretro.h"
 #include <cstring>
 #include <iostream>

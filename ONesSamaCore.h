@@ -1,17 +1,15 @@
 #ifndef ONESSAMACORE_H
 #define ONESSAMACORE_H
 
-#include <stdint.h>
-#include <stddef.h>
-#include <string>
-#include "Cartridge/Cartridge.hpp"
 #include "CPU.h"
+#include "Cartridge/Cartridge.hpp"
 #include "PPU.h"
 #include "RetroEmu/RetroFraction.hpp"
+#include <stddef.h>
+#include <stdint.h>
+#include <string>
 
-
-class ONesSamaCore
-{
+class ONesSamaCore {
 public:
     ONesSamaCore();
     virtual ~ONesSamaCore();
@@ -24,7 +22,7 @@ public:
     int run(const int cycles);
     bool runOneFrame();
     void setControllersMatrix(bool (*input)[8]);
-    //void setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right);
+    // void setControllerTwo(bool a, bool b, bool select, bool start, bool up, bool down, bool left, bool right);
     void saveState();
     void loadState();
     void pause();
@@ -44,14 +42,12 @@ public:
     bool getCPUIsRunning();
     void setCPUIsRunning(bool isRunning);
 
-
     static constexpr int NTSCmasterclock = 21477272;
-    //CPU Frequency in Hz
+    // CPU Frequency in Hz
     static constexpr int cpufreq = NTSCmasterclock / 12;
     RetroFraction fractionForCPUCycles;
 
 protected:
-
 private:
     std::string saveStatePath;
     Cartridge* cart;

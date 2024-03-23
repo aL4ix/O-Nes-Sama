@@ -3,18 +3,17 @@
 
 #include <cstdio>
 
-#include "NSFMapper.hpp"
 #include "../CPU.h"
 #include "../RetroAudio.hpp"
+#include "NSFMapper.hpp"
 
-class NSFLoader
-{
+class NSFLoader {
 public:
     NSFLoader(const char* fileName);
     ~NSFLoader();
 
     void loadRomFile();
-    void initializingATune(CPU& cpu, unsigned short int song=0);
+    void initializingATune(CPU& cpu, unsigned short int song = 0);
     void play(CPU& cpu);
 
     NSFMapper* mapper;
@@ -40,7 +39,6 @@ private:
     long int prgSize;
     unsigned char prg[8][0x1000];
     bool isBankswitched;
-
 };
 
 #endif // NSFLOADER_H_INCLUDED

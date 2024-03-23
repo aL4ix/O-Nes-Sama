@@ -1,15 +1,13 @@
 #ifndef DEBUGGERSERVER_H
 #define DEBUGGERSERVER_H
 
+#include <SDL2/SDL_net.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unordered_map>
-#include <SDL2/SDL_net.h>
 
-
-class SocketServer
-{
+class SocketServer {
 public:
     SocketServer();
     bool InitServer();
@@ -23,10 +21,9 @@ public:
     bool connected;
 
 private:
-    UDPsocket sd;       /* Socket descriptor */
-	UDPpacket *p;       /* Pointer to packet memory */
-	bool initialized;
-
+    UDPsocket sd; /* Socket descriptor */
+    UDPpacket* p; /* Pointer to packet memory */
+    bool initialized;
 };
 
 #endif // DEBUGGERSERVER_H
