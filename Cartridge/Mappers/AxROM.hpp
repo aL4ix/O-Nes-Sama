@@ -3,10 +3,10 @@
 
 #include "BasicMapper.hpp"
 
-class Mapper007 : public BasicMapper{
+class Mapper007 : public BasicMapper {
 
 public:
-    Mapper007(CartIO &ioRef);
+    Mapper007(CartIO& ioRef);
     void writeCPU(int address, unsigned char val);
 };
 

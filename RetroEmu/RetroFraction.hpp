@@ -1,9 +1,7 @@
 #ifndef RETRO_FRACTION_HPP_INCLUDED
 #define RETRO_FRACTION_HPP_INCLUDED
 
-
-class RetroFraction
-{
+class RetroFraction {
 public:
     RetroFraction(unsigned total, unsigned dividedBy);
     unsigned getNextSlice();
@@ -14,6 +12,5 @@ private:
     unsigned fracNumerator;
     unsigned fracDenominator;
 };
-
 
 #endif

@@ -1,33 +1,33 @@
 #include "Logger.h"
 
-Logger::Logger() : out(NULL)
+Logger::Logger()
+    : out(NULL)
 {
-
 }
 
-Logger::Logger(const char * fileName)
+Logger::Logger(const char* fileName)
 {
     Init(fileName);
 }
 
-Logger::~Logger(){
-    if(out)
+Logger::~Logger()
+{
+    if (out)
         out->flush();
 }
 
-void Logger::Init(const char * fileName)
+void Logger::Init(const char* fileName)
 {
     /*If no file name specified, then log to the standard output.*/
     if (fileName != NULL)
-        out = new std::ofstream(fileName/*, std::ios_base::ate|std::ios_base::app*/);
+        out = new std::ofstream(fileName /*, std::ios_base::ate|std::ios_base::app*/);
     else
         out = &std::cout;
 }
 
 void Logger::Log(const char* message)
 {
-    if(out)
-    {
+    if (out) {
         *out << message;
     }
 }
@@ -45,11 +45,9 @@ bool Logger::IsRegexMatchesThenLog(const char* format, ...)
     VAListToBuffer(format, args);
     va_end(args);
 
-    for(std::map<const char*, std::regex>::iterator it=regexFeaturesEnabled.begin();
-        it != regexFeaturesEnabled.end(); ++it)
-    {
-        if(std::regex_match(buffer, it->second))
-        {
+    for (std::map<const char*, std::regex>::iterator it = regexFeaturesEnabled.begin();
+         it != regexFeaturesEnabled.end(); ++it) {
+        if (std::regex_match(buffer, it->second)) {
             Log(buffer);
             return true;
         }
@@ -64,8 +62,7 @@ void Logger::VAListToBuffer(const char* format, va_list args)
 
 void Logger::LogFeature(const char* feature, const char* format, ...)
 {
-    if(IsRegexMatchesThenLog("%s: ", feature))
-    {
+    if (IsRegexMatchesThenLog("%s: ", feature)) {
         va_list args;
         va_start(args, format);
         LogVAList(format, args);
@@ -75,8 +72,7 @@ void Logger::LogFeature(const char* feature, const char* format, ...)
 
 void Logger::LogVariableFeature(const char* feature, const unsigned varPrefix, const char* format, ...)
 {
-    if(IsRegexMatchesThenLog("%s%d: ", feature, varPrefix))
-    {
+    if (IsRegexMatchesThenLog("%s%d: ", feature, varPrefix)) {
         va_list args;
         va_start(args, format);
         LogVAList(format, args);

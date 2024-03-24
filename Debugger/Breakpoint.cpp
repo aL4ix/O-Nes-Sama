@@ -1,6 +1,5 @@
 #include "Breakpoint.h"
 
-
 std::vector<PPUTime>* BreakpointPPUByTime::container = NULL;
 std::vector<PPUAddress>* BreakpointPPUByAddress::container = NULL;
 std::vector<PPUValue>* BreakpointPPUByValue::container = NULL;
@@ -20,8 +19,7 @@ size_t BreakpointPPUByTime::hash() const
 bool BreakpointPPUByTime::equals(const Breakpoint* a) const
 {
     const BreakpointPPUByTime* rhs = dynamic_cast<const BreakpointPPUByTime*>(a);
-    if(rhs)
-    {
+    if (rhs) {
         return (scanline == rhs->scanline) && (tick == rhs->tick);
     }
     return false;
@@ -33,17 +31,15 @@ std::string BreakpointPPUByTime::toString() const
     char buffer2[21];
     sprintf(buffer1, "%X", scanline);
     sprintf(buffer2, "%X", tick);
-    return std::string("ppu time ")+buffer1+' '+buffer2;
+    return std::string("ppu time ") + buffer1 + ' ' + buffer2;
 }
 
 bool BreakpointPPUByTime::deleteFromContainer()
 {
-    if(container)
-    {
-        for(auto it = container->begin(); it != container->end(); it++)
-            if(it->scanline == this->scanline)
-                if(it->tick == this->tick)
-                {
+    if (container) {
+        for (auto it = container->begin(); it != container->end(); it++)
+            if (it->scanline == this->scanline)
+                if (it->tick == this->tick) {
                     container->erase(it);
                     return true;
                 }
@@ -71,8 +67,7 @@ size_t BreakpointPPUByAddress::hash() const
 bool BreakpointPPUByAddress::equals(const Breakpoint* a) const
 {
     const BreakpointPPUByAddress* rhs = dynamic_cast<const BreakpointPPUByAddress*>(a);
-    if(rhs)
-    {
+    if (rhs) {
         return (address == rhs->address);
     }
     return false;
@@ -82,16 +77,14 @@ std::string BreakpointPPUByAddress::toString() const
 {
     char buffer[21];
     sprintf(buffer, "%X", address);
-    return std::string("ppu address ")+buffer;
+    return std::string("ppu address ") + buffer;
 }
 
 bool BreakpointPPUByAddress::deleteFromContainer()
 {
-    if(container)
-    {
-        for(auto it = container->begin(); it != container->end(); it++)
-            if(it->address == this->address)
-            {
+    if (container) {
+        for (auto it = container->begin(); it != container->end(); it++)
+            if (it->address == this->address) {
                 container->erase(it);
                 return true;
             }
@@ -120,8 +113,7 @@ size_t BreakpointPPUByValue::hash() const
 bool BreakpointPPUByValue::equals(const Breakpoint* a) const
 {
     const BreakpointPPUByValue* rhs = dynamic_cast<const BreakpointPPUByValue*>(a);
-    if(rhs)
-    {
+    if (rhs) {
         return (address == rhs->address) && (value == rhs->value);
     }
     return false;
@@ -133,17 +125,15 @@ std::string BreakpointPPUByValue::toString() const
     char buffer2[21];
     sprintf(buffer1, "%X", address);
     sprintf(buffer2, "%X", value);
-    return std::string("ppu value ")+buffer1+' '+buffer2;
+    return std::string("ppu value ") + buffer1 + ' ' + buffer2;
 }
 
 bool BreakpointPPUByValue::deleteFromContainer()
 {
-    if(container)
-    {
-        for(auto it = container->begin(); it != container->end(); it++)
-            if(it->address == this->address)
-                if(it->value == this->value)
-                {
+    if (container) {
+        for (auto it = container->begin(); it != container->end(); it++)
+            if (it->address == this->address)
+                if (it->value == this->value) {
                     container->erase(it);
                     return true;
                 }

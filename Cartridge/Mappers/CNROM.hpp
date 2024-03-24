@@ -3,45 +3,45 @@
 
 #include "BasicMapper.hpp"
 
-class Mapper003: public BasicMapper{
+class Mapper003 : public BasicMapper {
 
 public:
-    Mapper003(CartIO &ioRef);
+    Mapper003(CartIO& ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper087: public BasicMapper{
+class Mapper087 : public BasicMapper {
 
 public:
-    Mapper087(CartIO &ioRef);
+    Mapper087(CartIO& ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper101: public BasicMapper{
+class Mapper101 : public BasicMapper {
 
 public:
-    Mapper101(CartIO &ioRef);
+    Mapper101(CartIO& ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper145: public BasicMapper{
+class Mapper145 : public BasicMapper {
 
 public:
-    Mapper145(CartIO &ioRef);
+    Mapper145(CartIO& ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper149: public BasicMapper{
+class Mapper149 : public BasicMapper {
 
 public:
-    Mapper149(CartIO &ioRef);
+    Mapper149(CartIO& ioRef);
     void writeCPU(int address, unsigned char val);
 };
 
-class Mapper185: public BasicMapper{
+class Mapper185 : public BasicMapper {
 
 public:
-    Mapper185(CartIO &ioRef);
+    Mapper185(CartIO& ioRef);
     void writeCPU(int address, unsigned char val);
 };
 

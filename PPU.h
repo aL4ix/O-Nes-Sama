@@ -1,18 +1,17 @@
 #ifndef PPU_H_INCLUDED
 #define PPU_H_INCLUDED
-#include <unordered_map>
-#include <functional>
-#include <vector>
 #include <cstring>
+#include <functional>
+#include <unordered_map>
+#include <vector>
 
 #include "CPUIO.hpp"
-#include "RetroEmu/RetroColor.hpp"
-#include "Debugger/Breakpoint.h"
 #include "Cartridge/Cartridge.hpp"
+#include "Debugger/Breakpoint.h"
 #include "Logging/Logger.h"
+#include "RetroEmu/RetroColor.hpp"
 
-class PPU_State
-{
+class PPU_State {
     friend class Debugger;
 
 protected:
@@ -22,7 +21,7 @@ protected:
     int ticksInThisScanline;
     bool isOdd;
     unsigned char palette[0x20];
-    unsigned char oam[64*4 + 8*4];
+    unsigned char oam[64 * 4 + 8 * 4];
     unsigned char generalLatch;
     unsigned char reg2000;
     unsigned char reg2001;
@@ -62,12 +61,11 @@ protected:
     unsigned char secNum;
 };
 
-class PPU : public PPU_State
-{
+class PPU : public PPU_State {
     friend class Debugger;
 
 public:
-    PPU(struct CPUIO &cio, MemoryMapper &m);
+    PPU(struct CPUIO& cio, MemoryMapper& m);
     ~PPU();
     void writeMem(unsigned short Address, unsigned char Value);
     unsigned char readMem(unsigned short Address);
@@ -87,7 +85,7 @@ public:
     Logger logger;
 
 private:
-    //INTERNALS
+    // INTERNALS
     unsigned char* nametable[4];
     unsigned char* chr[8];
 
@@ -105,39 +103,40 @@ private:
     void write2005(unsigned char Value);
     void write2006(unsigned char Value);
     void write2007(unsigned char Value);
-    void (PPU::*writeFuncs[8])(unsigned char) = {&PPU::write2000, &PPU::write2001, &PPU::write2002, &PPU::write2003, &PPU::write2004, &PPU::write2005, &PPU::write2006, &PPU::write2007};
-    unsigned char (PPU::*readFuncs[8])(void) = {&PPU::readLatch, &PPU::readLatch, &PPU::read2002, &PPU::readLatch, &PPU::read2004, &PPU::readLatch, &PPU::readLatch, &PPU::read2007};
+    void (PPU::*writeFuncs[8])(unsigned char) = { &PPU::write2000, &PPU::write2001, &PPU::write2002, &PPU::write2003, &PPU::write2004, &PPU::write2005, &PPU::write2006, &PPU::write2007 };
+    unsigned char (PPU::*readFuncs[8])(void) = { &PPU::readLatch, &PPU::readLatch, &PPU::read2002, &PPU::readLatch, &PPU::read2004, &PPU::readLatch, &PPU::readLatch, &PPU::read2007 };
     unsigned char intReadMem(unsigned short Address);
     void intWriteMem(unsigned short Address, unsigned char Value);
-    unsigned char intReadMemLean(unsigned short Address, bool updateBus=true);
-    void intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus=true);
+    unsigned char intReadMemLean(unsigned short Address, bool updateBus = true);
+    void intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus = true);
     void coarseX();
-    //void coarseY();
-    //void deCoarseX();
+    // void coarseY();
+    // void deCoarseX();
     void coarseFineY();
     void renderTick();
 
-    //RENDERING
+    // RENDERING
     bool frameBufferReady = false;
-    unsigned char palettedFrameBuffer[240*256];
+    unsigned char palettedFrameBuffer[240 * 256];
 
     void loadPaletteFromAttributeTable(const unsigned short NtPos);
     void loadSetOf4Colors(const int Pal);
     void GenerateCHRBitmapWithoutPalette(bool SubBank, unsigned Tile, unsigned char (&Chr)[8][8]);
     void GenerateCHRBitmap(Color32 ChrBitmap[], unsigned char (&Chr)[8][8]);
-    //void generateTileWithoutCache(int i, Color32 chrImage[64]);
+    // void generateTileWithoutCache(int i, Color32 chrImage[64]);
     void generateCHR(Color32 chrImage[64], const unsigned char Tile, const unsigned char Palette, const bool SubBank);
 
-    //GFX
-    //RetroGraphics gfx;
+    // GFX
+    unsigned char defaultPalette[192] = { 70, 70, 70, 0, 6, 90, 0, 6, 120, 2, 6, 115, 53, 3, 76, 87, 0, 14, 90, 0, 0, 65, 0, 0, 18, 2, 0, 0, 20, 0, 0, 30, 0, 0, 30, 0, 0, 21, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 157, 157, 157, 0, 74, 185, 5, 48, 225, 87, 24, 218, 159, 7, 167, 204, 2, 85, 207, 11, 0, 164, 35, 0, 92, 63, 0, 11, 88, 0, 0, 102, 0, 0, 103, 19, 0, 94, 110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 254, 255, 255, 31, 158, 255, 83, 118, 255, 152, 101, 255, 252, 103, 255, 255, 108, 179, 255, 116, 102, 255, 128, 20, 196, 154, 0, 113, 179, 0, 40, 196, 33, 0, 200, 116, 0, 191, 208, 43, 43, 43, 0, 0, 0, 0, 0, 0, 254, 255, 255, 158, 213, 255, 175, 192, 255, 208, 184, 255, 254, 191, 255, 255, 192, 224, 255, 195, 189, 255, 202, 156, 231, 213, 139, 197, 223, 142, 166, 230, 163, 148, 232, 197, 146, 228, 235, 167, 167, 167, 0, 0, 0, 0, 0, 0 };
+    // RetroGraphics gfx;
 
     Color32 setOf4ColorsPalette[4];
 
-    //Other
-    struct CPUIO &cpuIO;
-    MemoryMapper &mapper;
+    // Other
+    struct CPUIO& cpuIO;
+    MemoryMapper& mapper;
 
-    //Debugger
+    // Debugger
     std::function<void(Breakpoint*)> debugProcess;
     bool debugNextTick;
     std::vector<PPUTime> breakpointByTime;

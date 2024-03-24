@@ -1,9 +1,7 @@
 #ifndef PPU_INCLUDE_H
 #define PPU_INCLUDE_H
 
-
-class PPU
-{
+class PPU {
 public:
     void process(int cpuCycles)
     {

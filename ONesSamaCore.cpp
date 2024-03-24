@@ -1,12 +1,12 @@
 #include "ONesSamaCore.h"
 
-ONesSamaCore::ONesSamaCore() :
-    fractionForCPUCycles(cpufreq, 60),
-    saveStatePath("SaveState"),
-    cart(nullptr),
-    cpu(nullptr),
-    ppu(nullptr),
-    pendCycles(0)
+ONesSamaCore::ONesSamaCore()
+    : fractionForCPUCycles(cpufreq, 60)
+    , saveStatePath("SaveState")
+    , cart(nullptr)
+    , cpu(nullptr)
+    , ppu(nullptr)
+    , pendCycles(0)
 {
 }
 
@@ -16,37 +16,34 @@ bool ONesSamaCore::loadCartridge(std::string romFileName)
     saveStatePath.append(getBaseRomName(romFileName));
     saveStatePath.append(".sta");
 
-    //printf("\nSave State path : %s", saveStatePath.c_str());
+    // printf("\nSave State path : %s", saveStatePath.c_str());
 
     /*Create the instances of the 6502 CPU, the Cartridge interface and the PPU*/
     cpu = new CPU(*cart->mapper);
     ppu = new PPU(cpu->io, *cart->mapper);
     cpu->setPPUPtr(ppu);
 
-    #ifdef DEBUGGER
-        Debugger debuggerServer(&cpu, &ppu);
-        debuggerServer.InitServer();
-        //debuggerServer.InitAndWaitHandshake();
-        //debuggerServer.handleRequests();
-    #endif // DEBUGGER
+#ifdef DEBUGGER
+    Debugger debuggerServer(&cpu, &ppu);
+    debuggerServer.InitServer();
+    // debuggerServer.InitAndWaitHandshake();
+    // debuggerServer.handleRequests();
+#endif // DEBUGGER
 
     return true;
 }
 
 bool ONesSamaCore::unloadCartridge()
 {
-    if(ppu)
-    {
+    if (ppu) {
         delete ppu;
         ppu = nullptr;
     }
-    if(cpu)
-    {
+    if (cpu) {
         delete cpu;
         cpu = nullptr;
     }
-    if(cart)
-    {
+    if (cart) {
         delete cart;
         cart = nullptr;
     }
@@ -99,8 +96,8 @@ void ONesSamaCore::setControllersMatrix(bool (*input)[8])
 
 void ONesSamaCore::saveState()
 {
-    FILE * file = fopen (saveStatePath.c_str(), "wb");
-    if (file != NULL){
+    FILE* file = fopen(saveStatePath.c_str(), "wb");
+    if (file != NULL) {
         cart->saveState(file);
         cpu->saveState(file);
         ppu->saveState(file);
@@ -113,8 +110,8 @@ void ONesSamaCore::saveState()
 
 void ONesSamaCore::loadState()
 {
-    FILE * file = fopen (saveStatePath.c_str(), "rb");
-    if (file != NULL){
+    FILE* file = fopen(saveStatePath.c_str(), "rb");
+    if (file != NULL) {
         cart->loadState(file);
         cpu->loadState(file);
         ppu->loadState(file);
@@ -132,7 +129,7 @@ void ONesSamaCore::pause()
 
 void ONesSamaCore::debug()
 {
-    //cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
+    // cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
 }
 
 bool ONesSamaCore::getCPUIsRunning()
@@ -144,7 +141,6 @@ void ONesSamaCore::setCPUIsRunning(bool isRunning)
 {
     cpu->isRunning = isRunning;
 }
-
 
 ONesSamaCore::~ONesSamaCore()
 {
