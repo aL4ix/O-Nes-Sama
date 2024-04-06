@@ -152,7 +152,7 @@ private:
     void NOP();
 
     friend class NSFLoader;
-    friend int main();
+    friend int main(int, char**);
     friend class ONesSamaCore;
 };
 

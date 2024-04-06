@@ -41,9 +41,9 @@ struct CartIO {
 
     // Memory buffers
     unsigned char ntSystemRam[0x800] = { 0xFF };
-    unsigned char* prgBuffer;
-    unsigned char* chrBuffer;
-    unsigned char* wRam;
+    unsigned char* prgBuffer = nullptr;
+    unsigned char* chrBuffer = nullptr;
+    unsigned char* wRam = nullptr;
 
     /*Pointers for handling bank switching*/
     unsigned char* prgSpace[32];

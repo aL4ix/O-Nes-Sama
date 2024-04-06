@@ -1,31 +1,29 @@
 #include "NSFLoader.h"
 
-NSFLoader::NSFLoader(const char* fileName)
-    : mapper(NULL)
-    , romFileName(fileName)
+NSFLoader::NSFLoader(std::string fileName)
+    : romFileName(fileName)
 {
     loadRomFile();
 }
 
-NSFLoader::~NSFLoader()
-{
-    if (mapper)
-        delete mapper;
-}
-
 void NSFLoader::loadRomFile()
 {
-    FILE* file = fopen(romFileName, "rb");
+    printf("Loading NSF\n");
+    FILE* file = fopen(romFileName.c_str(), "rb");
+    char header[6];
     if (file != NULL) {
         fseek(file, 0, SEEK_END);
         fileSize = ftell(file);
-        fseek(file, 0x6, SEEK_SET);
+        fseek(file, 0x0, SEEK_SET);
+        fread(header, 5, 1, file);
+        header[5] = 0; // null terminating the header
+        fread(&nsfVersion, 1, 1, file);
         fread(&totalSongs, 1, 1, file);
         fread(&startingSong, 1, 1, file);
         fread(&loadAddress, 2, 1, file);
         fread(&initAddress, 2, 1, file);
         fread(&playAddress, 2, 1, file);
-        fread(&nameSong, 1, 32, file);
+        fread(nameSong, 1, 32, file);
         fread(artist, 1, 32, file);
         fread(copyright, 1, 32, file);
         fread(&playSpeedNTSC, 2, 1, file);
@@ -73,6 +71,8 @@ void NSFLoader::loadRomFile()
     // Create Mapper
     mapper = new NSFMapper(io);
 
+    printf("Header: %s\n", header);
+    printf("NSF Version: %d\n", nsfVersion);
     printf("Total Song: %x\n", totalSongs);
     printf("Starting Song: %x\n", startingSong);
     printf("Load Address: %x\n", loadAddress);
@@ -110,9 +110,17 @@ void NSFLoader::loadRomFile()
 
 void NSFLoader::initializingATune(CPU& cpu, unsigned short int song)
 {
-    mapper->setCPU(&cpu);
+    NSFMapper* nsfMapper = (NSFMapper*)mapper; // We created this mapper at construction time so we know it's this one
+    nsfMapper->setCPU(&cpu);
     cpu.reset();
     cpu.apu->powerup();
+    for (int address = 0x0000; address < 0x0800; address++)
+        cpu.write(address, 0);
+    for (int address = 0x6000; address < 0x8000; address++)
+        cpu.write(address, 0);
+    for (int address = 0x4000; address <= 0x4013; address++)
+        cpu.apu->writeMem(address, 0);
+    cpu.apu->writeMem(0x4015, 0x0);
     cpu.apu->writeMem(0x4015, 0xF);
     cpu.apu->writeMem(0x4017, 0x40);
     if (song != 0) {
@@ -120,82 +128,30 @@ void NSFLoader::initializingATune(CPU& cpu, unsigned short int song)
     }
     cpu.regs.a = startingSong - 1;
     cpu.regs.x = 0; // NTSC
-    for (int address = 0x6000; address < 0x8000; address++)
-        cpu.write(address, 0);
 
     cpu.write(0x1FF, 0xFF);
     cpu.write(0x1FE, 0xF9);
     cpu.regs.sp = 0xFD;
     cpu.regs.pc = initAddress;
     cpu.run(30000);
-}
 
-void NSFLoader::play(CPU& cpu)
-{
-    // Master clock of NES machine.
-    unsigned NTSCmasterclock = 21477272;
-    // CPU Frequency in Hz
-    unsigned cpufreq = NTSCmasterclock / 12;
-    // Synchronization freq
-    unsigned syncfreq = 60;
-
-    RetroFraction rafForCPUCycles(cpufreq, syncfreq);
-    RetroFraction rafForTime(1000, syncfreq);
-
-    int pendCycles = 0;
-    unsigned lastTimeTick = SDL_GetTicks();
-    unsigned emuStartTime = lastTimeTick;
-    unsigned secondsCount = 0;
-    unsigned FPS = 0;
-    unsigned sumCycles = 0;
-    unsigned cpuCurGenCycCount = 0;
-
+    // From play()
     cpu.write(0x1FF, 0xFF);
     cpu.write(0x1FE, 0xF9);
     cpu.regs.sp = 0xFD;
     cpu.regs.pc = playAddress;
+}
 
-    for (int i = 0; i < 10000; i++) {
-        const unsigned cycles = rafForCPUCycles.getNextSlice();
-        const unsigned requestedCycles = cycles + pendCycles;
-        sumCycles += requestedCycles;
-
-        pendCycles = cpu.run(requestedCycles);
-        // printf("slice:%u pend:%d\n", cycles, pendCycles);
-        if (cpu.regs.pc == 0xfffa || cpu.regs.pc == 0xfffb) // NSF did a RTS
-        {
-            cpu.write(0x1FF, 0xFF);
-            cpu.write(0x1FE, 0xF9);
-            cpu.regs.sp = 0xFD;
-            cpu.regs.pc = playAddress;
-        }
-
-        unsigned now = SDL_GetTicks();
-        unsigned timeSpent = now - lastTimeTick;
-        unsigned thisFrameTimeInMilis = rafForTime.getNextSlice();
-        int sleeptime = thisFrameTimeInMilis - timeSpent;
-        FPS++;
-
-        if (sleeptime > 0) {
-            SDL_Delay(sleeptime);
-        } else {
-            printf("NSF underrun!\n");
-        }
-        lastTimeTick = now + sleeptime;
-
-        // continue;
-
-        const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
-        if (secondsCount != secondsSinceStart) {
-            secondsCount = secondsSinceStart;
-            printf("T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u\n", now, FPS,
-                cpu.apu->afx.getOutputSamplesAndReset(), sumCycles,
-                cpu.instData.generalCycleCount - cpuCurGenCycCount,
-                cpu.apu->callCyclesCount, cpu.apu->afx.getQueuedCount());
-            sumCycles = 0;
-            FPS = 0;
-            cpu.apu->callCyclesCount = 0;
-            cpuCurGenCycCount = cpu.instData.generalCycleCount;
-        }
+void NSFLoader::nfsDidARts(CPU& cpu)
+{
+    if (cpu.regs.pc == 0xfffa || cpu.regs.pc == 0xfffb) // NSF did a RTS
+    {
+        cpu.write(0x1FF, 0xFF);
+        cpu.write(0x1FE, 0xF9);
+        cpu.regs.sp = 0xFD;
+        cpu.regs.pc = playAddress;
     }
 }
+
+void NSFLoader::saveState(FILE* file) { }
+bool NSFLoader::loadState(FILE* file) { return true; }

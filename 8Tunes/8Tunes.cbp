@@ -25,7 +25,6 @@
 					<Add option="-march=corei7-avx" />
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-fexpensive-optimizations" />
-					<Add option="-DRETRO_AUDIO_DEBUG" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
@@ -48,19 +47,23 @@
 		<Unit filename="../CPU.h" />
 		<Unit filename="../CPUIO.hpp" />
 		<Unit filename="../CPUSharedData.h" />
+		<Unit filename="../Cartridge/8Tunes/NSFLoader.cpp" />
+		<Unit filename="../Cartridge/8Tunes/NSFLoader.h" />
+		<Unit filename="../Cartridge/8Tunes/NSFMapper.cpp" />
+		<Unit filename="../Cartridge/8Tunes/NSFMapper.hpp" />
 		<Unit filename="../Cartridge/CartIO.hpp" />
 		<Unit filename="../Cartridge/Mappers/MemoryMapper.cpp" />
 		<Unit filename="../Cartridge/Mappers/MemoryMapper.h" />
-		<Unit filename="../RetroAudio.cpp" />
-		<Unit filename="../RetroAudio.hpp" />
+		<Unit filename="../Cartridge/ROMLoader.cpp" />
+		<Unit filename="../Cartridge/ROMLoader.hpp" />
+		<Unit filename="../RetroEmu/RetroAudio.cpp" />
+		<Unit filename="../RetroEmu/RetroAudio.hpp" />
+		<Unit filename="../RetroEmu/RetroFraction.cpp" />
+		<Unit filename="../RetroEmu/RetroFraction.hpp" />
 		<Unit filename="../opcodes.inc" />
 		<Unit filename="8Tunes.cpp" />
 		<Unit filename="DummyInput.h" />
 		<Unit filename="DummyPPU.h" />
-		<Unit filename="NSFLoader.cpp" />
-		<Unit filename="NSFLoader.h" />
-		<Unit filename="NSFMapper.cpp" />
-		<Unit filename="NSFMapper.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

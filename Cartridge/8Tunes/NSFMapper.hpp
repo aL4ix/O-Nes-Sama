@@ -1,14 +1,13 @@
 #ifndef NSFMAPPER_H_INCLUDED
 #define NSFMAPPER_H_INCLUDED
 
-#include "../CPU.h"
-#include "../Cartridge/CartIO.hpp"
-#include "../Cartridge/Mappers/MemoryMapper.h"
+#include "../../CPU.h"
+#include "../CartIO.hpp"
+#include "../Mappers/MemoryMapper.h"
 
 class NSFMapper : public MemoryMapper {
 public:
     NSFMapper(CartIO& ioRef);
-    ~NSFMapper();
     unsigned char readCPU(int address);
     unsigned char readPPU(int address);
     void writeCPU(int address, unsigned char val);

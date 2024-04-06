@@ -3,24 +3,27 @@
 
 #include <cstdio>
 
-#include "../CPU.h"
-#include "../RetroAudio.hpp"
+#include "../../CPU.h"
+#include "../../RetroEmu/RetroFraction.hpp"
+#include "../ROMLoader.hpp"
 #include "NSFMapper.hpp"
+#include <string>
 
-class NSFLoader {
+class NSFLoader : public ROMLoader {
 public:
-    NSFLoader(const char* fileName);
-    ~NSFLoader();
+    NSFLoader(std::string fileName);
 
     void loadRomFile();
     void initializingATune(CPU& cpu, unsigned short int song = 0);
-    void play(CPU& cpu);
+    void saveState(FILE* file);
+    bool loadState(FILE* file);
+    void nfsDidARts(CPU& cpu);
 
-    NSFMapper* mapper;
     CartIO io;
 
 private:
-    const char* romFileName;
+    std::string romFileName;
+    char nsfVersion;
     unsigned char totalSongs;
     unsigned char startingSong;
     unsigned short loadAddress;

@@ -15,7 +15,6 @@ public:
     void loadSRAM(FILE* batteryFile) { }
     void saveSRAM(FILE* batteryFile) { }
     BasicMapper(CartIO& ioRef);
-    ~BasicMapper();
 };
 
 class Mapper000 : public BasicMapper {

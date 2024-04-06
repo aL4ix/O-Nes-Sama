@@ -3,16 +3,16 @@
 
 #include "CartIO.hpp"
 #include "Mappers/MemoryMapper.h"
+#include "ROMLoader.hpp"
 #include "zlib.h"
 #include <string>
 
-class Cartridge {
+class Cartridge : public ROMLoader {
 public:
     // BoardData bData;
     Cartridge(std::string fileName);
     ~Cartridge();
     CartIO io;
-    MemoryMapper* mapper;
     int hasBattery;
     void loadRomFile();
     void initMapper();

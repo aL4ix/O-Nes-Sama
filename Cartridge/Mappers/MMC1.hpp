@@ -5,7 +5,7 @@
 class MMC1 : public BasicMapper {
 public:
     MMC1(CartIO& ioRef);
-    ~MMC1();
+
     void writeCPU(int addr, unsigned char val);
     void clockCPU();
     void setNTMirroring();

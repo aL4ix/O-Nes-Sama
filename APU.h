@@ -10,7 +10,7 @@
 class APU {
     const unsigned short AMPLITUDE = 30000;
 
-    friend int main();
+    friend int main(int, char**);
 
 public:
     explicit APU(CPUIO& cpuIO);

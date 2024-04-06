@@ -111,10 +111,3 @@ inline void BasicMapper::writePPU(int address, unsigned char val)
         return;
     }
 }
-
-BasicMapper::~BasicMapper()
-{
-    delete[] io.wRam;
-    delete[] io.prgBuffer;
-    delete[] io.chrBuffer;
-}

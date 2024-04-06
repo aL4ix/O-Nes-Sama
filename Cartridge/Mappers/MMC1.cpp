@@ -159,5 +159,5 @@ void MMC1::saveSRAM(FILE* batteryFile)
 
 void MMC1::loadSRAM(FILE* batteryFile)
 {
-    fread(io.wRam, 0x8000, 1, batteryFile);
+    if (fread(io.wRam, 0x8000, 1, batteryFile)) { } // Suppressed warning
 }

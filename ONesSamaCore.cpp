@@ -3,24 +3,32 @@
 ONesSamaCore::ONesSamaCore()
     : fractionForCPUCycles(cpufreq, 60)
     , saveStatePath("SaveState")
-    , cart(nullptr)
+    , romLoader(nullptr)
     , cpu(nullptr)
     , ppu(nullptr)
     , pendCycles(0)
+    , isNSF(false)
 {
 }
 
 bool ONesSamaCore::loadCartridge(std::string romFileName)
 {
-    cart = new Cartridge(romFileName);
+    isNSF = false;
+    if (case_insensitive_ends_with(romFileName, ".nsf")) {
+        isNSF = true;
+        romLoader = new NSFLoader(romFileName);
+    } else {
+        romLoader = new Cartridge(romFileName);
+    }
+
     saveStatePath.append(getBaseRomName(romFileName));
     saveStatePath.append(".sta");
 
     // printf("\nSave State path : %s", saveStatePath.c_str());
 
     /*Create the instances of the 6502 CPU, the Cartridge interface and the PPU*/
-    cpu = new CPU(*cart->mapper);
-    ppu = new PPU(cpu->io, *cart->mapper);
+    cpu = new CPU(*romLoader->mapper);
+    ppu = new PPU(cpu->io, *romLoader->mapper);
     cpu->setPPUPtr(ppu);
 
 #ifdef DEBUGGER
@@ -35,24 +43,23 @@ bool ONesSamaCore::loadCartridge(std::string romFileName)
 
 bool ONesSamaCore::unloadCartridge()
 {
-    if (ppu) {
-        delete ppu;
-        ppu = nullptr;
-    }
-    if (cpu) {
-        delete cpu;
-        cpu = nullptr;
-    }
-    if (cart) {
-        delete cart;
-        cart = nullptr;
-    }
+    delete ppu;
+    ppu = nullptr;
+    delete cpu;
+    cpu = nullptr;
+    delete romLoader;
+    romLoader = nullptr;
     return true;
 }
 
 bool ONesSamaCore::reset()
 {
-    cpu->reset();
+    if (isNSF) {
+        NSFLoader* nsfLoader = (NSFLoader*)romLoader;
+        nsfLoader->initializingATune(*cpu, nsfSongNumber);
+    } else {
+        cpu->reset();
+    }
     ppu->reset();
     return true;
 }
@@ -74,7 +81,12 @@ void ONesSamaCore::setPushAudioSampleCallback(void (*pushAudioSampleCallback)(sh
 
 int ONesSamaCore::run(const int cycles)
 {
-    return cpu->run(cycles);
+    int remainingCycles = cpu->run(cycles);
+    if (isNSF) {
+        NSFLoader* nsfLoader = (NSFLoader*)romLoader;
+        nsfLoader->nfsDidARts(*cpu);
+    }
+    return remainingCycles;
 }
 
 bool ONesSamaCore::runOneFrame()
@@ -98,7 +110,7 @@ void ONesSamaCore::saveState()
 {
     FILE* file = fopen(saveStatePath.c_str(), "wb");
     if (file != NULL) {
-        cart->saveState(file);
+        romLoader->saveState(file);
         cpu->saveState(file);
         ppu->saveState(file);
         fclose(file);
@@ -112,7 +124,7 @@ void ONesSamaCore::loadState()
 {
     FILE* file = fopen(saveStatePath.c_str(), "rb");
     if (file != NULL) {
-        cart->loadState(file);
+        romLoader->loadState(file);
         cpu->loadState(file);
         ppu->loadState(file);
         printf("\nLoaded state \"%s\"", saveStatePath.c_str());
@@ -129,7 +141,7 @@ void ONesSamaCore::pause()
 
 void ONesSamaCore::debug()
 {
-    // cart.mapper->ppuStatus.debug = !cart.mapper->ppuStatus.debug;
+    // romLoader.mapper->ppuStatus.debug = !romLoader.mapper->ppuStatus.debug;
 }
 
 bool ONesSamaCore::getCPUIsRunning()
@@ -160,4 +172,15 @@ string ONesSamaCore::getBaseRomName(std::string tmpRomName)
     tmpRomName.replace(tmpRomName.begin(), tmpRomName.begin() + pathSepIndex, "");
     fileNameBase = tmpRomName;
     return fileNameBase;
+}
+
+// C++20 has ends_with that is why this method is using snake_case
+bool ONesSamaCore::case_insensitive_ends_with(std::string const& fullString, std::string const& ending)
+{
+    std::string cloned = fullString;
+    if (cloned.length() >= ending.length()) {
+        return (0 == cloned.compare(cloned.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
 }
