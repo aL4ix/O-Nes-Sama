@@ -679,7 +679,7 @@ void PPU::deCoarseX()
  *
  *
  *
-*/
+ */
 
 void PPU::displayFrame()
 {
