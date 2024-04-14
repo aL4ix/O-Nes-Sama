@@ -10,7 +10,7 @@ public:
     CartIO& io;
     CPUIO* cpuIO;
     MemoryMapper(CartIO&);
-    ~MemoryMapper();
+    virtual ~MemoryMapper();
     virtual unsigned char readCPU(int address) = 0;
     virtual unsigned char readPPU(int address) = 0;
     virtual void writeCPU(int address, unsigned char val) = 0;

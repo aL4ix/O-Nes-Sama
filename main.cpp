@@ -19,7 +19,7 @@
 std::string getBaseRomName(std::string romFileName);
 void pushAudioSample(short left, short right);
 
-int main()
+int main(int argc, char** argv)
 {
     /********************************************************/
     /*                   Timing info                        */
@@ -39,12 +39,20 @@ int main()
         /*               Modules Declaration                    */
         /********************************************************/
 
-        /* ROM / Battery / Save State path names */
+        /* ROM / Command line arguments*/
         std::string romFileName = "games/rom.nes";
+        unsigned char nsfSongNumber = 0;
+        if (argc > 1) {
+            romFileName = argv[1];
+        }
+        if (argc > 2) {
+            nsfSongNumber = std::stoi(argv[2]);
+        }
 
         ONesSamaCore oNesSamaCore;
         oNesSamaCore.loadCartridge(romFileName);
         oNesSamaCore.setPushAudioSampleCallback(pushAudioSample);
+        oNesSamaCore.nsfSongNumber = nsfSongNumber;
 
         const double ZOOM = 2.0;
         RetroGraphics retroGraphics(oNesSamaCore.getPPUInteralWidth(), oNesSamaCore.getPPUInteralHeight(), ZOOM);

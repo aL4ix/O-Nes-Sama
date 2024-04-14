@@ -5,7 +5,6 @@
 class MMC2 : public BasicMapper {
 public:
     MMC2(CartIO& ioRef);
-    ~MMC2();
 
     void writeCPU(int address, unsigned char val);
     unsigned char readPPU(int address);

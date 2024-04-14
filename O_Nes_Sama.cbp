@@ -48,6 +48,10 @@
 		<Unit filename="APU.h" />
 		<Unit filename="CPU.cpp" />
 		<Unit filename="CPU.h" />
+		<Unit filename="Cartridge/8Tunes/NSFLoader.cpp" />
+		<Unit filename="Cartridge/8Tunes/NSFLoader.h" />
+		<Unit filename="Cartridge/8Tunes/NSFMapper.cpp" />
+		<Unit filename="Cartridge/8Tunes/NSFMapper.hpp" />
 		<Unit filename="Cartridge/CartDB.hpp" />
 		<Unit filename="Cartridge/CartIO.hpp" />
 		<Unit filename="Cartridge/Cartridge.cpp" />
@@ -70,6 +74,8 @@
 		<Unit filename="Cartridge/Mappers/MemoryMapper.h" />
 		<Unit filename="Cartridge/Mappers/UxROM.cpp" />
 		<Unit filename="Cartridge/Mappers/UxROM.hpp" />
+		<Unit filename="Cartridge/ROMLoader.cpp" />
+		<Unit filename="Cartridge/ROMLoader.hpp" />
 		<Unit filename="Input.cpp" />
 		<Unit filename="Input.h" />
 		<Unit filename="Logging/CPULogger.cpp" />

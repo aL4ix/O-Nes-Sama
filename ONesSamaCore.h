@@ -2,7 +2,9 @@
 #define ONESSAMACORE_H
 
 #include "CPU.h"
+#include "Cartridge/8Tunes/NSFLoader.h"
 #include "Cartridge/Cartridge.hpp"
+#include "Cartridge/ROMLoader.hpp"
 #include "PPU.h"
 #include "RetroEmu/RetroFraction.hpp"
 #include <stddef.h>
@@ -12,7 +14,7 @@
 class ONesSamaCore {
 public:
     ONesSamaCore();
-    virtual ~ONesSamaCore();
+    ~ONesSamaCore();
     bool loadCartridge(std::string fileName);
     bool unloadCartridge();
     bool reset();
@@ -46,16 +48,19 @@ public:
     // CPU Frequency in Hz
     static constexpr int cpufreq = NTSCmasterclock / 12;
     RetroFraction fractionForCPUCycles;
+    unsigned char nsfSongNumber;
 
 protected:
 private:
     std::string saveStatePath;
-    Cartridge* cart;
+    ROMLoader* romLoader;
     CPU* cpu;
     PPU* ppu;
     int pendCycles;
+    bool isNSF;
 
     static std::string getBaseRomName(std::string romFileName);
+    static bool case_insensitive_ends_with(std::string const& fullString, std::string const& ending);
 };
 
 #endif // ONESSAMACORE_H
