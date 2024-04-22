@@ -13,7 +13,7 @@ class NSFLoader : public ROMLoader {
 public:
     NSFLoader(std::string fileName);
 
-    void loadRomFile();
+    bool loadRomFile();
     void initializingATune(CPU& cpu, unsigned short int song = 0);
     void saveState(FILE* file);
     bool loadState(FILE* file);

@@ -56,7 +56,7 @@ private:
     // Cartridge &cart;
     typedef void (CPU::*rmwOp)(unsigned char&); // RMW operation function type
     typedef void (CPU::*rdOp)(unsigned char); // Read operation function type
-    CPULogger* logger;
+    CPULogger* cpuLogger;
     int addressBus;
     unsigned char dataBus;
     int getAddress(int);

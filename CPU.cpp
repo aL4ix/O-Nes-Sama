@@ -8,7 +8,7 @@
     1 = Log cpu activity on demand
 */
 
-#define LOG_LEVEL 0
+#define CPU_LOG_LEVEL 0
 
 using namespace std;
 int cycleCount = 0;
@@ -59,8 +59,8 @@ CPU::CPU(MemoryMapper& m)
     apu->setMemoryMapper(&mapper);
 
 /*Initialize Logger*/
-#if LOG_LEVEL == 1
-    logger = new CPULogger(regs, flags, io, instData, "Logging/CPULog.txt");
+#if CPU_LOG_LEVEL == 1
+    cpuLogger = new CPULogger(regs, flags, io, instData);
 #endif
 }
 
@@ -362,10 +362,10 @@ int CPU::run(const int cycles)
 
         /*Data to feed the CPU Loggers and Debuggers*/
         instData.opcode = read(regs.pc); // 1
-#if LOG_LEVEL == 1
+#if CPU_LOG_LEVEL == 1
         instData.arg1 = readCode(regs.pc + 1);
         instData.arg2 = readCode(regs.pc + 2);
-        logger->logInstruction();
+        cpuLogger->logInstruction();
 #endif
         regs.pc++;
 

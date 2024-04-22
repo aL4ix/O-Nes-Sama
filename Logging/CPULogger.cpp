@@ -68,10 +68,8 @@ char instLengths[256] = {
 };
 // clang-format on
 
-CPULogger::CPULogger(Registers& r, ProcessorFlags& f, CPUIO& i, InstructionData& id,
-    const char* fileName)
-    : Logger(fileName)
-    , regs(r)
+CPULogger::CPULogger(Registers& r, ProcessorFlags& f, CPUIO& i, InstructionData& id)
+    : regs(r)
     , flags(f)
     , io(i)
     , instData(id)
@@ -160,7 +158,7 @@ string CPULogger::composeInstruction()
 
 void CPULogger::logInstruction()
 {
-    LogWithFormat("%s\n", composeInstruction().c_str());
+    Log.debug(LogCategory::cpuLogger, "%s", composeInstruction().c_str());
 }
 
 CPULogger::~CPULogger() { }

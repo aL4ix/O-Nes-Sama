@@ -6,32 +6,38 @@ NSFLoader::NSFLoader(std::string fileName)
     loadRomFile();
 }
 
-void NSFLoader::loadRomFile()
+#define freadAndCheckReturnedValue(name, size)                  \
+    if (fread(name, size, 1, file) == 0) {                      \
+        Log.error("There was an error reading '" #name "' \n"); \
+        return false;                                           \
+    }
+
+bool NSFLoader::loadRomFile()
 {
-    printf("Loading NSF\n");
+    Log.debug(LogCategory::loaderNSF, "Loading NSF");
     FILE* file = fopen(romFileName.c_str(), "rb");
     char header[6];
     if (file != NULL) {
         fseek(file, 0, SEEK_END);
         fileSize = ftell(file);
         fseek(file, 0x0, SEEK_SET);
-        fread(header, 5, 1, file);
+        freadAndCheckReturnedValue(header, 5);
         header[5] = 0; // null terminating the header
-        fread(&nsfVersion, 1, 1, file);
-        fread(&totalSongs, 1, 1, file);
-        fread(&startingSong, 1, 1, file);
-        fread(&loadAddress, 2, 1, file);
-        fread(&initAddress, 2, 1, file);
-        fread(&playAddress, 2, 1, file);
-        fread(nameSong, 1, 32, file);
-        fread(artist, 1, 32, file);
-        fread(copyright, 1, 32, file);
-        fread(&playSpeedNTSC, 2, 1, file);
-        fread(bankswitch, 1, 8, file);
-        fread(&playSpeedPAL, 2, 1, file);
-        fread(&palOrNtsc, 1, 1, file);
-        fread(&extraChips, 1, 1, file);
-        fread(expansion, 1, 4, file);
+        freadAndCheckReturnedValue(&nsfVersion, 1);
+        freadAndCheckReturnedValue(&totalSongs, 1);
+        freadAndCheckReturnedValue(&startingSong, 1);
+        freadAndCheckReturnedValue(&loadAddress, 2);
+        freadAndCheckReturnedValue(&initAddress, 2);
+        freadAndCheckReturnedValue(&playAddress, 2);
+        freadAndCheckReturnedValue(nameSong, 32);
+        freadAndCheckReturnedValue(artist, 32);
+        freadAndCheckReturnedValue(copyright, 32);
+        freadAndCheckReturnedValue(&playSpeedNTSC, 2);
+        freadAndCheckReturnedValue(bankswitch, 8);
+        freadAndCheckReturnedValue(&playSpeedPAL, 2);
+        freadAndCheckReturnedValue(&palOrNtsc, 1);
+        freadAndCheckReturnedValue(&extraChips, 1);
+        freadAndCheckReturnedValue(expansion, 4);
         long int curPos = ftell(file);
         prgSize = fileSize - curPos;
 
@@ -45,7 +51,7 @@ void NSFLoader::loadRomFile()
             bankswitch[i] &= 0x7; // Mask the bankswitches so they don't overflow
 
         isBankswitched = (bankswitch[0] | bankswitch[1] | bankswitch[2] | bankswitch[3] | bankswitch[4] | bankswitch[5] | bankswitch[6] | bankswitch[7]) != 0;
-        // printf("isBankswitched: %d\n", isBankswitched);
+        Log.debug(LogCategory::loaderNSF, "isBankswitched: %d", isBankswitched);
 
         unsigned short offset = loadAddress & 0xFFF;
         unsigned short bytesPerBank = 0x1000 - offset;
@@ -55,40 +61,40 @@ void NSFLoader::loadRomFile()
         }
         for (; b < 8; b++) {
             unsigned short bytesLoaded = fread(io.prgBuffer + (b * 0x1000) + offset, 1, bytesPerBank, file);
-            printf("Bytes Loaded: %x\n", bytesLoaded);
+            Log.debug(LogCategory::loaderNSF, "Bytes Loaded: %x", bytesLoaded);
             if (bytesLoaded != bytesPerBank) {
-                printf("Loaded %d banks\n", b);
+                Log.debug(LogCategory::loaderNSF, "Loaded %d banks", b);
                 break;
             }
         }
 
         fclose(file);
     } else {
-        printf("NO FILE!\n");
-        return;
+        Log.error("NO FILE!");
+        return false;
     }
 
     // Create Mapper
     mapper = new NSFMapper(io);
 
-    printf("Header: %s\n", header);
-    printf("NSF Version: %d\n", nsfVersion);
-    printf("Total Song: %x\n", totalSongs);
-    printf("Starting Song: %x\n", startingSong);
-    printf("Load Address: %x\n", loadAddress);
-    printf("Init Address: %x\n", initAddress);
-    printf("Play Address: %x\n", playAddress);
-    printf("Name Song: %s\n", nameSong);
-    printf("Artist: %s\n", artist);
-    printf("Copyright: %s\n", copyright);
-    printf("Play Speed NTSC: %x\n", playSpeedNTSC);
-    printf("Bankswitch: %02x%02x%02x%02x%02x%02x%02x%02x\n", bankswitch[0], bankswitch[1],
+    Log.debug(LogCategory::loaderNSF, "Header: %s", header);
+    Log.debug(LogCategory::loaderNSF, "NSF Version: %d", nsfVersion);
+    Log.debug(LogCategory::loaderNSF, "Total Song: %x", totalSongs);
+    Log.debug(LogCategory::loaderNSF, "Starting Song: %x", startingSong);
+    Log.debug(LogCategory::loaderNSF, "Load Address: %x", loadAddress);
+    Log.debug(LogCategory::loaderNSF, "Init Address: %x", initAddress);
+    Log.debug(LogCategory::loaderNSF, "Play Address: %x", playAddress);
+    Log.debug(LogCategory::loaderNSF, "Name Song: %s", nameSong);
+    Log.debug(LogCategory::loaderNSF, "Artist: %s", artist);
+    Log.debug(LogCategory::loaderNSF, "Copyright: %s", copyright);
+    Log.debug(LogCategory::loaderNSF, "Play Speed NTSC: %x", playSpeedNTSC);
+    Log.debug(LogCategory::loaderNSF, "Bankswitch: %02x%02x%02x%02x%02x%02x%02x%02x", bankswitch[0], bankswitch[1],
         bankswitch[2], bankswitch[3], bankswitch[4], bankswitch[5], bankswitch[6],
         bankswitch[7]);
-    printf("Play Speed PAL: %x\n", playSpeedPAL);
-    printf("PAL Or NTSC: %x\n", palOrNtsc);
-    printf("Extra Chips: %x\n", extraChips);
-    printf("Prg Size: %lx\n", prgSize);
+    Log.debug(LogCategory::loaderNSF, "Play Speed PAL: %x", playSpeedPAL);
+    Log.debug(LogCategory::loaderNSF, "PAL Or NTSC: %x", palOrNtsc);
+    Log.debug(LogCategory::loaderNSF, "Extra Chips: %x", extraChips);
+    Log.debug(LogCategory::loaderNSF, "Prg Size: %lx", prgSize);
 
     if (isBankswitched) {
         for (int i = 0; i < 8; i++)
@@ -106,6 +112,7 @@ void NSFLoader::loadRomFile()
     printf("6: %x\n", mapper->readCPU(0xd000));
     printf("7: %x\n", mapper->readCPU(0xe000));
     printf("8: %x\n", mapper->readCPU(0xf000));*/
+    return true;
 }
 
 void NSFLoader::initializingATune(CPU& cpu, unsigned short int song)
