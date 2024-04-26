@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class CPULogger : public Logger {
+class CPULogger {
 private:
     Registers& regs;
     ProcessorFlags& flags;
@@ -15,8 +15,7 @@ private:
     string composeInstruction();
 
 public:
-    CPULogger(Registers&, ProcessorFlags&, CPUIO&, InstructionData&,
-        const char* fileName = NULL);
+    CPULogger(Registers&, ProcessorFlags&, CPUIO&, InstructionData&);
     void logInstruction();
     ~CPULogger();
 };

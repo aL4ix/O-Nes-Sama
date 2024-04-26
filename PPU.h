@@ -82,8 +82,6 @@ public:
     static constexpr unsigned INTERNAL_HEIGHT = 240;
     static constexpr unsigned INTERNAL_FPS = 60;
 
-    Logger logger;
-
 private:
     // INTERNALS
     unsigned char* nametable[4];

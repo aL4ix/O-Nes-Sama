@@ -257,13 +257,13 @@ void PPU::renderTick()
                 if (counterSpriteX[n] == 0) {
                     colorSprite = ((shiftRegisterSpriteHigh[n] >> 7 & 0x1) << 1) | (shiftRegisterSpriteLow[n] >> 7 & 0x1);
 #ifdef LOGGER_PPU
-                    logger.LogVariableFeature("RendSprColor", scanlineNum, "%d n=%d %X\n", ticks, n, colorSprite);
+                    Log.debugWithFilter(LogCategory::ppuRendSprColor, scanlineNum, "%d %d n=%d %X", scanlineNum, ticks, n, colorSprite);
 #endif // LOGGER_PPU
                     if (!(reg2001 & 0x10) || ((reg2001 & 0x4) != 0x4 && ticks < 8))
                         colorSprite = 0;
                     if (colorSprite == 0) {
 #ifdef LOGGER_PPU
-                        logger.LogVariableFeature("RendSprTransp", scanlineNum, "%d n=%d\n", ticks, n);
+                        Log.debugWithFilter(LogCategory::ppuRendTransp, scanlineNum, "%d %d n=%d", scanlineNum, ticks, n);
 #endif // LOGGER_PPU
                         continue;
                     }
@@ -271,7 +271,7 @@ void PPU::renderTick()
                     palSprite = (latchSpriteAt[n] & 0x3) + 4;
                     frontBack = (latchSpriteAt[n] >> 5) & 0x1;
 #ifdef LOGGER_PPU
-                    logger.LogVariableFeature("RendSprPalFront", scanlineNum, "%d n=%d %X %X\n", ticks, n, palSprite, frontBack);
+                    Log.debugWithFilter(LogCategory::ppuRendSprPalFront, scanlineNum, "%d %d n=%d %X %X", scanlineNum, ticks, n, palSprite, frontBack);
 #endif // LOGGER_PPU
                     if (latchSpriteAt[n] & 0x4) // Zero
                     {
@@ -820,7 +820,7 @@ void PPU::setOam(const unsigned Address, const unsigned char Value)
 {
     oamPointer = Address;
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("SetOAM", scanlineNum, "%d %d=%d\n", ticks, oamPointer, Value);
+    Log.debugWithFilter(LogCategory::ppuSetOAM, scanlineNum, "%d %d %d=%d", scanlineNum, ticks, oamPointer, Value);
 #endif // LOGGER_PPU
     oam[oamPointer] = Value;
 }
@@ -830,7 +830,7 @@ unsigned char PPU::getOam(const unsigned Address)
     oamPointer = Address;
     const unsigned char Value = oam[oamPointer];
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("GetOAM", scanlineNum, "%d %d=%d\n", ticks, oamPointer, Value);
+    Log.debugWithFilter(LogCategory::ppuGetOAM, scanlineNum, "%d %d %d=%d", scanlineNum, ticks, oamPointer, Value);
 #endif
     return Value;
 }
@@ -848,7 +848,7 @@ inline unsigned char PPU::getSecondary(const unsigned Address)
 void PPU::spriteSecondaryClear()
 {
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("SprEvalSecClear", scanlineNum, "%d\n", ticks);
+    Log.debugWithFilter(LogCategory::ppuSprEvalSecClear, scanlineNum, "%d %d", scanlineNum, ticks);
 #endif // LOGGER_PPU
     setSecondary(ticks >> 1, 0xFF);
 }
@@ -856,7 +856,7 @@ void PPU::spriteSecondaryClear()
 void PPU::spriteEvaluationStarts()
 {
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("SprEvalStarts", scanlineNum, "%d\n", ticks);
+    Log.debugWithFilter(LogCategory::ppuSprEvalStarts, scanlineNum, "%d %d", scanlineNum, ticks);
 #endif // LOGGER_PPU
     spriteEvalN = spriteEvalM = secNum = 0;
     oamCompleted = oamSecondaryFull = false;
@@ -903,7 +903,7 @@ void PPU::spriteEvaluationTileLoading()
 void PPU::spriteEvaluationOdd()
 {
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("SprEvalOdd", scanlineNum, "%d\n", ticks);
+    Log.debugWithFilter(LogCategory::ppuSprEvalOdd, scanlineNum, "%d %d", scanlineNum, ticks);
 #endif // LOGGER_PPU
     unsigned pos = (spriteEvalN << 2) + oamAddress;
     spriteY = getOam(0xFF & (pos + 0));
@@ -911,14 +911,14 @@ void PPU::spriteEvaluationOdd()
     spriteA = getOam(0xFF & (pos + 2));
     spriteX = getOam(0xFF & (pos + 3));
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("SprEvalYTAX", scanlineNum, "%X %X %X %X\n", spriteY, spriteT, spriteA, spriteX);
+    Log.debugWithFilter(LogCategory::ppuSprEvalOdd, scanlineNum, "%d YTAX %X %X %X %X", scanlineNum, spriteY, spriteT, spriteA, spriteX);
 #endif // LOGGER_PPU
 }
 
 void PPU::spriteEvaluationEven()
 {
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("SprEvalEven", scanlineNum, "%d\n", ticks);
+    Log.debugWithFilter(LogCategory::ppuSprEvalEven, scanlineNum, "%d %d", scanlineNum, ticks);
 #endif // LOGGER_PPU
     if (!oamCompleted) {
         const unsigned oamFineY = unsigned(scanlineNum) - spriteY;
@@ -929,7 +929,7 @@ void PPU::spriteEvaluationEven()
             if (oamFineY < height) // In range
             {
 #ifdef LOGGER_PPU
-                logger.LogVariableFeature("SprEvalInRange", scanlineNum, "%d\n", ticks);
+                Log.debugWithFilter(LogCategory::ppuSprEvalEven, scanlineNum, "%d InRange %d", scanlineNum, ticks);
 #endif // LOGGER_PPU
 
                 const unsigned char address = secNum << 2;
@@ -1011,7 +1011,7 @@ void PPU::tickOamFetchesLow()
         shiftRegisterSpriteLow[n] = intReadMem(addressBus);
     }
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("FetchOamLow", scanlineNum, "%d n=%d ab=%X s=%X\n", ticks, n, addressBus, shiftRegisterSpriteLow[n]);
+    Log.debugWithFilter(LogCategory::ppuFetchOamLow, scanlineNum, "%d %d n=%d ab=%X s=%X", scanlineNum, ticks, n, addressBus, shiftRegisterSpriteLow[n]);
 #endif // LOGGER_PPU
 }
 
@@ -1025,7 +1025,7 @@ void PPU::tickOamFetchesHigh()
         shiftRegisterSpriteHigh[n] = reverse(shiftRegisterSpriteHigh[n]);
     }
 #ifdef LOGGER_PPU
-    logger.LogVariableFeature("FetchOamHigh", scanlineNum, "%d n=%d ab=%X s=%X\n", scanlineNum, ticks, n, addressBus, shiftRegisterSpriteHigh[n]);
+    Log.debugWithFilter(LogCategory::ppuFetchOamHigh, scanlineNum, "%d n=%d ab=%X s=%X", scanlineNum, ticks, n, addressBus, shiftRegisterSpriteHigh[n]);
 #endif // LOGGER_PPU
 }
 
