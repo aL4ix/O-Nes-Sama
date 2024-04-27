@@ -24,7 +24,7 @@ bool ONesSamaCore::loadCartridge(std::string romFileName)
     saveStatePath.append(getBaseRomName(romFileName));
     saveStatePath.append(".sta");
 
-    // printf("\nSave State path : %s", saveStatePath.c_str());
+    Log.debug(LogCategory::onessamaCore, "Save State path : %s", saveStatePath.c_str());
 
     /*Create the instances of the 6502 CPU, the Cartridge interface and the PPU*/
     cpu = new CPU(*romLoader->mapper);
@@ -93,6 +93,7 @@ bool ONesSamaCore::runOneFrame()
 {
     unsigned cycles = fractionForCPUCycles.getNextSlice();
     pendCycles = run(cycles + pendCycles);
+    // Log.debug(LogCategory::onessamaMain, "C: %d A: %d B:%d", cpu->instData.generalCycleCount, cpu->apu->halfCycles, cpu->apu->b.getSize());
     return true;
 }
 
@@ -114,9 +115,9 @@ void ONesSamaCore::saveState()
         cpu->saveState(file);
         ppu->saveState(file);
         fclose(file);
-        printf("\nSaved state \"%s\"", saveStatePath.c_str());
+        Log.debug(LogCategory::onessamaCore, "Saved state \"%s\"", saveStatePath.c_str());
     } else {
-        printf("Error creating state file '%s'", saveStatePath.c_str());
+        Log.error("Error creating state file '%s'", saveStatePath.c_str());
     }
 }
 
@@ -127,10 +128,10 @@ void ONesSamaCore::loadState()
         romLoader->loadState(file);
         cpu->loadState(file);
         ppu->loadState(file);
-        printf("\nLoaded state \"%s\"", saveStatePath.c_str());
+        Log.debug(LogCategory::onessamaCore, "Loaded state \"%s\"", saveStatePath.c_str());
         fclose(file);
     } else {
-        printf("Error loading state file '%s'", saveStatePath.c_str());
+        Log.error("Error loading state file '%s'", saveStatePath.c_str());
     }
 }
 

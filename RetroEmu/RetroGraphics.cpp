@@ -13,13 +13,13 @@ RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned intern
     window = NULL;
     // Initialize SDL
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
-        printf("RetroGraphics SDL Video could not initialize: %s\n", SDL_GetError());
+        Log.error("RetroGraphics SDL Video could not initialize: %s", SDL_GetError());
         return;
     }
     // The window we'll be rendering to
     window = SDL_CreateWindow("O-Nes-Sama", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     if (window == NULL) {
-        printf("RetroGraphics window could not be created: %s\n", SDL_GetError());
+        Log.error("RetroGraphics window could not be created: %s", SDL_GetError());
         return;
     }
 #ifndef GFX_SOFTWARE_RENDER
@@ -29,7 +29,7 @@ RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned intern
     sdlRenderer = SDL_CreateSoftwareRenderer(surface);
 #endif // GFX_SOFTWARE_RENDER
     if (sdlRenderer == NULL) {
-        printf("RetroGraphics failed to create renderer: %s\n", SDL_GetError());
+        Log.error("RetroGraphics failed to create renderer: %s", SDL_GetError());
         return;
     }
     // Set size of renderer to the same as window
@@ -38,7 +38,7 @@ RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned intern
     SDL_GetRendererInfo(sdlRenderer, info);
     for(int i=0; i<info->num_texture_formats; i++)
         if(info->texture_formats[i] == SDL_PIXELFORMAT_RGBA1555);
-            printf("YATTA");*/
+            Log.debug(LogCategory::otherRetroGraphics, "YATTA");*/
 
     // unsigned format = SDL_GetWindowPixelFormat(window);
     sdlPixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGB888);
@@ -53,7 +53,7 @@ RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned intern
     sdlRect.w = screenWidth;
     sdlRect.h = screenHeight;
     if (texture == NULL) {
-        printf("RetroGraphics failed to init: %s\n", SDL_GetError());
+        Log.error("RetroGraphics failed to init: %s", SDL_GetError());
         throw false;
     }
 }
@@ -66,7 +66,7 @@ bool RetroGraphics::Draw(const void* pixels, const size_t sizeInBytes)
     T* texturePixels = NULL;
     int pitch = 0;
     if (SDL_LockTexture(texture, NULL, (void**)&texturePixels, &pitch)) {
-        printf("RetroGraphics failed to lock texture: %s\n", SDL_GetError());
+        Log.error("RetroGraphics failed to lock texture: %s", SDL_GetError());
         return false;
     }
     for (unsigned pos = 0; pos < sizeInBytes / sizeof(T); pos++)
@@ -74,7 +74,7 @@ bool RetroGraphics::Draw(const void* pixels, const size_t sizeInBytes)
     SDL_UnlockTexture(texture);
 
     if (SDL_RenderCopyEx(sdlRenderer, texture, NULL, &sdlRect, 0., NULL, SDL_FLIP_NONE) < 0) {
-        printf("RetroGraphics failed to draw: %s\n", SDL_GetError());
+        Log.error("RetroGraphics failed to draw: %s", SDL_GetError());
     }
     return true;
 #undef T

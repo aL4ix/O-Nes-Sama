@@ -10,6 +10,12 @@ set(O_NES_SAMA_SOURCE libretro.cpp
     ../APU.h
     ../CPU.cpp
     ../CPU.h
+    ../Cartridge/8Tunes/NSFLoader.cpp
+    ../Cartridge/8Tunes/NSFLoader.h
+    ../Cartridge/8Tunes/NSFMapper.cpp
+    ../Cartridge/8Tunes/NSFMapper.hpp
+    ../Cartridge/CartDB.hpp
+    ../Cartridge/CartIO.hpp
     ../Cartridge/Cartridge.cpp
     ../Cartridge/Cartridge.hpp
     ../Cartridge/Mappers/AxROM.cpp
@@ -30,8 +36,12 @@ set(O_NES_SAMA_SOURCE libretro.cpp
     ../Cartridge/Mappers/MemoryMapper.h
     ../Cartridge/Mappers/UxROM.cpp
     ../Cartridge/Mappers/UxROM.hpp
+    ../Cartridge/ROMLoader.cpp
+    ../Cartridge/ROMLoader.hpp
     ../Input.cpp
     ../Input.h
+    ../Logging/LogCategory.cpp
+    ../Logging/LogCategory.hpp
     ../Logging/Logger.cpp
     ../Logging/Logger.h
     ../ONesSamaCore.cpp
@@ -49,5 +59,5 @@ set(CMAKE_EXE_LINKER_FLAGS "-T ${LINKER_SCRIPT}")
 set_source_files_properties(libretro/libretro.cpp
         PROPERTIES OBJECT_DEPENDS ${LINKER_SCRIPT})
         
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -DENABLE_DEBUG_LOGGER")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fexpensive-optimizations")

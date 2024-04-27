@@ -79,11 +79,8 @@ APU::APU(CPUIO& cpuIO)
 
 void APU::writeMem(unsigned short Address, unsigned char Value)
 {
-    // printf("W%X: %X\n", Address, Value);
+    Log.debug(LogCategory::apuWriteMem, "%X: %X", Address, Value);
     // pause();
-    if (Address == 0x4017) {
-        // printf("");
-    }
     Address = Address & 0b11111;
     if (Address <= 0x17)
         return (this->*writeFuncs[Address])(Value);
@@ -93,12 +90,12 @@ void APU::writeMem(unsigned short Address, unsigned char Value)
 
 unsigned char APU::readMem(unsigned short Address)
 {
-
     Address = Address & 0b11111;
+    unsigned char Value = (this->*readFuncs[Address])();
+    Log.debug(LogCategory::apuReadMem, "%X: %X", 0x4000 + Address, Value);
+
     /*if(Address == 0x15)
     {
-        auto Value = (this->*readFuncs[Address])();
-        printf("\nR%X: %X\n", 0x4000+Address, Value);
         return Value;
     }
     else
@@ -107,7 +104,7 @@ unsigned char APU::readMem(unsigned short Address)
         return cpuIO.dataBus;
     }*/
 
-    return (this->*readFuncs[Address])();
+    return Value;
 }
 
 unsigned char APU::readLatch()
@@ -151,7 +148,7 @@ void APU::write4001(unsigned char Value)
     negateFlagPulse1 = Value & 0x8;
     reloadSweepPulse1 = true;
 
-    // printf("w4001:%X N:%u S:%u E:%u\n", Value, negateFlagPulse1, shiftCountPulse1, enableSweepFlagPulse1);
+    Log.debug(LogCategory::apuWrite4001, "%X N:%u S:%u E:%u", Value, negateFlagPulse1, shiftCountPulse1, enableSweepFlagPulse1);
 }
 
 void APU::write4002(unsigned char Value)
@@ -207,7 +204,7 @@ void APU::write4008(unsigned char Value)
 {
     haltTriangle = Value & 0x80;
     counterReloadTriangle = Value & 0x7f;
-    // printf("w4008:%X HC:%u\n", Value, halfCycles);
+    Log.debug(LogCategory::apuWrite4008, "%X HC:%u", Value, halfCycles);
 }
 
 void APU::write4009(unsigned char Value)
@@ -218,7 +215,7 @@ void APU::write4009(unsigned char Value)
 void APU::write400A(unsigned char Value)
 {
     timerTriangle = (timerTriangle & 0x700) | Value;
-    // printf("w400A:%X HC:%u\n", Value, halfCycles);
+    Log.debug(LogCategory::apuWrite400A, "%X HC:%u", Value, halfCycles);
 }
 
 void APU::write400B(unsigned char Value)
@@ -228,7 +225,7 @@ void APU::write400B(unsigned char Value)
     }
     timerTriangle = ((Value & 0x7) << 8) | (timerTriangle & 0xFF);
     linearCounterReloadFlagTriangle = true;
-    // printf("w400B:%X HC:%u\n", Value, halfCycles);
+    Log.debug(LogCategory::apuWrite400B, "%X HC:%u", Value, halfCycles);
 }
 
 void APU::write400C(unsigned char Value)
@@ -247,7 +244,7 @@ void APU::write400E(unsigned char Value)
 {
     modeFlagNoise = Value & 0x80;
     timerNoise = periodTableNoise[Value & 0xF];
-    // printf("%d ", timerNoise);
+    Log.debug(LogCategory::apuWrite400E, "%d", timerNoise);
 }
 
 void APU::write400F(unsigned char Value)
@@ -270,7 +267,7 @@ void APU::write4010(unsigned char Value)
 
     loopFlagDMC = (Value & 0x40);
     rateInHalfCyclesDMC = rateTableDMC[Value & 0xF];
-    // printf("CUND: %d\n", rateInHalfCycles);
+    Log.debug(LogCategory::apuWrite4010, "CUND: %d", rateInHalfCyclesDMC);
 }
 
 void APU::write4011(unsigned char Value)
@@ -298,10 +295,9 @@ void APU::write4015(unsigned char Value)
             addressCounterDMC = sampleAddressDMC;
             bytesRemainingCounterDMC = sampleLengthDMC;
             halfCyclesUntilNextDMC = 1;
-            // printf("STARTED: %d\n", bytesRemainingCounter, halfCycles);
-
+            Log.debug(LogCategory::apuWrite4015, "STARTED: %d HC:%u", bytesRemainingCounterDMC, halfCycles);
         } else {
-            // printf("NOT STARTED: %d\n", bytesRemainingCounter);
+            Log.debug(LogCategory::apuWrite4015, "NOT STARTED: %d", bytesRemainingCounterDMC);
         }
     } else {
         bytesRemainingCounterDMC = 0;
@@ -336,7 +332,7 @@ void APU::write4015(unsigned char Value)
         enablePulse1 = false;
     }
 
-    // printf("4015:%X\n", Value);
+    Log.debug(LogCategory::apuWrite4015, "%X", Value);
 }
 
 void APU::write4017(unsigned char Value)
@@ -412,7 +408,7 @@ void APU::process(unsigned cpuCycles)
         unsigned mixer = lookupTableTND[3 * outputTriangle + 2 * outputNoise + outputLevelDMC];
         mixer += lookupTablePulse[outputPulse1 + outputPulse2];
         if (mixer > 65535) {
-            printf("CLIPPING!!!\n");
+            Log.debug(LogCategory::apuAll, "APU MIXER CLIPPING!!!");
             mixer = 65535;
         }
         try {
@@ -422,7 +418,6 @@ void APU::process(unsigned cpuCycles)
 
         // fprintf(file, "%c", mixer);
         // b.count++;
-        // printf("%d ", outputNoise);
 
         halfCycles++;
     }
@@ -459,7 +454,7 @@ void APU::processMode1()
 
 void APU::clockDMC()
 {
-    // printf("START: %d %d\n", bytesRemainingCounter, bitsRemainingCounter);
+    Log.debug(LogCategory::apuDMC, "START: %d %d", bytesRemainingCounterDMC, bitsRemainingCounterDMC);
     halfCyclesUntilNextDMC = rateInHalfCyclesDMC;
 
     if (!silenceFlagDMC) {
@@ -485,7 +480,7 @@ void APU::clockDMC()
     if (bytesRemainingCounterDMC > 0 && sampleBufferDMC == BUFFER_EMPTY)
         memoryReader();
 
-    // printf("CLOCK: %d %d\n", bytesRemainingCounter, bitsRemainingCounter);
+    Log.debug(LogCategory::apuDMC, "CLOCK: %d %d", bytesRemainingCounterDMC, bitsRemainingCounterDMC);
 }
 
 void APU::memoryReader()
@@ -501,7 +496,7 @@ void APU::memoryReader()
             addressCounterDMC = sampleAddressDMC;
             bytesRemainingCounterDMC = sampleLengthDMC;
         } else {
-            // printf("FINISHED\n");
+            Log.debug(LogCategory::apuMemReader, "FINISHED");
             if (irqEnableDMC) {
                 cpuIO.irq = 1;
                 irqDMC = true;
@@ -540,7 +535,7 @@ void APU::reset()
 
 void APU::clockHalfFrame()
 {
-    // printf("CH\n");
+    Log.debug(LogCategory::apuHalfFrame, "CH");
 
     if (haltNoise || lengthCounterNoise == 0) {
     } else
@@ -553,7 +548,7 @@ void APU::clockHalfFrame()
     // Sweep Pulse1
     if (dividerSweepCounterPulse1 > 0) {
         dividerSweepCounterPulse1--;
-        // printf("RedDiv to %u\n", dividerSweepCounterPulse1);
+        Log.debug(LogCategory::apuHalfFrame, "RedDiv to %u", dividerSweepCounterPulse1);
     } else {
         dividerSweepCounterPulse1 = dividerSweepPulse1;
         if (enableSweepFlagPulse1 && !isSweepSilenced(timerPulse1, negateFlagPulse1, shiftCountPulse1)) {
@@ -562,7 +557,7 @@ void APU::clockHalfFrame()
             else
                 timerPulse1 += (timerPulse1 >> shiftCountPulse1);
         }
-        // printf("Timer: %u\n", timerPulse1);
+        Log.debug(LogCategory::apuHalfFrame, "Timer: %u", timerPulse1);
     }
     if (reloadSweepPulse1) {
         /*
@@ -573,7 +568,7 @@ void APU::clockHalfFrame()
            else*/
         dividerSweepCounterPulse1 = dividerSweepPulse1;
         reloadSweepPulse1 = false;
-        // printf("SetDiv to %u\n", dividerSweepCounterPulse1);
+        Log.debug(LogCategory::apuHalfFrame, "SetDiv to %u", dividerSweepCounterPulse1);
     }
 
     // Length Pulse 1
@@ -612,7 +607,7 @@ void APU::clockHalfFrame()
 
 void APU::clockQuarterFrame()
 {
-    // printf("CQ\n");
+    Log.debug(LogCategory::apuQuarterFrame, "CQ");
     if (linearCounterReloadFlagTriangle) {
         linearCounterTriangle = counterReloadTriangle;
     } else if (linearCounterTriangle > 0) {
@@ -690,7 +685,7 @@ void APU::clockTriangle()
     if (lengthCounterTriangle > 0 && linearCounterTriangle > 0 && timerTriangle >= 2) {
         outputTriangle = sequencerTriangle[sequencerStepTriangle++];
         sequencerStepTriangle &= 31;
-        // printf("%d %d\n", halfCyclesUntilTriangle, sequencerStepTriangle);
+        Log.debug(LogCategory::apuTriangle, "%d %d", halfCyclesUntilTriangle, sequencerStepTriangle);
     }
 }
 
@@ -706,7 +701,7 @@ void APU::clockPulse1()
     } else
         outputPulse1 = 0;
 
-    // printf("%d %d\n", halfCyclesUntilPulse1, sequencerStepPulse1);
+    Log.debug(LogCategory::apuPulse1, "%d %d", halfCyclesUntilPulse1, sequencerStepPulse1);
 }
 
 void APU::clockPulse2()
@@ -721,20 +716,20 @@ void APU::clockPulse2()
     } else
         outputPulse2 = 0;
 
-    // printf("%d %d\n", halfCyclesUntilPulse2, sequencerStepPulse2);
+    Log.debug(LogCategory::apuPulse2, "%d %d", halfCyclesUntilPulse2, sequencerStepPulse2);
 }
 
 void APU::clockNoise()
 {
     halfCyclesUntilNoise = timerNoise;
-    // printf("SH: %X ", shiftRegisterNoise);
+    Log.debug(LogCategory::apuNoise, "SH: %X", shiftRegisterNoise);
     // getchar();
     bool feedback = shiftRegisterNoise & 0x1;
     // XOR with bit 6 if modeFlag else bit 1
     feedback ^= (modeFlagNoise) ? (shiftRegisterNoise & 0x40) != 0 : (shiftRegisterNoise & 0x2) != 0;
     shiftRegisterNoise >>= 1;
     shiftRegisterNoise |= feedback << 14;
-    // printf("SH: %X ", shiftRegisterNoise);
+    Log.debug(LogCategory::apuNoise, "SH: %X", shiftRegisterNoise);
     if (((shiftRegisterNoise & 0x1) == 0) && lengthCounterNoise > 0) {
         outputNoise = (constantVolumeFlagNoise) ? constVolEnvDivPeriodNoise : envelopeVolumeNoise;
     } else

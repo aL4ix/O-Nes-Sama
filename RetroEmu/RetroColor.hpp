@@ -1,6 +1,7 @@
 #ifndef RETRO_COLOR_HPP
 #define RETRO_COLOR_HPP
 
+#include "../Logging/Logger.h"
 #include <SDL2/SDL.h>
 #include <cinttypes>
 #include <stdio.h>
@@ -63,7 +64,7 @@ public:
         if (sdlPixelFormat)
             nativeColor = SDL_MapRGB(sdlPixelFormat, R, G, B);
         else
-            printf("RetroColor pixelFormat in Color is NULL\n");
+            Log.error("RetroColor pixelFormat in Color is NULL");
     }
     inline void SetColor(const unsigned char R, const unsigned char G,
         const unsigned char B, const unsigned char A)
@@ -72,7 +73,7 @@ public:
         if (sdlPixelFormat)
             nativeColor = SDL_MapRGBA(sdlPixelFormat, R, G, B, A);
         else
-            printf("RetroColor pixelFormat in Color is NULL\n");
+            Log.error("RetroColor pixelFormat in Color is NULL");
     }
     inline T GetColor() const
     {

@@ -1,6 +1,7 @@
 #ifndef RETRO_INPUT_H_INCLUDED
 #define RETRO_INPUT_H_INCLUDED
 
+#include "../Logging/Logger.h"
 #include "CPUIO.hpp"
 #include <SDL2/SDL.h>
 

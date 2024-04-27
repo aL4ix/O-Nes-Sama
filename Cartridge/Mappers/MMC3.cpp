@@ -29,7 +29,7 @@ MMC3::MMC3(CartIO& ioRef)
         }
     }
 
-    printf("\nNeeds MC_ACC Behavior   : %d", needsMCACC);
+    Log.debug(LogCategory::mapperMMC3, "Needs MC_ACC Behavior   : %d", needsMCACC);
 
     io.wRam = new unsigned char[0x2000];
     io.switch8K(0, 0, io.wRam, io.wRamSpace);
@@ -112,7 +112,7 @@ void MMC3::syncCHR()
     bool chrMode = (bankSelect & 0x80);
     int chrMask1K = (io.iNESHeader.chrSize8k << 3) - 1;
 
-    // printf ("\n%x", chrMask1K);
+    Log.debug(LogCategory::mapperMMC3, "%x", chrMask1K);
 
     io.switch1K((chrMode << 2) | 0, (commandRegs[0] & chrMask1K) & 0xFE, io.chrBuffer, io.chrSpace);
     io.switch1K((chrMode << 2) | 1, (commandRegs[0] & chrMask1K) | 1, io.chrBuffer, io.chrSpace);
@@ -148,15 +148,15 @@ void inline MMC3::clockCPU()
     if (!ppuA12)
         edgeCount++;
 
-    // printf("\nEDGE: ", edgeCount);
+    Log.debug(LogCategory::mapperMMC3, "EDGE: ", edgeCount);
 
     /*if (io.wRam[0] != 0x80){
         if ((io.wRam[0] != 0x80) && (io.wRam[1] == 0xDE) && (io.wRam[2] == 0xB0) && (io.wRam[3] == 0x61)){
-            printf ("\n");
+            Log.debug(LogCategory::mapperMMC3, "");
             for (int i = 0; i < 60; i++){
-                printf ("%c", io.wRam[i]);
+                Log.debug(LogCategory::mapperMMC3, "%c", io.wRam[i]);
             }
-            printf ("\n");
+            Log.debug(LogCategory::mapperMMC3, "");
             exit(1);
         }
     }*/
@@ -178,7 +178,7 @@ inline void MMC3::clockIRQCounter()
         edgeCondition = !oldPPUA12 && ppuA12;
     }
 
-    // printf ("\n%d", cyclesToIgnore);
+    Log.debug(LogCategory::mapperMMC3, "%d", cyclesToIgnore);
 
     if (edgeCondition) {
 
@@ -188,7 +188,7 @@ inline void MMC3::clockIRQCounter()
                 irqReload = 0;
             } else {
                 irqCounter--;
-                // printf("\nDEB: %d %d %d", *io.dbg.sl, *io.dbg.tick, irqCounter);
+                Log.debug(LogCategory::mapperMMC3, "DEB: %d %d %d", *io.dbg.sl, *io.dbg.tick, irqCounter);
             }
 
             if (irqCounter == 0) {

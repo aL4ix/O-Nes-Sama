@@ -3,12 +3,12 @@
 RetroInput::RetroInput()
 {
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK)) {
-        printf("RetroInput SDL Joystick could not initialize: %s\n", SDL_GetError());
+        Log.error("RetroInput SDL Joystick could not initialize: %s", SDL_GetError());
         return;
     }
     numberOfJoys = SDL_NumJoysticks();
     if (numberOfJoys < 0) {
-        printf("RetroInput Number of joysticks is less than 0: %s\n", SDL_GetError());
+        Log.error("RetroInput Number of joysticks is less than 0: %s", SDL_GetError());
         numberOfJoys = 0;
     } else if (numberOfJoys > 2) {
         numberOfJoys = 2;

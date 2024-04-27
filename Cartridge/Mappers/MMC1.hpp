@@ -1,7 +1,9 @@
 #ifndef MMC1_HPP_INCLUDED
 #define MMC1_HPP_INCLUDED
 
+#include "../../Logging/Logger.h"
 #include "BasicMapper.hpp"
+
 class MMC1 : public BasicMapper {
 public:
     MMC1(CartIO& ioRef);

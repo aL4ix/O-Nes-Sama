@@ -28,7 +28,7 @@ static void fallback_log(enum retro_log_level level, const char* fmt, ...)
 
 void retro_init()
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
 
     static struct retro_log_callback logging;
     if (environ_cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &logging))
@@ -39,7 +39,7 @@ void retro_init()
 
 void retro_get_system_info(struct retro_system_info* info)
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
 
     memset(info, 0, sizeof(*info));
     info->library_name = "O-Nes-Sama";
@@ -50,7 +50,7 @@ void retro_get_system_info(struct retro_system_info* info)
 
 void retro_get_system_av_info(struct retro_system_av_info* info)
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
 
     memset(info, 0, sizeof(*info));
     info->timing.fps = oNesSamaCore.getPPUFPS();
@@ -65,8 +65,7 @@ void retro_get_system_av_info(struct retro_system_av_info* info)
 
     enum retro_pixel_format pixel_format = RETRO_PIXEL_FORMAT_XRGB8888;
     if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &pixel_format)) {
-        std::cout << "ONESSAMA: "
-                  << "FAILED ALV!" << std::endl;
+        Log.error("ONESSAMA: FAILED ALV!");
     }
 
     unsigned char* palette = oNesSamaCore.getDefaultPalette();
@@ -80,7 +79,7 @@ void retro_get_system_av_info(struct retro_system_av_info* info)
 
 bool retro_load_game(const struct retro_game_info* game)
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
 
     // clang-format off
     struct retro_input_descriptor desc[] = {
@@ -115,19 +114,19 @@ bool retro_load_game(const struct retro_game_info* game)
 
 void retro_unload_game()
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
     oNesSamaCore.unloadCartridge();
 }
 
 void retro_reset()
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
     oNesSamaCore.reset();
 }
 
 void retro_run()
 {
-    // std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    // Log.info("ONESSAMA: %s", __FUNCTION__);
 
     // int debugLine = 0;
 
@@ -158,10 +157,10 @@ void retro_run()
     }
 
     oNesSamaCore.setControllersMatrix(inputs);
-    // std::cout << debugLine++ << std::endl;
+    // Log.debug(LogCategory::onessamaLibretro, "%d", debugLine++);
 
     oNesSamaCore.runOneFrame();
-    // std::cout << debugLine++ << std::endl;
+    // Log.debug(LogCategory::onessamaLibretro, "%d", debugLine++);
 
     unsigned char* palettedFrameBuffer = oNesSamaCore.getPalettedFrameBuffer();
     constexpr unsigned ppuWidth = oNesSamaCore.getPPUInteralWidth();
@@ -170,17 +169,17 @@ void retro_run()
         framebuffer[pos] = colorPalette[palettedFrameBuffer[pos]];
     }
     video_cb(framebuffer, ppuWidth, ppuHeight, sizeof(uint32_t) * ppuWidth);
-    // std::cout << debugLine++ << std::endl;
+    // Log.debug(LogCategory::onessamaLibretro, "%d", debugLine++);
 }
 /////////////////////////SET CALLBACKS/////////////////////////////////////////
 void retro_set_environment(retro_environment_t cb)
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
     environ_cb = cb;
 }
 void retro_set_audio_sample(retro_audio_sample_t cb)
 {
-    std::cout << "ONESSAMA: " << __FUNCTION__ << std::endl;
+    Log.info("ONESSAMA: %s", __FUNCTION__);
     audio_cb = cb;
     oNesSamaCore.setPushAudioSampleCallback(audio_cb);
 }

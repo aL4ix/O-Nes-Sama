@@ -998,7 +998,7 @@ case 0xD2:
 case 0xF2:
     pollForInterrupts();
     // read(regs.pc--);
-    // printf("\nHLT Opcode %02X", instData.opcode);
+    Log.debug(LogCategory::cpuOpcodes, "HLT Opcode %02X", instData.opcode);
     break;
 case 0xF3: //*ISB INDY
     addr = getAddress(INDY);

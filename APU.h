@@ -6,6 +6,7 @@
 
 #include "CPUIO.hpp"
 #include "Cartridge/Mappers/MemoryMapper.h"
+#include "Logging/Logger.h"
 
 class APU {
     const unsigned short AMPLITUDE = 30000;

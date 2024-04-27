@@ -36,6 +36,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-DEIGHT_TUNES" />
+			<Add option="-DENABLE_DEBUG_LOGGER" />
 		</Compiler>
 		<Linker>
 			<Add library="SDL2" />
@@ -56,6 +57,10 @@
 		<Unit filename="../Cartridge/Mappers/MemoryMapper.h" />
 		<Unit filename="../Cartridge/ROMLoader.cpp" />
 		<Unit filename="../Cartridge/ROMLoader.hpp" />
+		<Unit filename="../Logging/LogCategory.cpp" />
+		<Unit filename="../Logging/LogCategory.hpp" />
+		<Unit filename="../Logging/Logger.cpp" />
+		<Unit filename="../Logging/Logger.h" />
 		<Unit filename="../RetroEmu/RetroAudio.cpp" />
 		<Unit filename="../RetroEmu/RetroAudio.hpp" />
 		<Unit filename="../RetroEmu/RetroFraction.cpp" />
@@ -65,10 +70,7 @@
 		<Unit filename="DummyInput.h" />
 		<Unit filename="DummyPPU.h" />
 		<Extensions>
-			<code_completion />
-			<envvars />
 			<lib_finder disable_auto="1" />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

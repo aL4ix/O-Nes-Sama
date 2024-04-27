@@ -103,15 +103,18 @@ bool NSFLoader::loadRomFile()
         for (int i = 0; i < 8; i++)
             io.switch4K(i, i, io.prgBuffer, io.prgSpace);
     }
+
     /*
-    printf("1: %x\n", mapper->readCPU(0x8000));
-    printf("2: %x\n", mapper->readCPU(0x9001));
-    printf("3: %x\n", mapper->readCPU(0xa000));
-    printf("4: %x\n", mapper->readCPU(0xb000));
-    printf("5: %x\n", mapper->readCPU(0xc000));
-    printf("6: %x\n", mapper->readCPU(0xd000));
-    printf("7: %x\n", mapper->readCPU(0xe000));
-    printf("8: %x\n", mapper->readCPU(0xf000));*/
+    Log.debug(LogCategory::loaderNSF, "1: %x", mapper->readCPU(0x8000));
+    Log.debug(LogCategory::loaderNSF, "2: %x", mapper->readCPU(0x9001));
+    Log.debug(LogCategory::loaderNSF, "3: %x", mapper->readCPU(0xa000));
+    Log.debug(LogCategory::loaderNSF, "4: %x", mapper->readCPU(0xb000));
+    Log.debug(LogCategory::loaderNSF, "5: %x", mapper->readCPU(0xc000));
+    Log.debug(LogCategory::loaderNSF, "6: %x", mapper->readCPU(0xd000));
+    Log.debug(LogCategory::loaderNSF, "7: %x", mapper->readCPU(0xe000));
+    Log.debug(LogCategory::loaderNSF, "8: %x", mapper->readCPU(0xf000));
+    */
+
     return true;
 }
 
