@@ -6,7 +6,7 @@ RetroAudio::RetroAudio()
     , warmingUp(true)
 {
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
-        Log.error("SDL Audio could not initialize! SDL_Error: %s\n", SDL_GetError());
+        Log.error("SDL Audio could not initialize! SDL_Error: %s", SDL_GetError());
         return;
     }
 
@@ -29,7 +29,7 @@ RetroAudio::RetroAudio()
     // For some reason this is equivalent to the one above but this doesn't work
     sdldev = SDL_OpenAudioDevice(NULL, 0, &desiredSpec, &obtainedSpec, 0);
     if (sdldev == 0) {
-        Log.error("Failed to open audio: %s\n", SDL_GetError());
+        Log.error("Failed to open audio: %s", SDL_GetError());
     }
 
     Log.debug(LogCategory::otherRetroAudio, "Describe audio");
