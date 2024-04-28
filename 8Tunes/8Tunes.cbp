@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DENABLE_DEBUG_LOGGER" />
 					<Add directory="include" />
 				</Compiler>
 			</Target>
@@ -36,7 +37,6 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-DEIGHT_TUNES" />
-			<Add option="-DENABLE_DEBUG_LOGGER" />
 		</Compiler>
 		<Linker>
 			<Add library="SDL2" />
