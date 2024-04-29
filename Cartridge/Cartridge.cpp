@@ -18,8 +18,8 @@ Cartridge::Cartridge(std::string fileName)
     romFileName = fileName;
     batteryPath.append(getBaseRomName(romFileName));
     batteryPath.append(".sav");
-    Log.debug(LogCategory::loaderCart, "Rom File path   : %s", romFileName.c_str());
-    Log.debug(LogCategory::loaderCart, "Battery path    : %s", batteryPath.c_str());
+    Log.info("Rom File path   : %s", romFileName.c_str());
+    Log.info("Battery path    : %s", batteryPath.c_str());
     loadRomFile();
 
     if (mapper->io.iNESHeader.hasBackedWram) {
@@ -61,7 +61,7 @@ void Cartridge::loadRomFile()
         io.iNESHeader.chrSize8k = header[5];
         int chrSizeInBytes = io.iNESHeader.chrSize8k * 0x2000; // MapperUtils::_8K;
         io.chrWritable = !io.iNESHeader.chrSize8k; // If Chr size == 0, then writable (RAM).
-        Log.debug(LogCategory::loaderCart, "Is CHR Writable: %x", io.chrWritable);
+        Log.info("Is CHR Writable: %x", io.chrWritable);
 
         if (io.chrWritable) {
             io.chrBuffer = new unsigned char[0x2000]; // Chr RAM 8K
@@ -78,7 +78,7 @@ void Cartridge::loadRomFile()
         crc = crc32(crc, io.prgBuffer, prgSizeInBytes);
         crc = crc32(crc, io.chrBuffer, chrSizeInBytes);
         io.iNESHeader.romCRC32 = crc;
-        Log.debug(LogCategory::loaderCart, "CRC                     : %lX", crc);
+        Log.info("CRC                     : %lX", crc);
         mapper = createMapper(io.iNESHeader.mapperNo);
         file.close();
 
@@ -87,10 +87,10 @@ void Cartridge::loadRomFile()
             exit(1);
         }
 
-        Log.debug(LogCategory::loaderCart, "Mapper No               : %d", io.iNESHeader.mapperNo);
-        Log.debug(LogCategory::loaderCart, "PRG Size                : %d", io.iNESHeader.prgSize16k);
-        Log.debug(LogCategory::loaderCart, "CHR Size                : %d", io.iNESHeader.chrSize8k);
-        Log.debug(LogCategory::loaderCart, "Has battery backed wRam : %d", io.iNESHeader.hasBackedWram);
+        Log.info("Mapper No               : %d", io.iNESHeader.mapperNo);
+        Log.info("PRG Size                : %d", io.iNESHeader.prgSize16k);
+        Log.info("CHR Size                : %d", io.iNESHeader.chrSize8k);
+        Log.info("Has battery backed wRam : %d", io.iNESHeader.hasBackedWram);
 
     } else {
         Log.error("Invalid Rom File...");
@@ -186,6 +186,6 @@ Cartridge::~Cartridge()
             mapper->saveSRAM(batteryFile);
             fclose(batteryFile);
         } else
-            Log.debug(LogCategory::loaderCart, "Error while saving SRAM file");
+            Log.error("Error while saving SRAM file");
     }
 }

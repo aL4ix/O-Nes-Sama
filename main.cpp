@@ -23,8 +23,6 @@ RetroAudio retroAudio;
 
 int main(int argc, char** argv)
 {
-    Log.enableDebugCategory(LogCategory::loaderAll);
-
     /********************************************************/
     /*                   Timing info                        */
     /********************************************************/
