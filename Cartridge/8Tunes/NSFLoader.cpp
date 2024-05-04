@@ -14,7 +14,7 @@ NSFLoader::NSFLoader(std::string fileName)
 
 bool NSFLoader::loadRomFile()
 {
-    Log.debug(LogCategory::loaderNSF, "Loading NSF");
+    Log.info("Loading NSF");
     FILE* file = fopen(romFileName.c_str(), "rb");
     char header[6];
     if (file != NULL) {
@@ -51,7 +51,7 @@ bool NSFLoader::loadRomFile()
             bankswitch[i] &= 0x7; // Mask the bankswitches so they don't overflow
 
         isBankswitched = (bankswitch[0] | bankswitch[1] | bankswitch[2] | bankswitch[3] | bankswitch[4] | bankswitch[5] | bankswitch[6] | bankswitch[7]) != 0;
-        Log.debug(LogCategory::loaderNSF, "isBankswitched: %d", isBankswitched);
+        Log.info("isBankswitched: %d", isBankswitched);
 
         unsigned short offset = loadAddress & 0xFFF;
         unsigned short bytesPerBank = 0x1000 - offset;
@@ -77,24 +77,24 @@ bool NSFLoader::loadRomFile()
     // Create Mapper
     mapper = new NSFMapper(io);
 
-    Log.debug(LogCategory::loaderNSF, "Header: %s", header);
-    Log.debug(LogCategory::loaderNSF, "NSF Version: %d", nsfVersion);
-    Log.debug(LogCategory::loaderNSF, "Total Song: %x", totalSongs);
-    Log.debug(LogCategory::loaderNSF, "Starting Song: %x", startingSong);
-    Log.debug(LogCategory::loaderNSF, "Load Address: %x", loadAddress);
-    Log.debug(LogCategory::loaderNSF, "Init Address: %x", initAddress);
-    Log.debug(LogCategory::loaderNSF, "Play Address: %x", playAddress);
-    Log.debug(LogCategory::loaderNSF, "Name Song: %s", nameSong);
-    Log.debug(LogCategory::loaderNSF, "Artist: %s", artist);
-    Log.debug(LogCategory::loaderNSF, "Copyright: %s", copyright);
-    Log.debug(LogCategory::loaderNSF, "Play Speed NTSC: %x", playSpeedNTSC);
-    Log.debug(LogCategory::loaderNSF, "Bankswitch: %02x%02x%02x%02x%02x%02x%02x%02x", bankswitch[0], bankswitch[1],
+    Log.info("Header: %s", header);
+    Log.info("NSF Version: %d", nsfVersion);
+    Log.info("Total Song: %x", totalSongs);
+    Log.info("Starting Song: %x", startingSong);
+    Log.info("Load Address: %x", loadAddress);
+    Log.info("Init Address: %x", initAddress);
+    Log.info("Play Address: %x", playAddress);
+    Log.info("Name Song: %s", nameSong);
+    Log.info("Artist: %s", artist);
+    Log.info("Copyright: %s", copyright);
+    Log.info("Play Speed NTSC: %x", playSpeedNTSC);
+    Log.info("Bankswitch: %02x%02x%02x%02x%02x%02x%02x%02x", bankswitch[0], bankswitch[1],
         bankswitch[2], bankswitch[3], bankswitch[4], bankswitch[5], bankswitch[6],
         bankswitch[7]);
-    Log.debug(LogCategory::loaderNSF, "Play Speed PAL: %x", playSpeedPAL);
-    Log.debug(LogCategory::loaderNSF, "PAL Or NTSC: %x", palOrNtsc);
-    Log.debug(LogCategory::loaderNSF, "Extra Chips: %x", extraChips);
-    Log.debug(LogCategory::loaderNSF, "Prg Size: %lx", prgSize);
+    Log.info("Play Speed PAL: %x", playSpeedPAL);
+    Log.info("PAL Or NTSC: %x", palOrNtsc);
+    Log.info("Extra Chips: %x", extraChips);
+    Log.info("Prg Size: %lx", prgSize);
 
     if (isBankswitched) {
         for (int i = 0; i < 8; i++)
@@ -103,15 +103,18 @@ bool NSFLoader::loadRomFile()
         for (int i = 0; i < 8; i++)
             io.switch4K(i, i, io.prgBuffer, io.prgSpace);
     }
+
     /*
-    printf("1: %x\n", mapper->readCPU(0x8000));
-    printf("2: %x\n", mapper->readCPU(0x9001));
-    printf("3: %x\n", mapper->readCPU(0xa000));
-    printf("4: %x\n", mapper->readCPU(0xb000));
-    printf("5: %x\n", mapper->readCPU(0xc000));
-    printf("6: %x\n", mapper->readCPU(0xd000));
-    printf("7: %x\n", mapper->readCPU(0xe000));
-    printf("8: %x\n", mapper->readCPU(0xf000));*/
+    Log.debug(LogCategory::loaderNSF, "1: %x", mapper->readCPU(0x8000));
+    Log.debug(LogCategory::loaderNSF, "2: %x", mapper->readCPU(0x9001));
+    Log.debug(LogCategory::loaderNSF, "3: %x", mapper->readCPU(0xa000));
+    Log.debug(LogCategory::loaderNSF, "4: %x", mapper->readCPU(0xb000));
+    Log.debug(LogCategory::loaderNSF, "5: %x", mapper->readCPU(0xc000));
+    Log.debug(LogCategory::loaderNSF, "6: %x", mapper->readCPU(0xd000));
+    Log.debug(LogCategory::loaderNSF, "7: %x", mapper->readCPU(0xe000));
+    Log.debug(LogCategory::loaderNSF, "8: %x", mapper->readCPU(0xf000));
+    */
+
     return true;
 }
 

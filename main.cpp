@@ -1,6 +1,7 @@
 #define SDL_MAIN_HANDLED
 #define BENCH 0
 // define DEBUGGER
+
 #include "CPU.h"
 #include "Cartridge/Cartridge.hpp"
 #include "ONesSamaCore.h"
@@ -18,6 +19,7 @@
 
 std::string getBaseRomName(std::string romFileName);
 void pushAudioSample(short left, short right);
+RetroAudio retroAudio;
 
 int main(int argc, char** argv)
 {
@@ -106,7 +108,6 @@ int main(int argc, char** argv)
             }
 
             oNesSamaCore.runOneFrame();
-            // printf("C: %d A: %d B:%d\n", cpu.instData.generalCycleCount, cpu.apu->halfCycles, cpu.apu->b.getSize());
             frameCtr++;
 
             retroGraphics.DrawBegin();
@@ -130,10 +131,10 @@ int main(int argc, char** argv)
             const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
             if (secondsCount != secondsSinceStart) {
                 secondsCount = secondsSinceStart;
-                printf("T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u\n", now, FPS,
-                    cpu.apu->afx.getOutputSamplesAndReset(), sumCycles,
+                Log.debug(LogCategory::onessamaMain, "T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u\n", now, FPS,
+                    retroAudio.getOutputSamplesAndReset(), sumCycles,
                     cpu.instData.generalCycleCount - cpuCurGenCycCount,
-                    cpu.apu->callCyclesCount, cpu.apu->afx.getQueuedCount());
+                    cpu.apu->callCyclesCount, retroAudio.getQueuedCount());
                 sumCycles = 0;
                 FPS = 0;
                 cpu.apu->callCyclesCount = 0;
@@ -170,7 +171,6 @@ std::string getBaseRomName(std::string tmpRomName)
     return fileNameBase;
 }
 
-RetroAudio retroAudio;
 void pushAudioSample(short left, short right)
 {
     retroAudio.loadSample(left);

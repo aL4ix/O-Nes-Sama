@@ -353,8 +353,9 @@ int CPU::run(const int cycles)
 #endif // DEBUG_PRECISETIMING
         if (isIntPendng) {
             interruptSequence(0);
-            /*if (isIRQPending)
-                printf ("REAL: %d %d\n", *mapper.io.dbg.sl, *mapper.io.dbg.tick);*/
+            if (isIRQPending) {
+                Log.debug(LogCategory::cpuRun, "REAL: %d %d", *mapper.io.dbg.sl, *mapper.io.dbg.tick);
+            }
         }
 
         pageCrossed = false;
@@ -373,7 +374,7 @@ int CPU::run(const int cycles)
 
 #ifdef DEBUG_PRECISETIMING
         if ((generalCycleCount - localGeneralCount) != cycleCount) {
-            printf("HEY\n");
+            Log.debug(LogCategory::cpuPreciseTime, "Debug Precise Timing");
         }
         totalSum += cycleCount;
 #endif // DEBUG_PRECISETIMING
@@ -384,8 +385,7 @@ int CPU::run(const int cycles)
 
 #ifdef DEBUG_PRECISETIMING
     if (totalSum != cycles - cyclesRemain) {
-        printf("NEL");
-        printf(" ts:%u s:%d cr:%d\n", totalSum, cycles, cyclesRemain);
+        Log.debug(LogCategory::cpuPreciseTime, "NEL ts:%u s:%d cr:%d", totalSum, cycles, cyclesRemain);
     }
 #endif // DEBUG_PRECISETIMING
 
@@ -447,7 +447,7 @@ void CPU::pollForInterrupts()
 {
     isIRQPending = (!(regs.p & flags.I_FLAG) && io.irq);
     if (isIRQPending && io.nmi) {
-        printf("\nIRQ Forgotten...");
+        Log.debug(LogCategory::cpuAll, "IRQ Forgotten...");
         io.irq = 0;
     }
     isIntPendng = io.reset || io.nmi || isIRQPending;
@@ -458,7 +458,7 @@ void CPU::reset()
     io.reset = 1;
     interruptSequence(0);
     apu->reset();
-    printf("\nReset: %X", regs.pc);
+    Log.debug(LogCategory::cpuAll, "Reset: %X", regs.pc);
 }
 
 /***********************************************************************/

@@ -127,14 +127,14 @@ PPU::~PPU()
 
 void PPU::writeMem(unsigned short Address, unsigned char Value)
 {
-    // printf("PPUW: %d,%d %X = %X\n", scanlineNum, ticks, Address&0x3fff, Value);
+    Log.debug(LogCategory::ppuWriteMem, "%d,%d %X = %X", scanlineNum, ticks, Address & 0x3fff, Value);
     return (this->*writeFuncs[Address & 0x07])(Value);
 }
 
 unsigned char PPU::readMem(unsigned short Address)
 {
     auto Value = (this->*readFuncs[Address & 0x07])();
-    // printf("PPUR: %d,%d, %X = %X\n", scanlineNum, ticks, Address&0x3fff, Value);
+    Log.debug(LogCategory::ppuReadMem, "%d,%d, %X = %X", scanlineNum, ticks, Address & 0x3fff, Value);
     return Value;
 }
 
@@ -143,7 +143,7 @@ void PPU::process(int cpuCycles)
     int cyclesLeft = cpuCycles * 3;
     for (int i = 0; i < cyclesLeft; i++) {
         ticks++;
-        // printf("%d %d\n", scanlineNum, ticks);
+        Log.debug(LogCategory::ppuProcess, "%d %d", scanlineNum, ticks);
 
         if (ticks == 338) // 256 o 338
         {
@@ -171,7 +171,7 @@ void PPU::process(int cpuCycles)
                 reg2002 |= 0x80;
                 if (reg2000 & 0x80) {
                     triggerNMI();
-                    // printf ("\nTrigger: %d, %d", ticks, scanlineNum);
+                    Log.debug(LogCategory::ppuProcess, "Trigger: %d, %d", ticks, scanlineNum);
                 }
                 oamAddress = 0;
             } else if (scanlineNum == 261) // OJO cambiar para PAL
@@ -184,7 +184,7 @@ void PPU::process(int cpuCycles)
             }
         } else if (scanlineNum == -1 && ticks == 1) {
             reg2002 = 0;
-            // printf("CZH: %x\n",reg2001);
+            Log.debug(LogCategory::ppuProcess, "CZH: %x", reg2001);
         }
 
         if (isRendering) {
@@ -202,7 +202,7 @@ void PPU::process(int cpuCycles)
             zeroHit--;
             if (zeroHit == 0) {
                 reg2002 |= 0x40;
-                // printf("HIT: %d,%d\n", scanlineNum, ticks);
+                Log.debug(LogCategory::ppuProcess, "HIT: %d,%d", scanlineNum, ticks);
             }
         }
 
@@ -279,12 +279,17 @@ void PPU::renderTick()
                             colorSprite = 0;
                             continue;
                         }
-                        /*if(colorSprite)
-                            printf("ZERO: %d.%d\n", scanlineNum, ticks);*/
+#ifdef LOGGER_PPU
+                        if (colorSprite) {
+                            Log.debug(LogCategory::ppuRender, "ZERO: %d.%d", scanlineNum, ticks);
+                        }
+#endif // LOGGER_PPU
                         if (zeroHit == 0 && !(reg2002 & 0x40))
                             if (colorBG != 0 && colorSprite != 0 && ticks < 255) {
                                 zeroHit = 4;
-                                // printf("AQUI: %d,%d,\n", scanlineNum, ticks);
+#ifdef LOGGER_PPU
+                                Log.debug(LogCategory::ppuRender, "AQUI: %d,%d", scanlineNum, ticks);
+#endif // LOGGER_PPU
                             }
                     }
                     break;
@@ -342,7 +347,7 @@ void PPU::powerOn()
 void PPU::triggerNMI()
 {
     cpuIO.nmi = 1;
-    // printf("NMI: %d,%d\n", scanlineNum, ticks);
+    Log.debug(LogCategory::ppuTriggerNMI, "NMI: %d,%d", scanlineNum, ticks);
 }
 
 void PPU::clearNMI()
@@ -368,7 +373,7 @@ unsigned char PPU::read2002()
         if (ticks == 0)
             t &= ~0x80;
     }
-    // printf("2002: %d\n", t);
+    Log.debug(LogCategory::ppuRead2002, "%d", t);
     return generalLatch = t;
 }
 
@@ -413,12 +418,13 @@ unsigned char PPU::read2007()
 
 void PPU::write2000(unsigned char Value)
 {
-    if (isRendering)
-        // printf("2002: %x\n", Value);
-        if ((Value & 0x80) && (reg2002 & 0x80) && !(reg2000 & 0x80)) {
-            triggerNMI();
-            // printf ("\nTrigger: %d, %d", ticks, scanlineNum);
-        }
+    if (isRendering) {
+        Log.debug(LogCategory::ppuWrite2000, "%x", Value);
+    }
+    if ((Value & 0x80) && (reg2002 & 0x80) && !(reg2000 & 0x80)) {
+        triggerNMI();
+        Log.debug(LogCategory::ppuWrite2000, "Trigger: %d, %d", ticks, scanlineNum);
+    }
     // RC
     if (!(Value & 0x80) && scanlineNum == 241 && ticks < 3)
         clearNMI();
@@ -428,18 +434,18 @@ void PPU::write2000(unsigned char Value)
 
     loopy_t = (loopy_t & 0x73FF) | (Value & 3) << 10;
     reg2000 = Value;
-    // printf("2000: %d\n", reg2000 & 0x18);
+    Log.debug(LogCategory::ppuWrite2000, "%d", reg2000 & 0x18);
 }
 
 void PPU::write2001(unsigned char Value)
 {
-    // printf("2001: %x, S: %d, T: %d\n", scanlineNum, ticks);
+    Log.debug(LogCategory::ppuWrite2001, "%x, S: %d, T: %d", scanlineNum, ticks);
     reg2001 = Value;
     if ((Value & 0x18) && (scanlineNum < 240)) {
-        // printf("TURNED ON: %x %d,%d\n", Value&0x18, scanlineNum, ticks);
+        Log.debug(LogCategory::ppuWrite2001, "TURNED ON: %x %d,%d", Value & 0x18, scanlineNum, ticks);
         isRendering = true;
     } else {
-        // printf("TURNED OFF: %x %d,%d\n", Value&0x18, scanlineNum, ticks);
+        Log.debug(LogCategory::ppuWrite2001, "TURNED OFF: %x %d,%d", Value & 0x18, scanlineNum, ticks);
         isRendering = false;
     }
 
@@ -454,22 +460,23 @@ void PPU::write2002(unsigned char Value)
 
 void PPU::write2003(unsigned char Value)
 {
-    // printf("2003 %x\n", cpuState.pc);
     generalLatch = oamAddress = Value;
 }
 
 void PPU::write2004(unsigned char Value)
 {
-    // printf("W2004: %X:%X\n", oamAddr, Value);
-    if (isRendering)
+    Log.debug(LogCategory::ppuWrite2004, "%X:%X", oamAddress, Value);
+    if (isRendering) {
         Value = 0xFF;
+    }
     setOam(oamAddress++, Value);
 }
 
 void PPU::write2005(unsigned char Value)
 {
-    // if(isRendering)
-    //     printf("2005 %x %x\n", cpuState.pc, Value);
+    if (isRendering) {
+        Log.debug(LogCategory::ppuWrite2005, "%x", Value);
+    }
     if (writeToggle) // second
     {
         loopy_t &= 0x0C1F;
@@ -480,16 +487,18 @@ void PPU::write2005(unsigned char Value)
         loopy_t &= 0x7FE0;
         loopy_t |= (Value & 0xF8) >> 3;
         loopy_x = Value & 7;
-        // if(isRendering)
-        //    printf("MFX: %x %d,%d\n", loopy_x, scanlineNum, ticks);
+        if (isRendering) {
+            Log.debug(LogCategory::ppuWrite2005, "MFX: %x %d,%d", loopy_x, scanlineNum, ticks);
+        }
     }
     writeToggle = !writeToggle;
 }
 
 void PPU::write2006(unsigned char Value)
 {
-    // if(isRendering)
-    // printf("2006 %x\n", Value);
+    if (isRendering) {
+        Log.debug(LogCategory::ppuWrite2006, "%x", Value);
+    }
 
     if (writeToggle) // second
     {
@@ -498,7 +507,7 @@ void PPU::write2006(unsigned char Value)
         loopy_v = loopy_t;
 
         if (isRendering) {
-            // printf("\nMFV: %X %d,%d\n", loopy_v, scanlineNum, ticks);
+            Log.debug(LogCategory::ppuWrite2006, "MFV: %X %d,%d", loopy_v, scanlineNum, ticks);
             // getchar();
         } else {
             // addressBus = loopy_v;
@@ -515,7 +524,7 @@ void PPU::write2006(unsigned char Value)
 
 void PPU::write2007(unsigned char Value)
 {
-    // printf("W2007: %d,%d\n", scanlineNum, ticks);
+    Log.debug(LogCategory::ppuWrite2007, "%d,%d", scanlineNum, ticks);
     if ((loopy_v & 0x3F00) == 0x3F00) {
         Value &= 0x3F;
         auto addr = loopy_v & 0x1F;
@@ -523,8 +532,9 @@ void PPU::write2007(unsigned char Value)
         if (!(addr & 0x3))
             palette[addr ^ 0x10] = Value; // Mirror palette
 
-        // if(!isRendering)
-        // printf("MFP: %d, %x %d,%d\n", Value, loopy_v & 0x3FFF, scanlineNum, ticks);
+        if (!isRendering) {
+            Log.debug(LogCategory::ppuWrite2007, "MFP: %d, %x %d,%d", Value, loopy_v & 0x3FFF, scanlineNum, ticks);
+        }
     } else {
         intWriteMemLean(loopy_v, Value);
     }
@@ -694,7 +704,7 @@ void PPU::displayFrame()
 
     // gfx.DrawEnd();
 
-    // printf("\n\n");
+    // Log.debug(LogCategory::ppuAll, "\n\n");
     // system("pause");
 }
 

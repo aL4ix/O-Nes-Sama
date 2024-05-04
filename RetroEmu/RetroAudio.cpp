@@ -6,7 +6,7 @@ RetroAudio::RetroAudio()
     , warmingUp(true)
 {
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
-        printf("SDL Audio could not initialize! SDL_Error: %s\n", SDL_GetError());
+        Log.error("SDL Audio could not initialize! SDL_Error: %s", SDL_GetError());
         return;
     }
 
@@ -23,22 +23,20 @@ RetroAudio::RetroAudio()
 
     /*if(SDL_OpenAudio(&desiredSpec, &obtainedSpec) != 0)
     {
-        printf("Failed to open audio: %s\n", SDL_GetError());
+        Log.error("Failed to open audio: %s\n", SDL_GetError());
     }*/
 
     // For some reason this is equivalent to the one above but this doesn't work
     sdldev = SDL_OpenAudioDevice(NULL, 0, &desiredSpec, &obtainedSpec, 0);
     if (sdldev == 0) {
-        printf("Failed to open audio: %s\n", SDL_GetError());
+        Log.error("Failed to open audio: %s", SDL_GetError());
     }
 
-    /*
-    printf("Describe audio");
-    printf("freq: %d %d ", desiredSpec.freq, obtainedSpec.freq);
-    printf("format: %x %x ", desiredSpec.format, obtainedSpec.format);
-    printf("isunsigned: %d %d ", SDL_AUDIO_ISUNSIGNED(desiredSpec.format), SDL_AUDIO_ISUNSIGNED(obtainedSpec.format));
-    printf("bitsize: %d %d ", SDL_AUDIO_MASK_BITSIZE & desiredSpec.format, SDL_AUDIO_MASK_BITSIZE & obtainedSpec.format);
-    */
+    Log.debug(LogCategory::otherRetroAudio, "Describe audio");
+    Log.debug(LogCategory::otherRetroAudio, "freq: %d %d ", desiredSpec.freq, obtainedSpec.freq);
+    Log.debug(LogCategory::otherRetroAudio, "format: %x %x ", desiredSpec.format, obtainedSpec.format);
+    Log.debug(LogCategory::otherRetroAudio, "isunsigned: %d %d ", SDL_AUDIO_ISUNSIGNED(desiredSpec.format), SDL_AUDIO_ISUNSIGNED(obtainedSpec.format));
+    Log.debug(LogCategory::otherRetroAudio, "bitsize: %d %d ", SDL_AUDIO_MASK_BITSIZE & desiredSpec.format, SDL_AUDIO_MASK_BITSIZE & obtainedSpec.format);
 
     // Fill buffer so it gives warm up time
     for (unsigned i = 0; i < BUFFER_LENGTH; i++) {
@@ -51,7 +49,7 @@ RetroAudio::RetroAudio()
 #ifdef RETRO_AUDIO_DEBUG
     bufferCopy = new Uint16[BUFFER_LENGTH];
     fileOutput = fopen("APUout.debug", "wb");
-    printf("Started Audio. Slice:%u\n", samplesUntilNextSlice);
+    Log.debug(LogCategory::otherRetroAudio, "Started Audio. Slice:%u", samplesUntilNextSlice);
 #endif // RETRO_AUDIO_DEBUG
 }
 
@@ -70,7 +68,7 @@ void RetroAudio::sendSamplesToHW(Uint16* stream, int length)
     int i = 0;
     while (i < length) {
         if (queuedSamples.empty()) {
-            printf("Sound Underrun! filling %d\n", length - i);
+            Log.error("RetroAudio: Sound Underrun! filling %d", length - i);
             while (i < length) {
                 stream[i] = 0;
                 i++;
@@ -84,7 +82,7 @@ void RetroAudio::sendSamplesToHW(Uint16* stream, int length)
         }
     }
     if (queuedSamples.size() >= BUFFER_LENGTH * 2) {
-        printf("Dropping sound buffer, cur size: %lu\n", queuedSamples.size());
+        Log.error("Dropping sound buffer, cur size: %lu", queuedSamples.size());
         for (unsigned a = 0; a < 1024; a++)
             queuedSamples.pop();
     }

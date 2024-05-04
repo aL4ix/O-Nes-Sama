@@ -10,9 +10,12 @@
 using namespace std;
 
 void pushAudioSample(short left, short right);
+RetroAudio retroAudio;
 
 int main(int argc, char** argv)
 {
+    Log.enableDebugCategory(LogCategory::loaderNSF);
+
     NSFLoader loader("../games/music.nsf");
     if (!loader.mapper)
         return -1;
@@ -51,7 +54,7 @@ int main(int argc, char** argv)
         sumCycles += requestedCycles;
 
         pendCycles = cpu.run(requestedCycles);
-        // printf("slice:%u pend:%d\n", cycles, pendCycles);
+        Log.debug(LogCategory::onessama8Tunes, "slice:%u pend:%d", cycles, pendCycles);
         loader.nfsDidARts(cpu);
 
         unsigned now = SDL_GetTicks();
@@ -63,7 +66,7 @@ int main(int argc, char** argv)
         if (sleeptime > 0) {
             SDL_Delay(sleeptime);
         } else {
-            printf("NSF underrun!\n");
+            Log.debug(LogCategory::onessama8Tunes, "NSF underrun!");
         }
         lastTimeTick = now + sleeptime;
 
@@ -72,10 +75,10 @@ int main(int argc, char** argv)
         const unsigned secondsSinceStart = (now - emuStartTime) / 1000;
         if (secondsCount != secondsSinceStart) {
             secondsCount = secondsSinceStart;
-            /*printf("T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u\n", now, FPS,
-                cpu.apu->afx.getOutputSamplesAndReset(), sumCycles,
+            Log.debug(LogCategory::onessama8Tunes, "T:%u F:%u S:%llu CycMain:%u CycSpentCPU:%u A:%u B:%u", now, FPS,
+                retroAudio.getOutputSamplesAndReset(), sumCycles,
                 cpu.instData.generalCycleCount - cpuCurGenCycCount,
-                cpu.apu->callCyclesCount, cpu.apu->afx.getQueuedCount());*/
+                cpu.apu->callCyclesCount, retroAudio.getQueuedCount());
             sumCycles = 0;
             FPS = 0;
             cpu.apu->callCyclesCount = 0;
@@ -86,7 +89,6 @@ int main(int argc, char** argv)
     return 0;
 }
 
-RetroAudio retroAudio;
 void pushAudioSample(short left, short right)
 {
     retroAudio.loadSample(left);

@@ -1,6 +1,7 @@
 #ifndef MMC3_HPP_INCLUDED
 #define MMC3_HPP_INCLUDED
 
+#include "../../Logging/Logger.h"
 #include "BasicMapper.hpp"
 
 class MMC3 : public BasicMapper {

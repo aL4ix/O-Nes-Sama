@@ -1,6 +1,7 @@
 #ifndef RETRO_AUDIO_HPP_INCLUDED
 #define RETRO_AUDIO_HPP_INCLUDED
 
+#include "../Logging/Logger.h"
 #include "RetroFraction.hpp"
 #include <SDL2/SDL.h>
 #include <queue>

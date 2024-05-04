@@ -111,7 +111,7 @@ void MMC1::sync()
         superPRGBank = (chrBanks[0] >> 4);
 
         if ((control & 0x10) && ((chrBanks[0] & 0x10) != (chrBanks[1] & 0x10)))
-            printf("\nPRG Supaa banku mismatches!!");
+            Log.debug(LogCategory::mapperMMC1, "PRG Supaa banku mismatches!!");
 
         prgSizeMask = 0xF; // 256 KB maximum PRG size (16Kb multiples)
     }
@@ -120,7 +120,7 @@ void MMC1::sync()
         // wRamMask = 0x7FFF;
         wRamBank = (chrBanks[0] & 0xC) >> 2;
         io.switch8K(0, wRamBank, io.wRam, io.wRamSpace);
-        // printf("\nWram Bank: %d", wRam8KBank);
+        Log.debug(LogCategory::mapperMMC1, "Wram Bank: %d", wRamBank);
     }
 
     /* Sync CHR state... */

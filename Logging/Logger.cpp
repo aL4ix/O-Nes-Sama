@@ -52,6 +52,7 @@ bool Logger::debugWithVarArgs(LogCategory category, const char* format, va_list 
     return false;
 }
 
+#ifdef ENABLE_DEBUG_LOGGER
 void Logger::debug(LogCategory category, const char* format, ...)
 {
     va_list args;
@@ -59,6 +60,7 @@ void Logger::debug(LogCategory category, const char* format, ...)
     debugWithVarArgs(category, format, args);
     va_end(args);
 }
+#endif
 
 void Logger::enableDebugCategory(LogCategory category)
 {

@@ -23,7 +23,7 @@ unsigned char NSFMapper::readCPU(int address)
     case 0xE:
     case 0xF:
         if (address == 0xFFFA) {
-            // printf("LOOP\n");
+            Log.debug(LogCategory::mapperNSF, "LOOP");
             cpu->isRunning = true;
             return 0xB8;
         } else if (address == 0xFFFB)

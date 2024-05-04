@@ -15,7 +15,14 @@ public:
     Logger();
     ~Logger();
     void setOutput(const char* fileName = nullptr);
+#ifdef ENABLE_DEBUG_LOGGER
     void debug(LogCategory category, const char* format, ...);
+#else
+    inline void debug(LogCategory category, const char* format, ...)
+    {
+    }
+#endif // ENABLE_DEBUG_LOGGER
+
     void enableDebugCategory(LogCategory category);
     void disableDebugCategory(LogCategory category);
     void disableAllDebugCategories();
