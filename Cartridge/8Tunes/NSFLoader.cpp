@@ -22,7 +22,7 @@ bool NSFLoader::loadRomFile()
         fileSize = ftell(file);
         fseek(file, 0x0, SEEK_SET);
         freadAndCheckReturnedValue(header, 5);
-        header[5] = 0; // null terminating the header
+        header[5] = 0; // null terminating the header string
         freadAndCheckReturnedValue(&nsfVersion, 1);
         freadAndCheckReturnedValue(&totalSongs, 1);
         freadAndCheckReturnedValue(&startingSong, 1);
@@ -79,8 +79,8 @@ bool NSFLoader::loadRomFile()
 
     Log.info("Header: %s", header);
     Log.info("NSF Version: %d", nsfVersion);
-    Log.info("Total Song: %x", totalSongs);
-    Log.info("Starting Song: %x", startingSong);
+    Log.info("Total Song: %d", totalSongs);
+    Log.info("Starting Song: %d", startingSong);
     Log.info("Load Address: %x", loadAddress);
     Log.info("Init Address: %x", initAddress);
     Log.info("Play Address: %x", playAddress);

@@ -21,12 +21,6 @@ RetroAudio::RetroAudio()
 
     SDL_AudioSpec obtainedSpec;
 
-    /*if(SDL_OpenAudio(&desiredSpec, &obtainedSpec) != 0)
-    {
-        Log.error("Failed to open audio: %s\n", SDL_GetError());
-    }*/
-
-    // For some reason this is equivalent to the one above but this doesn't work
     sdldev = SDL_OpenAudioDevice(NULL, 0, &desiredSpec, &obtainedSpec, 0);
     if (sdldev == 0) {
         Log.error("Failed to open audio: %s", SDL_GetError());
@@ -135,15 +129,14 @@ unsigned long long RetroAudio::getOutputSamplesAndReset()
 
 void RetroAudio::play()
 {
-    // start play audio
-    SDL_PauseAudioDevice(sdldev, 0);
+    SDL_PauseAudioDevice(sdldev, 0); // start play audio
 }
 
-void audio_callback(void* _beeper, Uint8* _streamInBytes, int _lengthInBytes)
+void audio_callback(void* retroAudio, Uint8* streamInBytes, int lengthInBytes)
 {
-    Uint16* stream = (Uint16*)_streamInBytes;
-    int length = _lengthInBytes / 2;
-    RetroAudio* beeper = (RetroAudio*)_beeper;
+    Uint16* stream = (Uint16*)streamInBytes;
+    int length = lengthInBytes / 2;
+    RetroAudio* beeper = (RetroAudio*)retroAudio;
 
     beeper->sendSamplesToHW(stream, length);
 }

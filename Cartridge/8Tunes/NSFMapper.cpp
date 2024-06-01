@@ -78,7 +78,7 @@ void NSFMapper::saveSRAM(FILE* batteryFile)
 {
 }
 
-void NSFMapper::setCPU(CPU* Cpu)
+void NSFMapper::setCPU(CPU* cpu)
 {
-    cpu = Cpu;
+    this->cpu = cpu;
 }

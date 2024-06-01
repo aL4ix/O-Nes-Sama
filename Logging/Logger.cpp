@@ -60,6 +60,21 @@ void Logger::debug(LogCategory category, const char* format, ...)
     debugWithVarArgs(category, format, args);
     va_end(args);
 }
+
+void Logger::debugWithFilter(LogCategory category, int variableUsedForFilter, const char* format, ...)
+{
+    for (auto it = whitelistFilter.cbegin(); it != whitelistFilter.cend(); it++) {
+        int it_value = *it;
+        if (it_value == variableUsedForFilter) {
+            va_list args;
+            va_start(args, format);
+            if (debugWithVarArgs(category, format, args)) {
+                return;
+            }
+            va_end(args);
+        }
+    }
+}
 #endif
 
 void Logger::enableDebugCategory(LogCategory category)
@@ -78,21 +93,6 @@ void Logger::disableAllDebugCategories()
 {
     debug(LogCategory::otherLogger, "Disabled All");
     enabledCategories.clear();
-}
-
-void Logger::debugWithFilter(LogCategory category, int variableUsedForFilter, const char* format, ...)
-{
-    for (auto it = whitelistFilter.cbegin(); it != whitelistFilter.cend(); it++) {
-        int it_value = *it;
-        if (it_value == variableUsedForFilter) {
-            va_list args;
-            va_start(args, format);
-            if (debugWithVarArgs(category, format, args)) {
-                return;
-            }
-            va_end(args);
-        }
-    }
 }
 
 void Logger::addToDebugWhitelistFilter(int variableUsedForFilter)

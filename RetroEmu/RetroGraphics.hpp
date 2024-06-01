@@ -25,13 +25,13 @@ public:
     RetroGraphics(const unsigned internalWidth, const unsigned internalHeight, const double zoom);
     ~RetroGraphics();
 
-    inline void DrawBegin() const
+    inline void drawBegin() const
     {
         // Platform-Dependent
         //  Clear the window
         SDL_RenderClear(sdlRenderer);
     }
-    inline void DrawEnd() const
+    inline void drawEnd() const
     {
 // Platform-Dependent
 //  Render the changes
@@ -43,10 +43,10 @@ public:
     }
     SDL_Rect sdlRect;
     SDL_Texture* texture;
-    bool Draw(const void* pixels, const size_t sizeInBytes);
-    bool DrawPaletted(const unsigned char* pixels, const size_t sizeInBytes);
-    bool loadColorPaletteFromFile(const char* FileName);
-    bool loadColorPaletteFromArray(const unsigned char* Palette);
+    bool draw(const void* pixels, const size_t sizeInBytes);
+    bool drawPaletted(const unsigned char* pixels, const size_t sizeInBytes);
+    bool loadColorPaletteFromFile(const char* fileName);
+    bool loadColorPaletteFromArray(const unsigned char* palette);
     Color32 colorPalette[64];
 };
 

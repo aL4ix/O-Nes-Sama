@@ -36,6 +36,6 @@ private:
     void sendSamplesToHW(Uint16* stream, int length);
 };
 
-void audio_callback(void*, Uint8*, int);
+void audio_callback(void* retroAudio, Uint8* streamInBytes, int lengthInBytes);
 
 #endif

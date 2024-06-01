@@ -15,8 +15,8 @@ class APU {
 
 public:
     explicit APU(CPUIO& cpuIO);
-    void writeMem(unsigned short Address, unsigned char Value);
-    unsigned char readMem(unsigned short Address);
+    void writeMem(unsigned short address, unsigned char value);
+    unsigned char readMem(unsigned short address);
 
     void (APU::*writeFuncs[24])(unsigned char) = {
         &APU::write4000, &APU::write4001, &APU::write4002, &APU::write4003, &APU::write4004, &APU::write4005, &APU::write4006, &APU::write4007,
@@ -63,7 +63,7 @@ public:
     void reset();
 
     // Other
-    void setMemoryMapper(MemoryMapper* Board);
+    void setMemoryMapper(MemoryMapper* board);
     void (*pushAudioSample)(short left, short right);
     void setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right));
 
@@ -98,7 +98,6 @@ private:
     bool modeFrameCounter;
     bool inhibitFrameCounter;
     bool irqFrameCounter;
-    // unsigned char delayResetTimer; ///TO DELETE?
     unsigned char lengthCounterPulse1;
     unsigned char lengthCounterPulse2;
     unsigned char lengthCounterTriangle;
@@ -209,7 +208,7 @@ private:
 
     void clockHalfFrame();
     void clockQuarterFrame();
-    unsigned char loadLengthCounter(unsigned char Value);
+    unsigned char loadLengthCounter(unsigned char value);
     void processMode0();
     void processMode1();
     void clockDMC();
@@ -220,7 +219,7 @@ private:
     void clockPulse2();
     void clockNoise();
 
-    bool isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount);
+    bool isSweepSilenced(unsigned short timer, bool negate, unsigned char shiftCount);
 
     // OTHER
     CPUIO& cpuIO;
