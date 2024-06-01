@@ -24,58 +24,58 @@ public:
     {
     }
 
-    explicit inline RetroColor(const T RetroColor)
+    explicit inline RetroColor(const T retroColor)
     {
-        SetColor(RetroColor);
+        setColor(retroColor);
     }
 
-    inline RetroColor(const unsigned char R, const unsigned char G,
-        const unsigned char B)
+    inline RetroColor(const unsigned char r, const unsigned char g,
+        const unsigned char b)
     {
-        SetColor(R, G, B);
+        setColor(r, g, b);
     }
 
-    inline unsigned char GetR() const
+    inline unsigned char getR() const
     {
         // Platform-Dependent
         SDL_GetRGB(nativeColor, sdlPixelFormat, &r, &g, &b);
         return r;
     }
-    inline unsigned char GetG() const
+    inline unsigned char getG() const
     {
         // Platform-Dependent
         SDL_GetRGB(nativeColor, sdlPixelFormat, &r, &g, &b);
         return g;
     }
-    inline unsigned char GetB() const
+    inline unsigned char getB() const
     {
         // Platform-Dependent
         SDL_GetRGB(nativeColor, sdlPixelFormat, &r, &g, &b);
         return b;
     }
-    inline void SetColor(const T RetroColor)
+    inline void setColor(const T retroColor)
     {
-        nativeColor = RetroColor;
+        nativeColor = retroColor;
     }
-    inline void SetColor(const unsigned char R, const unsigned char G,
-        const unsigned char B)
-    {
-        // Platform-Dependent
-        if (sdlPixelFormat)
-            nativeColor = SDL_MapRGB(sdlPixelFormat, R, G, B);
-        else
-            Log.error("RetroColor pixelFormat in Color is NULL");
-    }
-    inline void SetColor(const unsigned char R, const unsigned char G,
-        const unsigned char B, const unsigned char A)
+    inline void setColor(const unsigned char r, const unsigned char g,
+        const unsigned char b)
     {
         // Platform-Dependent
         if (sdlPixelFormat)
-            nativeColor = SDL_MapRGBA(sdlPixelFormat, R, G, B, A);
+            nativeColor = SDL_MapRGB(sdlPixelFormat, r, g, b);
         else
             Log.error("RetroColor pixelFormat in Color is NULL");
     }
-    inline T GetColor() const
+    inline void setColor(const unsigned char r, const unsigned char g,
+        const unsigned char b, const unsigned char a)
+    {
+        // Platform-Dependent
+        if (sdlPixelFormat)
+            nativeColor = SDL_MapRGBA(sdlPixelFormat, r, g, b, a);
+        else
+            Log.error("RetroColor pixelFormat in Color is NULL");
+    }
+    inline T getColor() const
     {
         return nativeColor;
     }

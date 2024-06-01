@@ -16,7 +16,7 @@ public:
     void clockPPU();
     void loadSRAM(FILE* batteryFile);
     void saveSRAM(FILE* batteryFile);
-    void setCPU(CPU* Cpu);
+    void setCPU(CPU* cpu);
 
 private:
     CPU* cpu;

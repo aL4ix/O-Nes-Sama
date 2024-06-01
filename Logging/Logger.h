@@ -17,8 +17,12 @@ public:
     void setOutput(const char* fileName = nullptr);
 #ifdef ENABLE_DEBUG_LOGGER
     void debug(LogCategory category, const char* format, ...);
+    void debugWithFilter(LogCategory category, int variableUsedForFilter, const char* format, ...);
 #else
     inline void debug(LogCategory category, const char* format, ...)
+    {
+    }
+    inline void debugWithFilter(LogCategory category, int variableUsedForFilter, const char* format, ...)
     {
     }
 #endif // ENABLE_DEBUG_LOGGER
@@ -26,7 +30,6 @@ public:
     void enableDebugCategory(LogCategory category);
     void disableDebugCategory(LogCategory category);
     void disableAllDebugCategories();
-    void debugWithFilter(LogCategory category, int variableUsedForFilter, const char* format, ...);
     void addToDebugWhitelistFilter(int variableUsedForFilter);
     void removeFromDebugWhitelistFilter(int variableUsedForFilter);
     void clearDebugWhitelistFilter();

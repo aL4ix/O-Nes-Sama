@@ -42,8 +42,8 @@ int main(int argc, char** argv)
         /********************************************************/
 
         /* ROM / Command line arguments*/
-        std::string romFileName = "games/rom.nes";
-        unsigned char nsfSongNumber = 0;
+        std::string romFileName = "games/mission.nes";
+        unsigned char nsfSongNumber = 1;
         if (argc > 1) {
             romFileName = argv[1];
         }
@@ -110,10 +110,10 @@ int main(int argc, char** argv)
             oNesSamaCore.runOneFrame();
             frameCtr++;
 
-            retroGraphics.DrawBegin();
-            retroGraphics.DrawPaletted(oNesSamaCore.getPalettedFrameBuffer(),
+            retroGraphics.drawBegin();
+            retroGraphics.drawPaletted(oNesSamaCore.getPalettedFrameBuffer(),
                 oNesSamaCore.getPPUInteralWidth() * oNesSamaCore.getPPUInteralHeight());
-            retroGraphics.DrawEnd();
+            retroGraphics.drawEnd();
 
             unsigned now = SDL_GetTicks();
             unsigned timeSpent = now - lastTimeTick;
@@ -159,17 +159,6 @@ int main(int argc, char** argv)
 /********************************************************/
 /*                 Helper Functions                     */
 /********************************************************/
-
-std::string getBaseRomName(std::string tmpRomName)
-{
-    std::string fileNameBase;
-    int extIndex = tmpRomName.find_last_of(".");
-    tmpRomName.replace(tmpRomName.begin() + extIndex, tmpRomName.end(), "");
-    int pathSepIndex = tmpRomName.find_last_of("/");
-    tmpRomName.replace(tmpRomName.begin(), tmpRomName.begin() + pathSepIndex, "");
-    fileNameBase = tmpRomName;
-    return fileNameBase;
-}
 
 void pushAudioSample(short left, short right)
 {

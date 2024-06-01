@@ -125,17 +125,17 @@ PPU::~PPU()
 {
 }
 
-void PPU::writeMem(unsigned short Address, unsigned char Value)
+void PPU::writeMem(unsigned short address, unsigned char value)
 {
-    Log.debug(LogCategory::ppuWriteMem, "%d,%d %X = %X", scanlineNum, ticks, Address & 0x3fff, Value);
-    return (this->*writeFuncs[Address & 0x07])(Value);
+    Log.debug(LogCategory::ppuWriteMem, "%d,%d %X = %X", scanlineNum, ticks, address & 0x3fff, value);
+    return (this->*writeFuncs[address & 0x07])(value);
 }
 
-unsigned char PPU::readMem(unsigned short Address)
+unsigned char PPU::readMem(unsigned short address)
 {
-    auto Value = (this->*readFuncs[Address & 0x07])();
-    Log.debug(LogCategory::ppuReadMem, "%d,%d, %X = %X", scanlineNum, ticks, Address & 0x3fff, Value);
-    return Value;
+    auto value = (this->*readFuncs[address & 0x07])();
+    Log.debug(LogCategory::ppuReadMem, "%d,%d, %X = %X", scanlineNum, ticks, address & 0x3fff, value);
+    return value;
 }
 
 void PPU::process(int cpuCycles)
@@ -416,77 +416,77 @@ unsigned char PPU::read2007()
     return generalLatch = retval; // Falta grayscale
 }
 
-void PPU::write2000(unsigned char Value)
+void PPU::write2000(unsigned char value)
 {
     if (isRendering) {
-        Log.debug(LogCategory::ppuWrite2000, "%x", Value);
+        Log.debug(LogCategory::ppuWrite2000, "%x", value);
     }
-    if ((Value & 0x80) && (reg2002 & 0x80) && !(reg2000 & 0x80)) {
+    if ((value & 0x80) && (reg2002 & 0x80) && !(reg2000 & 0x80)) {
         triggerNMI();
         Log.debug(LogCategory::ppuWrite2000, "Trigger: %d, %d", ticks, scanlineNum);
     }
     // RC
-    if (!(Value & 0x80) && scanlineNum == 241 && ticks < 3)
+    if (!(value & 0x80) && scanlineNum == 241 && ticks < 3)
         clearNMI();
 
     if (scanlineNum == -1 && ticks <= 1)
         clearNMI();
 
-    loopy_t = (loopy_t & 0x73FF) | (Value & 3) << 10;
-    reg2000 = Value;
+    loopy_t = (loopy_t & 0x73FF) | (value & 3) << 10;
+    reg2000 = value;
     Log.debug(LogCategory::ppuWrite2000, "%d", reg2000 & 0x18);
 }
 
-void PPU::write2001(unsigned char Value)
+void PPU::write2001(unsigned char value)
 {
     Log.debug(LogCategory::ppuWrite2001, "%x, S: %d, T: %d", scanlineNum, ticks);
-    reg2001 = Value;
-    if ((Value & 0x18) && (scanlineNum < 240)) {
-        Log.debug(LogCategory::ppuWrite2001, "TURNED ON: %x %d,%d", Value & 0x18, scanlineNum, ticks);
+    reg2001 = value;
+    if ((value & 0x18) && (scanlineNum < 240)) {
+        Log.debug(LogCategory::ppuWrite2001, "TURNED ON: %x %d,%d", value & 0x18, scanlineNum, ticks);
         isRendering = true;
     } else {
-        Log.debug(LogCategory::ppuWrite2001, "TURNED OFF: %x %d,%d", Value & 0x18, scanlineNum, ticks);
+        Log.debug(LogCategory::ppuWrite2001, "TURNED OFF: %x %d,%d", value & 0x18, scanlineNum, ticks);
         isRendering = false;
     }
 
-    // Intensify colors
-    // Grayscale
+    // TODO Intensify colors
+    // TODO Grayscale
 }
 
-void PPU::write2002(unsigned char Value)
+void PPU::write2002(unsigned char value)
 {
     // Nothing to do here
 }
 
-void PPU::write2003(unsigned char Value)
+void PPU::write2003(unsigned char value)
 {
-    generalLatch = oamAddress = Value;
+    generalLatch = oamAddress = value;
 }
 
-void PPU::write2004(unsigned char Value)
+void PPU::write2004(unsigned char value)
 {
-    Log.debug(LogCategory::ppuWrite2004, "%X:%X", oamAddress, Value);
+    Log.debug(LogCategory::ppuWrite2004, "%X:%X", oamAddress, value);
     if (isRendering) {
-        Value = 0xFF;
+        value = 0xFF;
     }
-    setOam(oamAddress++, Value);
+    setOam(oamAddress++, value);
 }
 
-void PPU::write2005(unsigned char Value)
+void PPU::write2005(unsigned char value)
 {
     if (isRendering) {
-        Log.debug(LogCategory::ppuWrite2005, "%x", Value);
+        Log.debug(LogCategory::ppuWrite2005, "%x", value);
     }
     if (writeToggle) // second
     {
         loopy_t &= 0x0C1F;
-        loopy_t |= (Value & 0x07) << 12;
-        loopy_t |= (Value & 0xF8) << 2;
+        loopy_t |= (value & 0x07) << 12;
+        loopy_t |= (value & 0xF8) << 2;
     } else // first
     {
         loopy_t &= 0x7FE0;
-        loopy_t |= (Value & 0xF8) >> 3;
-        loopy_x = Value & 7;
+        loopy_t |= (value & 0xF8) >> 3;
+        loopy_x = value & 7;
         if (isRendering) {
             Log.debug(LogCategory::ppuWrite2005, "MFX: %x %d,%d", loopy_x, scanlineNum, ticks);
         }
@@ -494,16 +494,16 @@ void PPU::write2005(unsigned char Value)
     writeToggle = !writeToggle;
 }
 
-void PPU::write2006(unsigned char Value)
+void PPU::write2006(unsigned char value)
 {
     if (isRendering) {
-        Log.debug(LogCategory::ppuWrite2006, "%x", Value);
+        Log.debug(LogCategory::ppuWrite2006, "%x", value);
     }
 
     if (writeToggle) // second
     {
         loopy_t &= 0x7F00;
-        loopy_t |= Value;
+        loopy_t |= value;
         loopy_v = loopy_t;
 
         if (isRendering) {
@@ -517,26 +517,26 @@ void PPU::write2006(unsigned char Value)
     } else // first
     {
         loopy_t &= 0x00FF;
-        loopy_t |= (Value & 0x3F) << 8;
+        loopy_t |= (value & 0x3F) << 8;
     }
     writeToggle = !writeToggle;
 }
 
-void PPU::write2007(unsigned char Value)
+void PPU::write2007(unsigned char value)
 {
     Log.debug(LogCategory::ppuWrite2007, "%d,%d", scanlineNum, ticks);
     if ((loopy_v & 0x3F00) == 0x3F00) {
-        Value &= 0x3F;
+        value &= 0x3F;
         auto addr = loopy_v & 0x1F;
-        palette[addr] = Value;
+        palette[addr] = value;
         if (!(addr & 0x3))
-            palette[addr ^ 0x10] = Value; // Mirror palette
+            palette[addr ^ 0x10] = value; // Mirror palette
 
         if (!isRendering) {
-            Log.debug(LogCategory::ppuWrite2007, "MFP: %d, %x %d,%d", Value, loopy_v & 0x3FFF, scanlineNum, ticks);
+            Log.debug(LogCategory::ppuWrite2007, "MFP: %d, %x %d,%d", value, loopy_v & 0x3FFF, scanlineNum, ticks);
         }
     } else {
-        intWriteMemLean(loopy_v, Value);
+        intWriteMemLean(loopy_v, value);
     }
 
     if (!isRendering) {
@@ -554,21 +554,21 @@ void PPU::write2007(unsigned char Value)
     }
 }
 
-unsigned char PPU::intReadMem(unsigned short Address)
+unsigned char PPU::intReadMem(unsigned short address)
 {
-    unsigned char ret = intReadMemLean(Address);
+    unsigned char ret = intReadMemLean(address);
 
 #ifdef DEBUGGER
     for (unsigned i = 0; i < breakpointByAddressNum; i++) {
-        if (breakpointByAddress[i].address == Address) {
-            debugProcess(new BreakpointPPUByAddress(Address));
+        if (breakpointByAddress[i].address == address) {
+            debugProcess(new BreakpointPPUByAddress(address));
             break;
         }
     }
     for (unsigned i = 0; i < breakpointByValueNum; i++) {
-        if (breakpointByValue[i].address == Address) {
+        if (breakpointByValue[i].address == address) {
             if (breakpointByValue[i].value == ret) {
-                debugProcess(new BreakpointPPUByValue(Address, ret));
+                debugProcess(new BreakpointPPUByValue(address, ret));
                 break;
             }
         }
@@ -578,20 +578,20 @@ unsigned char PPU::intReadMem(unsigned short Address)
     return ret;
 }
 
-void PPU::intWriteMem(unsigned short Address, unsigned char Value)
+void PPU::intWriteMem(unsigned short address, unsigned char value)
 {
-    intWriteMemLean(Address, Value);
+    intWriteMemLean(address, value);
 #ifdef DEBUGGER
     for (unsigned i = 0; i < breakpointByAddressNum; i++) {
-        if (breakpointByAddress[i].address == Address) {
-            debugProcess(new BreakpointPPUByAddress(Address));
+        if (breakpointByAddress[i].address == address) {
+            debugProcess(new BreakpointPPUByAddress(address));
             break;
         }
     }
     for (unsigned i = 0; i < breakpointByValueNum; i++) {
-        if (breakpointByValue[i].address == Address) {
-            if (breakpointByValue[i].value == Value) {
-                debugProcess(new BreakpointPPUByValue(Address, Value));
+        if (breakpointByValue[i].address == address) {
+            if (breakpointByValue[i].value == value) {
+                debugProcess(new BreakpointPPUByValue(address, value));
                 break;
             }
         }
@@ -601,17 +601,17 @@ void PPU::intWriteMem(unsigned short Address, unsigned char Value)
     return;
 }
 
-unsigned char PPU::intReadMemLean(unsigned short Address, bool updateBus)
+unsigned char PPU::intReadMemLean(unsigned short address, bool updateBus)
 {
-    addressBus = Address & 0x3FFF;
-    return mapper.readPPU(Address);
+    addressBus = address & 0x3FFF;
+    return mapper.readPPU(address);
 }
 
-void PPU::intWriteMemLean(unsigned short Address, unsigned char Value, bool updateBus)
+void PPU::intWriteMemLean(unsigned short address, unsigned char value, bool updateBus)
 {
-    Address &= 0x3FFF;
-    addressBus = Address;
-    mapper.writePPU(Address, Value);
+    address &= 0x3FFF;
+    addressBus = address;
+    mapper.writePPU(address, value);
 }
 
 void PPU::coarseX()
@@ -708,22 +708,22 @@ void PPU::displayFrame()
     // system("pause");
 }
 
-void PPU::loadPaletteFromAttributeTable(const unsigned short VAddress)
+void PPU::loadPaletteFromAttributeTable(const unsigned short vAddress)
 {
-    const unsigned short NtPos = VAddress & 0x3FF;
-    const unsigned short x = NtPos % 32;
-    const unsigned short y = NtPos >> 5;
+    const unsigned short ntPos = vAddress & 0x3FF;
+    const unsigned short x = ntPos % 32;
+    const unsigned short y = ntPos >> 5;
     //                      x / 2             y / 2        * 2
     const int palSubNum = ((x >> 1) % 2) + (((y >> 1) % 2) << 1);
     // const unsigned char at = intReadMem(0x23C0 | (loopy_v & 0x0C00) | ((loopy_v >> 4) & 0x38) | ((loopy_v >> 2) & 0x07));
-    const unsigned char at = intReadMem(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
+    const unsigned char at = intReadMem(0x23C0 | (vAddress & 0x0C00) | ((vAddress >> 4) & 0x38) | ((vAddress >> 2) & 0x07));
     curPalette = at >> (2 * palSubNum);
     curPalette &= 0x03;
 }
 
-void PPU::loadSetOf4Colors(const int Pal)
+void PPU::loadSetOf4Colors(const int pal)
 {
-    // const int pal = Pal << 2; // Pal * 4
+    // const int pal = pal << 2; // pal * 4
     // setOf4ColorsPalette[0] = Color32::Transparent;
     for (int i = 1; i < 4; i++) {
         // auto c = palette[pal+i];
@@ -731,128 +731,128 @@ void PPU::loadSetOf4Colors(const int Pal)
     }
 }
 
-void PPU::saveState(FILE* File)
+void PPU::saveState(FILE* file)
 {
     PPU_State* state = this;
-    fwrite(state, sizeof(PPU_State), 1, File);
+    fwrite(state, sizeof(PPU_State), 1, file);
 }
 
-bool PPU::loadState(FILE* File)
+bool PPU::loadState(FILE* file)
 {
     PPU_State* state = this;
-    auto size = fread(state, sizeof(PPU_State), 1, File);
+    auto size = fread(state, sizeof(PPU_State), 1, file);
     return (size == sizeof(PPU_State));
 }
 
 /*
-void PPU::generateTileWithoutCache(int VAddress, Color32 chrImage[64])
+void PPU::generateTileWithoutCache(int vAddress, Color32 chrImage[64])
 {
-    const unsigned char curTile = intReadMemLean(0x2000 | VAddress);
-    loadPaletteFromAttributeTable(VAddress);
+    const unsigned char curTile = intReadMemLean(0x2000 | vAddress);
+    loadPaletteFromAttributeTable(vAddress);
     const bool curSubBank = reg2000 >> 4 & 0x1;
 
     //setTextureToSprite(curSprite, curTile);
-        //loadChrTile(CurTile);
+        //loadChrTile(curTile);
             unsigned char chrWithoutPalettes[8][8];
-            GenerateCHRBitmapWithoutPalette(curSubBank, curTile, chrWithoutPalettes);
-        //loadChrTile(CurTile);
+            generateCHRBitmapWithoutPalette(curSubBank, curTile, chrWithoutPalettes);
+        //loadChrTile(curTile);
         loadSetOf4Colors(curPalette);
         //const Texture& tex = loadTextureTile(curTile, 8);
-            GenerateCHRBitmap(chrImage, chrWithoutPalettes);
+            generateCHRBitmap(chrImage, chrWithoutPalettes);
         //const Texture& tex = loadTextureTile(curTile, 8);
     //setTextureToSprite(curSprite, curTile);
 }
 */
-void PPU::GenerateCHRBitmapWithoutPalette(bool SubBank, unsigned Tile, unsigned char (&Chr)[8][8])
+void PPU::generateCHRBitmapWithoutPalette(bool subBank, unsigned tile, unsigned char (&chr)[8][8])
 {
     for (int y = 0; y < 8; y++) { //                                                      * 16
-        unsigned char chr1 = intReadMemLean((SubBank << 12) | ((Tile << 4) + y));
-        unsigned char chr2 = intReadMemLean((SubBank << 12) | ((Tile << 4) + 8 + y));
+        unsigned char chr1 = intReadMemLean((subBank << 12) | ((tile << 4) + y));
+        unsigned char chr2 = intReadMemLean((subBank << 12) | ((tile << 4) + 8 + y));
 
         for (unsigned char x = 7; x < 8; x--) {
-            Chr[y][x] = (chr1 & 1) | ((chr2 & 1) << 1);
+            chr[y][x] = (chr1 & 1) | ((chr2 & 1) << 1);
             chr1 = chr1 >> 1;
             chr2 = chr2 >> 1;
         }
     }
 }
 
-void PPU::GenerateCHRBitmap(Color32 ChrBitmap[], unsigned char (&Chr)[8][8])
+void PPU::generateCHRBitmap(Color32 chrBitmap[], unsigned char (&chr)[8][8])
 {
     for (int y = 0; y < 8; y++) {
         for (unsigned char x = 0; x < 8; x++) {
-            const unsigned char color = Chr[y][x];
-            ChrBitmap[y * 8 + x].SetColor(setOf4ColorsPalette[color].GetColor());
+            const unsigned char color = chr[y][x];
+            chrBitmap[y * 8 + x].setColor(setOf4ColorsPalette[color].getColor());
         }
     }
 }
 
-void PPU::generateCHR(Color32 chrImage[64], const unsigned char Tile, const unsigned char Palette, const bool SubBank)
+void PPU::generateCHR(Color32 chrImage[64], const unsigned char tile, const unsigned char palette, const bool subBank)
 {
     unsigned char chrWithoutPalettes[8][8];
-    GenerateCHRBitmapWithoutPalette(SubBank, Tile, chrWithoutPalettes);
-    loadSetOf4Colors(Palette);
-    // setOf4ColorsPalette[0].SetColor(colorPalette[palette[0]].GetColor());
-    GenerateCHRBitmap(chrImage, chrWithoutPalettes);
+    generateCHRBitmapWithoutPalette(subBank, tile, chrWithoutPalettes);
+    loadSetOf4Colors(palette);
+    // setOf4ColorsPalette[0].setColor(colorPalette[palette[0]].getColor());
+    generateCHRBitmap(chrImage, chrWithoutPalettes);
 }
 
-unsigned char PPU::getPaletteFromAttributeTable(const unsigned short VAddress)
+unsigned char PPU::getPaletteFromAttributeTable(const unsigned short vAddress)
 {
-    const unsigned short NtPos = VAddress & 0x3FF;
-    const unsigned short x = NtPos % 32;
-    const unsigned short y = NtPos >> 5;
+    const unsigned short ntPos = vAddress & 0x3FF;
+    const unsigned short x = ntPos % 32;
+    const unsigned short y = ntPos >> 5;
     //                      x / 2             y / 2        * 2
     const int palSubNum = ((x >> 1) % 2) + (((y >> 1) % 2) << 1);
     // const unsigned char at = intReadMem(0x23C0 | (loopy_v & 0x0C00) | ((loopy_v >> 4) & 0x38) | ((loopy_v >> 2) & 0x07));
-    const unsigned char at = intReadMemLean(0x23C0 | (VAddress & 0x0C00) | ((VAddress >> 4) & 0x38) | ((VAddress >> 2) & 0x07));
+    const unsigned char at = intReadMemLean(0x23C0 | (vAddress & 0x0C00) | ((vAddress >> 4) & 0x38) | ((vAddress >> 2) & 0x07));
     return (at >> (2 * palSubNum)) & 0x03;
 }
 
-void PPU::generateNT(Color32 chrImage[64], unsigned short VAddress)
+void PPU::generateNT(Color32 chrImage[64], unsigned short vAddress)
 {
-    const unsigned char tile = intReadMemLean(0x2000 | VAddress);
-    const unsigned char palette = getPaletteFromAttributeTable(VAddress);
+    const unsigned char tile = intReadMemLean(0x2000 | vAddress);
+    const unsigned char palette = getPaletteFromAttributeTable(vAddress);
     const bool subBank = reg2000 >> 4 & 0x1;
 
     generateCHR(chrImage, tile, palette, subBank);
 }
 
-void PPU::generateOam(Color32 chrImage[64], unsigned char OamNum)
+void PPU::generateOam(Color32 chrImage[64], unsigned char oamNum)
 {
-    const unsigned char tile = oam[(OamNum << 2) | 1];
-    const unsigned char palette = (oam[(OamNum << 2) | 2] & 0x3) + 4;
+    const unsigned char tile = oam[(oamNum << 2) | 1];
+    const unsigned char palette = (oam[(oamNum << 2) | 2] & 0x3) + 4;
     const bool subBank = reg2000 >> 3 & 0x1;
 
     generateCHR(chrImage, tile, palette, subBank);
 }
 
-void PPU::setOam(const unsigned Address, const unsigned char Value)
+void PPU::setOam(const unsigned address, const unsigned char value)
 {
-    oamPointer = Address;
+    oamPointer = address;
 #ifdef LOGGER_PPU
-    Log.debugWithFilter(LogCategory::ppuSetOAM, scanlineNum, "%d %d %d=%d", scanlineNum, ticks, oamPointer, Value);
+    Log.debugWithFilter(LogCategory::ppuSetOAM, scanlineNum, "%d %d %d=%d", scanlineNum, ticks, oamPointer, value);
 #endif // LOGGER_PPU
-    oam[oamPointer] = Value;
+    oam[oamPointer] = value;
 }
 
-unsigned char PPU::getOam(const unsigned Address)
+unsigned char PPU::getOam(const unsigned address)
 {
-    oamPointer = Address;
-    const unsigned char Value = oam[oamPointer];
+    oamPointer = address;
+    const unsigned char value = oam[oamPointer];
 #ifdef LOGGER_PPU
-    Log.debugWithFilter(LogCategory::ppuGetOAM, scanlineNum, "%d %d %d=%d", scanlineNum, ticks, oamPointer, Value);
+    Log.debugWithFilter(LogCategory::ppuGetOAM, scanlineNum, "%d %d %d=%d", scanlineNum, ticks, oamPointer, value);
 #endif
-    return Value;
+    return value;
 }
 
-inline void PPU::setSecondary(const unsigned Address, const unsigned char Value)
+inline void PPU::setSecondary(const unsigned address, const unsigned char value)
 {
-    setOam(Address + 64 * 4, Value);
+    setOam(address + 64 * 4, value);
 }
 
-inline unsigned char PPU::getSecondary(const unsigned Address)
+inline unsigned char PPU::getSecondary(const unsigned address)
 {
-    return getOam(Address + 64 * 4);
+    return getOam(address + 64 * 4);
 }
 
 void PPU::spriteSecondaryClear()
