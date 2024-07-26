@@ -77,26 +77,26 @@ APU::APU(CPUIO& cpuIO)
     callCyclesCount = 0;
 }
 
-void APU::writeMem(unsigned short Address, unsigned char Value)
+void APU::writeMem(unsigned short address, unsigned char value)
 {
-    Log.debug(LogCategory::apuWriteMem, "%X: %X", Address, Value);
+    Log.debug(LogCategory::apuWriteMem, "%X: %X", address, value);
     // pause();
-    Address = Address & 0b11111;
-    if (Address <= 0x17)
-        return (this->*writeFuncs[Address])(Value);
+    address = address & 0b11111;
+    if (address <= 0x17)
+        return (this->*writeFuncs[address])(value);
     /*else
         return unimpleme(0);*/
 }
 
-unsigned char APU::readMem(unsigned short Address)
+unsigned char APU::readMem(unsigned short address)
 {
-    Address = Address & 0b11111;
-    unsigned char Value = (this->*readFuncs[Address])();
-    Log.debug(LogCategory::apuReadMem, "%X: %X", 0x4000 + Address, Value);
+    address = address & 0b11111;
+    unsigned char value = (this->*readFuncs[address])();
+    Log.debug(LogCategory::apuReadMem, "%X: %X", 0x4000 + address, value);
 
-    /*if(Address == 0x15)
+    /*if(address == 0x15)
     {
-        return Value;
+        return value;
     }
     else
     {
@@ -104,7 +104,7 @@ unsigned char APU::readMem(unsigned short Address)
         return cpuIO.dataBus;
     }*/
 
-    return Value;
+    return value;
 }
 
 unsigned char APU::readLatch()
@@ -132,132 +132,132 @@ unsigned char APU::read4015()
     return reg4015;
 }
 
-void APU::write4000(unsigned char Value)
+void APU::write4000(unsigned char value)
 {
-    dutyPulse1 = (Value & 0xc0) >> 6;
-    haltPulse1 = Value & 0x20;
-    constantVolumeFlagPulse1 = Value & 0x10;
-    constVolEnvDivPeriodPulse1 = Value & 0xf;
+    dutyPulse1 = (value & 0xc0) >> 6;
+    haltPulse1 = value & 0x20;
+    constantVolumeFlagPulse1 = value & 0x10;
+    constVolEnvDivPeriodPulse1 = value & 0xf;
 }
 
-void APU::write4001(unsigned char Value)
+void APU::write4001(unsigned char value)
 {
-    dividerSweepPulse1 = (Value & 0x70) >> 4;
-    shiftCountPulse1 = Value & 0x7;
-    enableSweepFlagPulse1 = (Value & 0x80) && shiftCountPulse1;
-    negateFlagPulse1 = Value & 0x8;
+    dividerSweepPulse1 = (value & 0x70) >> 4;
+    shiftCountPulse1 = value & 0x7;
+    enableSweepFlagPulse1 = (value & 0x80) && shiftCountPulse1;
+    negateFlagPulse1 = value & 0x8;
     reloadSweepPulse1 = true;
 
-    Log.debug(LogCategory::apuWrite4001, "%X N:%u S:%u E:%u", Value, negateFlagPulse1, shiftCountPulse1, enableSweepFlagPulse1);
+    Log.debug(LogCategory::apuWrite4001, "%X N:%u S:%u E:%u", value, negateFlagPulse1, shiftCountPulse1, enableSweepFlagPulse1);
 }
 
-void APU::write4002(unsigned char Value)
+void APU::write4002(unsigned char value)
 {
-    timerPulse1 = (timerPulse1 & 0x700) | Value;
+    timerPulse1 = (timerPulse1 & 0x700) | value;
 }
 
-void APU::write4003(unsigned char Value)
+void APU::write4003(unsigned char value)
 {
     if (enablePulse1) {
-        lengthCounterPulse1 = loadLengthCounter(Value);
+        lengthCounterPulse1 = loadLengthCounter(value);
     }
-    timerPulse1 = ((Value & 0x7) << 8) | (timerPulse1 & 0xFF);
+    timerPulse1 = ((value & 0x7) << 8) | (timerPulse1 & 0xFF);
     halfCyclesUntilPulse1 = timerPulse1 * 2;
     sequencerStepPulse1 = 0;
     startFlagPulse1 = true;
 }
 
-void APU::write4004(unsigned char Value)
+void APU::write4004(unsigned char value)
 {
-    dutyPulse2 = (Value & 0xc0) >> 6;
-    haltPulse2 = Value & 0x20;
-    constantVolumeFlagPulse2 = Value & 0x10;
-    constVolEnvDivPeriodPulse2 = Value & 0xF;
+    dutyPulse2 = (value & 0xc0) >> 6;
+    haltPulse2 = value & 0x20;
+    constantVolumeFlagPulse2 = value & 0x10;
+    constVolEnvDivPeriodPulse2 = value & 0xF;
 }
 
-void APU::write4005(unsigned char Value)
+void APU::write4005(unsigned char value)
 {
-    dividerSweepPulse2 = (Value & 0x70) >> 4;
-    shiftCountPulse2 = Value & 0x7;
-    enableSweepFlagPulse2 = (Value & 0x80) && shiftCountPulse2;
-    negateFlagPulse2 = Value & 0x8;
+    dividerSweepPulse2 = (value & 0x70) >> 4;
+    shiftCountPulse2 = value & 0x7;
+    enableSweepFlagPulse2 = (value & 0x80) && shiftCountPulse2;
+    negateFlagPulse2 = value & 0x8;
     reloadSweepPulse2 = true;
 }
 
-void APU::write4006(unsigned char Value)
+void APU::write4006(unsigned char value)
 {
-    timerPulse2 = (timerPulse2 & 0x700) | Value;
+    timerPulse2 = (timerPulse2 & 0x700) | value;
 }
 
-void APU::write4007(unsigned char Value)
+void APU::write4007(unsigned char value)
 {
     if (enablePulse2) {
-        lengthCounterPulse2 = loadLengthCounter(Value);
+        lengthCounterPulse2 = loadLengthCounter(value);
     }
-    timerPulse2 = ((Value & 0x7) << 8) | (timerPulse2 & 0xFF);
+    timerPulse2 = ((value & 0x7) << 8) | (timerPulse2 & 0xFF);
     halfCyclesUntilPulse2 = timerPulse2 * 2;
     sequencerStepPulse2 = 0;
     startFlagPulse2 = true;
 }
 
-void APU::write4008(unsigned char Value)
+void APU::write4008(unsigned char value)
 {
-    haltTriangle = Value & 0x80;
-    counterReloadTriangle = Value & 0x7f;
-    Log.debug(LogCategory::apuWrite4008, "%X HC:%u", Value, halfCycles);
+    haltTriangle = value & 0x80;
+    counterReloadTriangle = value & 0x7f;
+    Log.debug(LogCategory::apuWrite4008, "%X HC:%u", value, halfCycles);
 }
 
-void APU::write4009(unsigned char Value)
+void APU::write4009(unsigned char value)
 {
     // Nothing to do here
 }
 
-void APU::write400A(unsigned char Value)
+void APU::write400A(unsigned char value)
 {
-    timerTriangle = (timerTriangle & 0x700) | Value;
-    Log.debug(LogCategory::apuWrite400A, "%X HC:%u", Value, halfCycles);
+    timerTriangle = (timerTriangle & 0x700) | value;
+    Log.debug(LogCategory::apuWrite400A, "%X HC:%u", value, halfCycles);
 }
 
-void APU::write400B(unsigned char Value)
+void APU::write400B(unsigned char value)
 {
     if (enableTriangle) {
-        lengthCounterTriangle = loadLengthCounter(Value);
+        lengthCounterTriangle = loadLengthCounter(value);
     }
-    timerTriangle = ((Value & 0x7) << 8) | (timerTriangle & 0xFF);
+    timerTriangle = ((value & 0x7) << 8) | (timerTriangle & 0xFF);
     linearCounterReloadFlagTriangle = true;
-    Log.debug(LogCategory::apuWrite400B, "%X HC:%u", Value, halfCycles);
+    Log.debug(LogCategory::apuWrite400B, "%X HC:%u", value, halfCycles);
 }
 
-void APU::write400C(unsigned char Value)
+void APU::write400C(unsigned char value)
 {
-    haltNoise = Value & 0x20;
-    constantVolumeFlagNoise = Value & 0x10;
-    constVolEnvDivPeriodNoise = Value & 0xF;
+    haltNoise = value & 0x20;
+    constantVolumeFlagNoise = value & 0x10;
+    constVolEnvDivPeriodNoise = value & 0xF;
 }
 
-void APU::write400D(unsigned char Value)
+void APU::write400D(unsigned char value)
 {
     // Nothing to do here
 }
 
-void APU::write400E(unsigned char Value)
+void APU::write400E(unsigned char value)
 {
-    modeFlagNoise = Value & 0x80;
-    timerNoise = periodTableNoise[Value & 0xF];
+    modeFlagNoise = value & 0x80;
+    timerNoise = periodTableNoise[value & 0xF];
     Log.debug(LogCategory::apuWrite400E, "%d", timerNoise);
 }
 
-void APU::write400F(unsigned char Value)
+void APU::write400F(unsigned char value)
 {
     if (enableNoise) {
-        lengthCounterNoise = loadLengthCounter(Value);
+        lengthCounterNoise = loadLengthCounter(value);
     }
     startFlagNoise = true;
 }
 
-void APU::write4010(unsigned char Value)
+void APU::write4010(unsigned char value)
 {
-    if (Value & 0x80) {
+    if (value & 0x80) {
         irqEnableDMC = true;
     } else {
         irqEnableDMC = false;
@@ -265,32 +265,32 @@ void APU::write4010(unsigned char Value)
         irqDMC = false;
     }
 
-    loopFlagDMC = (Value & 0x40);
-    rateInHalfCyclesDMC = rateTableDMC[Value & 0xF];
+    loopFlagDMC = (value & 0x40);
+    rateInHalfCyclesDMC = rateTableDMC[value & 0xF];
     Log.debug(LogCategory::apuWrite4010, "CUND: %d", rateInHalfCyclesDMC);
 }
 
-void APU::write4011(unsigned char Value)
+void APU::write4011(unsigned char value)
 {
-    outputLevelDMC = Value & 0x7F;
+    outputLevelDMC = value & 0x7F;
 }
 
-void APU::write4012(unsigned char Value)
+void APU::write4012(unsigned char value)
 {
-    //                           Value * 64
-    sampleAddressDMC = 0xC000 | (Value << 6);
-    // sampleAddressDMC = 0x8000 + (Value << 6);
+    //                           value * 64
+    sampleAddressDMC = 0xC000 | (value << 6);
+    // sampleAddressDMC = 0x8000 + (value << 6);
 }
 
-void APU::write4013(unsigned char Value)
+void APU::write4013(unsigned char value)
 {
-    //                 Value * 16
-    sampleLengthDMC = (Value << 4) + 1;
+    //                 value * 16
+    sampleLengthDMC = (value << 4) + 1;
 }
 
-void APU::write4015(unsigned char Value)
+void APU::write4015(unsigned char value)
 {
-    if (Value & 0x10) {
+    if (value & 0x10) {
         if (bytesRemainingCounterDMC == 0) {
             addressCounterDMC = sampleAddressDMC;
             bytesRemainingCounterDMC = sampleLengthDMC;
@@ -304,41 +304,41 @@ void APU::write4015(unsigned char Value)
     }
     irqDMC = false;
 
-    if (Value & 0x08) {
+    if (value & 0x08) {
         enableNoise = true;
     } else {
         lengthCounterNoise = 0;
         enableNoise = false;
     }
 
-    if (Value & 0x04) {
+    if (value & 0x04) {
         enableTriangle = true;
     } else {
         lengthCounterTriangle = 0;
         enableTriangle = false;
     }
 
-    if (Value & 0x02) {
+    if (value & 0x02) {
         enablePulse2 = true;
     } else {
         lengthCounterPulse2 = 0;
         enablePulse2 = false;
     }
 
-    if (Value & 0x01) {
+    if (value & 0x01) {
         enablePulse1 = true;
     } else {
         lengthCounterPulse1 = 0;
         enablePulse1 = false;
     }
 
-    Log.debug(LogCategory::apuWrite4015, "%X", Value);
+    Log.debug(LogCategory::apuWrite4015, "%X", value);
 }
 
-void APU::write4017(unsigned char Value)
+void APU::write4017(unsigned char value)
 {
-    modeFrameCounter = Value & 0x80;
-    inhibitFrameCounter = Value & 0x40;
+    modeFrameCounter = value & 0x80;
+    inhibitFrameCounter = value & 0x40;
     step = 0;
 
     if (modeFrameCounter == MODE_5STEP)
@@ -674,9 +674,9 @@ void APU::clockQuarterFrame()
     }
 }
 
-unsigned char APU::loadLengthCounter(unsigned char Value)
+unsigned char APU::loadLengthCounter(unsigned char value)
 {
-    return lengthCounterTable[Value >> 3];
+    return lengthCounterTable[value >> 3];
 }
 
 void APU::clockTriangle()
@@ -736,14 +736,14 @@ void APU::clockNoise()
         outputNoise = 0;
 }
 
-bool APU::isSweepSilenced(unsigned short Timer, bool Negate, unsigned char ShiftCount)
+bool APU::isSweepSilenced(unsigned short timer, bool negate, unsigned char shiftCount)
 {
-    return (Timer < 8 || (!Negate && (Timer + (Timer >> ShiftCount) > 0x7FF)));
+    return (timer < 8 || (!negate && (timer + (timer >> shiftCount) > 0x7FF)));
 }
 
-void APU::setMemoryMapper(MemoryMapper* Board)
+void APU::setMemoryMapper(MemoryMapper* board)
 {
-    board = Board;
+    this->board = board;
 }
 
 void APU::setPushAudioSampleCallback(void (*pushAudioSampleCallback)(short left, short right))

@@ -42,7 +42,7 @@ RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned intern
 
     // unsigned format = SDL_GetWindowPixelFormat(window);
     sdlPixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGB888);
-    Color32::Transparent.SetColor(0, 0, 0, 0);
+    Color32::Transparent.setColor(0, 0, 0, 0);
 
     // Init
     sdlRect.x = 0;
@@ -58,7 +58,7 @@ RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned intern
     }
 }
 
-bool RetroGraphics::Draw(const void* pixels, const size_t sizeInBytes)
+bool RetroGraphics::draw(const void* pixels, const size_t sizeInBytes)
 {
     // Platform-Dependent
 #define T uint32_t
@@ -80,40 +80,40 @@ bool RetroGraphics::Draw(const void* pixels, const size_t sizeInBytes)
 #undef T
 }
 
-bool RetroGraphics::loadColorPaletteFromFile(const char* FileName)
+bool RetroGraphics::loadColorPaletteFromFile(const char* fileName)
 {
     FILE* file;
-    file = fopen(FileName, "rb");
+    file = fopen(fileName, "rb");
     if (!file)
         return false;
     for (int i = 0; i < 64; i++) {
         unsigned char r = fgetc(file);
         unsigned char g = fgetc(file);
         unsigned char b = fgetc(file);
-        colorPalette[i].SetColor(r, g, b);
+        colorPalette[i].setColor(r, g, b);
     }
     fclose(file);
     return true;
 }
 
-bool RetroGraphics::loadColorPaletteFromArray(const unsigned char* Palette)
+bool RetroGraphics::loadColorPaletteFromArray(const unsigned char* palette)
 {
     for (int i = 0; i < 64; i++) {
-        unsigned char r = Palette[i * 3 + 0];
-        unsigned char g = Palette[i * 3 + 1];
-        unsigned char b = Palette[i * 3 + 2];
-        colorPalette[i].SetColor(r, g, b);
+        unsigned char r = palette[i * 3 + 0];
+        unsigned char g = palette[i * 3 + 1];
+        unsigned char b = palette[i * 3 + 2];
+        colorPalette[i].setColor(r, g, b);
     }
     return true;
 }
 
-bool RetroGraphics::DrawPaletted(const unsigned char* palettedPixels, const size_t sizeInBytes)
+bool RetroGraphics::drawPaletted(const unsigned char* palettedPixels, const size_t sizeInBytes)
 {
     Color32 framebuffer[sizeInBytes];
     for (size_t pos = 0; pos < sizeInBytes; pos++) {
-        framebuffer[pos].SetColor(colorPalette[palettedPixels[pos]].GetColor());
+        framebuffer[pos].setColor(colorPalette[palettedPixels[pos]].getColor());
     }
-    return Draw((void*)framebuffer, sizeInBytes * 4);
+    return draw((void*)framebuffer, sizeInBytes * 4);
 }
 
 RetroGraphics::~RetroGraphics()
