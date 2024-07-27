@@ -2,10 +2,10 @@
 #define BENCH 0
 // define DEBUGGER
 
-#include "CPU.h"
+#include "CPU.hpp"
 #include "Cartridge/Cartridge.hpp"
-#include "ONesSamaCore.h"
-#include "PPU.h"
+#include "ONesSamaCore.hpp"
+#include "PPU.hpp"
 #include "RetroEmu/RetroAudio.hpp"
 #include "RetroEmu/RetroFraction.hpp"
 #include "RetroEmu/RetroGraphics.hpp"
@@ -42,8 +42,8 @@ int main(int argc, char** argv)
         /********************************************************/
 
         /* ROM / Command line arguments*/
-        std::string romFileName = "games/mission.nes";
-        unsigned char nsfSongNumber = 1;
+        std::string romFileName = "roms/rom.nes";
+        unsigned char nsfSongNumber = 0;
         if (argc > 1) {
             romFileName = argv[1];
         }

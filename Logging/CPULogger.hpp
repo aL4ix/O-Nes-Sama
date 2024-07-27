@@ -1,8 +1,8 @@
-#ifndef CPULOGGER_H_INCLUDED
-#define CPULOGGER_H_INCLUDED
+#ifndef CPULOGGER_HPP_INCLUDED
+#define CPULOGGER_HPP_INCLUDED
 #include "../CPUIO.hpp"
-#include "../CPUSharedData.h"
-#include "Logger.h"
+#include "../CPUSharedData.hpp"
+#include "Logger.hpp"
 
 using namespace std;
 
@@ -20,4 +20,4 @@ public:
     ~CPULogger();
 };
 
-#endif // CPULOGGER_H_INCLUDED
+#endif // CPULOGGER_HPP_INCLUDED

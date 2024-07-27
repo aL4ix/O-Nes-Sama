@@ -1,4 +1,4 @@
-#include "ONesSamaCore.h"
+#include "ONesSamaCore.hpp"
 
 ONesSamaCore::ONesSamaCore()
     : fractionForCPUCycles(cpufreq, 60)

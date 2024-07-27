@@ -1,4 +1,4 @@
-#include "APU.h"
+#include "APU.hpp"
 
 void apuDoNothingToPushAudioSample(short left, short right)
 {

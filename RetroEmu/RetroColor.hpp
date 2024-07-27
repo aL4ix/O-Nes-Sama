@@ -1,7 +1,7 @@
 #ifndef RETRO_COLOR_HPP
 #define RETRO_COLOR_HPP
 
-#include "../Logging/Logger.h"
+#include "../Logging/Logger.hpp"
 #include <SDL2/SDL.h>
 #include <cinttypes>
 #include <stdio.h>

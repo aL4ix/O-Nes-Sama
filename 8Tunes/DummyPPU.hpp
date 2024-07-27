@@ -1,5 +1,5 @@
-#ifndef PPU_INCLUDE_H
-#define PPU_INCLUDE_H
+#ifndef PPU_HPP_INCLUDED
+#define PPU_HPP_INCLUDED
 
 class PPU {
 public:
@@ -15,4 +15,4 @@ public:
     }
 };
 
-#endif // PPU_INCLUDE_H
+#endif // PPU_HPP_INCLUDED

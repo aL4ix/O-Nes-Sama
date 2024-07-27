@@ -1,7 +1,7 @@
 #ifndef MMC1_HPP_INCLUDED
 #define MMC1_HPP_INCLUDED
 
-#include "../../Logging/Logger.h"
+#include "../../Logging/Logger.hpp"
 #include "BasicMapper.hpp"
 
 class MMC1 : public BasicMapper {

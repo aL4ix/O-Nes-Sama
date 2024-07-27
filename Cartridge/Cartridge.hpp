@@ -2,7 +2,7 @@
 #define CARTRIDGE_HPP_INCLUDED
 
 #include "CartIO.hpp"
-#include "Mappers/MemoryMapper.h"
+#include "Mappers/MemoryMapper.hpp"
 #include "ROMLoader.hpp"
 #include "zlib.h"
 #include <string>

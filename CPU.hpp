@@ -1,17 +1,17 @@
-#ifndef CPU_H_INCLUDED
-#define CPU_H_INCLUDED
-#include "Cartridge/Mappers/MemoryMapper.h"
-#include "Logging/CPULogger.h"
+#ifndef CPU_HPP_INCLUDED
+#define CPU_HPP_INCLUDED
+#include "Cartridge/Mappers/MemoryMapper.hpp"
+#include "Logging/CPULogger.hpp"
 
 #ifdef EIGHT_TUNES
-#include "8Tunes/DummyInput.h"
-#include "8Tunes/DummyPPU.h"
+#include "8Tunes/DummyInput.hpp"
+#include "8Tunes/DummyPPU.hpp"
 #else
-#include "Input.h"
-#include "PPU.h"
+#include "Input.hpp"
+#include "PPU.hpp"
 #endif // 8TUNES
 
-#include "APU.h"
+#include "APU.hpp"
 #include "CPUIO.hpp"
 // #include "Cartridge/Cartridge.hpp"
 
@@ -156,4 +156,4 @@ private:
     friend class ONesSamaCore;
 };
 
-#endif // CPU_H_INCLUDED
+#endif // CPU_HPP_INCLUDED

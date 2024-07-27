@@ -1,9 +1,9 @@
-#ifndef NSFMAPPER_H_INCLUDED
-#define NSFMAPPER_H_INCLUDED
+#ifndef NSFMAPPER_HPP_INCLUDED
+#define NSFMAPPER_HPP_INCLUDED
 
-#include "../../CPU.h"
+#include "../../CPU.hpp"
 #include "../CartIO.hpp"
-#include "../Mappers/MemoryMapper.h"
+#include "../Mappers/MemoryMapper.hpp"
 
 class NSFMapper : public MemoryMapper {
 public:
@@ -22,4 +22,4 @@ private:
     CPU* cpu;
 };
 
-#endif // NSFMAPPER_H_INCLUDED
+#endif // NSFMAPPER_HPP_INCLUDED

@@ -1,7 +1,7 @@
 #ifndef ROM_LOADER_HPP_INCLUDED
 #define ROM_LOADER_HPP_INCLUDED
 
-#include "Mappers/MemoryMapper.h"
+#include "Mappers/MemoryMapper.hpp"
 
 class ROMLoader {
 public:

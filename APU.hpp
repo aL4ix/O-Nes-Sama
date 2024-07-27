@@ -1,12 +1,12 @@
-#ifndef APU_H_INCLUDED
-#define APU_H_INCLUDED
+#ifndef APU_HPP_INCLUDED
+#define APU_HPP_INCLUDED
 
 #include <cstdio>
 #include <functional>
 
 #include "CPUIO.hpp"
-#include "Cartridge/Mappers/MemoryMapper.h"
-#include "Logging/Logger.h"
+#include "Cartridge/Mappers/MemoryMapper.hpp"
+#include "Logging/Logger.hpp"
 
 class APU {
     const unsigned short AMPLITUDE = 30000;
@@ -226,4 +226,4 @@ private:
     MemoryMapper* board;
 };
 
-#endif // APU_H_INCLUDED
+#endif // APU_HPP_INCLUDED

@@ -1,4 +1,4 @@
-#include "MemoryMapper.h"
+#include "MemoryMapper.hpp"
 
 MemoryMapper::MemoryMapper(CartIO& ioRef)
     : io(ioRef)

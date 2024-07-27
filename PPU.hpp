@@ -1,5 +1,5 @@
-#ifndef PPU_H_INCLUDED
-#define PPU_H_INCLUDED
+#ifndef PPU_HPP_INCLUDED
+#define PPU_HPP_INCLUDED
 #include <cstring>
 #include <functional>
 #include <unordered_map>
@@ -7,8 +7,8 @@
 
 #include "CPUIO.hpp"
 #include "Cartridge/Cartridge.hpp"
-#include "Debugger/Breakpoint.h"
-#include "Logging/Logger.h"
+#include "Debugger/Breakpoint.hpp"
+#include "Logging/Logger.hpp"
 #include "RetroEmu/RetroColor.hpp"
 
 class PPU_State {
@@ -171,4 +171,4 @@ private:
     void tick328();
 };
 
-#endif // PPU_H_INCLUDED
+#endif // PPU_HPP_INCLUDED

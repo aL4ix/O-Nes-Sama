@@ -1,5 +1,5 @@
-#ifndef LOGGER_H_INCLUDED
-#define LOGGER_H_INCLUDED
+#ifndef LOGGER_HPP_INCLUDED
+#define LOGGER_HPP_INCLUDED
 
 #include <cstdarg>
 #include <fstream>
@@ -51,4 +51,4 @@ private:
 
 extern Logger Log;
 
-#endif // LOGGER_H_INCLUDED
+#endif // LOGGER_HPP_INCLUDED

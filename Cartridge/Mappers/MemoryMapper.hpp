@@ -1,5 +1,5 @@
-#ifndef MEMORYMAPPER_H_INCLUDED
-#define MEMORYMAPPER_H_INCLUDED
+#ifndef MEMORYMAPPER_HPP_INCLUDED
+#define MEMORYMAPPER_HPP_INCLUDED
 
 #include "../../CPUIO.hpp"
 #include "../CartDB.hpp"
@@ -21,4 +21,4 @@ public:
     virtual void saveSRAM(FILE* batteryFile) = 0;
 };
 
-#endif // MEMORYMAPPER_H_INCLUDED
+#endif // MEMORYMAPPER_HPP_INCLUDED

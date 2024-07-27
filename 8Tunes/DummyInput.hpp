@@ -1,3 +1,6 @@
+#ifndef INPUT_HPP_INCLUDED
+#define INPUT_HPP_INCLUDED
+
 class Input {
 public:
     CPUIO* cpuIO;
@@ -10,3 +13,5 @@ public:
     {
     }
 };
+
+#endif // INPUT_HPP_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef INPUT_H_INCLUDED
-#define INPUT_H_INCLUDED
+#ifndef INPUT_HPP_INCLUDED
+#define INPUT_HPP_INCLUDED
 
 #include "CPUIO.hpp"
 #include <cstring>
@@ -26,4 +26,4 @@ private:
     int shftRegs[2];
 };
 
-#endif // INPUT_H_INCLUDED
+#endif // INPUT_HPP_INCLUDED

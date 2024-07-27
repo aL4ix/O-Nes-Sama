@@ -1,7 +1,7 @@
 #ifndef MAPPER000_HPP_INCLUDED
 #define MAPPER000_HPP_INCLUDED
 
-#include "MemoryMapper.h"
+#include "MemoryMapper.hpp"
 
 class BasicMapper : public MemoryMapper {
 
