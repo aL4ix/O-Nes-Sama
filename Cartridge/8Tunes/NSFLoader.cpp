@@ -1,4 +1,4 @@
-#include "NSFLoader.h"
+#include "NSFLoader.hpp"
 
 NSFLoader::NSFLoader(std::string fileName)
     : romFileName(fileName)

@@ -1,11 +1,11 @@
-#ifndef ONESSAMACORE_H
-#define ONESSAMACORE_H
+#ifndef ONESSAMACORE_HPP
+#define ONESSAMACORE_HPP
 
-#include "CPU.h"
-#include "Cartridge/8Tunes/NSFLoader.h"
+#include "CPU.hpp"
+#include "Cartridge/8Tunes/NSFLoader.hpp"
 #include "Cartridge/Cartridge.hpp"
 #include "Cartridge/ROMLoader.hpp"
-#include "PPU.h"
+#include "PPU.hpp"
 #include "RetroEmu/RetroFraction.hpp"
 #include <stddef.h>
 #include <stdint.h>
@@ -63,4 +63,4 @@ private:
     static bool case_insensitive_ends_with(std::string const& fullString, std::string const& ending);
 };
 
-#endif // ONESSAMACORE_H
+#endif // ONESSAMACORE_HPP

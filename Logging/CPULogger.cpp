@@ -1,4 +1,4 @@
-#include "CPULogger.h"
+#include "CPULogger.hpp"
 #include <iomanip>
 #include <iostream>
 #include <sstream>

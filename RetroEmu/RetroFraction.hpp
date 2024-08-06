@@ -13,4 +13,4 @@ private:
     unsigned fracDenominator;
 };
 
-#endif
+#endif // RETRO_FRACTION_HPP_INCLUDED

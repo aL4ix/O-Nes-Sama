@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdarg.h>
 
-#include "../ONesSamaCore.h"
+#include "../ONesSamaCore.hpp"
 
 static retro_video_refresh_t video_cb;
 static retro_audio_sample_t audio_cb;

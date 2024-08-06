@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-#include "../CPU.h"
-#include "../Cartridge/8Tunes/NSFLoader.h"
+#include "../CPU.hpp"
+#include "../Cartridge/8Tunes/NSFLoader.hpp"
 #include "../RetroEmu/RetroAudio.hpp"
-#include "DummyPPU.h"
+#include "DummyPPU.hpp"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 {
     Log.enableDebugCategory(LogCategory::loaderNSF);
 
-    NSFLoader loader("../games/music.nsf");
+    NSFLoader loader("../roms/music.nsf");
     if (!loader.mapper)
         return -1;
 
@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     PPU ppu;
     cpu.setPPUPtr(&ppu);
     cpu.apu->setPushAudioSampleCallback(pushAudioSample);
-    loader.initializingATune(cpu, 2); // song number
+    loader.initializingATune(cpu, 0); // song number
 
     //
     // Play()

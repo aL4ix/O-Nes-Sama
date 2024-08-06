@@ -43,32 +43,32 @@
 			<Add library="SDL2main" />
 		</Linker>
 		<Unit filename="../APU.cpp" />
-		<Unit filename="../APU.h" />
+		<Unit filename="../APU.hpp" />
 		<Unit filename="../CPU.cpp" />
-		<Unit filename="../CPU.h" />
+		<Unit filename="../CPU.hpp" />
 		<Unit filename="../CPUIO.hpp" />
-		<Unit filename="../CPUSharedData.h" />
+		<Unit filename="../CPUSharedData.hpp" />
 		<Unit filename="../Cartridge/8Tunes/NSFLoader.cpp" />
-		<Unit filename="../Cartridge/8Tunes/NSFLoader.h" />
+		<Unit filename="../Cartridge/8Tunes/NSFLoader.hpp" />
 		<Unit filename="../Cartridge/8Tunes/NSFMapper.cpp" />
 		<Unit filename="../Cartridge/8Tunes/NSFMapper.hpp" />
 		<Unit filename="../Cartridge/CartIO.hpp" />
 		<Unit filename="../Cartridge/Mappers/MemoryMapper.cpp" />
-		<Unit filename="../Cartridge/Mappers/MemoryMapper.h" />
+		<Unit filename="../Cartridge/Mappers/MemoryMapper.hpp" />
 		<Unit filename="../Cartridge/ROMLoader.cpp" />
 		<Unit filename="../Cartridge/ROMLoader.hpp" />
 		<Unit filename="../Logging/LogCategory.cpp" />
 		<Unit filename="../Logging/LogCategory.hpp" />
 		<Unit filename="../Logging/Logger.cpp" />
-		<Unit filename="../Logging/Logger.h" />
+		<Unit filename="../Logging/Logger.hpp" />
 		<Unit filename="../RetroEmu/RetroAudio.cpp" />
 		<Unit filename="../RetroEmu/RetroAudio.hpp" />
 		<Unit filename="../RetroEmu/RetroFraction.cpp" />
 		<Unit filename="../RetroEmu/RetroFraction.hpp" />
 		<Unit filename="../opcodes.inc" />
 		<Unit filename="8Tunes.cpp" />
-		<Unit filename="DummyInput.h" />
-		<Unit filename="DummyPPU.h" />
+		<Unit filename="DummyInput.hpp" />
+		<Unit filename="DummyPPU.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

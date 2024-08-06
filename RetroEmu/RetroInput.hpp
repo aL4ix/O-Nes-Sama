@@ -1,7 +1,7 @@
-#ifndef RETRO_INPUT_H_INCLUDED
-#define RETRO_INPUT_H_INCLUDED
+#ifndef RETRO_INPUT_HPP_INCLUDED
+#define RETRO_INPUT_HPP_INCLUDED
 
-#include "../Logging/Logger.h"
+#include "../Logging/Logger.hpp"
 #include "CPUIO.hpp"
 #include <SDL2/SDL.h>
 
@@ -46,4 +46,4 @@ private:
     void updateJoystickState();
 };
 
-#endif // RETRO_INPUT_H_INCLUDED
+#endif // RETRO_INPUT_HPP_INCLUDED

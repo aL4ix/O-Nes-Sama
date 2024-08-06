@@ -7,11 +7,11 @@ set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/link.T")
 set(O_NES_SAMA_SOURCE libretro.cpp
     libretro.h
     ../APU.cpp
-    ../APU.h
+    ../APU.hpp
     ../CPU.cpp
-    ../CPU.h
+    ../CPU.hpp
     ../Cartridge/8Tunes/NSFLoader.cpp
-    ../Cartridge/8Tunes/NSFLoader.h
+    ../Cartridge/8Tunes/NSFLoader.hpp
     ../Cartridge/8Tunes/NSFMapper.cpp
     ../Cartridge/8Tunes/NSFMapper.hpp
     ../Cartridge/CartDB.hpp
@@ -33,21 +33,21 @@ set(O_NES_SAMA_SOURCE libretro.cpp
     ../Cartridge/Mappers/MMC3.cpp
     ../Cartridge/Mappers/MMC3.hpp
     ../Cartridge/Mappers/MemoryMapper.cpp
-    ../Cartridge/Mappers/MemoryMapper.h
+    ../Cartridge/Mappers/MemoryMapper.hpp
     ../Cartridge/Mappers/UxROM.cpp
     ../Cartridge/Mappers/UxROM.hpp
     ../Cartridge/ROMLoader.cpp
     ../Cartridge/ROMLoader.hpp
     ../Input.cpp
-    ../Input.h
+    ../Input.hpp
     ../Logging/LogCategory.cpp
     ../Logging/LogCategory.hpp
     ../Logging/Logger.cpp
-    ../Logging/Logger.h
+    ../Logging/Logger.hpp
     ../ONesSamaCore.cpp
-    ../ONesSamaCore.h
+    ../ONesSamaCore.hpp
     ../PPU.cpp
-    ../PPU.h
+    ../PPU.hpp
     ../RetroEmu/RetroFraction.cpp
     ../RetroEmu/RetroFraction.hpp)
 

@@ -1,5 +1,5 @@
-#ifndef CPUSHAREDDATA_H_INCLUDED
-#define CPUSHAREDDATA_H_INCLUDED
+#ifndef CPUSHAREDDATA_HPP_INCLUDED
+#define CPUSHAREDDATA_HPP_INCLUDED
 
 enum addrMode { IMP,
     IMM,
@@ -44,4 +44,4 @@ struct InstructionData {
     int addr;
 };
 
-#endif // CPUSHAREDDATA_H_INCLUDED
+#endif // CPUSHAREDDATA_HPP_INCLUDED

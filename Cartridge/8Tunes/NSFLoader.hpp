@@ -1,9 +1,9 @@
-#ifndef NSFLOADER_H_INCLUDED
-#define NSFLOADER_H_INCLUDED
+#ifndef NSFLOADER_HPP_INCLUDED
+#define NSFLOADER_HPP_INCLUDED
 
 #include <cstdio>
 
-#include "../../CPU.h"
+#include "../../CPU.hpp"
 #include "../../RetroEmu/RetroFraction.hpp"
 #include "../ROMLoader.hpp"
 #include "NSFMapper.hpp"
@@ -44,4 +44,4 @@ private:
     bool isBankswitched;
 };
 
-#endif // NSFLOADER_H_INCLUDED
+#endif // NSFLOADER_HPP_INCLUDED
