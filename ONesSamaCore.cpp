@@ -31,13 +31,6 @@ bool ONesSamaCore::loadCartridge(std::string romFileName)
     ppu = new PPU(cpu->io, *romLoader->mapper);
     cpu->setPPUPtr(ppu);
 
-#ifdef DEBUGGER
-    Debugger debuggerServer(&cpu, &ppu);
-    debuggerServer.InitServer();
-    // debuggerServer.InitAndWaitHandshake();
-    // debuggerServer.handleRequests();
-#endif // DEBUGGER
-
     return true;
 }
 
