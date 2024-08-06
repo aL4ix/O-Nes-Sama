@@ -1,6 +1,5 @@
 #define SDL_MAIN_HANDLED
 #define BENCH 0
-// define DEBUGGER
 
 #include "CPU.hpp"
 #include "Cartridge/Cartridge.hpp"
@@ -13,9 +12,6 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#ifdef DEBUGGER
-#include "Debugger/Debugger.h"
-#endif // DEBUGGER
 
 std::string getBaseRomName(std::string romFileName);
 void pushAudioSample(short left, short right);

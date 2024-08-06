@@ -7,7 +7,6 @@
 
 #include "CPUIO.hpp"
 #include "Cartridge/Cartridge.hpp"
-#include "Debugger/Breakpoint.hpp"
 #include "Logging/Logger.hpp"
 #include "RetroEmu/RetroColor.hpp"
 
@@ -133,15 +132,6 @@ private:
     // Other
     struct CPUIO& cpuIO;
     MemoryMapper& mapper;
-
-    // Debugger
-    std::function<void(Breakpoint*)> debugProcess;
-    bool debugNextTick;
-    std::vector<PPUTime> breakpointByTime;
-    std::vector<PPUAddress> breakpointByAddress;
-    unsigned breakpointByAddressNum;
-    std::vector<PPUValue> breakpointByValue;
-    unsigned breakpointByValueNum;
 
     unsigned char getPaletteFromAttributeTable(const unsigned short ntPos);
     void generateNT(Color32 chrImage[64], unsigned short vAddress);

@@ -59,14 +59,6 @@ PPU::PPU(CPUIO& cio, MemoryMapper& m)
     back.SetWidth(256*ZOOM);
     back.SetHeight(240*ZOOM);*/
 
-    // DEBUGGER
-    debugProcess = nullptr;
-    debugNextTick = false;
-    breakpointByAddressNum = 0;
-    breakpointByValueNum = 0;
-    breakpointByTime.reserve(32);
-    breakpointByAddress.reserve(32);
-    breakpointByValue.reserve(32);
     for (int i = 0; i < 342; i++)
         tickFuncs[i] = NULL;
 
