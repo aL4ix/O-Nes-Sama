@@ -11,8 +11,6 @@
 #include "RetroEmu/RetroColor.hpp"
 
 class PPU_State {
-    friend class Debugger;
-
 protected:
     int scanlineNum;
     bool isRendering;
@@ -61,8 +59,6 @@ protected:
 };
 
 class PPU : public PPU_State {
-    friend class Debugger;
-
 public:
     PPU(struct CPUIO& cio, MemoryMapper& m);
     ~PPU();

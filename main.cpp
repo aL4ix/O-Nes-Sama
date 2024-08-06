@@ -68,14 +68,6 @@ int main(int argc, char** argv)
 #endif // DEBUG_PRECISETIMING
 
         while (oNesSamaCore.getCPUIsRunning()) {
-#ifdef DEBUGGER
-            if (!debuggerServer.connected) {
-                if (debuggerServer.PollForDebugger()) {
-                    debuggerServer.handleRequests();
-                }
-            }
-#endif // DEBUGGER
-
             oNesSamaCore.setControllersMatrix(retroInput.updateAndGetInputs());
 
             SDL_Event event;

@@ -197,22 +197,6 @@ void PPU::process(int cpuCycles)
                 Log.debug(LogCategory::ppuProcess, "HIT: %d,%d", scanlineNum, ticks);
             }
         }
-
-#ifdef DEBUGGER
-        for (unsigned i = 0; i < breakpointByTime.size(); i++) {
-            if (breakpointByTime[i].scanline == scanlineNum) {
-                if (breakpointByTime[i].tick == ticks) {
-                    debugProcess(new BreakpointPPUByTime(scanlineNum, ticks));
-                    break;
-                }
-            }
-        }
-        /*if(debugNextTick)
-        {
-            debugProcess(new BreakpointPPUByTime(scanlineNum, ticks));
-            debugNextTick = false;
-        }*/
-#endif // DEBUGGER
     }
 }
 
@@ -549,47 +533,12 @@ void PPU::write2007(unsigned char value)
 unsigned char PPU::intReadMem(unsigned short address)
 {
     unsigned char ret = intReadMemLean(address);
-
-#ifdef DEBUGGER
-    for (unsigned i = 0; i < breakpointByAddressNum; i++) {
-        if (breakpointByAddress[i].address == address) {
-            debugProcess(new BreakpointPPUByAddress(address));
-            break;
-        }
-    }
-    for (unsigned i = 0; i < breakpointByValueNum; i++) {
-        if (breakpointByValue[i].address == address) {
-            if (breakpointByValue[i].value == ret) {
-                debugProcess(new BreakpointPPUByValue(address, ret));
-                break;
-            }
-        }
-    }
-#endif // DEBUGGER
-
     return ret;
 }
 
 void PPU::intWriteMem(unsigned short address, unsigned char value)
 {
     intWriteMemLean(address, value);
-#ifdef DEBUGGER
-    for (unsigned i = 0; i < breakpointByAddressNum; i++) {
-        if (breakpointByAddress[i].address == address) {
-            debugProcess(new BreakpointPPUByAddress(address));
-            break;
-        }
-    }
-    for (unsigned i = 0; i < breakpointByValueNum; i++) {
-        if (breakpointByValue[i].address == address) {
-            if (breakpointByValue[i].value == value) {
-                debugProcess(new BreakpointPPUByValue(address, value));
-                break;
-            }
-        }
-    }
-#endif // DEBUGGER
-
     return;
 }
 
