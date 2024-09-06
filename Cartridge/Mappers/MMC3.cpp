@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int cyclesToIgnore = 3;
 
 MMC3::MMC3(CartIO& ioRef)
     : BasicMapper(ioRef)

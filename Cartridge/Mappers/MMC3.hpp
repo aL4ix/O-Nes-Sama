@@ -30,6 +30,7 @@ protected:
     unsigned char irqReload;
     unsigned char irqCounter;
     unsigned char irqEnable;
+    int cyclesToIgnore = 3;
 
     int altBehavior;
 
