@@ -1,6 +1,5 @@
 #include "Input.hpp"
 
-int strobe = 0;
 
 Input::Input()
 {

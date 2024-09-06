@@ -24,6 +24,7 @@ private:
     const unsigned char _Rgt = 0x80;
     bool input[2][8];
     int shftRegs[2];
+    int strobe = 0;
 };
 
 #endif // INPUT_HPP_INCLUDED

@@ -11,12 +11,7 @@
 #define CPU_LOG_LEVEL 0
 
 using namespace std;
-int cycleCount = 0;
-int addr = 0;
-bool pageCrossed = false; /*Used to detect a mem page cross causing extra cycles*/
-bool needsDummy = false; /*Used to determine if a dummy read is needed in W / RMW instructions*/
-int generalCycleCount = 0;
-bool isDMAPending = false;
+
 
 CPU::CPU(MemoryMapper& m)
     : mapper(m)

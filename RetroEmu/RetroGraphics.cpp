@@ -1,7 +1,7 @@
 #include "RetroGraphics.hpp"
 
 // Platform-Dependent
-SDL_Renderer* sdlRenderer = NULL;
+/*extern*/ SDL_Renderer* sdlRenderer = NULL;
 
 RetroGraphics::RetroGraphics(const unsigned internalWidth, const unsigned internalHeight, const double zoom)
     : screenSurface(NULL)
